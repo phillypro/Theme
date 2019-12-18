@@ -1,4 +1,4 @@
-# Theme 
+# How To Install
 Collection of Digital Brandz Sections
 
 Watch this video
