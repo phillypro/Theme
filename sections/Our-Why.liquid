@@ -1,0 +1,560 @@
+{% style %}
+{% assign loadedfonts2 = '' %}    
+{% for block in section.blocks %}
+   {% case block.type %}
+    {% when 'Section' %}  
+{% assign familyandweight = block.settings.headline_font.family | append: block.settings.headline_font.weight %}
+{% if loadedfonts2 contains familyandweight %}
+{% else %}
+  {{ block.settings.headline_font | font_face }}  
+{% endif %}   
+{% assign loadedfonts2 = loadedfonts | append: block.settings.headline_font.family | append: block.settings.headline_font.weight | append: block.settings.headline_font.style | append: '|' %}
+
+  .sec-{{ block.id }} h2 {
+    font-family: {{ block.settings.headline_font.family }}; 
+    font-weight:{{ block.settings.headline_font.weight }}; 
+    font-style:{{ block.settings.headline_font.style }}; 
+    font-size:{{ block.settings.headline_fontsize }}%;
+  }
+ @media only screen and (min-width: 1022px) { 
+  .sec-{{ block.id }} .image {
+    flex: 0 0 {{ block.settings.image_width }}%;
+    max-width: {{ block.settings.image_width }}%;
+  }
+ }
+{% when 'Video' %}    
+  {% assign familyandweight = block.settings.headline_font.family | append: block.settings.headline_font.weight %}
+{% if loadedfonts2 contains familyandweight %}
+{% else %}
+  {{ block.settings.headline_font | font_face }}  
+{% endif %}   
+{% assign loadedfonts2 = loadedfonts | append: block.settings.headline_font.family | append: block.settings.headline_font.weight | append: block.settings.headline_font.style | append: '|' %}
+ 
+  .vid-why-{{ block.id }} h2 {
+    font-family: {{ block.settings.headline_font.family }}; 
+    font-weight:{{ block.settings.headline_font.weight }}; 
+    font-style:{{ block.settings.headline_font.style }}; 
+    font-size:{{ block.settings.headline_fontsize }}%;
+  }
+  
+  {% endcase %}
+{% endfor %}
+{% endstyle %} 
+
+
+
+
+{% for block in section.blocks %}
+   {% case block.type %}
+    {% when 'Section' %}
+     <div class="sec-wrap sec-{{ block.id }}" style="
+{% capture backgroundimage %}{{ block.settings.background_image | img_url: '1024x1024' }}{% endcapture %}                                   
+{% if backgroundimage contains 'no-image' %}
+  {% if block.settings.background_color_2 contains 'transparent' %}
+      background-color:{{ block.settings.background_color }};                            
+  {% else %}     
+    background: -moz-linear-gradient(left, {{ block.settings.background_color }} 0%, {{ block.settings.background_color_2 }} 100%);
+    background: -webkit-linear-gradient(left, {{ block.settings.background_color }} 0%, {{ block.settings.background_color_2 }} 100%);
+    background: linear-gradient(to right, {{ block.settings.background_color }} 0%, {{ block.settings.background_color_2 }} 100%);                            
+  {% endif %}
+{% else %}
+background-image:url({{ block.settings.background_image | img_url: '1024x1024' }}); background-color:{{ block.settings.background_color }};
+{% endif %}     
+">
+     <div class="row align-middle {{ block.settings.align }}">
+       <div class="columns text">
+         {% if block.settings.headline != '' %}
+         <h2 class="{% if section.settings.animate %} animate{% endif %}" style="color:{{ block.settings.text_color }}"><span>{{ block.settings.headline }}</span></h2>
+         {% endif %}
+         
+         {% if block.settings.details != '' %}
+         <p style="color:{{ block.settings.text_color }}">{{ block.settings.details }}</p>
+         {% endif %} 
+         
+         {% if block.settings.cta.size > 1 %}
+          <div class="cta">
+        	 <a style="color:{{ block.settings.button_text_color }};background:{{ block.settings.button_background_color }};" href="{{ block.settings.cta }}">
+                {{ block.settings.button_text }}
+             </a>
+         </div>
+         {% endif %} 
+         
+       </div>
+      {% capture image %}{{ block.settings.image | img_url: '1024x1024' }}{% endcapture %}                                   
+      {% if image contains 'no-image' %}
+      {% else %} 
+       <div class="large-8 small-12 columns image {% if section.settings.animate %} animate{% endif %}">
+        <img src="{{ block.settings.image | img_url: '1024x1024' }}" />
+       </div>
+      {% endif %}  
+       
+       
+       
+	 </div>
+</div>
+    {% when 'Video' %}
+       <div class="vid-wrap vid-why-{{ block.id }}">
+          <div class="row align-center">
+            <div class="large-8 columns text-center">
+         {% if block.settings.headline != '' %}
+              <h2><span>{{ block.settings.headline }}</span></h2>
+         {% endif %}
+              
+         {% if block.settings.video_url != '' %}   
+          <div class="flex-video widescreen youtube {% if section.settings.animate %} animate{% endif %}">
+            {% if block.settings.video_url.type == 'youtube' %}   
+           <iframe src="https://www.youtube.com/embed/{{ block.settings.video_url.id }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>     
+           {% endif %}
+           {% if block.settings.video_url.type == 'vimeo' %}  
+            <iframe src="https://player.vimeo.com/video/{{ block.settings.video_url.id }}?title=0&byline=0&portrait=0" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+           {% endif %}
+           </div>
+        {% endif %}    
+              
+              
+         {% if block.settings.cta != '' %}
+          <div class="cta">
+        	 <a style="color:{{ block.settings.button_text_color }};background:{{ block.settings.button_background_color }};" href="{{ block.settings.cta }}">
+                {{ block.settings.button_text }}
+             </a>
+         </div>
+         {% endif %}       
+              
+              
+              
+            </div>
+         </div>
+       </div>
+     {% endcase %}
+  {% endfor %} 
+
+
+{% if section.settings.animate %}
+<script>
+  var callbackOurWhy = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.ScrollReveal) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackOurWhy();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackOurWhy);
+}
+  
+function deferOurWhy(methodOurWhy) {
+    if (window.ScrollReveal) {
+        methodOurWhy();
+    } else {
+        setTimeout(function() { deferOurWhy(methodOurWhy) }, 50);
+    }
+}
+  
+deferOurWhy(function () {  
+
+  
+     srOurWhy();
+
+  
+  
+  function srOurWhy() {
+//if not we go body 
+ScrollReveal().reveal( document.querySelectorAll('#shopify-section-OurWhy .sec-wrap .Right .animate'), {
+rotate: { x: 0, y: 0, z: 0 },   
+scale: 1, 
+interval: 200, 
+duration: 600,  
+origin: 'left',  
+distance: '50px',
+easing: 'ease-in-out',  
+opacity: 0,
+viewFactor: 0.2, 
+afterReveal: function(el) {
+  ScrollReveal().destroy(el);
+}}); 
+ScrollReveal().reveal( document.querySelectorAll('#shopify-section-OurWhy .sec-wrap .Left .animate'), {
+rotate: { x: 0, y: 0, z: 0 },   
+scale: 1, 
+interval: 200, 
+duration: 600,  
+origin: 'right',  
+distance: '50px',
+easing: 'ease-in-out',  
+opacity: 0,
+viewFactor: 0.2, 
+afterReveal: function(el) {
+  ScrollReveal().destroy(el);
+}});     
+ScrollReveal().reveal( document.querySelectorAll('#shopify-section-OurWhy .vid-wrap .animate'), {
+rotate: { x: 0, y: 0, z: 0 },   
+scale: 1, 
+interval: 200, 
+duration: 600,  
+origin: 'bottom',  
+distance: '50px',
+easing: 'ease-in-out',  
+opacity: 0,
+viewFactor: 0.2, 
+afterReveal: function(el) {
+  ScrollReveal().destroy(el);
+}});        
+    }  
+  
+  
+  
+});
+</script>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Our Why",
+    "settings": [{
+"type": "checkbox",
+"id": "animate",
+"label": "Animate In",
+"default": false
+}],"blocks": [
+    {
+     "type": "Section",
+     "name": "Section",
+     "settings" : [
+{
+   "type": "radio",
+   "id": "align",
+   "options": [
+      { "value": "Left", "label": "Left"},
+      { "value": "Right", "label": "Right"}
+   ],
+   "default": "Left",
+   "label": "Alignment"
+},
+{ "type": "header",
+ "content": "Headline"
+},
+      {
+        "id": "headline",
+        "type": "text",
+        "label": "title"
+      },
+ {
+     "type": "font_picker",
+     "id": "headline_font",
+     "label": "Font",
+     "default": "work_sans_n6"
+   },
+  {
+    "type":   "range",
+    "id":     "headline_fontsize",
+    "min":       70,
+    "max":       120,
+    "step":     1,
+    "unit":      "%",
+    "label":     "Font Size",
+    "default":   100
+     },
+{ "type": "header",
+ "content": "Paragraph"
+},
+      {
+        "id": "details",
+        "type": "textarea",
+        "label": "Content"
+      },
+{ "type": "header",
+ "content": "Button"
+},
+      {
+        "id": "cta",
+        "type": "url",
+        "label": "Link"
+      },
+      {
+        "id": "button_text",
+        "type": "text",
+        "label": "Button Text",
+        "default": "Learn More"
+      },
+{ "type": "header",
+ "content": "Image"
+},
+{
+       "id": "image",
+       "type": "image_picker",
+       "label": "Model Image PNG! (Optional)"
+},
+  {
+    "type":   "range",
+    "id":     "image_width",
+    "min":       10,
+    "max":       100,
+    "step":     1,
+    "unit":      "%",
+    "label":     "Image Width",
+    "default":   50
+     }, 
+      {
+        "type": "header",
+        "content": "Font Color & Buttons"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button Text Color",
+        "default": "#FFF"
+      },
+      {
+        "type": "color",
+        "id": "button_background_color",
+        "label": "Button Background Color",
+        "default": "#000"
+      },
+      {
+        "type": "header",
+        "content": "Background Style & Color"
+      },
+{
+       "id": "background_color",
+       "type": "color",
+       "label": "Background Color",
+       "default": "#242427"
+},{
+       "id": "background_color_2",
+       "type": "color",
+       "label": "Background Color #2 (Optional Gradient)",
+       "default": "transparent"
+},
+{
+       "id": "background_image",
+       "type": "image_picker",
+       "label": "Background Image (Optional)"
+}
+      ]
+    },
+ {
+     "type": "Video",
+     "name": "Video",
+     "settings" : [
+   { "type": "header",
+ "content": "Headline"
+},
+      {
+        "id": "headline",
+        "type": "text",
+        "label": "title"
+      },
+ {
+     "type": "font_picker",
+     "id": "headline_font",
+     "label": "Font",
+     "default": "work_sans_n6"
+   },
+  {
+    "type":   "range",
+    "id":     "headline_fontsize",
+    "min":       70,
+    "max":       120,
+    "step":     1,
+    "unit":      "%",
+    "label":     "Font Size",
+    "default":   100
+     },
+{
+   "id": "video_url",
+   "type": "video_url",
+   "label": "Youtube or Vimeo URL",
+   "accept": ["youtube","vimeo"]
+}, 
+      {
+        "id": "cta",
+        "type": "url",
+        "label": "Link"
+      },
+      {
+        "id": "button_text",
+        "type": "text",
+        "label": "Button Text",
+        "default": "Learn More"
+      },
+      {
+        "type": "header",
+        "content": "Font Color & Buttons"
+      },
+      {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button Text Color",
+        "default": "#FFF"
+      },
+      {
+        "type": "color",
+        "id": "button_background_color",
+        "label": "Button Background Color",
+        "default": "#000"
+      }
+      ]
+    }
+   ]
+  }
+{% endschema %}
+
+{% stylesheet 'scss' %}
+// responsive sizes
+@mixin bp($point) {
+
+  $bp-small: "(max-width: 350px)";
+  $bp-mobile: "(max-width: 600px)";
+  $bp-mobileup: "(min-width: 600px)";
+  $bp-phablet: "(max-width: 1022px)";
+  $bp-phabletup: "(min-width: 1022px)";
+  $bp-tablet: "(max-width: 1280px)";
+  $bp-tabletup: "(min-width: 1280px)";
+  $bp-laptop: "(max-width: 1600px)";
+  $bp-desktop: "(min-width: 1600px)";
+  @if $point == desktop {
+    @media #{$bp-desktop}  { @content; }
+}  
+@else if $point == laptop {
+  @media #{$bp-laptop} { @content; }
+}
+@else if $point == tablet {
+  @media #{$bp-tablet} { @content; }
+}
+@else if $point == tabletup {
+  @media #{$bp-tabletup} { @content; }
+}
+@else if $point == phablet {
+  @media #{$bp-phablet} { @content; }
+}
+@else if $point == phabletup {
+  @media #{$bp-phabletup} { @content; }
+}
+@else if $point == mobile {
+  @media #{$bp-mobile}  { @content; }
+}
+@else if $point == mobileup {
+  @media #{$bp-mobileup} { @content; }
+}
+@else if $point == small {
+  @media #{$bp-small}  { @content; }
+}
+
+}
+
+body .template-page .ui-content {
+    padding: 0em;
+}
+
+.template-page .ui-content {
+  & > div:first-child {
+   padding-top:20px;
+  }
+}
+
+#shopify-section-OurWhy {
+	padding:0px;
+	& .sec-wrap {
+    font-size: 40px;
+    padding-top: 20px;
+     & .row {
+      @include bp(phabletup) {
+          -ms-flex-align: center;
+          align-items: center;
+      }
+     & .animate {
+       visibility:hidden;
+     }
+     &.Right {
+      @include bp(phabletup) {
+           flex-direction: row-reverse;
+      }
+      & .image {
+        text-align:left;
+       }
+     }
+     & .text {
+    max-width: 100%;
+    flex: 1;
+         padding-top: 40px;
+         padding-bottom: 40px;
+       @include bp(phablet) {
+        padding-top: 20px;
+        padding-top:20px;
+       }
+     & h2 {
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 25px;
+    & span {
+     @include bp(phablet) {
+       font-size:85%;
+     }
+    }
+      } 
+    & p {
+     font-size: 42%;
+    }
+    & .cta {
+      margin: 20px 0 0 0;
+      @include bp(phablet) {
+        text-align:center;
+        margin: 20px 0 20px 0;
+      }
+      & a {
+      display: inline-block;
+      padding: 20px 30px;
+      border-radius: 10px;
+      font-size: 40%;
+       } 
+      }
+     }
+     & .image {
+       text-align:right;
+       & img {
+@include bp(phabletup) {
+min-height:100%;
+}
+}
+     }
+    }
+   }
+   & .vid-wrap {
+       font-size: 40px;
+       padding: 25px 0 35px;
+      & h2 {
+    margin-bottom: 20px;
+      }
+    & .cta {
+      margin: 20px 0 0 0;
+      @include bp(phablet) {
+        text-align:center;
+        margin: 20px 0 20px 0;
+      }
+      & a {
+      display: inline-block;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 50%;
+       } 
+      }
+   }
+}
+{% endstylesheet %}
+
+{% javascript %}                                                 
+{% endjavascript %}        

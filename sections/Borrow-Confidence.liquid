@@ -1,0 +1,210 @@
+{% if section.settings.header != '' %}
+<style>
+  #shopify-section-Borrow-Confidence .row {
+        margin-top: 30px;
+  }
+</style>
+{% endif %}
+
+<div class="inner"  style="background-color:{{ section.settings.background_color }};color:{{ section.settings.color }};">
+  
+{% if section.settings.header != '' %}
+<h1>{{ section.settings.header }}</h1>
+{% endif %}
+
+{% if section.settings.subheader != '' %}
+<span>{{ section.settings.subheader }}</span>
+{% endif %}
+
+<div class="row align-center align-middle">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'Logo' %}
+        <div>
+        
+        {% if block.settings.url != '' %}<a href="{{ block.settings.url }}">{% endif %}
+          
+        {% if block.settings.svg != '' %}
+            {{ block.settings.svg }}
+          {% else %}
+  
+  
+         {% capture logo %}{{ block.settings.image | img_url: 'large' }}{% endcapture %}
+         {% if logo contains 'no-image' %}{% else %}
+         <img src="{{ block.settings.image | img_url: 'large' }}" />
+         {% endif %}
+  
+       {% endif %}
+          {% if block.settings.url != '' %}</a>{% endif %}
+        </div>
+  
+      {% endcase %}
+  {% endfor %} 
+</div>
+  
+</div>
+{% schema %}
+  {
+    "name": "Borrow Confidence (Logos)",
+    "settings": [{
+       "id": "header",
+       "type": "text",
+       "label": "Header",
+       "default": "We've been seen & featured in"
+      },{
+       "id": "subheader",
+       "type": "text",
+       "label": "Sub-header"
+      },
+{
+       "id": "color",
+       "type": "color",
+       "label": "Font Color",
+       "default": "#000"
+},
+{
+       "id": "background_color",
+       "type": "color",
+       "label": "Background Color",
+       "default": "#ffffff"
+}], 
+  "blocks": [
+    {
+     "type": "Logo",
+     "name": "Logo",
+     "settings" : [
+      {
+       "id": "title",
+       "type": "text",
+       "label": "Title"
+      },
+      {
+       "id": "image",
+       "type": "image_picker",
+       "label": "Image"
+      },
+      {
+       "id": "svg",
+       "type": "html",
+       "label": "SVG"
+      },
+      {
+       "id": "url",
+       "type": "url",
+       "label": "Link to"
+      }
+     ]
+    }
+   ]
+  }
+{% endschema %}
+
+{% stylesheet 'scss' %}
+
+@mixin bp($point) {
+
+  $bp-small: "(max-width: 350px)";
+  $bp-mobile: "(max-width: 600px)";
+  $bp-mobileup: "(min-width: 600px)";
+  $bp-phablet: "(max-width: 1022px)";
+  $bp-phabletup: "(min-width: 1022px)";
+  $bp-tablet: "(max-width: 1280px)";
+  $bp-tabletup: "(min-width: 1280px)";
+  $bp-laptop: "(max-width: 1600px)";
+  $bp-desktop: "(min-width: 1600px)";
+  @if $point == desktop {
+    @media #{$bp-desktop}  { @content; }
+}  
+@else if $point == laptop {
+  @media #{$bp-laptop} { @content; }
+}
+@else if $point == tablet {
+  @media #{$bp-tablet} { @content; }
+}
+@else if $point == tabletup {
+  @media #{$bp-tabletup} { @content; }
+}
+@else if $point == phablet {
+  @media #{$bp-phablet} { @content; }
+}
+@else if $point == phabletup {
+  @media #{$bp-phabletup} { @content; }
+}
+@else if $point == mobile {
+  @media #{$bp-mobile}  { @content; }
+}
+@else if $point == mobileup {
+  @media #{$bp-mobileup} { @content; }
+}
+@else if $point == small {
+  @media #{$bp-small}  { @content; }
+}
+
+}
+
+#shopify-section-Borrow-Confidence {
+   & .inner {
+       text-align:center;
+    padding: 30px 0 35px;
+  @include bp(phablet) {
+      padding: 12px 0 10px;
+  }
+  & h1 {
+      text-transform: uppercase;
+font-size: 23px;
+    font-family: 'Open Sans',sans-serif;
+        margin: 0;
+    line-height: 1.4;
+    @include bp(phablet) {
+        font-size: 17px;
+    }
+  }
+  & span {
+   display:block;
+    @include bp(phablet) {
+        font-size: 14px;
+    }
+  }
+  & .row {
+    flex-wrap: nowrap;
+@include bp(tablet) {
+    flex-wrap: wrap;
+}
+@include bp(mobile) {
+margin-top: 15px;
+}
+& div {
+    margin: 0 15px 10px;
+@include bp(laptop) {
+margin: 0 15px 15px;
+}
+@include bp(mobile) {
+       margin: 0px 5px 10px;
+}
+    & svg, & img {
+max-height: 80px;
+    width: auto;
+    max-width: 100%;
+      @include bp(tablet) {
+       max-height: 39px;
+      }
+      @include bp(phablet) {
+       margin:0;
+       padding:0 10px;
+      }
+      @include bp(mobile) {
+        max-height: 30px;
+max-width: 82px;
+      }
+      & path {
+
+      }
+    }
+}
+  }
+  }
+}
+{% endstylesheet %}
+
+{% javascript %}                  
+{% endjavascript %}

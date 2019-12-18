@@ -1,0 +1,52 @@
+    <div class="Additional-details-wrap">
+      <div class="row align-justify">
+        
+        <div class="large-5 small-12 columns">
+          <h2>{{ section.settings.headline_1 }}</h2>
+          {{ section.settings.description_1 }}
+        </div>
+       
+ 
+        <div class="large-5 small-12 columns">
+          <h2>{{ section.settings.headline_2 }}</h2>
+          {{ section.settings.description_2 }}
+        </div>
+      </div>  
+    </div>
+
+{% schema %}
+  {
+    "name": "Product Info",
+    "settings": [{
+       "id": "headline_1",
+       "type": "text",
+       "label": "Headline 1",
+       "default": "Quality Matters"
+      },
+      {
+        "id": "description_1",
+        "type": "textarea",
+        "label": "Description 1",
+        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+      },
+      {
+       "id": "headline_2",
+       "type": "text",
+       "label": "Headline 2",
+       "default": "We Ship Fast!"
+      },
+      {
+        "id": "description_2",
+        "type": "textarea",
+        "label": "Description 2",
+        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+      }
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

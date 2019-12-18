@@ -1,0 +1,383 @@
+<style>
+#pageFAQ  {
+{% if section.settings.background_color_2 contains 'transparent' %}
+      background-color:{{ section.settings.background_color }};                            
+  {% else %}      
+background: -moz-radial-gradient(center, ellipse cover, {{ section.settings.background_color_2 }} 0%, {{ section.settings.background_color }} 100%);
+background: -webkit-radial-gradient(center, ellipse cover, {{ section.settings.background_color_2 }} 0%, {{ section.settings.background_color }} 100%);
+background: radial-gradient(ellipse at center, {{ section.settings.background_color_2 }} 0%, {{ section.settings.background_color }} 100%);
+  {% endif %}
+}
+#shopify-section-FAQ .search-title h3, #shopify-section-FAQ .search-title h3, #shopify-section-FAQ .searchwrap .search-title h2  {  
+  color:{{ section.settings.font_color }};
+}
+#shopify-section-FAQ .searchwrap .popular-faq h2 {
+    color:{{ section.settings.font_color }}59;
+}
+#shopify-section-FAQ .popular-faq>div>h3 {
+    color:{{ section.settings.font_color }};
+  border: 1px solid {{ section.settings.font_color }}57;
+}
+#shopify-section-FAQ .searchwrap .cta-wrap a {  
+  background: {{ section.settings.button_background_color }};
+  color: {{ section.settings.button_font_color }};
+}
+</style>
+
+
+<div class="searchwrap">
+ <div class="row align-center">
+  <div class="column large-7 search-title">
+    <h3 class="text-center">Frequently Asked Questions</h3>
+    <h2>Look up a Question, if we havent answered it you can email us</h2>
+   </div>
+ </div> 
+  
+  
+{% comment %}  
+  <div class="row align-center">
+   <div class="column large-7 searchform-wrap">
+ 
+<form id="searchform" class="search" action="/search?view=faq">
+ <input type="hidden" name="type" value="article" />
+  <input id="helpsearch" type="text" name="q" placeholder="start a question here..." value="{{ search.terms }}"  data-role="none" autocomplete="off" />
+</form>
+
+     
+     
+     <div id="searchhelp-results-wrap" class="searchhelp-results-wrap">
+       <ul id="searchhelp-results">
+  
+       </ul>
+     </div>
+   </div>
+ </div> 
+{% endcomment %}  
+  
+<div class="row align-center popular-faq">
+  <div class="large-7 column">
+    <h2>Most Popular Questions</h2>
+    
+    
+    
+   <div data-role="accordion" data-collapsible="true" data-height-style="content" data-icons="" class="popular-faq">
+    {% for block in section.blocks %}
+        {% case block.type %}
+            {% when 'Faq' %}
+          <div>
+          <h3>{{ block.settings.title  }}</h3>
+       <div>
+         <p>
+          {{ block.settings.answer }}
+          </p>
+       </div> 
+      </div>
+       {% endcase %}
+    {% endfor %}
+    </div>  
+ 
+    
+    
+  </div>
+</div> 
+  
+  
+  <div class="row align-center cta-wrap">
+    <div class="large-7 column text-right">
+      <a data-transition="fade" href="{{ section.settings.url }}">email us</a>
+    </div>
+  </div>
+</div>
+
+
+  
+
+{% schema %}
+  {
+    "name": "FAQ",
+    "settings": [
+{
+   "type":      "header",
+   "content":   "Background Colors"
+},
+{
+       "id": "background_color",
+       "type": "color",
+       "label": "Background Color",
+       "default": "#000000"
+},{
+       "id": "background_color_2",
+       "type": "color",
+       "label": "Background Color #2 (Optional Gradient)",
+       "default": "#4B4B4B"
+},
+{
+       "id": "font_color",
+       "type": "color",
+       "label": "Font Color",
+       "default": "#FFFFFF"
+},
+{
+   "type":      "header",
+   "content":   "Contact Us"
+},
+      {
+       "id": "url",
+       "type": "url",
+       "label": "Contact Page"
+      },
+{
+       "id": "button_background_color",
+       "type": "color",
+       "label": "Button Background Color",
+       "default": "#000000"
+},{
+       "id": "button_font_color",
+       "type": "color",
+       "label": "Button Font Color",
+       "default": "#FFFFFF"
+}
+],"blocks": [
+    {
+     "type": "Faq",
+     "name": "Faq",
+     "settings" : [
+      {
+        "id": "title",
+        "type": "text",
+        "label": "Question"
+      },
+      {
+        "id": "answer",
+        "type": "richtext",
+        "label": "Answer"
+      }
+      ]
+    }
+   ]
+  }
+{% endschema %}
+
+{% stylesheet 'scss' %}
+// responsive sizes
+@mixin bp($point) {
+  
+  $bp-small: "(max-width: 350px)";
+  $bp-mobile: "(max-width: 600px)";
+  $bp-mobileup: "(min-width: 600px)";
+  $bp-phablet: "(max-width: 1022px)";
+  $bp-phabletup: "(min-width: 1022px)";
+  $bp-tablet: "(max-width: 1280px)";
+  $bp-tabletup: "(min-width: 1280px)";
+  $bp-laptop: "(max-width: 1600px)";
+  $bp-desktop: "(min-width: 1600px)";
+  @if $point == desktop {
+    @media #{$bp-desktop}  { @content; }
+  }  
+  @else if $point == laptop {
+    @media #{$bp-laptop} { @content; }
+  }
+  @else if $point == tablet {
+    @media #{$bp-tablet} { @content; }
+  }
+  @else if $point == tabletup {
+    @media #{$bp-tabletup} { @content; }
+  }
+  @else if $point == phablet {
+    @media #{$bp-phablet} { @content; }
+  }
+  @else if $point == phabletup {
+    @media #{$bp-phabletup} { @content; }
+  }
+  @else if $point == mobile {
+    @media #{$bp-mobile}  { @content; }
+  }
+  @else if $point == mobileup {
+    @media #{$bp-mobileup} { @content; }
+  }
+  @else if $point == small {
+    @media #{$bp-small}  { @content; }
+  }
+
+}
+
+//color transition
+@mixin transition($attribute, $duration) {
+    -webkit-transition: $attribute $duration ease;
+    -moz-transition: $attribute $duration ease;
+    transition: $attribute $duration ease;
+}
+
+#shopify-section-FAQ {
+
+.searchwrap {
+  padding: 50px 0;
+  @include bp(mobile) {
+    background:none;
+  }
+  @include bp(mobile) {
+    padding:0 0 30px 0; 
+  }
+  & .search-title {
+    @include bp(mobile) {
+      padding:0;
+    }
+    & h3 {
+      font-family: 'MuliBlack';
+      font-size: 43px;
+      @include bp(mobile) {
+        font-size: 21px;
+        padding: 11px 0;
+        margin-bottom: 13px;
+      }
+    }
+    & h2 {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      font-weight: normal;
+      text-align: center;
+      @include bp(mobile) {
+        font-size: 13px;
+        line-height: 21px;
+        max-width: 75%;
+        margin: 0 auto;
+      }
+    }
+  }
+  & .searchform-wrap {
+    position:relative;
+    margin: 25px 0;
+    & input[type=text] {
+      border: none;
+      box-shadow: none;
+      padding: 30px 25px;
+      font-family: 'Raleway';
+      font-size: 22px;
+      margin: 0px 0;
+      border-radius: 7px;
+      @include bp(mobile) {
+        font-size: 18px;
+        margin: 5px 0; 
+      }
+    }
+    &:focus {
+      border:none; 
+      border-bottom: 1px solid rgba(0, 0, 0, 0.22);
+      box-shadow:none;
+    }
+    & .searchhelp-results-wrap {
+      display:none;
+      opacity:0;
+      z-index: 8889;
+      list-style-type: none;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      left: 0;
+      overflow: hidden;
+      position: absolute;
+      padding-left: .9375rem;
+      padding-right: .9375rem;
+      &.active {
+        display:block;
+        opacity:1;
+        @include transition(opacity,0.3s);
+      }
+      & #searchhelp-results {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 7px;
+        list-style: none;
+        -webkit-box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.1);
+        box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.1);
+        & a {
+          display: block;
+          padding: 10px 20px;
+          color: #000;
+          font-weight: normal;
+          &:hover {
+            color: #11699a;
+            font-weight: bold; 
+          }
+        }
+      }
+    }
+  }
+  & .popular-faq {
+    margin-top: 30px;
+    & h2 {
+      font-family: 'Open Sans', sans-serif;
+      color: rgba(255, 255, 255, 0.35);
+      font-size: 26px;
+      margin-bottom: 25px;
+      text-align: center;
+      @include bp(mobile) {
+        font-size: 21px; 
+      }
+    }
+  }
+  & .cta-wrap {
+    & a {
+      font-weight: normal;
+      text-transform: capitalize;
+      padding: 20px 40px;
+      display: inline-block;
+      border-radius: 6px;
+      font-size: 19px;
+    }
+  }
+}
+
+
+
+.popular-faq {
+      & > div {   
+        margin-bottom:30px;
+      & > h3 {
+        display: flex;
+    justify-content: space-between;
+     background: none;
+
+    cursor: pointer;
+    padding: 18px;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 19px;
+    font-family: 'Open Sans', sans-serif;
+            text-shadow: none;
+        @include bp(phablet) {
+            font-size: 15px;
+    line-height: 1.6;
+        }
+        &:hover, &:active, &.ui-accordion-header-active {
+        background: none;
+
+    text-shadow: none;
+        }
+        &:after {
+         content:'\f078';
+         display:inline-block;
+         text-align:right; 
+         font-family:'FontAwesome'; 
+              min-width: 75px;
+        }
+        &.ui-accordion-header-active {
+          &:after {
+          	content:'\f077';
+          }
+        }
+      }
+    }
+   }
+
+
+
+}
+{% endstylesheet %}
+
+{% javascript %}   
+$(document).on("shopify:section:load",'#shopify-section-FAQ',function(e){
+
+});          
+{% endjavascript %} 

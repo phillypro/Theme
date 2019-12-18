@@ -1,0 +1,557 @@
+{% style %}
+{% assign loadedfonts = '' %}    
+{% assign familyandweight = section.settings.font.family | append: section.settings.font.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ section.settings.font | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: section.settings.font.family | append: section.settings.font.weight | append: section.settings.font.style | append: '|' %}
+
+
+#shopify-section-{{ section.id }} .image-with-keypoints-wrap>.row:nth-child(1) h2 {
+    font-family: {{ section.settings.font_title.family }}; 
+    font-weight:{{ section.settings.font_title.weight }}; 
+    font-style:{{ section.settings.font_title.style }};    
+      font-size:{{ section.settings.fontsize_title }}px;
+    color:{{ section.settings.color_title }};
+}
+
+
+#shopify-section-{{ section.id }} {
+  
+background-size: cover;
+background-position: center;
+{% capture backgroundimage %}{{ section.settings.background_image | img_url: '1024x1024' }}{% endcapture %}                                   
+{% if backgroundimage contains 'no-image' %}
+  {% if section.settings.background_color_2 contains 'transparent' %}
+     {% if section.settings.background_color contains 'transparent' %}
+     {% else %}
+      background-color:{{ section.settings.background_color }};    
+     {% endif %}
+  {% else %}     
+    background: -moz-linear-gradient(left, {{ section.settings.background_color }} 0%, {{ section.settings.background_color_2 }} 100%);
+    background: -webkit-linear-gradient(left, {{ section.settings.background_color }} 0%, {{ section.settings.background_color_2 }} 100%);
+    background: linear-gradient(to right, {{ section.settings.background_color }} 0%, {{ section.settings.background_color_2 }} 100%);   
+  {% endif %}
+{% else %}
+background-image:url({{ section.settings.background_image | img_url: '1024x1024' }}); background-color:{{ section.settings.background_color }};
+{% endif %}    
+}  
+  
+#shopify-section-{{ section.id }} .row:nth-child(2) .text a {
+ background:{{ section.settings.buttonbackground }};
+ color:{{ section.settings.buttoncolor }};
+}
+  
+#shopify-section-{{ section.id }} .image-with-keypoints-wrap>.row:nth-child(2) .text ol li {
+   color:{{ section.settings.keypointcolor }};
+}
+  
+#shopify-section-{{ section.id }} .image-with-keypoints-wrap>.row:nth-child(2) .text ol li:before {
+  background:{{ section.settings.bubblebackground }};
+  color:{{ section.settings.bubblecolor }};
+}
+{% endstyle %}
+
+<div class="image-with-keypoints-wrap">
+ <div class="row title">
+   {% if section.settings.title %}
+   <h2>
+     {% assign firstword =  section.settings.title | split: ' ' | first %}     
+     {{ firstword }}
+     <span>{{ section.settings.title | remove_first: firstword }}</span>
+   </h2>
+   {% endif %}
+   {% if section.settings.subtitle %}<p>{{ section.settings.subtitle }}</p>{% endif %}
+ </div>
+  
+ <div class="row align-middle right">
+  
+<div class="columns text">
+ <ol class="{% if section.settings.animate %} animate{% endif %}">
+    {% unless section.settings.keypoint_1 == '' %}<li>{{ section.settings.keypoint_1 }}</li>{% endunless %}
+    {% unless section.settings.keypoint_2 == '' %}<li>{{ section.settings.keypoint_2 }}</li>{% endunless %}
+    {% unless section.settings.keypoint_3 == '' %}<li>{{ section.settings.keypoint_3 }}</li>{% endunless %}
+ </ol>
+  <div>
+    <a class="hvr-grow" href="{{ section.settings.url }}">{{ section.settings.buttontext }}</a>
+  </div>  
+</div>
+  
+  
+
+{% capture image %}{{ section.settings.image | img_url: '1024x1024' }}{% endcapture %}                                   
+      {% if image contains 'no-image' %}
+      {% else %} 
+       <div class="large-6 small-12 columns image">
+{% unless section.settings.youtube_url == nil %}      
+ <a data-fancybox class="hvr-grow" href="{{ section.settings.youtube_url }}">
+   <svg version="1.1"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+            x="0px" y="0px" width="213.7px" height="213.7px" viewBox="0 0 213.7 213.7" enable-background="new 0 0 213.7 213.7"
+            xml:space="preserve">
+            <polygon class='triangle' id="XMLID_18_" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+               73.5,62.5 148.5,105.8 73.5,149.1 "/>
+            <circle class='circle' id="XMLID_17_" fill="none"  stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="103.3"/>
+   </svg>
+</a>
+{% endunless %}
+        <img src="{{ section.settings.image | img_url: '1024x1024' }}" />
+       </div>
+{% endif %}  
+
+</div>
+</div>
+
+
+
+<script> 
+
+ $(document).on("shopify:section:select",'#shopify-section-{{ section.id }}',function(e){
+                $('body').addClass('editing edit-{{ section.id }}');
+$(document).one("shopify:section:deselect",function(e){
+$('body').removeClass('edit-{{ section.id }}');
+})
+});         
+  
+{% if section.settings.animate %}  
+// get the element to animate
+var element{{ section.id }} = document.querySelector('#shopify-section-{{ section.id }} .animate');
+var elementHeight{{ section.id }} = element{{ section.id }}.clientHeight;
+
+// listen for scroll event and call animate function
+setTimeout(function() {                                                     
+document.removeEventListener('scroll', animate{{ section.id }});                                     
+document.addEventListener('scroll', animate{{ section.id }});
+document.dispatchEvent(new CustomEvent('scroll'));  
+}, 600);
+
+// check if element is in view
+function inView{{ section.id }}() {
+
+  // get window height
+  var windowHeight = window.innerHeight;
+  // get number of pixels that the document is scrolled
+  var scrollY = window.scrollY || window.pageYOffset;
+  
+  // get current scroll position (distance from the top of the page to the bottom of the current viewport)
+  var scrollPosition = scrollY + windowHeight;
+  // get element position (distance from the top of the page to the bottom of the element)
+  var elementPosition = element{{ section.id }}.getBoundingClientRect().top + scrollY + (elementHeight{{ section.id }} / 5);
+  
+  // is scroll position greater than element position? (is element in view?)
+  if (scrollPosition > elementPosition) {
+    return true;
+  }
+  
+  return false;
+}
+
+// animate element when it is in view
+function animate{{ section.id }}() {
+  // is element in view?
+  if (inView{{ section.id }}()) {
+      // element is in view, add class to element
+      element{{ section.id }}.classList.add('effect');
+  }
+} 
+{% endif %} 
+</script>
+
+{% unless section.settings.youtube_url == nil %}
+<script>
+  var callbacksection{{ section.id }} = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.jQuery.fancybox) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);  
+    setTimeout(function() {
+ 
+    })
+    // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+    style.href = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css';
+    document.getElementsByTagName("head")[0].appendChild(style); 
+  }
+ };   
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbacksection{{ section.id }}();
+} else {
+  document.addEventListener("DOMContentLoaded", callbacksection{{ section.id }});
+}
+</script>
+{% endunless %}
+
+
+
+{% schema %}
+  {
+    "name": "Image With Keypoints",
+    "settings": [
+
+
+{
+       "id": "title",
+       "type": "text",
+       "label": "Title",
+       "default": "BEFORE & AFTER"
+},
+{
+     "type": "font_picker",
+     "id": "font",
+     "label": "Font",
+     "default": "work_sans_n6"
+},
+{
+       "id": "color_title",
+       "type": "color",
+       "label": "Title Color",
+       "default": "#000000"
+},
+{
+       "id": "subtitle",
+       "type": "text",
+       "label": "Sub Title",
+       "default": "REAL TRANSFORMATION WITH OUR PREMIUM VIRGIN HAIR"
+},
+{ "type":"header",
+"content": "Background Colors or Image"
+},
+{
+       "id": "background_image",
+       "type": "image_picker",
+       "label": "Background Image (Optional)"
+},
+{
+       "id": "background_color",
+       "type": "color",
+       "label": "Background Color",
+       "default": "transparent"
+},{
+       "id": "background_color_2",
+       "type": "color",
+       "label": "Background Color #2 (Optional Gradient)",
+       "default": "transparent"
+},
+{ "type": "header",
+ "content": "Image"
+},
+{
+       "id": "image",
+       "type": "image_picker",
+       "label": "Model Image PNG! (Optional)"
+},
+{
+"id": "youtube_url",
+"type": "video_url",
+"accept": ["youtube"],
+"label": "Youtube URL (Optional)",
+"info": "If left empty will not link or show play button"
+},
+{
+"type": "checkbox",
+"id": "animate",
+"label": "Animate In",
+"default": false
+},
+{ "type": "header",
+ "content": "Keypoints"
+},
+{
+       "id": "keypoint_1",
+       "type": "text",
+       "label": "Keypoint 1",
+       "default": "100% Pure Virgin Hair"
+},
+{
+       "id": "keypoint_2",
+       "type": "text",
+       "label": "Keypoint 2",
+       "default": "No Shedding High Quality"
+},
+{
+       "id": "keypoint_3",
+       "type": "text",
+       "label": "Keypoint 3",
+       "default": "Easy to Color and Style"
+},
+{
+       "id": "keypointcolor",
+       "type": "color",
+       "label": "Keypoint Font Color",
+       "default": "#000000"
+},
+{
+       "id": "bubblebackground",
+       "type": "color",
+       "label": "Bubble Background Color",
+       "default": "#000000"
+},
+{
+       "id": "bubblecolor",
+       "type": "color",
+       "label": "Bubble Font Color",
+       "default": "#FFFFFF"
+},
+{
+ "type": "header",
+ "content": "Button"
+},
+{
+       "id": "buttontext",
+       "type": "text",
+       "label": "Button Text",
+       "default": "Shop Now"
+},
+{
+       "id": "url",
+       "type": "url",
+       "label": "Button Url"
+},
+{
+       "id": "buttonbackground",
+       "type": "color",
+       "label": "Button Background Color",
+       "default": "#000000"
+},
+{
+       "id": "buttoncolor",
+       "type": "color",
+       "label": "Button Font Color",
+       "default": "#FFFFFF"
+}],
+  "presets": [
+    {
+      "name": "Image With Keypoints",
+      "category": "Design"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet 'scss' %}
+// responsive sizes
+@mixin bp($point) {
+
+  $bp-small: "(max-width: 350px)";
+  $bp-mobile: "(max-width: 600px)";
+  $bp-mobileup: "(min-width: 600px)";
+  $bp-phablet: "(max-width: 1022px)";
+  $bp-phabletup: "(min-width: 1022px)";
+  $bp-tablet: "(max-width: 1280px)";
+  $bp-tabletup: "(min-width: 1280px)";
+  $bp-laptop: "(max-width: 1600px)";
+  $bp-desktop: "(min-width: 1600px)";
+  @if $point == desktop {
+    @media #{$bp-desktop}  { @content; }
+}  
+@else if $point == laptop {
+  @media #{$bp-laptop} { @content; }
+}
+@else if $point == tablet {
+  @media #{$bp-tablet} { @content; }
+}
+@else if $point == tabletup {
+  @media #{$bp-tabletup} { @content; }
+}
+@else if $point == phablet {
+  @media #{$bp-phablet} { @content; }
+}
+@else if $point == phabletup {
+  @media #{$bp-phabletup} { @content; }
+}
+@else if $point == mobile {
+  @media #{$bp-mobile}  { @content; }
+}
+@else if $point == mobileup {
+  @media #{$bp-mobileup} { @content; }
+}
+@else if $point == small {
+  @media #{$bp-small}  { @content; }
+}
+
+}
+
+.editing .image-with-keypoints-wrap>.row:nth-child(2).right .animate, .editing .image-with-keypoints-wrap>.row:nth-child(2) .animate  {
+  & li {
+   opacity:1;
+  }
+}
+
+
+.image-with-keypoints-wrap {
+    padding: 50px 0;
+@include bp(phablet) {
+padding: 30px 0;
+}
+     & > .row:nth-child(1) {
+       flex-flow:column;
+      text-align: center;
+    margin-bottom: 25px;
+@include bp(phablet) {
+padding: 0 15px;
+}
+       & h2 {
+  		margin: 0;
+		line-height: normal;
+@include bp(phablet) {
+    font-size: 1.5rem;
+}
+       & span {
+        font-weight:bold;
+		}
+		}
+& p {
+letter-spacing: 3px;
+    font-size: 0.8rem;
+@include bp(phablet) {
+    margin: 0;
+}
+}
+     }
+     & > .row:nth-child(2) {
+          -ms-flex-align: center;
+          align-items: center;
+@include bp(phablet) {
+       flex-flow: column-reverse;
+}
+     &.right {
+      @include bp(phabletup) {
+           flex-direction: row-reverse;
+      }
+      & .image {
+        text-align:left;
+       }
+      & .animate.effect {
+         -webkit-animation-name: fadeInLeft-image-with-content;
+         animation-name: fadeInLeft-image-with-content;
+      }
+     }
+     & .text {
+@include bp(phablet) {
+    margin-top: 30px;
+}
+& ol {
+list-style:none;
+    padding: 0;
+    margin: 0;
+ & li {
+    margin: 0 0 25px 0;
+font-size: 26px;
+   counter-increment: item;
+@include bp(phablet) {
+font-size: 18px;
+}
+ &:before {
+margin-right: 25px;
+    content: counter(item);
+    border-radius: 100%;
+    width: auto;
+    text-align: center;
+    display: inline-block;
+    padding: 11px 18px 13px;
+    line-height: 1;
+    font-weight: bold;
+}
+}
+&.animate {
+& li {
+    opacity:0;
+         will-change: transform;
+   -webkit-backface-visibility: hidden;
+   -moz-backface-visibility: hidden;
+   -ms-backface-visibility: hidden;
+   backface-visibility: hidden;
+
+   -webkit-perspective: 1000;
+   -moz-perspective: 1000;
+   -ms-perspective: 1000;
+   perspective: 1000;
+}
+&.effect {    
+
+& li {
+-webkit-animation-name: fadeInRight-image-with-keypoints;
+         animation-name: fadeInRight-image-with-keypoints;
+        
+            -webkit-animation-duration: 800ms;
+            animation-duration: 800ms;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+    @for $i from 1 to 4 {
+     &:nth-child(#{$i}) { animation-delay: $i * 0.3s; -webkit-animation-delay: $i * 0.3s;}
+    }
+}
+}
+  }
+}
+& div {
+    margin-top: 10px;
+@include bp(phablet) {
+    text-align: center;
+}
+& a {
+    display: inline-block;
+    padding: 17px 30px;
+    border-radius: 30px;
+    font-size: 21px;
+}
+}
+     }
+     & .image {
+position:relative;
+       text-align:right;
+& a {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+     & svg {
+       max-width: 70%;
+    height: auto;
+    max-height: 70%;
+      & .triangle {
+-webkit-transition: all 0.7s ease-in-out;
+    stroke-dasharray: 240;
+    stroke-dashoffset: 480;
+    stroke: #fff;
+    transform: translateY(0);
+} 
+     }  
+	}
+       & img {
+@include bp(phabletup) {
+min-height:100%;
+}
+}
+     }
+    }
+   }
+
+
+
+@keyframes fadeInRight-image-with-keypoints {
+   0% {
+      opacity: 0;
+      transform: translateX(150px);
+   }
+   100% {
+      opacity: 1;
+      transform: translateX(0);
+   }
+}   
+{% endstylesheet %}
+
+{% javascript %}       
+{% endjavascript %}     

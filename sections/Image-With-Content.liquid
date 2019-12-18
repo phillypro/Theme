@@ -1,0 +1,373 @@
+{% style %}
+#shopify-section-{{ section.id }} {
+  
+background-size: cover;
+background-position: center;
+{% capture backgroundimage %}{{ section.settings.background_image | img_url: '1024x1024' }}{% endcapture %}                                   
+{% if backgroundimage contains 'no-image' %}
+  {% if section.settings.background_color_2 contains 'transparent' %}
+     {% if section.settings.background_color contains 'transparent' %}
+     {% else %}
+      background-color:{{ section.settings.background_color }};    
+     {% endif %}
+  {% else %}     
+    background: -moz-linear-gradient(left, {{ section.settings.background_color }} 0%, {{ section.settings.background_color_2 }} 100%);
+    background: -webkit-linear-gradient(left, {{ section.settings.background_color }} 0%, {{ section.settings.background_color_2 }} 100%);
+    background: linear-gradient(to right, {{ section.settings.background_color }} 0%, {{ section.settings.background_color_2 }} 100%);   
+  {% endif %}
+{% else %}
+background-image:url({{ section.settings.background_image | img_url: '1024x1024' }}); background-color:{{ section.settings.background_color }};
+{% endif %}    
+}  
+  
+@media only screen and (min-width: 1022px) { 
+  #shopify-section-{{ section.id }} .image {
+    flex: 0 0 {{ section.settings.image_width }}%;
+    max-width: {{ section.settings.image_width }}%;
+}  
+}  
+{% for block in section.blocks %}
+   {% case block.type %}
+    {% when 'Image' %}   
+  #shopify-section-{{ section.id }} .block-{{ block.id }} {
+    max-width: {{ block.settings.image_width }}%;
+    align-self:{{ block.settings.alignment }};
+    margin-top:{{ block.settings.topposition }}px;
+    margin-bottom:{{ block.settings.bottomposition }}px;
+  }
+  {% endcase %}
+{% endfor %}  
+{% endstyle %}
+
+<div class="image-with-content-wrap">
+ <div class="row align-middle {{ section.settings.alignment }}">
+  
+<div class="columns text">
+  {% for block in section.blocks %}
+  {% case block.type %}
+    {% when 'Image' %}
+    
+  <div class="block-{{ block.id }}">{% unless block.settings.url == nil %}<a class="hvr-grow" href="{{ block.settings.url }}">{% endunless %}<img src="{{ block.settings.image | img_url: 'large' }}" />{% unless block.settings.url == nil %}</a>{% endunless %}</div>
+    {% when 'Button' %} 
+    {% endcase %}
+{% endfor %} 
+</div>
+  
+  
+
+{% capture image %}{{ section.settings.image | img_url: '1024x1024' }}{% endcapture %}                                   
+      {% if image contains 'no-image' %}
+      {% else %} 
+       <div class="large-8 small-12 columns image {% if section.settings.animate %} animate{% endif %}">
+        <img src="{{ section.settings.image | img_url: '1024x1024' }}" />
+       </div>
+{% endif %}  
+
+</div>
+</div>
+
+
+
+<script> 
+ $(document).on("shopify:section:select",'#shopify-section-{{ section.id }}',function(e){
+                $('body').addClass('editing edit-{{ section.id }}');
+$(document).one("shopify:section:deselect",function(e){
+$('body').removeClass('edit-{{ section.id }}');
+})
+});       
+  
+{% if section.settings.animate %}
+// get the element to animate
+var element{{ section.id }} = document.querySelector('#shopify-section-{{ section.id }} .animate');
+var elementHeight{{ section.id }} = element{{ section.id }}.clientHeight;
+
+// listen for scroll event and call animate function
+setTimeout(function() {                                                     
+document.removeEventListener('scroll', animate{{ section.id }});                                     
+document.addEventListener('scroll', animate{{ section.id }});
+document.dispatchEvent(new CustomEvent('scroll'));    
+}, 600);
+// check if element is in view
+function inView{{ section.id }}() {
+
+  // get window height
+  var windowHeight = window.innerHeight;
+  // get number of pixels that the document is scrolled
+  var scrollY = window.scrollY || window.pageYOffset;
+  
+  // get current scroll position (distance from the top of the page to the bottom of the current viewport)
+  var scrollPosition = scrollY + windowHeight;
+  // get element position (distance from the top of the page to the bottom of the element)
+  var elementPosition = element{{ section.id }}.getBoundingClientRect().top + scrollY + (elementHeight{{ section.id }} / 5);
+  
+  // is scroll position greater than element position? (is element in view?)
+  if (scrollPosition > elementPosition) {
+    return true;
+  }
+  
+  return false;
+}
+
+// animate element when it is in view
+function animate{{ section.id }}() {
+  // is element in view?
+  if (inView{{ section.id }}()) {
+      // element is in view, add class to element
+      element{{ section.id }}.classList.add('effect');
+  }
+} 
+{% endif %}
+</script>
+
+
+{% schema %}
+  {
+    "name": "Image With Content",
+    "settings": [
+{ "type":"header",
+"content": "Background Colors or Image"
+},
+{
+       "id": "background_image",
+       "type": "image_picker",
+       "label": "Background Image (Optional)"
+},
+{
+       "id": "background_color",
+       "type": "color",
+       "label": "Background Color",
+       "default": "transparent"
+},{
+       "id": "background_color_2",
+       "type": "color",
+       "label": "Background Color #2 (Optional Gradient)",
+       "default": "transparent"
+},
+{ "type": "header",
+ "content": "Image"
+},
+{
+       "id": "image",
+       "type": "image_picker",
+       "label": "Model Image PNG! (Optional)"
+},
+  {
+    "type":   "range",
+    "id":     "image_width",
+    "min":       10,
+    "max":       100,
+    "step":     1,
+    "unit":      "%",
+    "label":     "Image Width",
+    "default":   50
+     }, 
+{
+   "type":      "radio",
+   "id":        "alignment",
+   "label":     "Image Alignment",
+   "options": [
+     { "value": "left", "label": "Left" },
+     { "value": "right", "label": "Right" }
+   ],
+   "default":   "left"
+},
+{
+"type": "checkbox",
+"id": "animate",
+"label": "Animate In",
+"default": false
+}],"blocks": [
+    {
+     "type": "Image",
+     "name": "Image",
+     "settings" : [
+{
+       "id": "image",
+       "type": "image_picker",
+       "label": "Model Image PNG! (Optional)"
+},
+{
+        "id": "url",
+        "type": "url",
+        "label": "Link to (optional)"
+},
+  {
+    "type":   "range",
+    "id":     "image_width",
+    "min":       10,
+    "max":       100,
+    "step":     1,
+    "unit":      "%",
+    "label":     "Image Width",
+    "default":   100
+     },
+{
+   "type":      "radio",
+   "id":        "alignment",
+   "label":     "Title Alignment",
+   "options": [
+     { "value": "center", "label": "Center" },
+     { "value": "left", "label": "Left" },
+     { "value": "right", "label": "Right" }
+   ],
+   "default":   "center"
+},
+      {
+    "type":   "range",
+    "id":     "topposition",
+    "min":       0,
+    "max":       60,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Position from Top",
+    "default":   15
+     },
+     {
+    "type":   "range",
+    "id":     "bottomposition",
+    "min":       0,
+    "max":       60,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Position from Bottom",
+    "default":   15
+     }]
+}
+],
+  "presets": [
+    {
+      "name": "Image With Content",
+      "category": "Design"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet 'scss' %}
+// responsive sizes
+@mixin bp($point) {
+
+  $bp-small: "(max-width: 350px)";
+  $bp-mobile: "(max-width: 600px)";
+  $bp-mobileup: "(min-width: 600px)";
+  $bp-phablet: "(max-width: 1022px)";
+  $bp-phabletup: "(min-width: 1022px)";
+  $bp-tablet: "(max-width: 1280px)";
+  $bp-tabletup: "(min-width: 1280px)";
+  $bp-laptop: "(max-width: 1600px)";
+  $bp-desktop: "(min-width: 1600px)";
+  @if $point == desktop {
+    @media #{$bp-desktop}  { @content; }
+}  
+@else if $point == laptop {
+  @media #{$bp-laptop} { @content; }
+}
+@else if $point == tablet {
+  @media #{$bp-tablet} { @content; }
+}
+@else if $point == tabletup {
+  @media #{$bp-tabletup} { @content; }
+}
+@else if $point == phablet {
+  @media #{$bp-phablet} { @content; }
+}
+@else if $point == phabletup {
+  @media #{$bp-phabletup} { @content; }
+}
+@else if $point == mobile {
+  @media #{$bp-mobile}  { @content; }
+}
+@else if $point == mobileup {
+  @media #{$bp-mobileup} { @content; }
+}
+@else if $point == small {
+  @media #{$bp-small}  { @content; }
+}
+
+}
+
+.editing .image-with-content-wrap .row .animate {
+opacity:1;
+}
+
+.image-with-content-wrap {
+     & .row {
+      @include bp(phabletup) {
+          -ms-flex-align: center;
+          align-items: center;
+      }
+     & .animate {
+    opacity:0;
+         will-change: transform;
+   -webkit-backface-visibility: hidden;
+   -moz-backface-visibility: hidden;
+   -ms-backface-visibility: hidden;
+   backface-visibility: hidden;
+
+   -webkit-perspective: 1000;
+   -moz-perspective: 1000;
+   -ms-perspective: 1000;
+   perspective: 1000;
+     &.effect {     -webkit-animation-name: fadeInRight-image-with-content;
+         animation-name: fadeInRight-image-with-content;
+        
+            -webkit-animation-duration: 800ms;
+            animation-duration: 800ms;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+      }
+     }
+     &.right {
+      @include bp(phabletup) {
+           flex-direction: row-reverse;
+      }
+      & .image {
+        text-align:left;
+       }
+      & .animate.effect {
+         -webkit-animation-name: fadeInLeft-image-with-content;
+         animation-name: fadeInLeft-image-with-content;
+      }
+     }
+     & .text {
+       display: flex;
+       flex-flow: column;
+     }
+     & .image {
+       text-align:right;
+       & img {
+@include bp(phabletup) {
+min-height:100%;
+}
+}
+     }
+    }
+   }
+
+
+@keyframes fadeInLeft-image-with-content {
+   0% {
+      opacity: 0;
+      transform: translateX(-150px);
+   }
+   100% {
+      opacity: 1;
+      transform: translateX(0);
+   }
+}   
+
+@keyframes fadeInRight-image-with-content {
+   0% {
+      opacity: 0;
+      transform: translateX(150px);
+   }
+   100% {
+      opacity: 1;
+      transform: translateX(0);
+   }
+}   
+{% endstylesheet %}
+
+{% javascript %}
+
+{% endjavascript %}                                     

@@ -1,0 +1,341 @@
+{% style %}
+{% assign loadedfonts = '' %}    
+{% assign familyandweight = section.settings.font.family | append: section.settings.font.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ section.settings.font | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: section.settings.font.family | append: section.settings.font.weight | append: section.settings.font.style | append: '|' %}
+
+  #shopify-section-Blog .page-header h2 {
+    font-family: {{ section.settings.font.family }}; 
+    font-weight:{{ section.settings.font.weight }}; 
+    font-style:{{ section.settings.font.style }};
+    font-size:{{ section.settings.fontsize }}px;
+    line-height:1;
+  }
+{% endstyle %}
+{% if section.settings.blog != nil %}
+{% assign theblog = section.settings.blog %}
+{% else %}
+{% assign theblog = 'news' %}
+{% endif %}
+
+
+
+
+
+<div class="page-header">
+  <div class="row align-middle align-justify">
+  <div class="large-12 columns text-center">
+    <h2><span>{{ section.settings.title}}</span></h2>
+   {% if section.settings.subtitle %}<p>{{ section.settings.subtitle}}</p>{% endif %}
+  </div>
+  </div>
+</div>
+{% unless blogs[theblog].articles.size == 0 %}
+<div class="articles-wrap"> 
+<div class="row align-stretch align-left">
+{% paginate blog.articles by 10 %}
+  {% assign i = 0 %}
+{% for article in blogs[theblog].articles %}
+            
+             <a href="{{ article.url }}" class="{% if i == 0 %}large-12 article-big{% else %}large-4{% endif %} medium-6 small-12 columns article-wrap">
+                <div class="article-inner">
+                  <div class="top-image flex-content">
+                    <img src="{{ article.image.src | img_url: 'large' }}" alt="{{ article.title }}" />
+                  </div>
+                  <div class="bottom-content">
+                    <div class="bottom-inner">
+                      <title>{{ article.title }}</title>
+                      <tags>
+                      {% for tag in article.tags %}
+                        <span>{{ tag }}</span>
+                      {% endfor %}
+                      </tags>
+                    </div>
+                  </div>
+                </div>
+             </a>
+  {% assign i = i | plus: 1 %}
+{% endfor %}
+</div>
+
+</div>
+  
+  
+{% if paginate.pages > 1 %}
+<div class="pagination">
+{% comment %}
+  When paginating blog articles, a previous article is actually a newer article, not an older one,
+  because blog articles are shown and paginated in a reversed chronological order.
+  The word 'previous' can be confusing, hence we'll change it.
+{% endcomment %}
+{{ paginate | default_pagination | replace: 'Previous', 'Newer articles' | replace: 'Next', 'Older articles' }}
+{% endif %}  
+</div>
+{% endpaginate %}
+{% else %}
+
+
+<div class="articles-wrap"> 
+<div class="row align-stretch align-left">
+  
+
+            
+             <a href="#" class="large-12 article-big medium-6 small-12 columns article-wrap">
+                <div class="article-inner">
+                  <div class="top-image flex-content">
+                    <img src="//user-images.githubusercontent.com/8041502/70937413-3b9f0980-2012-11ea-80fe-392812a43114.jpg" alt="How to Tell the Difference Between Mr. Right and Mr. Right Now">
+                  </div>
+                  <div class="bottom-content">
+                    <div class="bottom-inner">
+                      <title>Everything you need to know about  {{ shop.name }} and why we're the best</title>
+                      <tags>
+                      
+                      </tags>
+                    </div>
+                  </div>
+                </div>
+             </a>
+  
+
+            
+             <a href="#" class="large-4 medium-6 small-12 columns article-wrap">
+                <div class="article-inner">
+                  <div class="top-image flex-content">
+                    <img src="//user-images.githubusercontent.com/8041502/70937499-638e6d00-2012-11ea-803d-6f4533184943.jpg" alt="3 REASONS WHY A MAN SHOULDN’T CHASE AFTER A WOMAN">
+                  </div>
+                  <div class="bottom-content">
+                    <div class="bottom-inner">
+                      <title>3 Reasons why you should choose {{ shop.name }}</title>
+                      <tags>
+                      
+                      </tags>
+                    </div>
+                  </div>
+                </div>
+             </a>
+  
+
+            
+             <a href="#" class="large-4 medium-6 small-12 columns article-wrap">
+                <div class="article-inner">
+                  <div class="top-image flex-content">
+                    <img src="//user-images.githubusercontent.com/8041502/70937522-6be6a800-2012-11ea-96c6-b318659075bf.jpg" alt="It’s Cuffing Season 3 Signs He’s Only With You Because He’s Lonely">
+                  </div>
+                  <div class="bottom-content">
+                    <div class="bottom-inner">
+                      <title>The difference between {{ shop.name }} and the alternatives. </title>
+                      <tags>
+                      
+                      </tags>
+                    </div>
+                  </div>
+                </div>
+             </a>
+  
+  
+              
+             <a href="#" class="large-4 medium-6 small-12 columns article-wrap">
+                <div class="article-inner">
+                  <div class="top-image flex-content">
+                    <img src="//user-images.githubusercontent.com/8041502/70937556-7608a680-2012-11ea-82a4-9037da4cfdb0.jpg" alt="It’s Cuffing Season 3 Signs He’s Only With You Because He’s Lonely">
+                  </div>
+                  <div class="bottom-content">
+                    <div class="bottom-inner">
+                      <title>No one else will tell you about this helpful tip but we will </title>
+                      <tags>
+                      
+                      </tags>
+                    </div>
+                  </div>
+                </div>
+             </a>
+  
+
+</div>
+
+</div>
+
+
+
+{% endunless %}
+
+
+
+{% schema %}
+  {
+    "name": "Blog",
+    "settings": [{
+   "type": "blog",
+   "id": "blog",
+   "label": "Blog"
+},
+{
+       "id": "title",
+       "type": "text",
+       "label": "Title",
+       "default": "Tips & Tricks"
+},
+{
+     "type": "font_picker",
+     "id": "font",
+     "label": "Font",
+     "default": "work_sans_n6"
+},
+  {
+    "type":   "range",
+    "id":     "fontsize",
+    "min":       30,
+    "max":       70,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Font Size",
+    "default":   40
+     },
+{
+       "id": "subtitle",
+       "type": "text",
+       "label": "Sub Title"
+}]
+  }
+{% endschema %}
+
+{% stylesheet 'scss' %}
+// responsive sizes
+@mixin bp($point) {
+  
+  $bp-small: "(max-width: 350px)";
+  $bp-mobile: "(max-width: 600px)";
+  $bp-mobileup: "(min-width: 600px)";
+  $bp-phablet: "(max-width: 1022px)";
+  $bp-phabletup: "(min-width: 1022px)";
+  $bp-tablet: "(max-width: 1280px)";
+  $bp-tabletup: "(min-width: 1280px)";
+  $bp-laptop: "(max-width: 1600px)";
+  $bp-desktop: "(min-width: 1600px)";
+  @if $point == desktop {
+    @media #{$bp-desktop}  { @content; }
+  }  
+  @else if $point == laptop {
+    @media #{$bp-laptop} { @content; }
+  }
+  @else if $point == tablet {
+    @media #{$bp-tablet} { @content; }
+  }
+  @else if $point == tabletup {
+    @media #{$bp-tabletup} { @content; }
+  }
+  @else if $point == phablet {
+    @media #{$bp-phablet} { @content; }
+  }
+  @else if $point == phabletup {
+    @media #{$bp-phabletup} { @content; }
+  }
+  @else if $point == mobile {
+    @media #{$bp-mobile}  { @content; }
+  }
+  @else if $point == mobileup {
+    @media #{$bp-mobileup} { @content; }
+  }
+  @else if $point == small {
+    @media #{$bp-small}  { @content; }
+  }
+
+}
+
+//color transition
+@mixin transition($attribute, $duration) {
+    -webkit-transition: $attribute $duration ease;
+    -moz-transition: $attribute $duration ease;
+    transition: $attribute $duration ease;
+}
+
+
+
+#shopify-section-Blog {
+      margin-top: 30px;
+& .page-header {
+ & h2 {
+  & span {
+   @include bp(mobile) {
+    font-size: 80%;
+   }
+  }
+ }
+}
+& .articles-wrap {
+& .article-wrap {
+    margin-bottom: 30px;
+  & .article-inner {
+    min-height: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    & .top-image {
+     padding-bottom: 58.7%;
+     margin: 0;
+     overflow: hidden;
+     background: #F7F8FA;
+     position: relative;
+     height: 0;
+      & img {
+     	width: auto;
+   	    height: auto;
+        min-width: 100%;
+        min-height: 100%;
+        position: absolute;
+      }
+    }
+    & .bottom-content {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+      & .bottom-inner {
+          width: 100%;
+        & title {
+            color: #000;
+    		display: block;
+  		    font-size: 18px;
+            margin-bottom: 10px;
+        }
+      }
+    }
+  }
+  &.article-big {
+    @include bp(phabletup) {
+    & .article-inner {
+     display:flex;
+      & .top-image {
+        padding-bottom: 32%;
+        width: 55%;
+      }
+      & .bottom-content {
+      width: 45%;
+  	  text-align: center;
+      padding: 30px 30px;
+        & title {
+            font-size: 30px;
+        }
+      }
+    }
+    }
+  }
+ }
+}
+}
+
+
+
+
+
+
+
+
+
+{% endstylesheet %}
+
+{% javascript %}     
+{% endjavascript %}
