@@ -1,0 +1,199 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->  
+<head itemscope itemtype="http://schema.org/WebSite">
+<meta name="google-site-verification" content="qTQvCYGlvpFEP0hmZf7ml0iCWKHIR4h8VklBlJTsXiE" />
+  <meta charset="utf-8" />
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' /><![endif]-->
+<meta name="google-site-verification" content="zUfiaZ0m4G_s4yyerq8UlvFkbfbtqDpVqTiYX7upayI" />
+
+  <title itemprop='name'>
+  {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+  
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}" />
+  {% endif %}
+  
+  
+  
+  
+  
+
+<meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="{{ canonical_url }}" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+{% include 'open-graph-tags' %}
+{{ content_for_header }}
+
+{{ 'revolution.settings.css'  | asset_url  | stylesheet_tag }}    
+{{ 'revolution.captions-original.css'  | asset_url  | stylesheet_tag }}    
+{{ 'foundation.min.css'  | asset_url  | stylesheet_tag }}     
+{{ 'jquery.mobile.custom.theme.min.css'  | asset_url  | stylesheet_tag }}   
+{{ 'jquery.mobile.custom.structure.min.css'  | asset_url  | stylesheet_tag }}    
+  
+  
+  
+ 
+  
+  
+  
+{{ 'hover.css'  | asset_url  | stylesheet_tag }}  
+{{ 'animate.css'  | asset_url  | stylesheet_tag }}  
+{{ 'font-awesome.css'  | asset_url  | stylesheet_tag }}   
+{{ "https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" | stylesheet_tag }}
+{{ 'fonts.scss.css'  | asset_url  | stylesheet_tag }}
+{{ 'style.scss.css' | asset_url | stylesheet_tag }}
+  
+{{ 'jquery-3.3.1.min.js' | asset_url | script_tag }}  
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}  
+    <!--[if lt IE 9]>
+  {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
+  <![endif]-->
+
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {% if template contains 'customers' %}  
+  {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}
+  
+  <!-- Additional Shopify helpers that will likely be added to the global shopify_common.js some day soon. -->
+  {{ 'shopify_common.js'  | asset_url | script_tag }}
+  
+  <!-- dynamic checkout -->
+  {{ '//cdn.shopify.com/shopifycloud/payment-sheet/assets/latest/dynamic-checkout-cart.en.js' | script_tag }}
+  
+  
+{% if settings.yotpoappkey != '' %}
+<script type="text/javascript">(function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/{{ settings.yotpoappkey }}/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();</script>
+{% endif %}  
+  
+  
+<style>  
+html  {
+ overflow:hidden; 
+  
+}
+html, body {
+  height:100%;
+}
+html.loaded {
+    overflow-y: auto
+}
+.ui-mobile-rendering > * {
+visibility:visible;  
+}  
+  
+
+  
+</style>  
+ 
+{% render 'Favicon-and-Scrollbar', head: true %}
+ 
+<!-- inject Loader CSS in head -->
+{% style %} 
+{% capture Load %}
+{% section 'Loader' %}
+{% endcapture %}
+{% assign Load2 = Load | split: '<style data-shopify>' %}
+{% assign Load3 = Load2[1] | split: '</style>' %}
+{{ Load3[0] }}
+{% endstyle %}
+<!-- END inject Loader CSS in head -->  
+</head>
+  
+<body id="{{ page_title | handle }}"  class="{% if customer %}customer-logged-in {% endif %} {% if cart.item_count > 0 %}hasitem{% endif %}">
+{% render 'Favicon-and-Scrollbar' %}
+    
+ {% comment %}{% section 'Loader' %}{% endcomment %}
+ {% section 'Mobile-Menu' %} 
+
+   <header id="header" data-role="toolbar" data-type="header" data-position="fixed">   
+         {% section 'Header-Notification' %}
+         {% section 'Header-with-Bottom-Menu' %}
+   </header>  
+
+  
+  
+  
+  <!-- /header -->
+ <!-- create title and description -->
+ {% if template == 'collection' %}
+  {% assign meta_data = collection.metafields.global %}
+  {% assign page_description = meta_data.description_tag %}
+  {% assign page_name = collection.title %}
+  {% assign page_url = collection.url %}
+  {% elsif template == 'blog' %}
+  {% assign meta_data = blog.metafields.global %}
+  {% assign page_description = meta_data.description_tag %}
+  {% assign page_name = meta_data.title_tag %}
+  {% elsif template == 'article' %}
+  {% assign meta_data = article.metafields.global %}
+  {% assign page_description = meta_data.description_tag %}
+  {% assign page_name = page_title %}
+  {% elsif template == 'page' %}
+  {% assign meta_data = page.metafields.global %}
+  {% assign page_description = meta_data.description_tag %}
+  {% assign page_name = meta_data.title_tag %}
+ {% endif %}
+
+ <div data-role="page" id="{{ template | replace: '.', '' }}{% if template == 'page' %}-{{ page.id }}{% endif %}{% if template == 'product' %}-{{ product.id }}{% endif %}{% if template == 'collection' %}-{{ collection.id }}{% endif %}" data-url="{{ page_url }}" data-title="{{ page_name }}" data-name="{{ page_name }}" data-description="{{ page_description | url_encode }}" class="ui-page {% if template == 'collection' %}collection-page {% else %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% endif %}"> 
+  <div class="ui-panel-wrapper">
+   <div role="main" class="ui-content">
+      {{content_for_layout}}
+  </div> <!-- End Content --> 
+    <div id="footer" class="footer" data-role="toolbar" data-type="footer">
+	{% section 'Footer' %}
+    </div>
+    </div><!-- End Panel wrap -->
+</div><!-- End Page -->  
+  
+  
+  {% comment %}
+  {% section 'Popup' %}
+  {% endcomment %}
+  
+
+  {{ 'jquery-start.js' | asset_url | script_tag }}
+  {{ 'jquery.mobile.custom.min.js' | asset_url | script_tag }}
+  {{ 'jquery.mobile.patches.js' | asset_url | script_tag }} 
+
+   
+   
+
+
+
+
+    
+    
+
+
+  {% include 'ajaxify-cart' %}
+  {{ 'cart.js' | asset_url | script_tag }} 
+
+   
+
+  <!-- Revolution Slider -->
+  {{ 'jquery.themepunch.revolution.min.js' | asset_url | script_tag }}
+  {{ 'jquery.themepunch.tools.min.js' | asset_url | script_tag }}
+  <!-- END Revolution Slider -->
+   
+    
+      
+    
+    
+   
+  <!-- Foundation 6 -->   
+  {{ 'what-input.js' | asset_url | script_tag }}   
+  {{ 'foundation.min.js' | asset_url | script_tag }}
+  {{ 'app.js' | asset_url | script_tag }}
+  <!-- END Foundation 6 -->
+    
+   
+   {{ 'setup.js' | asset_url | script_tag }}
+    
+</body>
+</html>
