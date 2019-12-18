@@ -1,4 +1,4 @@
-# Shopify-Sections
+# Theme 
 Collection of Digital Brandz Sections
 
 Watch this video
