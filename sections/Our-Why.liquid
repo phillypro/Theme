@@ -22,6 +22,28 @@
     max-width: {{ block.settings.image_width }}%;
   }
  }
+  
+.sec-{{ block.id}} {
+  {% capture backgroundimage %}{{ block.settings.background_image | img_url: '1024x1024' }}{% endcapture %}                                   
+{% if backgroundimage contains 'no-image' %}
+  {% if block.settings.background_color_2 contains 'transparent' %}
+      background-color:{{ block.settings.background_color }};                            
+  {% else %}     
+    background: -moz-linear-gradient(left, {{ block.settings.background_color }} 0%, {{ block.settings.background_color_2 }} 100%);
+    background: -webkit-linear-gradient(left, {{ block.settings.background_color }} 0%, {{ block.settings.background_color_2 }} 100%);
+    background: linear-gradient(to right, {{ block.settings.background_color }} 0%, {{ block.settings.background_color_2 }} 100%);                            
+  {% endif %}
+{% else %}
+background-image:url({{ block.settings.background_image | img_url: '1024x1024' }}); background-color:{{ block.settings.background_color }};
+{% endif %}     
+  }   
+.sec-{{ block.id}} h2, .sec-{{ block.id}} p {
+ color:{{ block.settings.text_color }}; 
+}
+.sec-{{ block.id}} .cta a {
+color:{{ block.settings.button_text_color }};
+background:{{ block.settings.button_background_color }};  
+}
 {% when 'Video' %}    
   {% assign familyandweight = block.settings.headline_font.family | append: block.settings.headline_font.weight %}
 {% if loadedfonts2 contains familyandweight %}
@@ -36,10 +58,13 @@
     font-style:{{ block.settings.headline_font.style }}; 
     font-size:{{ block.settings.headline_fontsize }}%;
   }
-  
+  .vid-why-{{ block.id }} .cta a {
+  color:{{ block.settings.button_text_color }};
+  background:{{ block.settings.button_background_color }};
+  }
   {% endcase %}
 {% endfor %}
-{% endstyle %} 
+{% endstyle %}
 
 
 
@@ -47,33 +72,20 @@
 {% for block in section.blocks %}
    {% case block.type %}
     {% when 'Section' %}
-     <div class="sec-wrap sec-{{ block.id }}" style="
-{% capture backgroundimage %}{{ block.settings.background_image | img_url: '1024x1024' }}{% endcapture %}                                   
-{% if backgroundimage contains 'no-image' %}
-  {% if block.settings.background_color_2 contains 'transparent' %}
-      background-color:{{ block.settings.background_color }};                            
-  {% else %}     
-    background: -moz-linear-gradient(left, {{ block.settings.background_color }} 0%, {{ block.settings.background_color_2 }} 100%);
-    background: -webkit-linear-gradient(left, {{ block.settings.background_color }} 0%, {{ block.settings.background_color_2 }} 100%);
-    background: linear-gradient(to right, {{ block.settings.background_color }} 0%, {{ block.settings.background_color_2 }} 100%);                            
-  {% endif %}
-{% else %}
-background-image:url({{ block.settings.background_image | img_url: '1024x1024' }}); background-color:{{ block.settings.background_color }};
-{% endif %}     
-">
+     <div class="sec-wrap sec-{{ block.id }}">
      <div class="row align-middle {{ block.settings.align }}">
        <div class="columns text">
          {% if block.settings.headline != '' %}
-         <h2 class="{% if section.settings.animate %} animate{% endif %}" style="color:{{ block.settings.text_color }}"><span>{{ block.settings.headline }}</span></h2>
+         <h2 class="{% if section.settings.animate %} animate{% endif %}"><span>{{ block.settings.headline }}</span></h2>
          {% endif %}
          
          {% if block.settings.details != '' %}
-         <p style="color:{{ block.settings.text_color }}">{{ block.settings.details }}</p>
+         <p>{{ block.settings.details }}</p>
          {% endif %} 
          
          {% if block.settings.cta.size > 1 %}
           <div class="cta">
-        	 <a style="color:{{ block.settings.button_text_color }};background:{{ block.settings.button_background_color }};" href="{{ block.settings.cta }}">
+        	 <a href="{{ block.settings.cta }}">
                 {{ block.settings.button_text }}
              </a>
          </div>
@@ -91,7 +103,7 @@ background-image:url({{ block.settings.background_image | img_url: '1024x1024' }
        
        
 	 </div>
-</div>
+    </div>
     {% when 'Video' %}
        <div class="vid-wrap vid-why-{{ block.id }}">
           <div class="row align-center">
@@ -114,7 +126,7 @@ background-image:url({{ block.settings.background_image | img_url: '1024x1024' }
               
          {% if block.settings.cta != '' %}
           <div class="cta">
-        	 <a style="color:{{ block.settings.button_text_color }};background:{{ block.settings.button_background_color }};" href="{{ block.settings.cta }}">
+        	 <a class="hvr-grow" href="{{ block.settings.cta }}">
                 {{ block.settings.button_text }}
              </a>
          </div>
@@ -129,91 +141,80 @@ background-image:url({{ block.settings.background_image | img_url: '1024x1024' }
   {% endfor %} 
 
 
+
+
 {% if section.settings.animate %}
 <script>
-  var callbackOurWhy = function(){
-  // Handler when the DOM is fully loaded
-  if(!window.ScrollReveal) {
-    // add script
-    var script = document.createElement("script");
-    script.type = "text/javascript";   
-    script.src = 'https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js';
-    document.getElementsByTagName("head")[0].appendChild(script);
-  }
-};
-
-if (
-    document.readyState === "complete" ||
-    (document.readyState !== "loading" && !document.documentElement.doScroll)
-) {
-  callbackOurWhy();
-} else {
-  document.addEventListener("DOMContentLoaded", callbackOurWhy);
-}
   
-function deferOurWhy(methodOurWhy) {
-    if (window.ScrollReveal) {
-        methodOurWhy();
-    } else {
-        setTimeout(function() { deferOurWhy(methodOurWhy) }, 50);
-    }
-}
-  
-deferOurWhy(function () {  
-
-  
-     srOurWhy();
-
-  
-  
-  function srOurWhy() {
-//if not we go body 
-ScrollReveal().reveal( document.querySelectorAll('#shopify-section-OurWhy .sec-wrap .Right .animate'), {
-rotate: { x: 0, y: 0, z: 0 },   
-scale: 1, 
-interval: 200, 
-duration: 600,  
-origin: 'left',  
-distance: '50px',
-easing: 'ease-in-out',  
-opacity: 0,
-viewFactor: 0.2, 
-afterReveal: function(el) {
-  ScrollReveal().destroy(el);
-}}); 
-ScrollReveal().reveal( document.querySelectorAll('#shopify-section-OurWhy .sec-wrap .Left .animate'), {
-rotate: { x: 0, y: 0, z: 0 },   
-scale: 1, 
-interval: 200, 
-duration: 600,  
-origin: 'right',  
-distance: '50px',
-easing: 'ease-in-out',  
-opacity: 0,
-viewFactor: 0.2, 
-afterReveal: function(el) {
-  ScrollReveal().destroy(el);
-}});     
-ScrollReveal().reveal( document.querySelectorAll('#shopify-section-OurWhy .vid-wrap .animate'), {
-rotate: { x: 0, y: 0, z: 0 },   
-scale: 1, 
-interval: 200, 
-duration: 600,  
-origin: 'bottom',  
-distance: '50px',
-easing: 'ease-in-out',  
-opacity: 0,
-viewFactor: 0.2, 
-afterReveal: function(el) {
-  ScrollReveal().destroy(el);
-}});        
-    }  
-  
-  
-  
+// get the element to animate
+var ourwhyelements = document.querySelectorAll('#shopify-section-{{ section.id }} .animate');
+ 
+                                               
+                                               
+                                               
+ourwhyelements.forEach(function (element, index) {
+ revealit(element,index);
 });
+  
+function revealit(element, index) {
+var OWinView = [];    
+var OWanimate = []; 
+  
+
+var elementHeight = element.clientHeight;
+  
+  
+   
+// listen for scroll event and call animate function
+setTimeout(function() {                                                     
+document.removeEventListener('scroll', OWanimate['animate'+ index]);                                     
+document.addEventListener('scroll', OWanimate['animate'+ index]);
+document.dispatchEvent(new CustomEvent('scroll'));    
+}, 600);
+
+                                             
+                                        
+// check if element is in view
+  
+OWinView['inView' + index] = function() {
+  // get window height
+  var windowHeight = window.innerHeight;
+  // get number of pixels that the document is scrolled
+  var scrollY = window.scrollY || window.pageYOffset;
+
+  // get current scroll position (distance from the top of the page to the bottom of the current viewport)
+  var scrollPosition = scrollY + windowHeight;
+  // get element position (distance from the top of the page to the bottom of the element)
+  var elementPosition = element.getBoundingClientRect().top + scrollY + (elementHeight / 5);
+  
+  // is scroll position greater than element position? (is element in view?)
+  if (scrollPosition > elementPosition) {
+    return true;
+  }
+  
+  return false;
+}
+  
+  
+// animate element when it is in view
+                                              
+OWanimate['animate'+ index] = function() {
+  // is element in view?
+  if (OWinView['inView' + index]()) {
+      // element is in view, add class to element
+      element.classList.add('effect');
+  }
+} 
+  
+  
+
+}
+
 </script>
-{% endif %}
+{% endif %}   
+  
+
+
 
 {% schema %}
   {
@@ -477,7 +478,30 @@ body .template-page .ui-content {
           align-items: center;
       }
      & .animate {
-       visibility:hidden;
+              opacity:0;
+         will-change: transform;
+   -webkit-backface-visibility: hidden;
+   -moz-backface-visibility: hidden;
+   -ms-backface-visibility: hidden;
+   backface-visibility: hidden;
+
+   -webkit-perspective: 1000;
+   -moz-perspective: 1000;
+   -ms-perspective: 1000;
+   perspective: 1000;
+&.effect {
+-webkit-animation-name: fadeInLeft-Our-Why;
+         animation-name: fadeInLeft-Our-Why;
+        
+            -webkit-animation-duration: 800ms;
+            animation-duration: 800ms;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+}
+&:not(:first-child) {
+ animation-delay: 0.25s; 
+-webkit-animation-delay: 0.25s;
+}
      }
      &.Right {
       @include bp(phabletup) {
@@ -485,6 +509,15 @@ body .template-page .ui-content {
       }
       & .image {
         text-align:left;
+       }
+      & .animate.effect {
+-webkit-animation-name: fadeInRight-Our-Why;
+         animation-name: fadeInRight-Our-Why;
+        
+            -webkit-animation-duration: 800ms;
+            animation-duration: 800ms;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
        }
      }
      & .text {
@@ -497,7 +530,6 @@ body .template-page .ui-content {
         padding-top:20px;
        }
      & h2 {
-    color: #ffffff;
     line-height: 1.2;
     margin-bottom: 25px;
     & span {
@@ -552,9 +584,65 @@ min-height:100%;
       font-size: 50%;
        } 
       }
+     & .animate {
+              opacity:0;
+         will-change: transform;
+   -webkit-backface-visibility: hidden;
+   -moz-backface-visibility: hidden;
+   -ms-backface-visibility: hidden;
+   backface-visibility: hidden;
+
+   -webkit-perspective: 1000;
+   -moz-perspective: 1000;
+   -ms-perspective: 1000;
+   perspective: 1000;
+&.effect {
+-webkit-animation-name: fadeInUp-Our-Why;
+         animation-name: fadeInUp-Our-Why;
+        
+            -webkit-animation-duration: 800ms;
+            animation-duration: 800ms;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+}
+    }
    }
 }
+
+
+
+@keyframes fadeInLeft-Our-Why {
+   0% {
+      opacity: 0;
+      transform: translateX(-50px);
+   }
+   100% {
+      opacity: 1;
+      transform: translateX(0);
+   }
+}   
+@keyframes fadeInRight-Our-Why {
+   0% {
+      opacity: 0;
+      transform: translateX(-50px);
+   }
+   100% {
+      opacity: 1;
+      transform: translateX(0);
+   }
+} 
+@keyframes fadeInUp-Our-Why {
+   0% {
+      opacity: 0;
+      transform: translateY(150px);
+   }
+   100% {
+      opacity: 1;
+      transform: translateY(0);
+   }
+}   
 {% endstylesheet %}
 
 {% javascript %}                                                 
-{% endjavascript %}        
+{% endjavascript %}                          
+  
