@@ -1,0 +1,1429 @@
+{% assign min = 0 %}
+{% assign max = 100000 %}
+{% assign diff = max | minus: min %}
+{% assign randomNumber = "now" | date: "%N" | modulo: diff | plus: min %}
+
+{% style %}
+  body.{{ template | replace: '.', '' }} header {
+     background:none;
+  }
+  body.{{ template | replace: '.', '' }} #footer {
+     display:none;   
+  }
+ body.{{ template | replace: '.', '' }} header .header-wrap:before {
+     transform: translateX(-100%);
+ }
+body.{{ template | replace: '.', '' }} header .header-wrap .row .logo-wrap ~ div {   
+          opacity:0;
+          pointer-events:none;
+}
+body.{{ template | replace: '.', '' }} header .header-wrap .row .logo-wrap a {  
+  position:relative;
+}
+body.{{ template | replace: '.', '' }} header .header-wrap .row .logo-wrap a:after {
+  content: '{{ section.settings.title }}';
+    display: block;
+    text-align: right;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 9px;
+    transform: translateY(-1px);
+    position: absolute;
+    text-align: right;
+    width: 100%;  
+    opacity: 0;
+    animation: thefade 0.3s ease-in-out 0.4s both;  
+}
+  
+@media only screen and (max-width: 1022px) {
+body.{{ template | replace: '.', '' }} header .header-wrap .row .logo-wrap a:after {
+      font-size: 6px;
+      letter-spacing: 7px;
+}
+}  
+  
+  #{{ template | replace: '.', '' }} {
+  {% if section.settings.background_color_2 contains 'transparent' %}
+      background-color:{{ section.settings.background_color }};                            
+  {% else %}     
+    background: -moz-radial-gradient(center, ellipse cover, {{ section.settings.background_color }}, {{ section.settings.background_color_2 }});
+    background: -webkit-radial-gradient(center, ellipse cover, {{ section.settings.background_color }}, {{ section.settings.background_color_2 }});
+    background: radial-gradient(ellipse at center,{{ section.settings.background_color }}, {{ section.settings.background_color_2 }});                            
+  {% endif %}
+  }
+  
+
+@keyframes thefade {
+    0%  {  opacity: 0; }
+    100%  { opacity: 1;}
+}
+  
+/* Style */
+  
+#container-{{ randomNumber }} .advancedform-wrapper .fs-form.fs-form-full .fs-fields>li label.fs-field-label, #container-{{ randomNumber }} .fs-controls .fs-numbers {
+  color:{{ section.settings.label_color }};
+}
+#container-{{ randomNumber }} .advancedform-wrapper .fs-form.fs-form-full .fs-fields>li input {
+  color:{{ section.settings.input_color }};
+} 
+  
+#container-{{ randomNumber }} .fs-controls button.fs-continue {
+border-color: {{ section.settings.label_color }};
+color: {{ section.settings.label_color }};  
+}
+  
+ #container-{{ randomNumber }} .fs-controls button.fs-continue:hover { 
+  background:{{ section.settings.button_hover_background_color }};
+  border-color:{{ section.settings.button_hover_background_color }};
+  color:{{ section.settings.button_hover_color }};
+ }
+  
+#container-{{ randomNumber }} .fs-nav-dots button::before, #container-{{ randomNumber }} .fs-nav-dots button::after { 
+  background-color: {{ section.settings.navigation_color }};  
+}
+  
+#container-{{ randomNumber }} .fs-nav-dots button:hover::before, #container-{{ randomNumber }} .fs-nav-dots button.fs-dot-current::before { 
+  background-color: {{ section.settings.navigation_active_color }};  
+}  
+  
+{% endstyle %}
+
+  <div id="container-{{ randomNumber }}" class="container" style="opacity:0">
+			<div class="fs-form-wrap">
+               <div class="advancedform-wrapper">
+				<form class="fs-form fs-form-full" autocomplete="off" slack="{{ section.settings.webhook }}">
+					<ol class="fs-fields">
+
+
+{% assign i = 1 %}
+{% assign tabindex = 1 %}                      
+{% for block in section.blocks %}
+{% case block.type %}
+                      
+{% if block.settings.conditional != '' %}
+  {% assign conditional = block.settings.conditional | plus: 0 %} 
+  {% assign conditioncount = i | plus: 1 %}                    
+{% endif %}              
+                      
+{% when 'Youtube' %}                      
+                      
+<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %} video" data-link-trigger>
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}</label>
+ 
+  <div class="fs-radio-group fs-radio-custom big-bubble clearfix fs-anim-lower">
+    <div class="video-wrap">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ block.settings.youtube_url.id }}?playsinline=1&version=3&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div>
+      <a href="#">{{ block.settings.button_text }}</a>
+    </div>
+  </div>
+                      
+</li>                      
+                      
+{% when 'Question' %}
+
+
+{% case block.settings.type %}
+{% when 'text' %}
+<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}">
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
+</li>
+{% assign tabindex = tabindex | plus: 1 %}                        
+{% when 'name' %}
+<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}">
+  <label id="af-{{ section.id }}-form-type-name" priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+	<input value="" class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
+</li>
+{% assign tabindex = tabindex | plus: 1 %} 
+{% assign conditionalmark = 1 %}                      
+{% when 'big bubble' %}
+<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}" data-input-trigger>
+	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}</label>
+    <div class="fs-radio-group fs-radio-custom big-bubble clearfix fs-anim-lower {% if section.settings.onerow != false %}onerow{% endif %}">
+      {% if block.settings.a != '' %}
+      {% assign length =  block.settings.a | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}a" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.a }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}a">{{ block.settings.a }}</label></span>
+     {% assign conditionalmark = conditionalmark | plus: 1 %}  
+     {% endif %}
+     {% if block.settings.b != '' %}
+      {% assign length =  block.settings.b | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}b" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.b }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}b">{{ block.settings.b }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+     {% assign conditionalmark = conditionalmark | plus: 1 %}  
+      {% endif %} 
+          {% if block.settings.c != '' %}
+       {% assign length =  block.settings.c | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}c" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.c }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}c">{{ block.settings.c }}</label></span>
+    {% assign tabindex = tabindex | plus: 1 %} 
+    {% assign conditionalmark = conditionalmark | plus: 1 %}    
+      {% endif %} 
+           {% if block.settings.d != '' %}
+       {% assign length =  block.settings.d | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}d" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.d }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}d">{{ block.settings.d }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+    {% assign conditionalmark = conditionalmark | plus: 1 %}    
+      {% endif %} 
+           {% if block.settings.e != '' %}
+       {% assign length =  block.settings.e | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}e" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.e }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}e">{{ block.settings.e }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+     {% assign conditionalmark = conditionalmark | plus: 1 %}   
+      {% endif %} 
+           {% if block.settings.f != '' %}
+       {% assign length =  block.settings.f | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}f" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.f }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}f">{{ block.settings.f }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+     {% assign conditionalmark = conditionalmark | plus: 1 %}   
+      {% endif %} 
+           {% if block.settings.g != '' %}
+       {% assign length =  block.settings.g | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}g" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.g }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}g">{{ block.settings.g }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+     {% assign conditionalmark = conditionalmark | plus: 1 %}   
+      {% endif %} 
+           {% if block.settings.h != '' %}
+       {% assign length =  block.settings.h | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}h" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.h }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}h">{{ block.settings.h }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+     {% assign conditionalmark = conditionalmark | plus: 1 %}   
+      {% endif %} 
+           {% if block.settings.i != '' %}
+       {% assign length =  block.settings.i | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}i" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.i }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}i">{{ block.settings.i }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+     
+      
+  </div>  
+</li>
+{% assign conditionalmark = 1 %}                         
+{% when 'small bubble' %}
+<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}" data-input-trigger>
+	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}</label>
+    <div class="fs-radio-group fs-radio-custom small-bubble clearfix fs-anim-lower {% if section.settings.onerow != false %}onerow{% endif %}">
+      {% if block.settings.a != '' %}
+      {% assign length =  block.settings.a | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}a" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.a }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}a">{{ block.settings.a }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+    {% assign conditionalmark = conditionalmark | plus: 1 %}   
+      {% endif %}
+     {% if block.settings.b != '' %}
+      {% assign length =  block.settings.b | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}b" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.b }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}b">{{ block.settings.b }}</label></span>
+    {% assign tabindex = tabindex | plus: 1 %}
+      {% assign conditionalmark = conditionalmark | plus: 1 %} 
+      {% endif %} 
+          {% if block.settings.c != '' %}
+       {% assign length =  block.settings.c | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}c" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.c }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}c">{{ block.settings.c }}</label></span>
+    {% assign tabindex = tabindex | plus: 1 %} 
+      {% assign conditionalmark = conditionalmark | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.d != '' %}
+       {% assign length =  block.settings.d | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}d" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.d }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}d">{{ block.settings.d }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% assign conditionalmark = conditionalmark | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.e != '' %}
+       {% assign length =  block.settings.e | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}e" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.e }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}e">{{ block.settings.e }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% assign conditionalmark = conditionalmark | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.f != '' %}
+       {% assign length =  block.settings.f | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}f" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.f }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}f">{{ block.settings.f }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% assign conditionalmark = conditionalmark | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.g != '' %}
+       {% assign length =  block.settings.g | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}g" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.g }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}}g">{{ block.settings.g }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% assign conditionalmark = conditionalmark | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.h != '' %}
+       {% assign length =  block.settings.h | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}h" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.h }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}h">{{ block.settings.h }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% assign conditionalmark = conditionalmark | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.i != '' %}
+       {% assign length =  block.settings.i | size %}
+      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}i" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.i }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}i">{{ block.settings.i }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %}
+      {% assign conditionalmark = conditionalmark | plus: 1 %} 
+      {% endif %} 
+  </div>  
+</li>
+                          
+{% when 'dropdown' %}
+<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}" data-input-trigger>
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}</label>
+   <div class="fs-anim-lower">
+     <select {% if block.settings.conditional != '' %}conditional="{{ block.settings.conditional | minus: 1 }}"{% endif %} tabindex="{{ tabindex }}" name="af-{{ section.id }}-q{{ i }}" id="af-{{ section.id }}-q{{ i }}">
+      {% if block.settings.a != '' %}
+       <option value="{{ block.settings.a }}" selected>{{ block.settings.a }}</option>
+     {% endif %}
+             {% if block.settings.b != '' %}
+       <option value="{{ block.settings.b }}">{{ block.settings.b }}</option>
+     {% endif %}
+             {% if block.settings.c != '' %}
+       <option value="{{ block.settings.c }}">{{ block.settings.c }}</option>
+     {% endif %}
+             {% if block.settings.d != '' %}
+       <option value="{{ block.settings.d }}">{{ block.settings.d }}</option>
+     {% endif %}
+             {% if block.settings.e != '' %}
+       <option value="{{ block.settings.e }}">{{ block.settings.e }}</option>
+     {% endif %}
+             {% if block.settings.f != '' %}
+       <option value="{{ block.settings.f }}">{{ block.settings.f }}</option>
+     {% endif %}     
+       {% if block.settings.g != '' %}
+       <option value="{{ block.settings.g }}">{{ block.settings.g }}</option>
+     {% endif %}      
+       {% if block.settings.h != '' %}
+       <option value="{{ block.settings.h }}">{{ block.settings.h }}</option>
+     {% endif %}      
+       {% if block.settings.i != '' %}
+       <option value="{{ block.settings.i }}">{{ block.settings.i }}</option>
+     {% endif %}      
+     </select>
+  </div>
+</li>
+{% assign tabindex = tabindex | plus: 1 %} 
+{% when 'email' %}
+<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}">
+	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="email" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
+</li>
+{% assign tabindex = tabindex | plus: 1 %} 
+{% when 'phone' %}
+<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}">
+	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="tel" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
+</li>
+ {% assign tabindex = tabindex | plus: 1 %}                      
+{% when 'textarea' %}
+<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}">
+	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}</label>
+    <div class="fs-anim-lower">
+      <textarea class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="textarea" rows="10" cols="50" placeholder="{{ block.settings.placeholder }}"></textarea>
+    </div>
+</li>
+{% assign tabindex = tabindex | plus: 1 %}                       
+{% endcase %}
+
+
+
+
+
+
+
+{% assign i = i | plus: 1 %}                    
+{% endcase %}
+{% endfor %}
+
+                      				</ol><!-- /fs-fields -->
+					<button class="fs-submit" type="submit"><span>Submit</span></button>
+				</form><!-- /fs-form -->
+              </div>
+              <div class="fs-form fs-form-overview advancedform-confirmation">
+                 <h2>{{ section.settings.confirmation }}</h2>
+               <div class="goback">
+                  <a href="/">Back to Homepage</a>
+                 </div>
+              </div>
+			</div><!-- /fs-form-wrap -->
+		</div><!-- /container -->
+<script>
+ var callbackForm = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.Modernizr) {
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdn.jsdelivr.net/gh/phillypro/Shopify-Sections/Form/modernizr.custom.js';
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+  if(!window.classie) {
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdn.jsdelivr.net/gh/phillypro/Shopify-Sections/Form/classie.js';
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+   if(!window.StripeCheckout) {
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://checkout.stripe.com/checkout.js';
+    document.getElementsByTagName("head")[0].appendChild(script);
+   }
+
+   
+
+  
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackForm();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackForm);
+}
+  
+//bring in FForm after modernizr   
+function deferFForm(methodFForm) {
+    if (window.Modernizr && window.classie) {
+        methodFForm();
+    } else {
+        setTimeout(function() { deferFForm(methodFForm) }, 50);
+    }
+}  
+  
+deferFForm(function () {  
+   if(!window.FForm) {
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+     script.src = '{{'fullscreenForm.js' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(script);
+      // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+     style.href = '{{'component.css' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(style);
+   }  
+});
+  
+  
+  
+  
+  
+function deferForm(methodForm) {
+    if (window.Modernizr && window.classie && window.FForm) {
+        methodForm();
+    } else {
+        setTimeout(function() { deferForm(methodForm) }, 50);
+    }
+}
+  
+deferForm(function () {  
+  
+var container = document.getElementById('container-{{ randomNumber }}');                                        
+var page = container.closest('[data-role="page"]');  
+page.querySelector('.ui-content').classList.add('ui-content-form');
+container.style.opacity = '1';   
+  
+//set page dimensions
+$(page).page({domCache:true});   
+$(page).css({'padding-top' : $('#header').outerHeight()});   
+var content = SetHeightOfForm();
+target = $(page).find("div.ui-content");
+if(target.height() != content)
+  target.css({'min-height' : content, 'height' : content}); 
+  jQuery( window ).resize(function() {
+  var content = SetHeightOfForm();
+  target.css({'min-height' : content, 'height' : content});
+});                                   
+                              
+                               
+// stop all videos on close
+$(document).on("pagehide", page, function(event) {
+var youtube = page.querySelectorAll('iframe');
+if(youtube) {
+  youtube.forEach(youtube =>  [youtube.setAttribute('src', youtube.getAttribute('src'))]);
+}
+});  
+  
+  
+                               
+                               
+                               
+// activate stripe if necessary
+var paymentli = $(container).find("li.payment");
+  if(paymentli.length) {
+    activatestripe(paymentli);
+  }
+  
+var formWrap = $(container).find( '.fs-form-wrap' ).get(0);
+new FForm( formWrap, {
+	onReview : function() {
+		classie.add( document.body, 'overview' ); // for demo purposes only
+	}
+} );
+
+  
+$(container).find(".fs-form").one("submit", function(event) {
+    event.preventDefault();
+  
+  	$(this).on("submit", function(event) {
+			return false;
+	});
+ 
+    $(this).find('button.fs-submit').attr("disabled", 'disabled').find('span').html("Processing, please wait...");
+  
+    var formdata = {};
+
+    $.each($(this).serializeArray(), function(i, field) {
+        formdata[field.name] = field.value;
+    });
+    var formlis = $(this).find('li:not(.skip):not(.payment)');
+    // lets get the header first  
+    var header = [];
+    var headerhigh = [];
+    var headermid = [];
+    var headerlow = [];
+    var body = [];
+    var bodyhigh = [];
+    var bodymid = [];
+    var bodylow = [];
+    var footer = [];
+    var footerhigh = [];
+    var footermid = [];
+    var footerlow = [];
+    var master = [];
+    $.each(formlis, function(i, field) {
+        var labelele = $(field).find('.fs-field-label');
+        var name = labelele.attr('for');
+        var label = labelele.text();
+        var value = formdata[name];
+        var priority = labelele.attr('priority');
+        if (labelele.siblings('input').attr('type') == 'tel') {
+            var value = formatPhoneNumber(value);
+        }
+        if (priority == 'header-high') {
+            var newobj = {
+                label: label,
+                value: value
+            };
+            headerhigh.push(newobj);
+        }
+        if (priority == 'header-mid') {
+            var newobj = {
+                label: label,
+                value: value
+            };
+            headermid.push(newobj);
+        }
+        if (priority == 'header-low') {
+            var newobj = {
+                label: label,
+                value: value
+            };
+            headerlow.push(newobj);
+        }
+        if (priority == 'body-high') {
+            var newobj = {
+                label: label,
+                value: value
+            };
+            bodyhigh.push(newobj);
+        }
+        if (priority == 'body-mid') {
+            var newobj = {
+                label: label,
+                value: value
+            };
+            bodymid.push(newobj);
+        }
+        if (priority == 'body-low') {
+            var newobj = {
+                label: label,
+                value: value
+            };
+            bodylow.push(newobj);
+        }
+        if (priority == 'footer-high') {
+            var newobj = {
+                label: label,
+                value: value
+            };
+            footerhigh.push(newobj);
+        }
+        if (priority == 'footer-mid') {
+            var newobj = {
+                label: label,
+                value: value
+            };
+            footermid.push(newobj);
+        }
+        if (priority == 'footer-low') {
+            var newobj = {
+                label: label,
+                value: value
+            };
+            footerlow.push(newobj);
+        }
+
+    });
+
+
+    if (headermid.length > 0) {
+        headerhigh = headerhigh.concat(headermid);
+    }
+    if (headerlow.length > 0) {
+        headerhigh = headerhigh.concat(headerlow);
+    }
+
+    if (headerhigh.length > 0) {
+        header.push(headerhigh);
+    }
+
+
+    if (bodymid.length > 0) {
+        bodyhigh = bodyhigh.concat(bodymid);
+    }
+    if (bodylow.length > 0) {
+        bodyhigh = bodyhigh.concat(bodylow);
+    }
+
+    if (bodyhigh.length > 0) {
+        body.push(bodyhigh);
+    }
+
+    if (footermid.length > 0) {
+        footerhigh = footerhigh.concat(footermid);
+    }
+    if (footerlow.length > 0) {
+        footerhigh = footerhigh.concat(footerlow);
+    }
+
+    if (footerhigh.length > 0) {
+        footer.push(footerhigh);
+    }
+
+    var master = master.concat(header, body, footer)
+
+    var text = '';
+
+    // lets print out our master
+    master.forEach(function(part, idx, i) {
+        part.forEach(function(field, i) {
+            text += field.label + ': ' + field.value + '\n';
+        });
+        if (idx !== master.length - 1) {
+            text += "____________________________________________ \n \n";
+        }
+    });
+
+    sendleadtoslack(text, $(this));
+
+});
+      
+      
+
+      
+ 
+  
+  
+//functions 
+function SetHeightOfForm() {
+    var screen = jQuery.mobile.getScreenHeight();
+    var header = jQuery("#header").hasClass("footer") ? jQuery("#header").outerHeight() : jQuery("#header").outerHeight();
+
+    /* content div has padding of 1em = 16px (32px top+bottom). This step
+   can be skipped by subtracting 32px from content var directly. */
+    var contentCurrent = jQuery(".ui-content").outerHeight() - jQuery(".ui-content").height();
+    var content = screen - header - contentCurrent;
+    return content;
+}  
+  
+  
+function sendleadtoslack(text, form) {
+console.log(text,form);
+var wrapper = form.closest('.advancedform-wrapper'); 
+var confirmation = wrapper.siblings('.advancedform-confirmation');   
+  
+var url = form.attr('slack');  
+$.ajax({
+   // dataType: 'json',
+    processData: false,
+    type: 'POST',
+    url: url,
+    data: 'payload=' + JSON.stringify({
+        "text": encodeURIComponent(text),
+    }),
+    success: function() { 
+      // add fs confirmed
+      wrapper.hide(400, function() {
+         form.closest('.container').addClass('fs-confirmed');
+        confirmation.show(400);
+      });
+     
+      
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+           alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+    }       
+   
+});
+}
+  
+function formatPhoneNumber(phoneNumberString) {
+  var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
+  var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+  if (match) {
+    return '(' + match[1] + ') ' + match[2] + '-' + match[3]
+  }
+  return null
+}
+  
+/*        Booking form */
+
+function activatestripe(paymentli) {
+  
+
+  var link = paymentli.find('a.option');
+  var amount = link.attr('amount') * 100;
+  var name = link.attr('name');
+  var desc = link.attr('description');
+  var icon = link.attr('icon');
+  
+  var handler = StripeCheckout.configure({
+			key: 'pk_live_kL5lp70uRIq1mV6SLnRN8dHf002dQQFytX',
+			image: icon,
+			locale: 'auto',
+			token: function (token) {
+				console.log(token);
+				fetch('https://m56huc7k69.execute-api.us-east-1.amazonaws.com/dev/charges', {
+					method: 'POST',
+					headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'},
+					body: JSON.stringify({
+						token: {
+							id:token.id,
+						},
+						charge: {
+							amount: amount,
+							currency: 'usd'
+						},
+						stripeEmail: token.email,
+					})
+				}).then( (response) => {
+                    console.log(response);
+                  if(response.status == 200) {
+                    $( "body" ).trigger('paymentreceived'); 
+                  }
+                });
+			}
+		});
+  
+  // close if we change pages
+  $(document).one("pagecontainershow", function (event,ui) {
+    	handler.close();
+  });
+  
+  
+
+  link.off('click').on('click', function() {
+ 			handler.open({
+				name: name,
+				description: desc,
+				zipCode: true,
+				currency: 'usd',
+				amount: amount
+			});  
+  });
+  
+  
+  
+} 
+  
+
+
+  
+  
+  
+  
+});
+</script>
+{% schema %}
+  {
+    "name": "Advanced Form",
+    "settings": [
+{
+   "type":      "header",
+   "content":   "Colors"
+},{
+       "id": "background_color",
+       "type": "color",
+       "label": "Background Color",
+       "default": "#151625"
+},{
+       "id": "background_color_2",
+       "type": "color",
+       "label": "Background Color #2 (Optional Gradient)",
+       "default": "transparent"
+},
+{
+       "id": "label_color",
+       "type": "color",
+       "label": "Label Color",
+       "default": "#ffffff"
+},
+{
+       "id": "input_color",
+       "type": "color",
+       "label": "Input Color",
+       "default": "#ffffff"
+},
+{
+       "id": "navigation_color",
+       "type": "color",
+       "label": "Navigation Dot Background",
+       "default": "#000000"
+},
+{
+       "id": "navigation_active_color",
+       "type": "color",
+       "label": "Navigation Dot Active Background",
+       "default": "#ffffff"
+},
+{
+       "id": "button_hover_background_color",
+       "type": "color",
+       "label": "Continue Button Hover Background",
+       "default": "#EA00A8"
+},
+{
+       "id": "button_hover_color",
+       "type": "color",
+       "label": "Button Hover Color",
+       "default": "#ffffff"
+},
+{
+   "type":      "header",
+   "content":   "Form Settings"
+},
+{
+        "id": "title",
+        "type": "text",
+        "label": "Title",
+        "default": "Booking"
+},
+{
+        "id": "webhook",
+        "type": "url",
+        "label": "Slack Webhook"
+},{
+        "id": "confirmation",
+        "type": "textarea",
+        "label": "Confirmation Message"
+}],
+"blocks": [
+    {
+     "type": "Question",
+     "name": "Question",
+     "settings" : [
+      {
+        "type": "text",
+        "id": "question",
+        "label": "Question"
+      },
+     {
+        "type": "text",
+        "id": "placeholder",
+        "label": "Placeholder"
+      },
+     {
+  "type": "checkbox",
+  "id": "required",
+  "label": "Required"
+     },
+      {
+   "type": "select",
+   "id": "type",
+   "options": [
+      { "value": "text", "label": "Text"},
+      { "value": "email", "label": "Email"},
+      { "value": "name", "label": "Name"},
+      { "value": "phone", "label": "Phone"},
+      { "value": "textarea", "label": "Text Area"},
+      { "value": "dropdown", "label": "DropDown"},
+      { "value": "big bubble", "label": "Big bubble"},
+      { "value": "small bubble", "label": "Small Bubble"}
+   ],
+   "label": "Question Type"
+     },
+ 
+     {
+        "type": "header",
+        "content": "Optional Answers (if applicable)"
+      },
+     {
+        "type": "text",
+        "id": "a",
+        "label": "Answer 1"
+      },
+     {
+        "type": "text",
+        "id": "b",
+        "label": "Answer 2"
+      },
+     {
+        "type": "text",
+        "id": "c",
+        "label": "Answer 3"
+      },
+     {
+        "type": "text",
+        "id": "d",
+        "label": "Answer 4"
+      },
+     {
+        "type": "text",
+        "id": "e",
+        "label": "Answer 5"
+      },
+     {
+        "type": "text",
+        "id": "f",
+        "label": "Answer 6"
+      },     {
+        "type": "text",
+        "id": "g",
+        "label": "Answer 7"
+      },
+     {
+        "type": "text",
+        "id": "h",
+        "label": "Answer 8"
+      },
+     {
+        "type": "text",
+        "id": "i",
+        "label": "Answer 9"
+      },
+     {
+  "type": "checkbox",
+  "id": "onerow",
+  "label": "Fit Options to One Row"
+     },
+     {
+        "type": "header",
+        "content": "Lead Priority"
+      },
+     {
+   "type": "radio",
+   "id": "priority",
+   "options": [
+      { "value": "header-high", "label": "Header - High"},
+      { "value": "header-mid", "label": "Header - Medium"},
+      { "value": "header-low", "label": "Header - Low"},
+      { "value": "body-high", "label": "Body - High"},
+      { "value": "body-mid", "label": "Body - Medium"},
+      { "value": "body-low", "label": "Body - Low"},
+      { "value": "footer-high", "label": "Footer - High"},
+      { "value": "footer-mid", "label": "Footer - Medium"},
+      { "value": "footer-low", "label": "Footer - Low"}
+   ],
+   "default" : "body-mid",
+   "label": "Order Priority"
+     },
+     {
+        "type": "text",
+        "id": "conditional",
+        "label": "Conditional? (ex:2)"
+      }
+]
+},
+{
+     "type": "Youtube",
+     "name": "Youtube",
+     "settings" : [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+     {
+        "type": "text",
+        "id": "button_text",
+        "label": "Continue Button Text"
+      },
+{
+   "id": "youtube_url",
+   "type": "video_url",
+   "label": "Youtube URL",
+   "accept": ["youtube"],
+   "default": "https://www.youtube.com/watch?v=6L_k74BOLag"
+}
+]
+}
+ ]
+  }
+{% endschema %}
+
+{% stylesheet 'scss' %}
+// responsive sizes
+@mixin bp($point) {
+  
+  $bp-small: "(max-width: 350px)";
+  $bp-mobile: "(max-width: 600px)";
+  $bp-mobileup: "(min-width: 600px)";
+  $bp-phablet: "(max-width: 1022px)";
+  $bp-phabletup: "(min-width: 1022px)";
+  $bp-tablet: "(max-width: 1280px)";
+  $bp-tabletup: "(min-width: 1280px)";
+  $bp-laptop: "(max-width: 1600px)";
+  $bp-desktop: "(min-width: 1600px)";
+  @if $point == desktop {
+    @media #{$bp-desktop}  { @content; }
+  }  
+  @else if $point == laptop {
+    @media #{$bp-laptop} { @content; }
+  }
+  @else if $point == tablet {
+    @media #{$bp-tablet} { @content; }
+  }
+  @else if $point == tabletup {
+    @media #{$bp-tabletup} { @content; }
+  }
+  @else if $point == phablet {
+    @media #{$bp-phablet} { @content; }
+  }
+  @else if $point == phabletup {
+    @media #{$bp-phabletup} { @content; }
+  }
+  @else if $point == mobile {
+    @media #{$bp-mobile}  { @content; }
+  }
+  @else if $point == mobileup {
+    @media #{$bp-mobileup} { @content; }
+  }
+  @else if $point == small {
+    @media #{$bp-small}  { @content; }
+  }
+
+}
+
+//color transition
+@mixin transition($attribute, $duration) {
+    -webkit-transition: $attribute $duration ease;
+    -moz-transition: $attribute $duration ease;
+    transition: $attribute $duration ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+.template-page  .ui-content.ui-content-form {
+  	padding:0;   
+    position: relative;  
+    -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
+}
+
+.ui-content-form .shopify-section {
+ height:100%;
+}
+
+.ui-content-form .container {
+@include transition(opacity,0.8s);
+}
+
+.advancedform-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    & .fs-form-full {
+      @include bp(phablet) {
+        top: 3em;
+      }
+    }
+
+    & .fs-form {
+      & .fs-fields {
+        & > li {
+          &.skip {
+    visibility: hidden;
+    overflow: hidden;
+    height: 0px;
+    width: 0px;
+    padding: 0px;
+    margin: 0px;
+          }
+&.video {
+
+@include bp(desktop) {
+transform: translateY(-14%);  
+}
+@include bp(laptop) {
+transform: translateY(-25%);
+}
+@include bp(phablet) {
+transform: translateY(5%);
+}
+
+& .big-bubble {
+@include bp(laptop) {
+max-width: 85%;
+}
+}
+& label {
+    padding: 0 5px 0em 0;
+margin-bottom: .2em;
+font-size: 0.7em;
+@include bp(phablet) {
+    font-size: 0.8em;
+    line-height: normal;
+    margin-bottom: 0.7em;
+}
+}
+            & .video-wrap {
+             width: 100%;
+             position: relative;
+    height: 0;
+    margin-bottom: 1rem;
+padding-bottom: 56.25%;
+    overflow: hidden;
+@include bp(laptop) {
+margin-bottom: 0;
+}
+& iframe, & video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+& + div {
+    width: 100%;
+    text-align: center;
+}
+           }
+& a {
+background-color: rgba(255,255,255,0.13);
+    font-family: 'Muli-Black', sans-serif;
+    border-radius: 65px;
+    color: #fff;
+    -webkit-transition: background-color 0.3s;
+    transition: background-color 0.3s;
+    font-size: 100%;
+display: inline-block;
+padding: 11px 40px;
+    line-height: 1;
+@include bp(laptop) {
+padding: 9px 40px;
+font-size: 72%;
+}
+@include bp(phablet) {
+    padding: 12px 20px;
+    min-height: 45px;
+    line-height: 1;
+    margin: 0;
+    min-width: 60%;
+font-size: 100%;
+}
+}
+}
+          & .option {
+             background-color: rgb(23, 185, 118);
+    font-family: 'Muli-Black', sans-serif;
+    border-radius: 65px;
+    color: #fff;
+    -webkit-transition: background-color 0.3s;
+    transition: background-color 0.3s;
+    font-size: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 50px;
+    line-height: 1;
+    margin-top: 35px;
+    float: left;
+    font-size: 80%;
+          }
+          & .fs-radio-custom {
+                display: flex;
+                flex-flow: wrap;
+                align-items: stretch;
+              @include bp(phablet) {
+                  display: block;
+              }
+              & span {
+                  margin-right:0;
+                  font-size: 50px;
+                  @include bp(phablet) {
+                        float: none; 
+                        max-width: none; 
+                        font-size: 24px;
+                        padding: 0px;
+                        margin: 0 0 10px 0;
+                        width: auto;
+                        display: block;
+                  }
+                   &  input[type="radio"]:checked + label {
+                   background-color:#EA00A8;
+                  }
+                  & label {
+                background-color: rgba(255, 255, 255, 0.13);
+                  font-family: 'Muli-Black', sans-serif;
+                border-radius: 65px;
+                color: #fff;
+                  -webkit-transition: background-color 0.3s;
+                  transition: background-color 0.3s;
+                    font-size:100%;
+                    display: flex;
+                    justify-content: center;
+                     align-items: center;
+                     padding: 11px 15px;
+                     line-height: 1;
+                    @include bp(phablet) {
+                          padding: 12px 20px;
+  						  min-height: 45px;
+   						  line-height: 1;
+  						  margin: 0;
+                     }
+                    &.small {
+                        font-size: 90%;
+                      @include bp(phablet) {
+                       font-size:100%;
+                      }
+                    }
+                    &.smaller {
+                        font-size: 70%;
+                      @include bp(phablet) {
+                       font-size:100%;
+                      }
+                    }
+                  }
+                @include bp(phablet) {
+                    width: auto;
+                }
+              }
+              &.onerow {
+                 flex-flow: nowrap;
+                @include bp(phablet) {
+                 flex-flow: wrap;
+                }
+              }
+       
+            &.small-bubble {
+            flex-flow: column;
+              & span {
+                  max-width: none;
+                  width: auto;
+                @include bp(mobile) {
+                     font-size: 17px;
+                }
+                & label {
+                    padding: 15px 15px;
+                      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serifOS;
+                     font-weight: bold;
+                }
+              }
+            }
+          }
+        }
+      }
+      &.fs-form-full {
+       & .fs-fields {
+        & > li {
+          & label.fs-field-label {
+           	color:#fff;
+          }
+          & input {
+                color: #ffeaad;
+             
+          }
+          & select {
+          height: inherit;
+    padding: 0.5rem 2rem;
+    background-color: transparent;
+    border: 1px solid rgb(255, 255, 255);
+    color: #fff;
+    outline: none;
+    box-shadow: none;
+   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28255, 255, 255%29'></polygon></svg>");
+            option {
+             color:#000; 
+            }
+          }
+          & textarea {
+              color: #ffeaad;
+          }
+        }
+       }
+      }
+     &.fs-form-overview {
+        background: #ffffff;
+        -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
+       & .fs-fields {
+        & > li {
+          &.payment {
+           display:none;
+          }
+          & .fs-radio-custom {
+            & span {
+                font-size: 20px;
+              & label {
+                  color: #000;
+                  background-color: rgba(0, 0, 0, 0.13);
+              }
+              & input[type="radio"]:checked+label {
+                    background-color: #000000;
+               color:#fff;
+              }
+            }
+          }
+        }
+       }
+      & .fs-submit {
+        cursor:pointer;
+          border-color: #EA00A8;
+    background: #EA00A8;
+    color: #fff;
+    border: none;
+    line-height: 1;
+    padding: 0.9em 1.5em;
+      }
+    }
+    }
+    & input {
+        box-shadow: none;
+    }
+}
+
+
+
+
+.advancedform-confirmation {
+        display:none;
+        background: none;
+        color: #fff;
+        text-align:center;
+         & h2 {
+          color:#fff;
+          font-family: 'Muli-Black', sans-serif;
+         }
+    & .goback {
+     text-align:center;
+            margin-top: 30px;
+      & a {
+         color: #fff;
+            font-size: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 15px 20px;
+    display: inline-block;
+    border-radius: 30px;
+        &:before {
+         content:'\f060';
+         font-family:'FontAwesome';
+         display:inline-block;
+         margin-right:5px;
+        }
+      }
+    } 
+}
+
+
+
+
+.fs-controls {
+    & .fs-numbers {
+        color: rgb(255, 255, 255);
+    }
+    & .fs-progress {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f3c03a+0,d94f71+100 */
+background: rgb(243,192,58); /* Old browsers */
+background: -moz-linear-gradient(left, rgba(243,192,58,1) 0%, rgba(217,79,113,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(left, rgba(243,192,58,1) 0%,rgba(217,79,113,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right, rgba(243,192,58,1) 0%,rgba(217,79,113,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3c03a', endColorstr='#d94f71',GradientType=1 ); /* IE6-9 */
+    }
+    & button.fs-continue {
+        border: 3px solid #ffffff;
+          color: rgb(255, 255, 255);
+      cursor:pointer;
+      &:hover {
+         background: #f209aa;
+         border-color: #f209aa;
+      }
+      &:after {
+          color: rgba(255, 255, 255, 0.6);
+      }
+    }
+}
+
+.fs-message-error {
+    @include bp(mobile) {
+      padding: 0 0px 0 1em;
+    width: 73%;
+    }
+}
+
+.fs-confirmed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+       & #advancedform-confirmation {
+        visibility:visible;
+        pointer-events:auto;
+      }
+}
+  
+/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 40px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+
+{% endstylesheet %}  
+
+{% javascript %}   
+
+$(document).on("shopify:section:select",'#shopify-section-Advanced-Form',function(e){
+
+
+var formWrap = this.querySelector( '.fs-form-wrap' );
+new FForm( formWrap, {
+	onReview : function() {
+		classie.add( document.body, 'overview' ); // for demo purposes only
+	}
+} );
+
+
+});
+
+{% endjavascript %}                                                                  
+ 
