@@ -1,4 +1,4 @@
-<style>
+{% style %}
 #pageFAQ  {
 {% if section.settings.background_color_2 contains 'transparent' %}
       background-color:{{ section.settings.background_color }};                            
@@ -22,7 +22,7 @@ background: radial-gradient(ellipse at center, {{ section.settings.background_co
   background: {{ section.settings.button_background_color }};
   color: {{ section.settings.button_font_color }};
 }
-</style>
+{% endstyle %}
 
 
 <div class="searchwrap">
