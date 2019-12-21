@@ -118,25 +118,49 @@ function deferBlog(methodBlog) {
     }
 }
 deferBlog(function() {  
-  console.log(window);
+
+   loadBlogs();
+  
+  // if jquery mobile
+  if(window.$.mobile) {
+   jQuery(document).on('pagecontainerhide', function (event, ui) {
+     if(ui.prevPage[0].id == 'blog') {
+      var page = ui.prevPage[0];
+      page.infScroll.destroy();
+
+     } 
+   });
+  jQuery(document).on('pagecontainershow', function (event, ui) {
+    if(ui.toPage[0].id == 'blog') {
+       loadBlogs();
+    }
+  });
+    
+    
+  }
+  
+  
+});  
+  
+function loadBlogs() {
+
   var page = document.querySelector('#shopify-section-{{ section.id}}').closest('[data-role="page"]');
   var container = page.querySelector('.articles-wrap .row');
   
-  var infScroll = new InfiniteScroll( container, {
+  page.infScroll = new InfiniteScroll( container, {
   path: '#' + page.id + ' .next a',
   append: '.article-wrap',
   history: false,
   status: '.ui-loader',
   });
-  
 
-  
-   infScroll.on( 'last', function() {
+   page.infScroll.on( 'last', function() {
        $.mobile.loading().hide();
    });
   
+}  
   
-});  
+  
 </script>
 {% endpaginate %}
 {% else %}
@@ -376,6 +400,7 @@ deferBlog(function() {
    -ms-flex: 0 0 100%;
     flex: 0 0 100%;
     max-width: 100%;
+    align-items: center;
    }
   & .search-input-wrap {
     margin-right: 25px;
@@ -401,6 +426,7 @@ deferBlog(function() {
        @include bp(phablet) {
             font-size: 18px;
           border-bottom: none;
+    min-height: 42px;
       }
      } 
 	}
@@ -526,4 +552,4 @@ background: #efefef;
 {% endstylesheet %}
 
 {% javascript %}      
-{% endjavascript %}         
+{% endjavascript %}                 
