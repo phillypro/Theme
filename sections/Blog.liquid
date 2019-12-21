@@ -50,9 +50,10 @@
 {% unless blogs[theblog].articles.size == 0 %}
 <div class="articles-wrap"> 
 <div class="row align-stretch align-left">
-{% paginate blog.articles by 10 %}
+{% assign blog = blogs[theblog] %} 
+{% paginate blog.articles by section.settings.blogs_per %}
   {% assign i = 0 %}
-{% for article in blogs[theblog].articles %}
+{% for article in blog.articles %}
             
              <a href="{{ article.url }}" class="{% if i == 0 %}large-12 article-big{% else %}large-4{% endif %} medium-6 small-12 columns article-wrap">
                 <div class="article-inner">
@@ -88,6 +89,55 @@
 {{ paginate | default_pagination | replace: 'Previous', 'Newer articles' | replace: 'Next', 'Older articles' }}
 {% endif %}  
 </div>
+<script> 
+var callbackBlog = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.InfiniteScroll) {
+   // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);   
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackBlog();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackBlog);
+}
+  
+function deferBlog(methodBlog) {
+    if (window.InfiniteScroll) {
+        methodBlog();
+    } else {
+        setTimeout(function() { deferBlog(methodBlog) }, 50);
+    }
+}
+deferBlog(function() {  
+  console.log(window);
+  var page = document.querySelector('#shopify-section-{{ section.id}}').closest('[data-role="page"]');
+  var container = page.querySelector('.articles-wrap .row');
+  
+  var infScroll = new InfiniteScroll( container, {
+  path: '#' + page.id + ' .next a',
+  append: '.article-wrap',
+  history: false,
+  status: '.ui-loader',
+  });
+  
+
+  
+   infScroll.on( 'last', function() {
+       $.mobile.loading().hide();
+   });
+  
+  
+});  
+</script>
 {% endpaginate %}
 {% else %}
 
@@ -171,9 +221,6 @@
 </div>
 
 </div>
-
-
-
 {% endunless %}
 
 
@@ -185,6 +232,17 @@
    "type": "blog",
    "id": "blog",
    "label": "Blog"
+},
+{
+   "type": "select",
+   "id": "blogs_per",
+   "options": [
+      { "value": "4", "label": "4 Articles"},
+      { "value": "7", "label": "7 Articles"},
+      { "value": "13", "label": "13 Articles"}
+   ],
+   "default": "7",
+   "label": "Show how many at a time?"
 },
 {
        "id": "title",
@@ -405,7 +463,7 @@ margin-bottom:0;
         min-width: 100%;
         min-height: 100%;
         position: absolute;
-	object-fit: cover;
+        object-fit: cover;
       }
     }
     & .bottom-content {
@@ -446,6 +504,15 @@ margin-bottom:0;
   }
  }
 }
+& .pagination {
+text-align: center;
+    display: none;
+    justify-content: center;
+& .current {
+background: #efefef;
+    color: #000000;
+}
+}
 }
 
 
@@ -459,4 +526,4 @@ margin-bottom:0;
 {% endstylesheet %}
 
 {% javascript %}      
-{% endjavascript %}       
+{% endjavascript %}         
