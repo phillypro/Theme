@@ -168,6 +168,7 @@ padding: 40px 0;
 {% assign image_size = 'large' %}
 {% endif %}
 
+<div class="collection-list">
 {% if section.settings.title %}
 <div class="row title">
   <div class="column">
@@ -176,7 +177,7 @@ padding: 40px 0;
 </div>
 {% endif %}
 
-<ul class="row align-middle align-center collections-widget">
+<ul class="row align-middle align-center collections-widget {% unless section.blocks.size < 4 %}tworows{% endunless %}">
      {% for block in section.blocks %}
         {% case block.type %}
             {% when 'Collection' %}
@@ -210,7 +211,7 @@ padding: 40px 0;
              {% endcase %}
     {% endfor %}
 </ul>
-
+</div>
 {% schema %}
 
   {
@@ -399,7 +400,7 @@ padding: 40px 0;
 }
 
 
-#shopify-section-494 {
+.collection-list {
   & ul {
     margin-bottom:0;
     & li {
@@ -458,10 +459,15 @@ padding: 40px 0;
         }
       }
     }
+  &.tworows {
+    & li {
+    	margin-bottom:20px;
+	}
+   } 
   }
 }
 
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}
+{% endjavascript %}        
