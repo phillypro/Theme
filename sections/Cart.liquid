@@ -77,9 +77,9 @@ document.body.append(checkoutbar);
        <div class="product-title-wrap">
          <a href="{{ item.url }}">
              {{ item.product.title }} 
-             {% assign item_varient = item.variant %}
+             {% assign item_variant = item.variant %}
              {% if item_variant.option1 %}{{ item_variant.option1 }}{% endif %}
-            {% if item_variant.option2 %}<span>{{ item_varient.option2 }}</span>{% endif %}
+            {% if item_variant.option2 %}<span>{{ item_variant.option2 }}</span>{% endif %}
          </a>
        </div>
        <div class="quantity-wrap">
