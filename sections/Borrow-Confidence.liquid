@@ -1,19 +1,29 @@
-{% if section.settings.header != '' %}
-<style>
-  #shopify-section-Borrow-Confidence .row {
-        margin-top: 30px;
-  }
-</style>
-{% endif %}
 
+{% style %}
+{% assign loadedfonts = '' %}    
+{% assign familyandweight = section.settings.font.family | append: section.settings.font.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ section.settings.font | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: section.settings.font.family | append: section.settings.font.weight | append: section.settings.font.style | append: '|' %}
+
+#shopify-section-{{ section.id}} h1 {
+    font-family: {{ section.settings.font.family }}; 
+    font-weight:{{ section.settings.font.weight }}; 
+    font-style:{{ section.settings.font.style }};    
+}
+{% endstyle %}
+
+<div class="borrow-confidence">
 <div class="inner"  style="background-color:{{ section.settings.background_color }};color:{{ section.settings.color }};">
   
-{% if section.settings.header != '' %}
-<h1>{{ section.settings.header }}</h1>
+{% if section.settings.title != '' %}
+<h1>{{ section.settings.title }}</h1>
 {% endif %}
 
-{% if section.settings.subheader != '' %}
-<span>{{ section.settings.subheader }}</span>
+{% if section.settings.subtitle != '' %}
+<span>{{ section.settings.subtitle }}</span>
 {% endif %}
 
 <div class="row align-center align-middle">
@@ -43,18 +53,26 @@
 </div>
   
 </div>
+</div>
 {% schema %}
   {
     "name": "Borrow Confidence (Logos)",
     "settings": [{
-       "id": "header",
+       "id": "title",
        "type": "text",
-       "label": "Header",
+       "label": "Title",
        "default": "We've been seen & featured in"
-      },{
-       "id": "subheader",
+      },
+{
+    "type": "font_picker",
+     "id": "font",
+     "label": "Title Font",
+     "default": "work_sans_n6"
+},
+{
+       "id": "subtitle",
        "type": "text",
-       "label": "Sub-header"
+       "label": "Sub-title"
       },
 {
        "id": "color",
@@ -95,7 +113,13 @@
       }
      ]
     }
-   ]
+   ],
+  "presets": [
+    {
+      "name": "Borrow Confidence",
+      "category": "Design"
+    }
+  ]
   }
 {% endschema %}
 
@@ -142,7 +166,7 @@
 
 }
 
-#shopify-section-Borrow-Confidence {
+.borrow-confidence {
    & .inner {
        text-align:center;
     padding: 30px 0 35px;
@@ -153,7 +177,7 @@
       text-transform: uppercase;
 font-size: 23px;
     font-family: 'Open Sans',sans-serif;
-        margin: 0;
+ margin: 0 0 20px 0;
     line-height: 1.4;
     @include bp(phablet) {
         font-size: 17px;
@@ -207,4 +231,4 @@ max-width: 82px;
 {% endstylesheet %}
 
 {% javascript %}                  
-{% endjavascript %}
+{% endjavascript %}    
