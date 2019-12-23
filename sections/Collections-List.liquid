@@ -39,7 +39,7 @@ padding: 40px 0;
   #shopify-section-{{ section.id }} {
     padding:20px 15px;
   }
-  #shopify-section-{{ section.id }} li:not(:last-child) {
+  #shopify-section-{{ section.id }} ul:not(.tworows) li:not(:last-child) {
         margin-bottom: 30px;
   }
   }
@@ -148,19 +148,34 @@ padding: 40px 0;
 	 justify-content: center;
 	 align-items: center;
 }
- #shopify-section-{{ section.id }} ul li a .info h3 {
-	 padding: 10px 25px;
-	 margin: 8% 0 0;
-	 margin: 0;
-	 font-size: 100%;
-}
+
  @media (max-width: 1022px) {
 	 #shopify-section-{{ section.id }} ul li a .info h3 {
 		 font-size: 58%;
 	}
 }
-   
-  
+
+{% for block in section.blocks %}
+  {% case block.type %}
+    {% when 'Collection' %}
+      #shopify-section-{{ section.id }} .block-{{ block.id }} .info {
+        justify-content:{{ block.settings.alignment }};
+      }
+
+ @media (min-width: 1022px) {
+  #shopify-section-{{ section.id }} .block-{{ block.id }} .info h3 {
+        {% if block.settings.alignment == 'flex-end' %}
+         padding-right:40px;
+        {% endif %}
+        {% if block.settings.alignment == 'flex-start' %}
+         padding-left:40px;
+        {% endif %}
+   }
+}
+
+    {% endcase %}
+{% endfor %}  
+
 {% endstyle %}
 {% if section.settings.fullwidth %}
 {% assign image_size = '1024x1024' %}
@@ -182,7 +197,7 @@ padding: 40px 0;
         {% case block.type %}
             {% when 'Collection' %}
              
-  <li class="collection-wrap columns {{ section.settings.collectionsPerRow }}">
+  <li class="collection-wrap columns {{ section.settings.collectionsPerRow }} block-{{ block.id }}">
        <a href="{{ block.settings.url }}">  
              <div class="info">
              
@@ -306,7 +321,8 @@ padding: 40px 0;
     "unit":      "px",
     "label":     "Font Size",
     "default":   20
-     }],"blocks": [
+     }],
+"blocks": [
     {
      "type": "Collection",
      "name": "Collection",
@@ -316,6 +332,17 @@ padding: 40px 0;
         "type": "text",
         "label": "Title"
       },
+{
+   "type":      "radio",
+   "id":        "alignment",
+   "label":     "Alignment",
+   "options": [
+     { "value": "center", "label": "Center" },
+     { "value": "flex-start", "label": "Left" },
+     { "value": "flex-end", "label": "Right" }
+   ],
+   "default":   "center"
+},
       {
         "id": "image",
         "type": "image_picker",
@@ -453,15 +480,22 @@ padding: 40px 0;
           margin: 0;
           font-size:100%;
 			@include bp(phablet) {
+               padding: 10px 10px;
   			  font-size: 58%;
-			}			
+			}	
+            & .last-word {
+                 display: block;
+                 font-size:156%;
+           }
           }
         }
       }
     }
   &.tworows {
     & li {
+     @include bp(phabletup) {
     	margin-bottom:20px;
+	}
 	}
    } 
   }
@@ -470,4 +504,4 @@ padding: 40px 0;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}        
+{% endjavascript %}                                   
