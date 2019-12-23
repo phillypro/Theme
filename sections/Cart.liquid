@@ -317,12 +317,12 @@ document.body.append(checkoutbar);
           </span>
         </div>
 {% endif %}
-        {% if section.settings.reserve%}
+        {% unless section.settings.reserve == 'off' %}
         <div class="cart-reserve">
           <div>🔥 Items in your cart are in high demand. But we have reserved your order.</div>
-          <div class="time-wrap">Your order is reserved for <span id="reserve-cart-timer">10:00</span> minutes!</div>
+          <div class="time-wrap">Your order is reserved for <span time-left="{{ section.settings.reserve }}" id="reserve-cart-timer"></span> minutes!</div>
         </div>
-        {% endif %}
+        {% endunless %}
       </ul>
       <div>
       <input id="checkoutnow" type="submit" name="checkout" value="Continue" />   
@@ -489,10 +489,16 @@ deferCart(function () {
 "default": false
 },
 {
-"type": "checkbox",
-"id": "reserve",
-"label": "Show Cart Reserved for 10 mins",
-"default": false
+   "type":      "radio",
+   "id":        "reserve",
+   "label":     "Show Cart Reserved for 10 mins",
+   "options": [
+     { "value": "off", "label": "Don't Show" },
+     { "value": "1", "label": "1 min" },
+     { "value": "3", "label": "3 mins" },
+     { "value": "5", "label": "5 mins" }
+   ],
+   "default":   "off"
 },
 {
 "type":"header",
