@@ -92,7 +92,7 @@ color: {{ section.settings.label_color }};
   <div id="container-{{ randomNumber }}" class="container" style="opacity:0">
 			<div class="fs-form-wrap">
                <div class="advancedform-wrapper">
-				<form class="fs-form fs-form-full" autocomplete="off" slack="{{ section.settings.webhook }}">
+                {% form 'contact', data-ajax:'false', class:'fs-form fs-form-full', autocomplete:'off', slack: section.settings.webhook %}
 					<ol class="fs-fields">
 
 
@@ -331,7 +331,7 @@ color: {{ section.settings.label_color }};
 
                       				</ol><!-- /fs-fields -->
 					<button class="fs-submit" type="submit"><span>Submit</span></button>
-				</form><!-- /fs-form -->
+				{% endform %}<!-- /fs-form -->
               </div>
               <div class="fs-form fs-form-overview advancedform-confirmation">
                  <h2>{{ section.settings.confirmation }}</h2>
@@ -460,12 +460,14 @@ new FForm( formWrap, {
 
   
 $(container).find(".fs-form").one("submit", function(event) {
-    event.preventDefault();
-  
-  	$(this).on("submit", function(event) {
-			return false;
-	});
- 
+
+    var form = $(this);
+  // use slack
+  var useSlack = false; 
+  if($(this).attr('slack')) {
+   var useSlack = true; 
+  }
+
     $(this).find('button.fs-submit').attr("disabled", 'disabled').find('span').html("Processing, please wait...");
   
     var formdata = {};
@@ -599,9 +601,11 @@ $(container).find(".fs-form").one("submit", function(event) {
     }
 
     var master = master.concat(header, body, footer)
-
+ 
     var text = '';
 
+if(useSlack) { 
+  
     // lets print out our master
     master.forEach(function(part, idx, i) {
         part.forEach(function(field, i) {
@@ -611,8 +615,49 @@ $(container).find(".fs-form").one("submit", function(event) {
             text += "____________________________________________ \n \n";
         }
     });
-
-    sendleadtoslack(text, $(this));
+    var url = form.attr('slack');
+    var data = 'payload=' + JSON.stringify({ "text": encodeURIComponent(text)});
+}else{ 
+  
+    // lets print out our master
+    master.forEach(function(part, idx, i) {
+        part.forEach(function(field, i) {
+            text += encodeURIComponent(field.label) + '=' + encodeURIComponent(field.value) + '&';
+        });
+        if (idx == master.length - 1) {
+            text = 	text.substring(0, text.length - 1);
+        }
+    });  
+  var url = '/contact';
+  var data = text;
+}
+  
+  
+var wrapper = $(this).closest('.advancedform-wrapper'); 
+var confirmation = wrapper.siblings('.advancedform-confirmation');   
+$.ajax({
+   // dataType: 'json',
+    processData: false,
+    type: 'POST',
+    url: url,
+    data: data,
+    success: function() { 
+       event.preventDefault();
+      // add fs confirmed
+      wrapper.hide(400, function() {
+         form.closest('.container').addClass('fs-confirmed');
+        confirmation.show(400);
+      });
+     
+      
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+           //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+    }       
+   
+}); 
+  
+  
 
 });
       
@@ -635,35 +680,7 @@ function SetHeightOfForm() {
 }  
   
   
-function sendleadtoslack(text, form) {
-console.log(text,form);
-var wrapper = form.closest('.advancedform-wrapper'); 
-var confirmation = wrapper.siblings('.advancedform-confirmation');   
-  
-var url = form.attr('slack');  
-$.ajax({
-   // dataType: 'json',
-    processData: false,
-    type: 'POST',
-    url: url,
-    data: 'payload=' + JSON.stringify({
-        "text": encodeURIComponent(text),
-    }),
-    success: function() { 
-      // add fs confirmed
-      wrapper.hide(400, function() {
-         form.closest('.container').addClass('fs-confirmed');
-        confirmation.show(400);
-      });
-     
-      
-    },
-    error: function(XMLHttpRequest, textStatus, errorThrown) { 
-           alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-    }       
-   
-});
-}
+
   
 function formatPhoneNumber(phoneNumberString) {
   var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
