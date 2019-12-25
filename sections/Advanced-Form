@@ -1071,6 +1071,9 @@ transform: translateY(5%);
 @include bp(laptop) {
 max-width: 85%;
 }
+@include bp(phablet) {
+max-width: 100%;
+}
 }
 & label {
     padding: 0 5px 0em 0;
@@ -1090,7 +1093,7 @@ font-size: 0.7em;
 padding-bottom: 56.25%;
     overflow: hidden;
 @include bp(laptop) {
-margin-bottom: 0;
+//margin-bottom: 0;
 }
 & iframe, & video {
     position: absolute;
@@ -1425,5 +1428,5 @@ new FForm( formWrap, {
 
 });
 
-{% endjavascript %}                                                                  
+{% endjavascript %}                                                                        
  
