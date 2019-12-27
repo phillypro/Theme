@@ -55,7 +55,7 @@ padding: 40px 0;
 {% assign loadedfonts2 = loadedfonts2 | append: section.settings.font_title.family | append: section.settings.font_title.weight | append: section.settings.font_title.style | append: '|' %}
   
   
- #shopify-section-{{ section.id }} > .row.title h2 {
+ #shopify-section-{{ section.id }} .row.title h2 {
     font-family: {{ section.settings.font_title.family }}; 
     font-weight:{{ section.settings.font_title.weight }}; 
     font-style:{{ section.settings.font_title.style }};    
@@ -504,4 +504,4 @@ padding: 40px 0;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}                                   
+{% endjavascript %}                                      
