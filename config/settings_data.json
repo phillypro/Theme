@@ -1,2 +1,16 @@
 {
+    "current": {
+          "sections": {
+            "Blog": {
+             "type": "Blog",
+              "settings": {
+              "blog": "",
+              "title": "Tips & Tricks",
+              "font": "work_sans_n6",
+              "fontsize": 40,
+              "subtitle": ""
+              }
+          }         
+       }
+    }
 }
