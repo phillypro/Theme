@@ -4,11 +4,7 @@
             "Blog": {
              "type": "Blog",
               "settings": {
-              "blog": "news",
-              "title": "Tips & Tricks",
-              "font": "work_sans_n6",
-              "fontsize": 40,
-              "subtitle": ""
+              "blog": "news"
               }
           }         
        }
