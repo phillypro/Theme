@@ -464,6 +464,46 @@ new FForm( formWrap, {
 		classie.add( document.body, 'overview' ); // for demo purposes only
 	}
 } );
+  
+var getNextSibling = function (elem, selector) {
+
+	// Get the next sibling element
+	var sibling = elem.nextElementSibling;
+
+	// If there's no selector, return the first sibling
+	if (!selector) return sibling;
+
+	// If the sibling matches our selector, use it
+	// If not, jump to the next sibling and continue the loop
+	while (sibling) {
+		if (sibling.matches(selector)) return sibling;
+		sibling = sibling.nextElementSibling
+	}
+
+};    
+  
+  
+checkSubmit();
+
+function checkSubmit() {
+var url = new URL(window.location.href);
+var c = url.searchParams.get("contact_posted");
+  if(c) {  
+document.body.classList.add("overview");  
+var form = document.querySelector('#container-{{ randomNumber }} form.fs-form');
+var wrapper = form.closest('.advancedform-wrapper'); 
+var nav = getNextSibling(wrapper, '.fs-controls');
+Array.prototype.forEach.call(nav.children, child => { child.classList.remove('fs-show')});  
+var confirmation = getNextSibling(wrapper, '.advancedform-confirmation');
+      $(wrapper).hide(400, function() {
+         $(form).closest('.container').addClass('fs-confirmed');
+        $(confirmation).show(400);
+      });  
+}  
+                         
+}  
+  
+  
 
   
 $(container).find(".fs-submit").on("click", function(event) {
@@ -1139,7 +1179,8 @@ padding-bottom: 56.25%;
            }
 & a {
 background-color: rgba(255,255,255,0.13);
-    font-family: 'Muli-Black', sans-serif;
+          font-family: 'Open Sans', sans-serif;
+         font-weight:bold;
     border-radius: 65px;
     color: #fff;
     -webkit-transition: background-color 0.3s;
@@ -1164,7 +1205,8 @@ font-size: 100%;
 }
           & .option {
              background-color: rgb(23, 185, 118);
-    font-family: 'Muli-Black', sans-serif;
+          font-family: 'Open Sans', sans-serif;
+         font-weight:bold;
     border-radius: 65px;
     color: #fff;
     -webkit-transition: background-color 0.3s;
@@ -1203,7 +1245,8 @@ font-size: 100%;
                   }
                   & label {
                 background-color: rgba(255, 255, 255, 0.13);
-                  font-family: 'Muli-Black', sans-serif;
+               font-family: 'Open Sans', sans-serif;
+         font-weight:bold;
                 border-radius: 65px;
                 color: #fff;
                   -webkit-transition: background-color 0.3s;
@@ -1333,14 +1376,15 @@ font-size: 100%;
 
 
 
-.advancedform-confirmation {
+.fs-form.advancedform-confirmation {
         display:none;
         background: none;
         color: #fff;
         text-align:center;
          & h2 {
           color:#fff;
-          font-family: 'Muli-Black', sans-serif;
+          font-family: 'Open Sans', sans-serif;
+         font-weight:bold;
          }
     & .goback {
      text-align:center;
@@ -1462,5 +1506,5 @@ new FForm( formWrap, {
 
 });
  
-{% endjavascript %}                                                                              
+{% endjavascript %}                                                                                  
  
