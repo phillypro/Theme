@@ -92,7 +92,7 @@ color: {{ section.settings.label_color }};
   <div id="container-{{ randomNumber }}" class="container" style="opacity:0">
 			<div class="fs-form-wrap">
                <div class="advancedform-wrapper">
-                {% form 'contact', data-ajax:'false', class:'fs-form fs-form-full', autocomplete:'off', slack: section.settings.webhook %}
+                <form class="fs-form fs-form-full" autocomplete="off" slack="{{ section.settings.webhook }}">
 					<ol class="fs-fields">
 
 
@@ -330,8 +330,15 @@ color: {{ section.settings.label_color }};
 {% endfor %}
 
                       				</ol><!-- /fs-fields -->
-					<button class="fs-submit" type="submit"><span>Submit</span></button>
-				{% endform %}<!-- /fs-form -->
+                    
+					<a class="fs-submit" role="button"><span>Submit</span></a>
+                 </form><!-- /fs-form -->
+                {% form 'contact', data-ajax:'false', class:'hidden-form', autocomplete:'off' %}
+                  <input id="contactFormName" type="hidden" name="contact[name]" value="New {{ section.settings.title }} Form Submission" />      
+                  <input id="contactFormEmail" type="hidden" name="contact[email]" value="form@{{ shop.domain | remove: 'www.' }}" />   
+                  <input id="contactFormMessage" type="hidden" name="contact[body]" value="" />   
+                {% endform %}
+              
               </div>
               <div class="fs-form fs-form-overview advancedform-confirmation">
                  <h2>{{ section.settings.confirmation }}</h2>
@@ -459,23 +466,22 @@ new FForm( formWrap, {
 } );
 
   
-$(container).find(".fs-form").one("submit", function(event) {
+$(container).find(".fs-submit").on("click", function(event) {
 
-    var form = $(this);
+    var form = $(this).closest('form');
   // use slack
   var useSlack = false; 
-  if($(this).attr('slack')) {
+  if(form.attr('slack')) {
    var useSlack = true; 
   }
 
-    $(this).find('button.fs-submit').attr("disabled", 'disabled').find('span').html("Processing, please wait...");
-  
+    form.find('button.fs-submit').attr("disabled", 'disabled').find('span').html("Processing, please wait...");
     var formdata = {};
 
-    $.each($(this).serializeArray(), function(i, field) {
+    $.each(form.serializeArray(), function(i, field) {
         formdata[field.name] = field.value;
     });
-    var formlis = $(this).find('li:not(.skip):not(.payment)');
+    var formlis = form.find('li:not(.skip):not(.payment)');
     // lets get the header first  
     var header = [];
     var headerhigh = [];
@@ -617,23 +623,8 @@ if(useSlack) {
     });
     var url = form.attr('slack');
     var data = 'payload=' + JSON.stringify({ "text": encodeURIComponent(text)});
-}else{ 
   
-    // lets print out our master
-    master.forEach(function(part, idx, i) {
-        part.forEach(function(field, i) {
-            text += encodeURIComponent(field.label) + '=' + encodeURIComponent(field.value) + '&';
-        });
-        if (idx == master.length - 1) {
-            text = 	text.substring(0, text.length - 1);
-        }
-    });  
-  var url = '/contact';
-  var data = text;
-}
-  
-  
-var wrapper = $(this).closest('.advancedform-wrapper'); 
+  var wrapper = form.closest('.advancedform-wrapper'); 
 var confirmation = wrapper.siblings('.advancedform-confirmation');   
 $.ajax({
    // dataType: 'json',
@@ -656,6 +647,28 @@ $.ajax({
     }       
    
 }); 
+  
+}else{ 
+    
+   var hiddenForm = form.next();
+  console.log(hiddenForm);
+    // lets print out our master
+    master.forEach(function(part, idx, i) {
+        part.forEach(function(field, i) {
+          text += field.label + ': ' + field.value + '\n';
+        });
+        if (idx !== master.length - 1) {
+            text += "____________________________________________ \n \n";
+        }
+    });  
+  var data = text;
+  var message = hiddenForm.find('#contactFormMessage')[0];
+  message.value = data;
+  hiddenForm[0].submit();
+}
+  
+  
+
   
   
 
@@ -1394,6 +1407,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3c03a', end
         pointer-events:auto;
       }
 }
+
+.shopify-challenge__container {
+ padding: 30px 0;
+}
   
 /**
  * The CSS shown here will not be introduced in the Quickstart guide, but shows
@@ -1444,6 +1461,6 @@ new FForm( formWrap, {
 
 
 });
-
-{% endjavascript %}                                                                        
+ 
+{% endjavascript %}                                                                              
  
