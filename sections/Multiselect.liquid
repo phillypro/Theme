@@ -136,7 +136,7 @@
          {% if variant.inventory_policy == 'continue' %}
          {% assign stock = 999 %}
          {% else %}
-         {% assign stock = variant1.inventory_quantity %}
+         {% assign stock = variant.inventory_quantity %}
          {% endif %}
          {% else %}
          {% assign stock = 999 %}
