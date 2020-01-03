@@ -760,11 +760,21 @@ function inView{{ product.id }}() {
 function animate{{ product.id }}() {
   // is element in view?
   if (inView{{ product.id }}()) {
+    
+    // get last animated element
+     var elementLast{{ product.id }}Array = element{{ product.id }}.querySelectorAll('.first .multi-swatch-element');
+     var elementLast{{ product.id }} = elementLast{{ product.id }}Array[elementLast{{ product.id }}Array.length-1];
+     // listen for last animation and remove animate/effect classes                                    
+      "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend".split(" ").map(name =>  elementLast{{ product.id }}.removeEventListener(name, animateEnd{{ product.id }}, false));                    
+      "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend".split(" ").map(name =>  elementLast{{ product.id }}.addEventListener(name, animateEnd{{ product.id }}, false)); 
       // element is in view, add class to element
       element{{ product.id }}.classList.add('effect');
   }
 }   
- 
+  
+function animateEnd{{ product.id }}() {
+   element{{ product.id }}.classList.remove("effect", "animate");
+} 
 </script> 
 {% endif %}
 {% schema %}
