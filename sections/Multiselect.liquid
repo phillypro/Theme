@@ -168,7 +168,7 @@
          {% endif %}
       </div>
        
-      {% if variant.available %}
+      {% if variant.available and option_index != lastoption %}
       <script>
          var el = form.querySelector('.multi-swatch[data-option-index="{{ option_index }}"] .value-{{ value | handle }}');
          var input = el.querySelector('input');                                   
