@@ -130,7 +130,8 @@
       {% assign values = values | join: ',' %}
       {% assign values = values | append: ',' | append: value %} 
       {% assign values = values | split: ',' %} 
-      <div id="{{ product.handle }}-{{ value | remove: ' ' }}" data-value="{{ value | handle }}" class="multi-swatch-element {% if is_color %}color image {% endif %} value-{{ value | handle }} {% if variant.available %}available{% else %}{% if option_index == lastoption %}soldout{% endif %}{% endif %} {% if forloop.first %}{% unless option_index == lastoption %}active{% endunless %}{% endif %} ">
+       
+      <div id="{{ product.handle }}-{{ value | remove: ' ' }}" data-value="{{ value | handle }}" class="multi-swatch-element {% if is_color %}color image {% endif %} value-{{ value | handle }} {% if variant.available %}available{% else %} {% if option_index == lastoption %}soldout{% endif %} {% endif %} {% if forloop.first %}{% unless option_index == lastoption %}active{% endunless %}{% endif %} ">
          <!-- if product options only 1 lets give em all the options...if more lets make another wrapper -->
          {% if variant.inventory_management != blank %}
          {% if variant.inventory_policy == 'continue' %}
@@ -147,7 +148,7 @@
          <div class="quantity">
             <span>0</span>
          </div>
-         <label for="multi-swatch-{{ option_index }}-{{ value | handle }}"><span class="multiselect-title">{{ variant.title }}</span> <span class="multiselect_price">{{ variant.price | money }}</span></label>
+         <label for="multi-swatch-{{ option_index }}-{{ value | handle }}"><span class="multiselect-title">{{ variant.title }}</span> <span class="multiselect_price" variant-price="{{ variant.price }}">{{ variant.price | money }}</span></label>
          {% endif %}
  
          
@@ -314,7 +315,7 @@
            </span>
            {% endif %}
            <span class="multiselect-title">{{ variant1.option2 }}</span> 
-           <span class="multiselect_price">{{ variant1.price | money }}</span>
+           <span class="multiselect_price" variant-price="{{ variant1.price }}">{{ variant1.price | money }}</span>
            </label>
 
             
@@ -525,7 +526,7 @@
            </span>
            {% endif %}
              <span class="multiselect-title">{{ variant4.option3 }}</span> 
-             <span class="multiselect_price">{{ variant4.price | money }}</span>
+             <span class="multiselect_price" variant-price="{{ variant4.price }}">{{ variant4.price | money }}</span>
            </label>
 
       
@@ -775,6 +776,7 @@ function animate{{ product.id }}() {
 function animateEnd{{ product.id }}() {
    element{{ product.id }}.classList.remove("effect", "animate");
 } 
+ 
 </script> 
 {% endif %}
 {% schema %}
@@ -1034,6 +1036,8 @@ width: 100%;
       &.popgrow {
                 -webkit-animation: multiselect-popgrow 300ms ease-out;    
                animation: multiselect-popgrow 300ms ease-out;    
+      animation-delay:unset !important;
+    -webkit-animation-delay: unset !important;
       } 
       &.active {
 
@@ -1149,6 +1153,8 @@ padding: 5px 11px;
           & .image {
              -webkit-animation: multiselect-popgrow 300ms ease-out;    
                animation: multiselect-popgrow 300ms ease-out;    
+              animation-delay:unset !important;
+              -webkit-animation-delay: unset !important;
           }
         }
       }
@@ -1197,5 +1203,5 @@ padding: 5px 11px;
 
 {% endstylesheet %} 
 {% javascript %}            
-{% endjavascript %}                            
+{% endjavascript %}                                         
  
