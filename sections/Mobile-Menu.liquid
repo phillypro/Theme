@@ -1,8 +1,5 @@
 {% style %}
   #shopify-section-Mobile-Menu .ui-panel-inner .content .content-inner .mobile-menu ul li {
-    {% if section.settings.link_border == true %}
-      border-bottom: 1px solid {{ section.settings.link_color }}42;
-    {% endif %}
       line-height:{{ section.settings.link_spacing }};
   }
   #shopify-section-Mobile-Menu .ui-panel-inner .content .content-inner .mobile-menu ul li a {
@@ -25,6 +22,14 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
 {% endif %}     
 }
 {% endstyle %}
+<style>
+  #shopify-section-Mobile-Menu .ui-panel-inner .content .content-inner .mobile-menu ul li {
+    {% if section.settings.link_border == true %}
+      border-bottom: 1px solid {{ section.settings.link_color }}42;
+    {% endif %} 
+  }
+</style>
+
 <div class="ui-panel-inner">
 
 <div class="content">
