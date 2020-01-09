@@ -719,9 +719,7 @@
 </div>
 <!-- End #Multiselect_product.id -->
 {% endif %}
-{% endif %}
-{% endcase %}
-{% endfor %}  
+
 
 {% if section.settings.animate %}
 <script>
@@ -779,6 +777,9 @@ function animateEnd{{ product.id }}() {
  
 </script> 
 {% endif %}
+{% endif %}
+{% endcase %}
+{% endfor %}  
 {% schema %}
 {
 "name": "Multiselect",
