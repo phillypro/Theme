@@ -291,6 +291,7 @@ color:{{ section.settings.buynowcolor}};
 
   </div> <div class="swiper-button-next"></div> </div> 
 {% endunless %}  
+  {% unless section.settings.showmore == false %}  
   <div class="row show-more">
     <div class="column text-center">
       {% if thecollection.size > 0 %}
@@ -300,6 +301,7 @@ color:{{ section.settings.buynowcolor}};
       {% endif %}
     </div>
   </div>
+  {% endunless %}
 </div>
 
 
@@ -460,7 +462,8 @@ function animate{{ section.id }}() {
     
 {% unless section.settings.carousel %}
 <script>
-var showmorebutton = document.querySelector('#shopify-section-{{ section.id }} .show-more a');                                           
+var showmorebutton = document.querySelector('#shopify-section-{{ section.id }} .show-more a');    
+if(showmorebutton) {                                            
 showmorebutton.addEventListener("click", showmore);
   function showmore(e) {
    e.preventDefault() 
@@ -476,6 +479,7 @@ showmorebutton.addEventListener("click", showmore);
      this.classList.add('disabled');
     }
   }
+}
 </script>
 {% endunless %}
 {% schema %}
@@ -592,6 +596,12 @@ showmorebutton.addEventListener("click", showmore);
        "label": "Font Color",
        "default": "#FFFFFF"
 },
+{
+"type": "checkbox",
+"id": "showmore",
+"label": "Show More",
+"default": true
+}, 
 {
  "type": "header",
  "content": "Show More Button"
