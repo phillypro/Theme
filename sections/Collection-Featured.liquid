@@ -40,9 +40,48 @@
     right: 0;
     width: 100%;
    }
-  
 {% endif %}
-  
+
+#shopify-section-{{ section.id }} .swiper-wrapper {
+margin-left:0;
+margin-right:0;
+}
+#shopify-section-{{ section.id }} .collection-featured .carousel {
+display: flex;
+align-items: center;
+    margin: 0 auto;
+{% unless section.settings.fullwidth %}max-width: 78.5rem;{% endunless %}
+}  
+#shopify-section-{{ section.id }} .collection-featured .swiper-button-next,   #shopify-section-{{ section.id }} .collection-featured .swiper-button-prev {
+position: relative;
+width: auto;
+}
+#shopify-section-{{ section.id }} .collection-featured .swiper-button-next {
+right:auto;
+}
+#shopify-section-{{ section.id }} .collection-featured .swiper-button-prev {
+left:auto;
+}
+#shopify-section-{{ section.id }} .collection-featured .swiper-button-next:after,   #shopify-section-{{ section.id }} .collection-featured .swiper-button-prev:after {
+    padding: 0 30px;
+    display: block;
+}
+#shopify-section-{{ section.id }} .collection-featured .swiper-button-next:focus,   #shopify-section-{{ section.id }} .collection-featured .swiper-button-prev:focus {
+   outline: none;
+}
+:root{--swiper-theme-color:#7d7d7d}
+@media (max-width: 1022px) { 
+
+#shopify-section-{{ section.id }} .collection-featured .swiper-button-next:after,   #shopify-section-{{ section.id }} .collection-featured .swiper-button-prev:after {
+  font-size:25px;  
+  padding: 0 10px;
+  display: block;
+}
+}
+
+
+
+
 #shopify-section-{{ section.id }} .collection-featured .show-more a  {
 background:{{ section.settings.showmorebackground }};
 color:{{ section.settings.showmorecolor}};
@@ -68,7 +107,13 @@ color:{{ section.settings.buynowcolor}};
   {% endif %}
   </div>
 </div>
-<ul class="row align-center align-bottom">
+
+{% unless section.settings.carousel == false %}
+<div class="carousel">  
+<div class="swiper-button-prev"></div>   
+<div class="swiper-container">
+{% endunless %}    
+<ul class="{% unless section.settings.carousel == false %} swiper-wrapper {% else %}  row align-center align-bottom {% endunless %}">
 {% assign count = 0 %}  
 {% assign products_per = section.settings.products_per | plus: 0 %}  
 {% if products_per == 2 %}
@@ -98,7 +143,7 @@ color:{{ section.settings.buynowcolor}};
 
 
 
-      <li itemscope itemtype="http://schema.org/Product" data-id="{{ product.id }}" class="text-center columns {{ sizes }} small-6 product {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}{% unless count >= products_per %} first-animate{% endunless %}"  {% if count >= products_per %}style="display:none;"{% endif %} >
+      <li itemscope itemtype="http://schema.org/Product" data-id="{{ product.id }}" class="text-center product {% unless section.settings.carousel == false %}swiper-slide {% else %} columns {{ sizes }} small-6  {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}{% unless count >= products_per %} first-animate{% endunless %}{% endunless %}"  {% unless section.settings.carousel %} {% if count >= products_per %}style="display:none;"{% endif %} {% endunless %} >
          
       
       
@@ -241,6 +286,11 @@ color:{{ section.settings.buynowcolor}};
   
  {% endif %}
 </ul>  
+{% unless section.settings.carousel == false %}  
+   <!-- If we need navigation buttons -->
+
+  </div> <div class="swiper-button-next"></div> </div> 
+{% endunless %}  
   <div class="row show-more">
     <div class="column text-center">
       {% if thecollection.size > 0 %}
@@ -251,6 +301,8 @@ color:{{ section.settings.buynowcolor}};
     </div>
   </div>
 </div>
+
+
 <script>
  $(document).on("shopify:section:select",'#shopify-section-{{ section.id }}',function(e){
                 $('body').addClass('editing edit-{{ section.id }}');
@@ -258,9 +310,112 @@ $(document).one("shopify:section:deselect",function(e){
 $('body').removeClass('edit-{{ section.id }}');
 })
 });         
-   
+</script>   
+{% unless section.settings.carousel == false %}
+<script>
+  var callbackCollections_Featured{{ section.id }} = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.Swiper) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/js/swiper.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);
+    // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+    style.href = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/css/swiper.min.css';
+    document.getElementsByTagName("head")[0].appendChild(style);
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackCollections_List();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackCollections_Featured{{ section.id }});
+}
+    
+function deferCollections_Featured{{ section.id }}(methodCollections_Featured{{ section.id }}) {
+    if (window.jQuery && window.Swiper) {
+        methodCollections_Featured{{ section.id }}();
+    } else {
+        setTimeout(function() { deferCollections_Featured{{ section.id }}(methodCollections_Featured{{ section.id }}) }, 50);
+    }
+}
+deferCollections_Featured{{ section.id }}(function () {  
   
+  
+SliderFeatured{{ section.id }}();  
+  
+function SliderFeatured{{ section.id }}() {
+  
+      var container = document.getElementById('shopify-section-{{ section.id }}').querySelector('.swiper-container');
+      var swiper = new Swiper((container), {         
+      effect: 'slide',  
+      speed: 1200,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: true,
+      },
+  {% if products_per == 2 %}
+      slidesPerView: 2,
+  {% elsif products_per == 3 %}      
+      slidesPerView: 3, 
+  {% elsif products_per >= 4 %}      
+      slidesPerView: 4,  
+  {% endif %}
+        slidesPerGroup: 1,
+      loop: true,
+    {% if products_per == 3 %}    
+        centeredSlides: true,  
+     {% endif %}      
+      direction: 'horizontal',
+      navigation: {
+        nextEl: document.getElementById('shopify-section-{{ section.id }}').querySelector('.swiper-button-next'),
+        prevEl: document.getElementById('shopify-section-{{ section.id }}').querySelector('.swiper-button-prev'),
+      },
+  breakpoints: {
+    1022: {
+  {% if products_per == 2 %}
+      slidesPerView: 2,
+  {% elsif products_per == 3 %}      
+      slidesPerView: 3, 
+  {% elsif products_per >= 4 %}      
+      slidesPerView: 4,  
+     
+  {% endif %}
+      spaceBetween: 15,
+      slidesPerGroup: 1,
+    },
+    720: {
+      slidesPerView: 2,
+      spaceBetween: 2,
+      slidesPerGroup: 2,
+    },
+    480: {
+      slidesPerView: 2,
+      spaceBetween: 2,
+      slidesPerGroup: 2,
+    },
+    320: {
+      slidesPerView: 2,
+      spaceBetween: 2,
+      slidesPerGroup: 2,
+    },
+  }
+      });   
+} 
+    
+  
+});    
+</script>
+{% endunless %}   
 {% if section.settings.animate %}
+<script>
 // get the element to animate
 var element{{ section.id }} = document.querySelector('#shopify-section-{{ section.id }} .animate');
 var elementHeight{{ section.id }} = element{{ section.id }}.clientHeight;
@@ -300,9 +455,10 @@ function animate{{ section.id }}() {
       element{{ section.id }}.classList.add('effect');
   }
 } 
+</script>
 {% endif %} 
     
-</script>
+{% unless section.settings.carousel %}
 <script>
 var showmorebutton = document.querySelector('#shopify-section-{{ section.id }} .show-more a');                                           
 showmorebutton.addEventListener("click", showmore);
@@ -321,6 +477,7 @@ showmorebutton.addEventListener("click", showmore);
     }
   }
 </script>
+{% endunless %}
 {% schema %}
   {
     "name": "Featured Collection",
@@ -399,6 +556,12 @@ showmorebutton.addEventListener("click", showmore);
 "type": "checkbox",
 "id": "sezzle",
 "label": "Show Sezzle Price",
+"default": false
+}, 
+{
+"type": "checkbox",
+"id": "carousel",
+"label": "Show As Carousel (refresh page after enabling this)",
 "default": false
 }, 
 {
