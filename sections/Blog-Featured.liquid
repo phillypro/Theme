@@ -1,0 +1,489 @@
+{% style %}
+{% assign loadedfonts = '' %}    
+{% assign familyandweight = section.settings.font.family | append: section.settings.font.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ section.settings.font | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: section.settings.font.family | append: section.settings.font.weight | append: section.settings.font.style | append: '|' %}
+
+  #shopify-section-Blog .page-header h2 {
+    font-family: {{ section.settings.font.family }}; 
+    font-weight:{{ section.settings.font.weight }}; 
+    font-style:{{ section.settings.font.style }};
+    font-size:{{ section.settings.fontsize }}px;
+    line-height:1;
+  }
+
+  #shopify-section-Blog .searchwrap .form button {
+  color:{{ section.settings.searchbuttoncolor }};
+  background:{{ section.settings.searchbuttonbackground }};
+  }
+
+.shopify-section-Blog-featured .articles-wrap .article-wrap .article-inner {
+{% if section.settings.border %}
+     border: 1px solid #ddd; 
+{% endif %}
+}
+
+
+{% endstyle %}
+{% if section.settings.blog != nil %}
+{% assign theblog = section.settings.blog %}
+{% else %}
+{% assign theblog = 'news' %}
+{% endif %}
+{% assign blogs_per = section.settings.blogs_per | plus: 0 %}  
+{% if blogs_per == 2 %}
+  {% assign sizes = 'large-6 medium-6' %}
+  {% elsif blogs_per == 3 %}
+  {% assign sizes = 'large-4 medium-4' %}
+  {% elsif blogs_per == 4 %}
+  {% assign sizes = 'large-3 medium-6' %}
+  {% else %}
+  {% assign sizes = 'large-3 medium-4' %}
+{% endif %}
+
+
+
+<div class="shopify-section-Blog-featured">
+{% unless section.settings.title == nil %} 
+<div class="page-header">
+  <div class="row align-middle align-justify">
+  <div class="large-12 columns text-center">
+    <h2><span>{{ section.settings.title}}</span></h2>
+   {% if section.settings.subtitle %}<p>{{ section.settings.subtitle}}</p>{% endif %}
+  </div>
+  </div>
+</div>  
+{% endunless %}
+{% unless blogs[theblog].articles.size == 0 %}
+<div class="articles-wrap"> 
+<div class="row align-stretch align-left">
+{% assign blog = blogs[theblog] %} 
+
+  {% assign i = 0 %}
+{% for article in blog.articles limit: section.settings.blogs_per %}
+            
+             <a href="{{ article.url }}" class="{{ sizes }} small-12 columns article-wrap">
+                <div class="article-inner">
+                  <div class="top-image flex-content">
+                    <img src="{{ article.image.src | img_url: 'large' }}" alt="{{ article.title }}" />
+                  </div>
+                  <div class="bottom-content">
+                    <div class="bottom-inner">
+                      <title>{{ article.title }}</title>
+                      <tags>
+                      {% for tag in article.tags %}
+                        <span>{{ tag }}</span>
+                      {% endfor %}
+                      </tags>
+                    </div>
+                  </div>
+                </div>
+             </a>
+  {% assign i = i | plus: 1 %}
+{% endfor %}
+</div>
+
+</div>
+{% else %}
+
+
+<div class="articles-wrap"> 
+<div class="row align-stretch align-left">
+  
+
+            
+             <a href="#" class="{{ sizes }} small-12 columns article-wrap">
+                <div class="article-inner">
+                  <div class="top-image flex-content">
+                    <img src="//user-images.githubusercontent.com/8041502/70937413-3b9f0980-2012-11ea-80fe-392812a43114.jpg" alt="How to Tell the Difference Between Mr. Right and Mr. Right Now">
+                  </div>
+                  <div class="bottom-content">
+                    <div class="bottom-inner">
+                      <title>Everything you need to know about  {{ shop.name }} and why we're the best</title>
+                      <tags>
+                      
+                      </tags>
+                    </div>
+                  </div>
+                </div>
+             </a>
+  
+
+            
+             <a href="#" class="{{ sizes }} small-12 columns article-wrap">
+                <div class="article-inner">
+                  <div class="top-image flex-content">
+                    <img src="//user-images.githubusercontent.com/8041502/70937499-638e6d00-2012-11ea-803d-6f4533184943.jpg" alt="3 REASONS WHY A MAN SHOULDN’T CHASE AFTER A WOMAN">
+                  </div>
+                  <div class="bottom-content">
+                    <div class="bottom-inner">
+                      <title>3 Reasons why you should choose {{ shop.name }}</title>
+                      <tags>
+                      
+                      </tags>
+                    </div>
+                  </div>
+                </div>
+             </a>
+  
+
+            
+             <a href="#" class="{{ sizes }} small-12 columns article-wrap">
+                <div class="article-inner">
+                  <div class="top-image flex-content">
+                    <img src="//user-images.githubusercontent.com/8041502/70937522-6be6a800-2012-11ea-96c6-b318659075bf.jpg" alt="It’s Cuffing Season 3 Signs He’s Only With You Because He’s Lonely">
+                  </div>
+                  <div class="bottom-content">
+                    <div class="bottom-inner">
+                      <title>The difference between {{ shop.name }} and the alternatives. </title>
+                      <tags>
+                      
+                      </tags>
+                    </div>
+                  </div>
+                </div>
+             </a>
+  
+  
+            {% unless blogs_per <= 3 %}
+             <a href="#" class="{{ sizes }} small-12 columns article-wrap">
+                <div class="article-inner">
+                  <div class="top-image flex-content">
+                    <img src="//user-images.githubusercontent.com/8041502/70937556-7608a680-2012-11ea-82a4-9037da4cfdb0.jpg" alt="It’s Cuffing Season 3 Signs He’s Only With You Because He’s Lonely">
+                  </div>
+                  <div class="bottom-content">
+                    <div class="bottom-inner">
+                      <title>No one else will tell you about this helpful tip but we will </title>
+                      <tags>
+                      
+                      </tags>
+                    </div>
+                  </div>
+                </div>
+             </a>
+             {% endunless %}
+
+</div>
+
+</div>
+{% endunless %}
+</div>
+
+
+{% schema %}
+
+  {
+    "name": "Blog Featured",
+    "settings": [
+{
+   "type": "blog",
+   "id": "blog",
+   "label": "Blog"
+},
+{
+   "type": "select",
+   "id": "blogs_per",
+   "options": [
+      { "value": "3", "label": "3 Articles"},
+      { "value": "4", "label": "4 Articles"}
+   ],
+   "default": "3",
+   "label": "Show how many at a time?"
+},
+{
+        "id": "title",
+        "type": "text",
+        "label": "Title (Optional)"
+},
+{
+    "type": "font_picker",
+     "id": "font_title",
+     "label": "Title Font",
+     "default": "work_sans_n6"
+},
+{
+    "type":   "range",
+    "id":     "fontsize_title",
+    "min":       30,
+    "max":       75,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Title Font Size",
+    "default":   40
+},
+{
+   "type":      "radio",
+   "id":        "alignment_title",
+   "label":     "Title Alignment",
+   "options": [
+     { "value": "center", "label": "Center" },
+     { "value": "left", "label": "Left" },
+     { "value": "right", "label": "Right" }
+   ],
+   "default":   "center"
+},
+{
+       "id": "color_title",
+       "type": "color",
+       "label": "Title Color",
+       "default": "#000000"
+},
+{
+"type": "checkbox",
+"id": "border",
+"label": "Border",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "fullwidth",
+"label": "Full Width",
+"default": false
+}
+],
+  "presets": [
+    {
+      "name": "Featured Blog",
+      "category": "Blog"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet 'scss' %}
+// responsive sizes
+@mixin bp($point) {
+  
+  $bp-small: "(max-width: 350px)";
+  $bp-mobile: "(max-width: 600px)";
+  $bp-mobileup: "(min-width: 600px)";
+  $bp-phablet: "(max-width: 1022px)";
+  $bp-phabletup: "(min-width: 1022px)";
+  $bp-tablet: "(max-width: 1280px)";
+  $bp-tabletup: "(min-width: 1280px)";
+  $bp-laptop: "(max-width: 1600px)";
+  $bp-desktop: "(min-width: 1600px)";
+  @if $point == desktop {
+    @media #{$bp-desktop}  { @content; }
+  }  
+  @else if $point == laptop {
+    @media #{$bp-laptop} { @content; }
+  }
+  @else if $point == tablet {
+    @media #{$bp-tablet} { @content; }
+  }
+  @else if $point == tabletup {
+    @media #{$bp-tabletup} { @content; }
+  }
+  @else if $point == phablet {
+    @media #{$bp-phablet} { @content; }
+  }
+  @else if $point == phabletup {
+    @media #{$bp-phabletup} { @content; }
+  }
+  @else if $point == mobile {
+    @media #{$bp-mobile}  { @content; }
+  }
+  @else if $point == mobileup {
+    @media #{$bp-mobileup} { @content; }
+  }
+  @else if $point == small {
+    @media #{$bp-small}  { @content; }
+  }
+
+}
+
+//color transition
+@mixin transition($attribute, $duration) {
+    -webkit-transition: $attribute $duration ease;
+    -moz-transition: $attribute $duration ease;
+    transition: $attribute $duration ease;
+}
+
+
+.shopify-section-Blog-featured {
+      margin-top: 30px;
+    @include bp(phablet) {
+  margin-top:0px;
+ }
+
+& .searchwrap {
+    padding-top: 20px;
+    padding-bottom: 60px;
+@include bp(tablet) {
+    padding-top: 15px;
+    padding-bottom: 35px;
+}
+@include bp(phablet) {
+    position: fixed;
+    z-index: 9;
+    padding: 5px 10px 5px;
+    background: #fff;
+    border-bottom: 1px solid #00000014;
+    box-shadow: 1px 1px 11px #00000014;
+    width: 100%;
+}
+ & .form {
+    display: flex;
+    width: 100%;
+    -ms-flex: 0 0 55.33333%;
+    flex: 0 0 55.33333%;
+    max-width: 55.33333%;
+    margin: 0 auto;
+   @include bp(phablet) {
+   -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    align-items: center;
+   }
+  & .search-input-wrap {
+    margin-right: 25px;
+    width: 100%;
+     & input {
+    margin-bottom: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    border-bottom: 1px rgba(0,0,0,0.16) solid;
+    font-size: 26px;
+    font-family: 'Open Sans', sans-serif;
+    padding-bottom: 10px;
+    min-height: 50px;
+       @include bp(tablet) {
+           font-size: 21px;
+      }
+       @include bp(phablet) {
+            font-size: 18px;
+          border-bottom: none;
+    min-height: 42px;
+      }
+     } 
+	}
+    & button {
+    font-weight: bold;
+    text-transform: capitalize;
+    display: inline-block;
+    color: #fff;
+    padding: 13px 46px;
+    font-size: 21px;
+    border-radius: 25px;
+     @include bp(tablet) {
+     padding: 10px 40px;
+     font-size: 16px;
+      }
+     @include bp(phablet) {
+            padding: 10px 35px;
+    font-size: 15px;
+     }
+    }
+ }
+}
+& .page-header {
+ & h2 {
+  & span {
+   @include bp(mobile) {
+    font-size: 80%;
+   }
+  }
+ }
+  @include bp(phablet) {
+    padding-top: 75px;
+display: none;
+}
+}
+& .articles-wrap {
+& .article-wrap {
+    margin-bottom: 30px;
+   @include bp(phablet) {
+
+  }
+  & .article-inner {
+    min-height: 100%;
+
+    border-radius: 5px;
+   @include bp(phablet) {
+    border:none;
+   }
+    & .top-image {
+     padding-bottom: 58.7%;
+     margin: 0;
+     overflow: hidden;
+     background: #F7F8FA;
+     position: relative;
+     height: 0;
+      & img {
+     	width: auto;
+   	    height: auto;
+        min-width: 100%;
+        min-height: 100%;
+        position: absolute;
+        object-fit: cover;
+      }
+    }
+    & .bottom-content {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+      & .bottom-inner {
+          width: 100%;
+text-align: center;
+        & title {
+
+            color: #000;
+    		display: block;
+  		    font-size: 18px;
+            margin-bottom: 10px;
+        }
+& tags {
+font-size: 80%;
+    opacity: 0.5;
+}
+      }
+    }
+  }
+  &.article-big {
+    @include bp(phabletup) {
+    & .article-inner {
+     display:flex;
+      & .top-image {
+        padding-bottom: 32%;
+        width: 55%;
+      }
+      & .bottom-content {
+      width: 45%;
+  	  text-align: center;
+      padding: 30px 30px;
+        & title {
+            font-size: 30px;
+        }
+      }
+    }
+    }
+  }
+ }
+}
+& .pagination {
+text-align: center;
+    display: none;
+    justify-content: center;
+& .current {
+background: #efefef;
+    color: #000000;
+}
+}
+}
+
+{% endstylesheet %}
+
+{% javascript %}          
+{% endjavascript %}                                           
