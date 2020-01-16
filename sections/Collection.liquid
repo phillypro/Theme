@@ -125,7 +125,79 @@ color:{{ section.settings.buynowcolor }};
      </div>
    </div>
   {% endif %}
+<script> 
+var callbackCollection = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.InfiniteScroll) {
+   // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);   
+  }
+};
 
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackCollection();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackCollection);
+}
+  
+function deferCollection(methodCollection) {
+    if (window.InfiniteScroll) {
+        methodCollection();
+    } else {
+        setTimeout(function() { deferCollection(methodCollection) }, 50);
+    }
+}
+deferCollection(function() {  
+
+   loadCollection();
+  
+  // if jquery mobile
+  if(window.$.mobile) {
+   jQuery(document).on('pagecontainerhide', function (event, ui) {
+     if(ui.prevPage[0].id == 'collection-') {
+      var page = ui.prevPage[0];
+      page.infScroll.destroy();
+
+     } 
+   });
+  jQuery(document).on('pagecontainershow', function (event, ui) {
+    if(ui.toPage[0].id == 'collection-') {
+       loadCollection();
+    }
+  });
+    
+    
+  }
+  
+  
+});  
+  
+function loadCollection() {
+
+  var page = document.querySelector('#shopify-section-{{ section.id}}').closest('[data-role="page"]');
+  var container = page.querySelector('.collection-container');
+  
+  page.infScroll = new InfiniteScroll( container, {
+  path: '#' + page.id + ' .next a',
+  append: '.product',
+  history: false,
+  status: '.ui-loader',
+  });
+
+   page.infScroll.on( 'last', function() {
+       $.mobile.loading().hide();
+   });
+  
+}  
+  
+  
+</script>
 {% endpaginate %}
 
 {% comment %}
