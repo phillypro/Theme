@@ -109,7 +109,7 @@
   
   
    header .inner-header .bottom-header >.row nav.ui-navbar ul li.site-nav--has-dropdown .dropwrap .dropdown-content ul {  
-   {% if section.settings.bottom_background_color_2 contains 'transparent' %}
+   {% if section.settings.bottom_background_color_2 contains 'transparent' or section.settings.bottom_background_color_2 contains 'rgba(0,0,0,0)' %}
    background-color:{{ section.settings.bottom_background_color }};                            
    {% else %}     
    background: -moz-linear-gradient(left, {{ section.settings.bottom_background_color }} 0%, {{ section.settings.bbottom_ackground_color_2 }} 100%);
