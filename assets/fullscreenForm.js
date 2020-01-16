@@ -12,10 +12,7 @@
 	
 	'use strict';
 
-	var support = { animations : Modernizr.cssanimations },
-		animEndEventNames = { 'WebkitAnimation' : 'webkitAnimationEnd', 'OAnimation' : 'oAnimationEnd', 'msAnimation' : 'MSAnimationEnd', 'animation' : 'animationend' },
-		// animation end event name
-		animEndEventName = animEndEventNames[ Modernizr.prefixed( 'animation' ) ];
+
 
 	/**
 	 * extend obj function
@@ -93,7 +90,7 @@
 		this.fieldsCount = this.fields.length;
 		
 		// show first field
-		classie.add( this.fields[ this.current ], 'fs-current' );
+        this.fields[ this.current ].classList.add('fs-current');
 
 		// create/add controls
 		this._addControls();
@@ -326,12 +323,13 @@
 		}
 
 		// add class "fs-display-next" or "fs-display-prev" to the list of fields
-		classie.add( this.fieldsList, 'fs-display-' + this.navdir );
+        this.fieldsList.classList.add('fs-display-' + this.navdir);
+
 
 		// remove class "fs-current" from current field and add it to the next one
 		// also add class "fs-show" to the next field and the class "fs-hide" to the current one
-		classie.remove( currentFld, 'fs-current' );
-		classie.add( currentFld, 'fs-hide' );
+        currentFld.classList.remove('fs-current');
+        currentFld.classList.add('fs-hide');
 		
 		if( !this.isLastStep ) {
 			// update nav
@@ -341,19 +339,21 @@
 			this._updateFieldNumber();
 
 			var nextField = this.fields[ this.current ];
-			classie.add( nextField, 'fs-current' );
-			classie.add( nextField, 'fs-show' );
+
+          nextField.classList.add('fs-current');
+          nextField.classList.add('fs-show');
 		}
 
 		// after animation ends remove added classes from fields
 		var self = this,
 			onEndAnimationFn = function( ev ) {
-				if( support.animations ) {
-					this.removeEventListener( animEndEventName, onEndAnimationFn );
-				}
+			
+                  "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend".split(" ").map(animEndEventName => this.removeEventListener(animEndEventName, onEndAnimationFn));
+		
 				
-				classie.remove( self.fieldsList, 'fs-display-' + self.navdir );
-				classie.remove( currentFld, 'fs-hide' );
+				
+                self.fieldsList.classList.remove('fs-display-' + self.navdir );
+                currentFld.classList.remove('fs-hide' );
               
                 //if has youtube stop it
                 var youtube = currentFld.querySelector('iframe');
@@ -369,19 +369,22 @@
 					self._hideCtrl( self.ctrlContinue );
 					self._hideCtrl( self.ctrlFldStatus );
 					// replace class fs-form-full with fs-form-overview
-					classie.remove( self.formEl, 'fs-form-full' );
-					classie.add( self.formEl, 'fs-form-overview' );
-					classie.add( self.formEl, 'fs-show' );
+
+                  self.formEl.classList.remove('fs-form-full');
+                  self.formEl.classList.add('fs-form-overview');
+                  self.formEl.classList.add('fs-show' );
+				
 					// callback
 					self.options.onReview();
 				}
 				else {
-					classie.remove( nextField, 'fs-show' );
+				
+                   nextField.classList.remove('fs-show');
 					
 					if( self.options.ctrlNavPosition ) {
 						self.ctrlFldStatusCurr.innerHTML = self.ctrlFldStatusNew.innerHTML;
 						self.ctrlFldStatus.removeChild( self.ctrlFldStatusNew );
-						classie.remove( self.ctrlFldStatus, 'fs-show-' + self.navdir );
+                        self.ctrlFldStatus.classList.remove('fs-show-' + self.navdir );
 					}
 				}
 				self.isAnimating = false;
@@ -414,22 +417,22 @@
               
 			};
 
-		if( support.animations ) {
+	
 			if( this.navdir === 'next' ) {
 				if( this.isLastStep ) {
-					currentFld.querySelector( '.fs-anim-upper' ).addEventListener( animEndEventName, onEndAnimationFn );
+              "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend".split(" ").map(animEndEventName => currentFld.querySelector( '.fs-anim-upper' ).addEventListener(animEndEventName, onEndAnimationFn));
+
 				}
 				else {
-					nextField.querySelector( '.fs-anim-lower' ).addEventListener( animEndEventName, onEndAnimationFn );
+        "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend".split(" ").map(animEndEventName => nextField.querySelector( '.fs-anim-lower' ).addEventListener(animEndEventName, onEndAnimationFn));
+
 				}
 			}
 			else {
-				nextField.querySelector( '.fs-anim-upper' ).addEventListener( animEndEventName, onEndAnimationFn );
+       "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend".split(" ").map(animEndEventName => nextField.querySelector( '.fs-anim-upper' ).addEventListener(animEndEventName, onEndAnimationFn));
+
 			}
-		}
-		else {
-			onEndAnimationFn();
-		}
+
 	}
 
 	/**
@@ -460,7 +463,8 @@
 			// add class "fs-show-next" or "fs-show-prev" depending on the navigation direction
 			var self = this;
 			setTimeout( function() {
-				classie.add( self.ctrlFldStatus, self.navdir === 'next' ? 'fs-show-next' : 'fs-show-prev' );
+		
+               self.ctrlFldStatus.classList.add(self.navdir === 'next' ? 'fs-show-next' : 'fs-show-prev' );
 			}, 25 );
 		}
 	}
@@ -481,8 +485,8 @@
 	 */
 	FForm.prototype._updateNav = function() {
 		if( this.options.ctrlNavDots ) {
-			classie.remove( this.ctrlNav.querySelector( 'button.fs-dot-current' ), 'fs-dot-current' );
-			classie.add( this.ctrlNavDots[ this.current ], 'fs-dot-current' );
+        this.ctrlNav.querySelector( 'button.fs-dot-current' ).classList.remove('fs-dot-current' );
+        this.ctrlNavDots[ this.current ].classList.add('fs-dot-current' );
 			this.ctrlNavDots[ this.current ].disabled = false;
 		}
 	}
@@ -492,7 +496,7 @@
 	 * shows a control
 	 */
 	FForm.prototype._showCtrl = function( ctrl ) {
-		classie.add( ctrl, 'fs-show' );
+		ctrl.classList.add('fs-show' );
 	}
 
 	/**
@@ -500,7 +504,7 @@
 	 * hides a control
 	 */
 	FForm.prototype._hideCtrl = function( ctrl ) {
-		classie.remove( ctrl, 'fs-show' );
+		ctrl.classList.remove('fs-show' );
 	}
 
 	// TODO: this is a very basic validation function. Only checks for required fields..
