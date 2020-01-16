@@ -21,6 +21,11 @@
 background-image:url({{ section.settings.background_image | img_url: '1024x1024' }}); background-color:{{ section.settings.background_color }};
 {% endif %}     
 }
+
+#shopify-section-Mobile-Menu .ui-panel-inner .content .content-inner .mobile-menu ul > li {
+font-size:{{ section.settings.link_size }}%;
+}
+
 {% endstyle %}
 <style>
   #shopify-section-Mobile-Menu .ui-panel-inner .content .content-inner .mobile-menu ul li {
@@ -57,7 +62,7 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
          {% if linklists[link.handle] == empty %}
         {% if link.title == 'Catalog' %}
          {% else %}
-         <li style="font-size:{{ section.settings.link_size }}%;" class="menu-item-{{ link.title }}">
+         <li class="menu-item-{{ link.title }}">
             <a href="{{ link.url }}" title="{{ link.title }}">
             {{ link.title }}
             </a>
@@ -65,7 +70,7 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
         {% endif %} 
          {% else %}
 
-         <li style="font-size:{{ section.settings.link_size }}%;" class="sub-collapse {% if link.active %} current-menu-item{% endif %} menu-item-{{ link.title }}" data-enhanced="true" data-role="collapsible">
+         <li class="sub-collapse {% if link.active %} current-menu-item{% endif %} menu-item-{{ link.title }}" data-enhanced="true" data-role="collapsible">
 
            
   <div class="ui-collapsible-heading ui-collapsible-heading-collapsed">
@@ -85,7 +90,14 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
          {% endfor %}
 
 
-         
+{% if shop.customer_accounts_enabled %}
+  {% if customer  %}
+  <li class="menu-item-account"><a href="/account">Your Account</a></li>
+  {% else %}
+  <li class="menu-item-login">{{ 'Login' | customer_login_link }}</li>
+  
+  {% endif %}
+{% endif %}
          
         
       </ul>
