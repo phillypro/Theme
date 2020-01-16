@@ -13,7 +13,7 @@
  body.{{ template | replace: '.', '' }} header .header-wrap:before {
      transform: translateX(-100%);
  }
-body.{{ template | replace: '.', '' }} header .header-wrap .row .logo-wrap ~ div {   
+body.{{ template | replace: '.', '' }} header .header-wrap .row .logo-wrap ~ div, body.{{ template | replace: '.', '' }} header .header-wrap  .bottom-header, body.{{ template | replace: '.', '' }} header .header-wrap  .search {   
           opacity:0;
           pointer-events:none;
 }
@@ -28,7 +28,7 @@ body.{{ template | replace: '.', '' }} header .header-wrap .row .logo-wrap a:aft
     color: #fff;
     font-size: 11px;
     letter-spacing: 9px;
-    transform: translateY(-1px);
+    transform: translate(-12px,5px);
     position: absolute;
     text-align: right;
     width: 100%;  
@@ -351,18 +351,6 @@ color: {{ section.settings.label_color }};
 <script>
  var callbackForm = function(){
   // Handler when the DOM is fully loaded
-  if(!window.Modernizr) {
-    var script = document.createElement("script");
-    script.type = "text/javascript";   
-    script.src = 'https://cdn.jsdelivr.net/gh/phillypro/Shopify-Sections/Form/modernizr.custom.js';
-    document.getElementsByTagName("head")[0].appendChild(script);
-  }
-  if(!window.classie) {
-    var script = document.createElement("script");
-    script.type = "text/javascript";   
-    script.src = 'https://cdn.jsdelivr.net/gh/phillypro/Shopify-Sections/Form/classie.js';
-    document.getElementsByTagName("head")[0].appendChild(script);
-  }
    if(!window.StripeCheckout) {
     var script = document.createElement("script");
     script.type = "text/javascript";   
@@ -386,7 +374,7 @@ if (
   
 //bring in FForm after modernizr   
 function deferFForm(methodFForm) {
-    if (window.Modernizr && window.classie) {
+    if (window.StripeCheckout) {
         methodFForm();
     } else {
         setTimeout(function() { deferFForm(methodFForm) }, 50);
@@ -413,7 +401,7 @@ deferFForm(function () {
   
   
 function deferForm(methodForm) {
-    if (window.Modernizr && window.classie && window.FForm) {
+    if (window.FForm) {
         methodForm();
     } else {
         setTimeout(function() { deferForm(methodForm) }, 50);
@@ -1506,5 +1494,5 @@ new FForm( formWrap, {
 
 });
  
-{% endjavascript %}                                                                                  
+{% endjavascript %}                                                                                     
  
