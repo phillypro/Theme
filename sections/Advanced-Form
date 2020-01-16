@@ -357,7 +357,18 @@ color: {{ section.settings.label_color }};
     script.src = 'https://checkout.stripe.com/checkout.js';
     document.getElementsByTagName("head")[0].appendChild(script);
    }
-
+   if(!window.FForm) {
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+     script.src = '{{'fullscreenForm.js' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(script);
+      // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+     style.href = '{{'component.css' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(style);
+   }  
    
 
   
@@ -372,33 +383,7 @@ if (
   document.addEventListener("DOMContentLoaded", callbackForm);
 }
   
-//bring in FForm after modernizr   
-function deferFForm(methodFForm) {
-    if (window.StripeCheckout) {
-        methodFForm();
-    } else {
-        setTimeout(function() { deferFForm(methodFForm) }, 50);
-    }
-}  
-  
-deferFForm(function () {  
-   if(!window.FForm) {
-    var script = document.createElement("script");
-    script.type = "text/javascript";   
-     script.src = '{{'fullscreenForm.js' | asset_url }}';
-    document.getElementsByTagName("head")[0].appendChild(script);
-      // add style
-    var style = document.createElement("link");
-    style.type = "text/css";  
-    style.rel = "stylesheet";
-     style.href = '{{'component.css' | asset_url }}';
-    document.getElementsByTagName("head")[0].appendChild(style);
-   }  
-});
-  
-  
-  
-  
+
   
 function deferForm(methodForm) {
     if (window.FForm) {
@@ -449,7 +434,7 @@ var paymentli = $(container).find("li.payment");
 var formWrap = $(container).find( '.fs-form-wrap' ).get(0);
 new FForm( formWrap, {
 	onReview : function() {
-		classie.add( document.body, 'overview' ); // for demo purposes only
+			document.body.classList.add('overview' ); // for demo purposes only
 	}
 } );
   
@@ -1487,7 +1472,7 @@ $(document).on("shopify:section:select",'#shopify-section-Advanced-Form',functio
 var formWrap = this.querySelector( '.fs-form-wrap' );
 new FForm( formWrap, {
 	onReview : function() {
-		classie.add( document.body, 'overview' ); // for demo purposes only
+			document.body.classList.add('overview' ); // for demo purposes only
 	}
 } );
 
