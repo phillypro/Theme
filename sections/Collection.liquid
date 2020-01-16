@@ -119,11 +119,9 @@ color:{{ section.settings.buynowcolor }};
   {% endfor %}
  </ul>
   {% if paginate.pages > 1 %}
-   <div class="row pagination-wrap align-center">
-     <div class="column large-12 text-center">
+<div class="pagination">
     {{ paginate | default_pagination }}
-     </div>
-   </div>
+</div>
   {% endif %}
 <script> 
 var callbackCollection = function(){
@@ -349,6 +347,15 @@ jQuery('.sort-by')
               }
             }
    }
+   & .pagination {
+text-align: center;
+    display: none;
+    justify-content: center;
+& .current {
+background: #efefef;
+    color: #000000;
+}
+}
 }
 
 {% endstylesheet %} 
