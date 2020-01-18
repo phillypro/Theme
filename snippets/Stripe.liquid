@@ -219,7 +219,7 @@ async function createSession() {
         });
 
       setTimeout(function() {
-        if(data.session.id) {
+        if(data) {
         var stripe = Stripe(stripe_key);
 stripe.redirectToCheckout({
   sessionId: data.session.id
@@ -232,7 +232,7 @@ stripe.redirectToCheckout({
      console.log('try again');
      createSession();       
    }
-      },300);
+      },600);
       
       
       
@@ -285,7 +285,6 @@ function httpGet(theUrl)
 // alternatively, if you don't want to use a polyfil
 function imgURL(src, size) {
     var src = src;
-    console.log(src);
     // remove any current image size then add the new image size
     return src
         .replace(/_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./g, '.')
