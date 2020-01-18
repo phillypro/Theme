@@ -621,6 +621,11 @@ function verifiedHoverOut(event) {
 
 }
 
+#shopify-section-Yotpo {
+max-width: 78.5rem;
+margin:20px auto;
+}
+
 .yotpo {
 	     font-family: Verdana;
     -webkit-font-smoothing: antialiased;
