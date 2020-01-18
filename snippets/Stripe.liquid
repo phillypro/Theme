@@ -5,7 +5,7 @@
   form[action="/cart/add"] button:not(.stripe):not([type="submit"]), form[action="/cart/add"] .shopify-payment-button {
   display:none !important;
 }
-.shopify-payment-button__stripe {margin-top:20px;}
+.shopify-payment-button__stripe {}
 a.shopify-payment-button__stripe, a.shopify-payment-button__stripe:hover, a.shopify-payment-button__stripe:focus {
 color:#fff !important;
 }
@@ -58,8 +58,6 @@ replaceWithStripe(checkoutForm);
 }
 }
   
-  
-  
 
 
 function  replaceWithStripe(form) {
@@ -75,19 +73,41 @@ if(form.action.includes('add')) {
     var button = document.createElement('a');
     button.setAttribute('role','button');
     button.id = 'stripe_' + form.getAttribute('id');
-    button.classList.add('shopify-payment-button__button','shopify-payment-button__button--unbranded','shopify-payment-button__stripe');
+    button.classList.add('shopify-payment-button__button','shopify-payment-button__button--unbranded','shopify-payment-button__stripe','button');
     button.type = 'submit';
     button.innerHTML = '<span>Buy It Now</span>';
     var currentAdditionalButtons = form.querySelector('div.shopify-payment-button');
     insertAfter(button, currentAdditionalButtons);
     button.removeEventListener('click', stripeCheckout);
     button.addEventListener('click', stripeCheckout);
+    var select = form.querySelector('[name="id"]');
+    select.removeEventListener('input', triggerSoldOutCheck);  
+    select.addEventListener('input', triggerSoldOutCheck);
+    soldOutCheck(button);
     }
   }else{
     form.removeEventListener('submit', stripeCheckout);  
     form.addEventListener('submit', stripeCheckout);
   }
 }
+  
+
+function triggerSoldOutCheck(event) {
+  var form = event.currentTarget;
+  var button = form.querySelector('.shopify-payment-button__stripe');
+  soldOutCheck(button);
+}  
+  
+function soldOutCheck(button)  {
+var addToCartButton = button.closest('form').querySelector('[type="submit"]');  
+  if(addToCartButton.disabled) {
+   button.classList.add('disabled');
+    button.removeEventListener('click', stripeCheckout);  
+  }else{
+    button.removeEventListener('click', stripeCheckout);
+    button.addEventListener('click', stripeCheckout);
+  }
+}  
   
   
   
@@ -111,20 +131,26 @@ function stripeCheckout(event) {
 // get variantJson
 var variantOptions = form.querySelector('[name="id"]'); 
 var variantId = variantOptions[variantOptions.selectedIndex].value;   
-var quantity = (form.querySelector('[name="quantity"]')) ? form.querySelector('[name="quantity"]').value : 1 ; 
-var productJson = {{ product | json }};
+var quantity = (form.querySelector('[name="quantity"]')) ? form.querySelector('[name="quantity"]').value : 1 ;  
+var a = window.location.href;  
+var productJson = httpGet('/products/' + a.split('/products/')[1] + '.json');  
+var productJson = productJson.product;
 var variantJson = productJson.variants.find(variant => variant.id == variantId);  
-
+    
 // set product variables
-var amount = variantJson.price;
-var name = variantJson.name;
+var amount = variantJson.price.replace('.','');
+    if(variantJson.title !== 'Default Title') {    
+var name = variantJson.title;
+    }else{
+ var name = productJson.title;   
+    }
 var desc = productJson.description ? productJson.description.replace(/<(.|\n)*?>/g, '') : name;
 var images =  [];    
 // check for images on variants first    
 if(variantJson.images) {
   variantJson.images.forEach(image =>  images.push('https:' + imgURL(image, 'grande')));
 }else{
-  productJson.images.forEach(image =>  images.push('https:' + imgURL(image, 'grande')));
+  productJson.images.forEach(image =>  images.push('https:' + imgURL(image.src, 'grande')));
 }
 var productObject =  {
                     "name": name,
@@ -136,7 +162,7 @@ var productObject =  {
                     
                 };
 var productArray = [];
-productArray.push(productObject);  
+productArray.push(productObject);    
   }else{
    var form = trigger;
    var productArray = [];
@@ -203,6 +229,7 @@ stripe.redirectToCheckout({
     $.mobile.loading( "hide" );
   }       
    }else{
+     console.log('try again');
      createSession();       
    }
       },300);
@@ -210,6 +237,7 @@ stripe.redirectToCheckout({
       
       
     } catch (error) {
+       console.log('super fail');
         console.error(error);
     }
 };
@@ -244,6 +272,8 @@ async function postData(url = '', data = {}) {
   
 }  
 
+
+  
 function httpGet(theUrl)
 {
     var xmlHttp = new XMLHttpRequest();
@@ -255,6 +285,7 @@ function httpGet(theUrl)
 // alternatively, if you don't want to use a polyfil
 function imgURL(src, size) {
     var src = src;
+    console.log(src);
     // remove any current image size then add the new image size
     return src
         .replace(/_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./g, '.')
