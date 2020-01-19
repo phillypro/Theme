@@ -1,3 +1,4 @@
+{% if section.settings.show %}
 {% style %}
 #shopify-section-{{ section.id }} .product-faq >div > h3 {
     color:{{ section.settings.faq_color }};
@@ -58,14 +59,17 @@
    
   </div>
 </div>
-
-
-  
-
+{% endif %}
 {% schema %}
   {
     "name": "Product FAQ",
     "settings": [
+{
+"type": "checkbox",
+"id": "show",
+"label": "Show FAQ",
+"default": false
+}, 
 {
    "type":      "header",
    "content":   "FAQ Colors"
