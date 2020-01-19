@@ -7,6 +7,13 @@ color:{{ section.settings.buynowcolor }};
 
 {% paginate collection.products by 12 %}
 
+
+{% assign min = 0 %}
+{% assign max = 100000 %}
+{% assign diff = max | minus: min %}
+{% assign randomNumber = "now" | date: "%N" | modulo: diff | plus: min %}
+
+<div class="collection-{{ randomNumber }}">
 <div class="row align-justify align-middle collection-title">
   <div class="columns large-12 text-center">
   <h1>{{ collection.title }}</h1>
@@ -28,7 +35,7 @@ color:{{ section.settings.buynowcolor }};
   {% if collection.description.size > 0 %}
     {{ collection.description }}
   {% endif %}
-<ul class="row align-center align-bottom">
+<ul class="row align-center align-bottom collection-container">
 {% assign products_per = section.settings.products_per | plus: 0 %}  
 {% if products_per == 2 %}
   {% assign sizes = 'large-6 medium-6' %}
@@ -51,9 +58,6 @@ color:{{ section.settings.buynowcolor }};
 <li itemscope itemtype="http://schema.org/Product" data-id="{{ product.id }}" class="text-center columns {{ sizes }} small-6 product {% if product.type contains 'book' %}book{% endif %} {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
    <a href="{{ product.url | within: collection }}">
       <div class="image">
-         {% for tag in product.tags %}
-         <span class="tag">{{ tag }}</span>
-         {% endfor %}
          {% if product.featured_image %}<img src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
       </div>
       <h3>{{ product.title }}</h3>
@@ -123,6 +127,8 @@ color:{{ section.settings.buynowcolor }};
     {{ paginate | default_pagination }}
 </div>
   {% endif %}
+</div>  
+  
 <script> 
 var callbackCollection = function(){
   // Handler when the DOM is fully loaded
@@ -157,30 +163,22 @@ deferCollection(function() {
   
   // if jquery mobile
   if(window.$.mobile) {
-   jQuery(document).on('pagecontainerhide', function (event, ui) {
-     if(ui.prevPage[0].id == 'collection-') {
-      var page = ui.prevPage[0];
-      page.infScroll.destroy();
-
+   jQuery(document).one('pageremove', '[data-role="page"]', function (event, ui) {
+     if(this.id.includes('collection-')) {
+      this.infScroll.destroy();
      } 
    });
-  jQuery(document).on('pagecontainershow', function (event, ui) {
-    if(ui.toPage[0].id == 'collection-') {
-       loadCollection();
-    }
-  });
     
     
   }
   
   
 });  
+   
   
 function loadCollection() {
-
-  var page = document.querySelector('#shopify-section-{{ section.id}}').closest('[data-role="page"]');
+  var page = document.querySelector('.collection-{{ randomNumber }}').closest('[data-role="page"]');
   var container = page.querySelector('.collection-container');
-  
   page.infScroll = new InfiniteScroll( container, {
   path: '#' + page.id + ' .next a',
   append: '.product',
