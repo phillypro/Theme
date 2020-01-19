@@ -122,7 +122,13 @@
   
 {% section 'More-Info' %}
  
-{% section 'Product-FAQ' %} 
+{% capture Product-FAQ %}{% section 'Product-FAQ' %}{% endcapture %}
+{% capture FAQ %}{% section 'FAQ' %}{% endcapture %}  
+{% assign FAQ = FAQ | split: 'class="popular-faq">' %}  
+{% assign FAQ = FAQ[1] | split: '</div></div></div>' %}    
+{% assign FAQ = FAQ[0] %}      
+{% assign Product-FAQ = Product-FAQ | replace: "%%FAQ%%", FAQ %}
+{{ Product-FAQ }}
   
 {% section 'Also-Like' %}
   
