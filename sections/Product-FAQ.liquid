@@ -46,6 +46,9 @@
       </div>
        {% endcase %}
     {% endfor %}
+    {% if section.settings.add %}
+     %%FAQ%% 
+    {% endif %}
     </div>  
  
     
@@ -69,6 +72,12 @@
 "id": "show",
 "label": "Show FAQ",
 "default": false
+}, 
+{
+"type": "checkbox",
+"id": "add",
+"label": "Include FAQ Page",
+"default": true
 }, 
 {
    "type":      "header",
