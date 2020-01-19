@@ -208,7 +208,7 @@ var selectCallback = function(variant, selector) {
     var form = jQuery('#' + selector.domIdPrefix).closest('form');
 
     for (var i=0,length=variant.options.length; i<length; i++) {
-      var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+      var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + encodeURI(variant.options[i]) +'"]');
       if (radioButton.length) {
         radioButton.get(0).checked = true;
       }
