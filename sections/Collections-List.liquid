@@ -198,7 +198,15 @@ padding: 40px 0;
     {% endcase %}
 {% endfor %}  
 
+{% if section.settings.css != nil %}
+{{ section.settings.css }}
+{% endif %}
+
+
 {% endstyle %}
+
+
+
 {% if section.settings.fullwidth %}
 {% assign image_size = '1024x1024' %}
 {% else %}
@@ -243,7 +251,7 @@ padding: 40px 0;
                {% assign new_word = block.settings.title | split: '-' | first %}
                 {% assign new_word1 = block.settings.title | split: '-' | last %}
                <h3>
-                {{ new_word }}
+                 <span>{{ new_word }}</span>
                  <span class="last-word">
                    {{ new_word1 }}
                  </span>
@@ -389,7 +397,17 @@ padding: 40px 0;
        "id": "subtitle_color",
        "type": "color",
        "label": "Subtitle Color"
-}],
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "textarea",
+        "label": "Custom CSS"
+}
+],
 "blocks": [
     {
      "type": "Collection",
