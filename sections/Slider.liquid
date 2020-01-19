@@ -9,7 +9,7 @@
 </div>
 {% else %}
 
-
+{% unless section.settings.rev == '' %}
 {% assign link_structure = section.settings.rev | split: '"http' %}  
 {% assign link_structure = link_structure[1] | split: '"' %} 
 {% assign link_structure = link_structure[0] | prepend: 'http' %} 
@@ -141,6 +141,9 @@ function setREVStartSize(e) {
   
 });
 </script>
+{% else %}
+ Please Enter Slider HTML/JS 
+{% endunless %}
 {% endif %}  
 {% schema %}
   {
