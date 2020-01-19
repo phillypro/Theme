@@ -159,25 +159,69 @@ function deferCollection(methodCollection) {
 }
 deferCollection(function() {  
 
-   loadCollection();
+    
+loadCollection();
   
-  // if jquery mobile
+   var currentPage = document.querySelector('.collection-{{ randomNumber }}').closest('[data-role="page"]');
+
+
+ // if jquery mobile
   if(window.$.mobile) {
-   jQuery(document).one('pageremove', '[data-role="page"]', function (event, ui) {
-     if(this.id.includes('collection-')) {
-      this.infScroll.destroy();
-     } 
-   });
-    
-    
-  }
+   setTimeout(function() { 
+   jQuery(document).on('pagecontainerbeforehide', loadCollectionDestroy{{randomNumber}});
+   jQuery(document).on('pagecontainershow', loadCollectionTrigger{{randomNumber}});
+   jQuery(document).on('pageremove', currentPage, removeEvents{{randomNumber}});
+   },900);
+   }
+  
+
   
   
 });  
    
   
+  
+function loadCollectionDestroy{{randomNumber}} (event, ui) {
+  var collection = document.querySelector('.collection-{{ randomNumber }}');                                
+  if(collection) {   
+  var page = collection.closest('[data-role="page"]');
+     if(ui.prevPage[0].id == page.id) {
+      var page = ui.prevPage[0];
+      page.infScroll.destroy();
+      //  console.log('destroyed' + page.id); 
+
+  } 
+  }
+}  
+  
+function loadCollectionTrigger{{randomNumber}} (event, ui) {
+   var collection = document.querySelector('.collection-{{ randomNumber }}');
+   if(collection) { 
+   var page = document.querySelector('.collection-{{ randomNumber }}').closest('[data-role="page"]');
+    if(ui.toPage[0].id == page.id) {
+       loadCollection();
+    }
+   }
+}  
+  
+function removeEvents{{randomNumber}}(event)  {
+
+   var collection = document.querySelector('.collection-{{ randomNumber }}');
+   if(collection) { 
+   var page = document.querySelector('.collection-{{ randomNumber }}').closest('[data-role="page"]');  
+  if(event.target.id ==  page.id) {
+   // console.log('remove events ' + page.id); 
+   jQuery(document).off('pagecontainerhide', loadCollectionDestroy{{randomNumber}});
+   jQuery(document).off('pagecontainershow', loadCollectionTrigger{{randomNumber}});
+   }
+  }
+}
+  
+  
 function loadCollection() {
+
   var page = document.querySelector('.collection-{{ randomNumber }}').closest('[data-role="page"]');
+                               
   var container = page.querySelector('.collection-container');
   page.infScroll = new InfiniteScroll( container, {
   path: '#' + page.id + ' .next a',
@@ -189,6 +233,7 @@ function loadCollection() {
    page.infScroll.on( 'last', function() {
        $.mobile.loading().hide();
    });
+    //console.log('loaded' + page.id);
   
 }  
   
