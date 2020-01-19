@@ -1,0 +1,64 @@
+{% if section.settings.activate_slider != false %}  
+<div id="slider-home-basic">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'Slider' %}
+         <div><a href="{{ block.settings.slide_url }}"><img src="{{ block.settings.slide_image | img_url: '2048x2048' }}" /></a></div>
+       {% endcase %}
+   {% endfor %}
+</div>
+{% else %}
+{{ section.settings.rev }}
+{% endif %}  
+{% schema %}
+  {
+    "name": "Slider",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Customize Your Slider"
+      },
+      {
+        "type": "paragraph",
+        "content": "Your Design comes with a premium animation slider thats very difficult to customize, so we added a simpler basic slider you can swap into when you need to display your own simple banners, it can be activated at any time and replace the premium slider for promotions and other ideas. (Please upload at least 1920w by 1200h image"
+      },
+      {
+        "type": "checkbox",
+        "id": "activate_slider",
+        "label": "Activate Basic Slider",
+        "default": false
+      },
+      {
+        "type": "html",
+        "id": "rev",
+        "label": "Slider HTML"
+      }
+     ],
+     "blocks": [
+     {
+     "type": "Slider",
+     "name": "Slide",
+     "settings" : [
+      {
+       "id": "slide_image",
+       "type": "image_picker",
+       "label": "Slide Image"
+      },
+      {
+       "id": "slide_url",
+       "type": "url",
+       "label": "Slide Link"
+      }
+     ]
+    } 
+   ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+
+
+{% endjavascript %}
