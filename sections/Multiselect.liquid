@@ -158,7 +158,7 @@
            {% if is_color  %} 
            <span class="image" {% unless block.settings.color-image %}style="background-color:{{ variant.option1 | handle }};"{% endunless %}>
              <span>
-              {% if block.settings.color-image %}<img src="{{ value | handle | append: '.jpg' | asset_url }}" />{% endif %}
+              {% if block.settings.color-image %}<img src="{{ value | handle | append: '.jpg' |  file_img_url: 'medium' }}" />{% endif %}
              </span>
            </span>
            {% endif %}
@@ -310,7 +310,7 @@
            {% if is_color  %} 
            <span class="image" {% unless block.settings.color-image %}style="background-color:{{ variant1.option2 | handle }};"{% endunless %}>
              <span>
-              {% if block.settings.color-image %}<img src="{{ value1 | handle | append: '.jpg' | asset_url }}" />{% endif %}
+              {% if block.settings.color-image %}<img src="{{ value1 | handle | append: '.jpg'  |  file_img_url: 'medium' }}" />{% endif %}
              </span>
            </span>
            {% endif %}
@@ -326,7 +326,7 @@
            {% if is_color  %} 
            <span class="image" {% unless block.settings.color-image %}style="background-color:{{ variant1.option2 | handle }};"{% endunless %}>
              <span>
-               {% if block.settings.color-image %}<img src="{{ value1 | handle | append: '.jpg' | asset_url }}" />{% endif %}
+               {% if block.settings.color-image %}<img src="{{ value1 | handle | append: '.jpg'  |  file_img_url: 'medium' }}" />{% endif %}
              </span>
            </span>
            {% endif %}
@@ -521,7 +521,7 @@
           {% if is_color  %} 
            <span class="image" {% unless block.settings.color-image %}style="background:{{ variant4.option3 | handle }};{% endunless %}">
              <span>
-              {% if block.settings.color-image %}<img src="{{ value4 | handle | append: '.jpg' | asset_url }}" />{% endif %}
+              {% if block.settings.color-image %}<img src="{{ value4 | handle | append: '.jpg'  |  file_img_url: 'medium' }}" />{% endif %}
              </span>
            </span>
            {% endif %}
