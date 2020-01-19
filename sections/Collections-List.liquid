@@ -8,6 +8,9 @@
 {% assign loadedfonts = loadedfonts | append: section.settings.font.family | append: section.settings.font.weight | append: section.settings.font.style | append: '|' %}
 
 
+
+
+
 #shopify-section-{{ section.id }} {
 margin-bottom:40px;  
   
@@ -39,22 +42,20 @@ padding: 40px 0;
   #shopify-section-{{ section.id }} {
     padding:20px 15px;
   }
-{% unless section.settings.collectionsPerRow == 'three' %}
-  #shopify-section-{{ section.id }} li:not(:last-child) {
+  #shopify-section-{{ section.id }} ul:not(.tworows) li:not(:last-child) {
         margin-bottom: 30px;
   }
-{% endunless %}
   }
 {% endunless %}  
   
   
-{% assign loadedfonts2 = '' %}    
+   
 {% assign familyandweight2 = section.settings.font_title.family | append: section.settings.font_title.weight %}
-{% if loadedfonts2 contains familyandweight2 %}
+{% if loadedfonts contains familyandweight2 %}
 {% else %}
   {{ section.settings.font_title | font_face }}  
 {% endif %}   
-{% assign loadedfonts2 = loadedfonts2 | append: section.settings.font_title.family | append: section.settings.font_title.weight | append: section.settings.font_title.style | append: '|' %}
+{% assign loadedfonts = loadedfonts | append: section.settings.font_title.family | append: section.settings.font_title.weight | append: section.settings.font_title.style | append: '|' %}
   
   
  #shopify-section-{{ section.id }} .row.title h2 {
@@ -74,7 +75,26 @@ padding: 40px 0;
     font-family: {{ section.settings.font.family }}; 
     font-weight:{{ section.settings.font.weight }}; 
     font-style:{{ section.settings.font.style }}; 
+    color: {{ section.settings.font_color }};
 }
+
+
+{% assign familyandweight3 = section.settings.subtitle_font.family | append: section.settings.subtitle_font.weight %}
+{% if loadedfonts contains familyandweight3 %}
+{% else %}
+  {{ section.settings.subtitle_font | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: section.settings.subtitle_font.family | append: section.settings.subtitle_font.weight | append: section.settings.subtitle_font.style | append: '|' %}
+  
+
+#shopify-section-{{ section.id }} ul li a h3 .last-word {  
+    font-family: {{ section.settings.subtitle_font.family }}; 
+    font-weight:{{ section.settings.subtitle_font.weight }}; 
+    font-style:{{ section.settings.subtitle_font.style }}; 
+    font-size:{{ section.settings.subtitle_fontsize }}%;
+    color: {{ section.settings.subtitle_color }};
+}
+
   
 #shopify-section-{{ section.id }} ul li a {  
     font-size:{{ section.settings.fontsize }}px; 
@@ -202,19 +222,34 @@ padding: 40px 0;
   <li class="collection-wrap columns {{ section.settings.collectionsPerRow }} block-{{ block.id }}">
        <a href="{{ block.settings.url }}">  
              <div class="info">
-             
+              
+               {% style %}
+                #shopify-section-{{ section.id }} .block-{{ block.id }} h3 {
+                  {% if block.settings.color != nil %}
+                  {% unless block.settings.color contains 'rgba(0,0,0,0)' %}
+                  color:{{ block.settings.color }};
+                  {% endunless %}
+                  {% endif %}
+                  {% if block.settings.background_color != nil %}
+                  {% unless block.settings.background_color contains 'rgba(0,0,0,0)' %}
+                  background-color:{{ block.settings.background_color }};
+                  {% endunless %}
+                  {% endif %}
+                }
+               {% endstyle %}    
+               
              {% if block.settings.title contains "-" %}  
              {% assign titlearray = block.settings.title | split: ' ' %}
                {% assign new_word = block.settings.title | split: '-' | first %}
                 {% assign new_word1 = block.settings.title | split: '-' | last %}
-               <h3 style="background-color:{{ block.settings.background_color }};color:{{ block.settings.color }};">
+               <h3>
                 {{ new_word }}
                  <span class="last-word">
                    {{ new_word1 }}
                  </span>
                </h3>
                {% else %}
-               <h3 style="background-color:{{ block.settings.background_color }};color:{{ block.settings.color }};">
+               <h3>
                  {{ block.settings.title }}
                </h3>
                {% endif %}
@@ -308,11 +343,15 @@ padding: 40px 0;
 "label": "Full Width",
 "default": false
 }, 
+{
+ "type": "header",
+ "content": "Collection Title"
+},
  {
      "type": "font_picker",
      "id": "font",
      "label": "Font",
-     "default": "work_sans_n6"
+     "default": "open_sans_n4"
    },
   {
     "type":   "range",
@@ -323,7 +362,34 @@ padding: 40px 0;
     "unit":      "px",
     "label":     "Font Size",
     "default":   20
-     }],
+     },
+{
+       "id": "font_color",
+       "type": "color",
+       "label": "Font Color",
+       "default": "#000000"
+},
+ {
+     "type": "font_picker",
+     "id": "subtitle_font",
+     "label": "Subtitle Font",
+     "default": "open_sans_n4"
+   },
+  {
+    "type":   "range",
+    "id":     "subtitle_fontsize",
+    "min":       50,
+    "max":       150,
+    "step":     1,
+    "unit":      "%",
+    "label":     "Subtitle Size (Relative % to Font Size)",
+    "default":   100
+     },
+{
+       "id": "subtitle_color",
+       "type": "color",
+       "label": "Subtitle Color"
+}],
 "blocks": [
     {
      "type": "Collection",
@@ -357,14 +423,12 @@ padding: 40px 0;
 },{
 "id": "background_color",
 "type": "color",
-"label": "Background Color",
-"default": "transparent"
+"label": "Background Color"
 },
 {
 "id": "color",
 "type": "color",
-"label": "Color",
-"default": "#ffffff"
+"label": "Color (Optional Override)"
 }
       ]
     }
@@ -481,6 +545,7 @@ padding: 40px 0;
           margin: 8% 0 0;   
           margin: 0;
           font-size:100%;
+          line-height: 1;
 			@include bp(phablet) {
                padding: 10px 10px;
   			  font-size: 58%;
@@ -506,4 +571,4 @@ padding: 40px 0;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}                                      
+{% endjavascript %}                                         
