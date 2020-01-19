@@ -1,0 +1,46 @@
+{% style %}
+.product-wrap .product-top .product-details .product-add .add {
+  background: {{ section.settings.add_background_color }};
+  color: {{ section.settings.add_font_color }};
+}
+.swatch .swatch-element input:checked+label {
+    border-color: {{ section.settings.options_border_color }};
+}
+{% endstyle %}
+
+{% schema %}
+{
+    "name": "Product Options Color",
+    "settings": [
+{ "type":"header",
+"content": "Product Options Style"
+},
+{
+       "id": "options_border_color",
+       "type": "color",
+       "label": "Product Options Border Color",
+       "default": "#d85089"
+},
+{ "type":"header",
+"content": "Add to Cart Style"
+},
+{
+       "id": "add_background_color",
+       "type": "color",
+       "label": "Add to Cart Background Color",
+       "default": "#d85089"
+},{
+       "id": "add_font_color",
+       "type": "color",
+       "label": "Add to Cart Font Color",
+       "default": "#FFFFFF"
+}
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
