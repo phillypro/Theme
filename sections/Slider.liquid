@@ -92,6 +92,17 @@ $(document).one("pagecontainerbeforeshow", function (event,ui) {
 });
 });  
   
+$(document).on( "pageremove", '#index', function( event, ui ) {
+  var slider = jQuery(this).find('.rev_slider');
+  if(slider) {
+  	slider.revkill();
+  }
+
+
+  
+});
+  
+  
   
 function createhomepageslider() {
 {{slider_js }}  
