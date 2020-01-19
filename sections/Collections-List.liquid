@@ -251,14 +251,16 @@ padding: 40px 0;
                {% assign new_word = block.settings.title | split: '-' | first %}
                 {% assign new_word1 = block.settings.title | split: '-' | last %}
                <h3>
-                 <span>{{ new_word }}</span>
+                 <span class="first-word">
+                   {{ new_word }}
+                 </span>
                  <span class="last-word">
                    {{ new_word1 }}
                  </span>
                </h3>
                {% else %}
                <h3>
-                 {{ block.settings.title }}
+                 <span>{{ block.settings.title }}</span>
                </h3>
                {% endif %}
                
@@ -365,7 +367,7 @@ padding: 40px 0;
     "type":   "range",
     "id":     "fontsize",
     "min":       12,
-    "max":       26,
+    "max":       40,
     "step":     1,
     "unit":      "px",
     "label":     "Font Size",
@@ -568,9 +570,8 @@ padding: 40px 0;
                padding: 10px 10px;
   			  font-size: 58%;
 			}	
-            & .last-word {
+            & span {
                  display: block;
-                 font-size:156%;
            }
           }
         }
@@ -589,4 +590,4 @@ padding: 40px 0;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}                                         
+{% endjavascript %}                                            
