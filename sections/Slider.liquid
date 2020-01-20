@@ -12,6 +12,13 @@
 {% unless section.settings.rev == '' %}
 {% assign link_structure = section.settings.rev | split: '"http' %}  
 {% assign link_structure = link_structure[1] | split: '"' %} 
+
+
+{% if link_structure[0] contains 'google' %}
+{% assign link_structure = section.settings.rev | split: '"http' %}  
+{% assign link_structure = link_structure[3] | split: '"' %} 
+{% endif %}
+
 {% assign link_structure = link_structure[0] | prepend: 'http' %} 
 {% assign link_structure = link_structure | split: '/' %}
 {% capture original_link_structure %}{% for link_part in link_structure %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
@@ -29,6 +36,11 @@
 {% assign slider_js_edit = slider_js_edit[1] | split: '"' %}
 {% assign slider_js_edit = slider_js_edit[0] %}
 {% assign slider_js = slider_js | remove: slider_js_edit %}
+
+{% unless slider_js contains 'waitForInit' %}
+  {% assign slider_js = slider_js | replace: 'jsFileLocation:"",','jsFileLocation:"",waitForInit: true,' %}
+{% endunless %}
+
 
 {{ slider_html }}
   
@@ -51,9 +63,9 @@ deferSlider(function () {
 $(document).on( "pagecreate", '#index', function( event, ui ) {
 $(document).one("pagecontainerbeforeshow", function (event,ui) {
   if (ui.toPage[0].id == 'index') {
+  
     var page = ui.toPage[0];
     window.scrollTo(0, 0);
-
      var slider = jQuery(page).find('.rev_slider');
      if(!slider.hasClass('revslider-initialised')) {
         createhomepageslider();
@@ -63,7 +75,9 @@ $(document).one("pagecontainerbeforeshow", function (event,ui) {
   if(typeof dataPrev != 'undefined') {     
      var slider = jQuery(page).find('.rev_slider');
      if(!slider.hasClass('revslider-initialised')) {
-       slider.revstart();
+      setTimeout(function() {         
+      slider.revstart();
+      },300);
      }
   }else{
      setTimeout(function() {
@@ -74,11 +88,9 @@ $(document).one("pagecontainerbeforeshow", function (event,ui) {
   },2000);
   }
     }
-
     (function listen3() {
         if (window.loaded) {
             logLoaded3();
-
         } else {
             window.setTimeout(listen3, 50);
         }
@@ -97,8 +109,6 @@ $(document).on( "pageremove", '#index', function( event, ui ) {
   if(slider) {
   	slider.revkill();
   }
-
-
   
 });
   
@@ -106,6 +116,7 @@ $(document).on( "pageremove", '#index', function( event, ui ) {
   
 function createhomepageslider() {
 {{slider_js }}  
+       
 }  
   
 function setREVStartSize(e) {
