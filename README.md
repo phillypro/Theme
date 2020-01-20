@@ -4,7 +4,7 @@ Collection of Digital Brandz Sections
 Watch this video
 https://www.screencast.com/t/GHOBoFeOu9a
 
-# NEW SLIDER METHOD
+# New Slider Method
 
 As of January 20th 2020 this is the new method to adding an Animated Slider to This Theme
 https://www.youtube.com/watch?v=vPK0LzFAM_s
