@@ -112,20 +112,20 @@ function deferSlider(methodSlider) {
 }
 deferSlider(function () {  
    
-$(document).on( "pagecreate", '#index', function( event, ui ) {
+$(document).one( "pagecreate", '#index', function( event, ui ) {
 $(document).one("pagecontainerbeforeshow", function (event,ui) {
   if (ui.toPage[0].id == 'index') {
   
     var page = ui.toPage[0];
     window.scrollTo(0, 0);
-     var slider = jQuery(page).find('.rev_slider');
+    var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
      if(!slider.hasClass('revslider-initialised')) {
-        createhomepageslider();
+       createslider{{ section.id }}();
        
    function logLoaded3() {
   var dataPrev = ui.prevPage[0] ;
   if(typeof dataPrev != 'undefined') {     
-     var slider = jQuery(page).find('.rev_slider');
+     var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
      if(!slider.hasClass('revslider-initialised')) {
       setTimeout(function() {         
       slider.revstart();
@@ -133,7 +133,7 @@ $(document).one("pagecontainerbeforeshow", function (event,ui) {
      }
   }else{
      setTimeout(function() {
-     var slider = jQuery(page).find('.rev_slider');
+     var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
      if(!slider.hasClass('revslider-initialised')) {
        slider.revstart();
      }
@@ -156,12 +156,13 @@ $(document).one("pagecontainerbeforeshow", function (event,ui) {
 });
 });  
   
-$(document).on( "pageremove", '#index', function( event, ui ) {
-  var slider = jQuery(this).find('.rev_slider');
-  if(slider) {
-  	slider.revkill();
+$(document).one( "pageremove", '#index', function( event, ui ) {
+  var sliders = this.querySelectorAll('.rev_slider');
+  if(sliders ) {
+    sliders.forEach(function(slider) {
+  	$(slider).revkill();
+    });
   }
-  
 });
   
 function setREVStartSize(e) {
@@ -195,9 +196,8 @@ function setREVStartSize(e) {
     }
 }  
   
-function createhomepageslider() {
-{{slider_js }}  
-       
+function createslider{{ section.id }}() {
+{{slider_js }}     
 }  
   
 
@@ -205,7 +205,11 @@ function createhomepageslider() {
 });
 </script>
 {% else %}
+<div class="emptyRev">
+ <span>
  Please Enter Slider HTML/JS 
+ </span>
+</div>
 {% endunless %}
 {% endif %}  
 {% schema %}
@@ -249,14 +253,30 @@ function createhomepageslider() {
       }
      ]
     } 
-   ]
+   ],
+  "presets": [
+    {
+      "name": "Animated Slider",
+      "category": "Design"
+    }
+  ]
   }
 {% endschema %}
 
-{% stylesheet %}
+{% stylesheet 'scss' %}
+.emptyRev {
+display:flex;
+justify-content:center;
+margin:0 auto;
+padding:100px 20px;
+& span {
+border: 3px solid red;
+padding: 20px 35px;
+}
+}
 {% endstylesheet %}
 
 {% javascript %}
 
 
-{% endjavascript %}
+{% endjavascript %}        
