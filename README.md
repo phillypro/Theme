@@ -9,6 +9,11 @@ https://www.screencast.com/t/GHOBoFeOu9a
 As of January 20th 2020 this is the new method to adding an Animated Slider to This Theme
 https://www.youtube.com/watch?v=vPK0LzFAM_s
 
+# Advanced Collections Method
+
+As of January 20th 2020 this is the advanced collections method you can use for specially designed collection fonts
+https://www.youtube.com/watch?v=GYRGYBSHFzM
+
 # How To Upgrade Existing Theme
 1. Upload theme
 2. copy settings.data from previous theme to new theme
