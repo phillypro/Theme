@@ -15,7 +15,7 @@
 
 
 {% if link_structure[0] contains 'google' %}
-{% assign google_font = link_structure[0] | prepend: 'http' %}
+{% assign google_font = link_structure[0] | prepend: 'https' %}
 {% assign link_structure = section.settings.rev | split: '"http' %}  
 {% assign link_structure = link_structure[3] | split: '"' %} 
 {% endif %}
@@ -28,13 +28,37 @@
 {% assign file_structure = file_structure | split: '?' %} 
 {% assign new_link_structure = file_structure[0] %} 
 
+<!-- see if it has close tag -->
+{% assign slider_html_with_script_test = section.settings.rev | split: '<script' %}
+{% assign slider_html_with_script_test = slider_html_with_script_test[0] | slice: 0 %}
+{% if slider_html_with_script_test == '>' %}
+  {% assign fromBody = true %}
+{% else %} 
+  {% assign fromBody = false %}
+{% endif %}
+
+
+<!-- if regular script tag -->
+{% if fromBody %}
 {% assign slider_html_with_script = section.settings.rev | split: '<script>' %}
 {% assign slider_html = slider_html_with_script[0] | append: '</div>' %}
+{% else %}
+{% assign slider_html_with_script = section.settings.rev | split: '<script type="text/javascript">' %}
+{% assign slider_additional_css = slider_html_with_script.last | split: '</script>' %}
+{% assign slider_additional_css = slider_additional_css.last | split: '</div>' %}
+{% assign slider_additional_css = slider_additional_css.first %}
+{% assign slider_html = slider_html_with_script[0] | append: '</div>' %}
+{% assign slider_html = slider_html | prepend: slider_additional_css %}
+{% endif %}
 {% assign slider_html =  slider_html | replace: original_link_structure, new_link_structure %}
 {% assign slider_html =  slider_html | remove: 'target="_self"' %}
 
 
 {% capture slider_js %}{% for script_part in slider_html_with_script %}{% unless forloop.first == true %}{{ script_part | remove: '<script type="text/javascript">' | remove: '</script>' | remove: '</div>' | remove: '<!-- END REVOLUTION SLIDER -->' }}{% endunless %}{% endfor %}{% endcapture %}
+{% unless fromBody %}
+{% assign slider_js = slider_js | split: '<style' %}
+{% assign slider_js = slider_js.first %}
+{% endunless %}
 {% assign slider_js_edit = slider_js | split: 'jsFileLocation:"' %}
 {% assign slider_js_edit = slider_js_edit[1] | split: '"' %}
 {% assign slider_js_edit = slider_js_edit[0] %}
@@ -140,13 +164,6 @@ $(document).on( "pageremove", '#index', function( event, ui ) {
   
 });
   
-  
-  
-function createhomepageslider() {
-{{slider_js }}  
-       
-}  
-  
 function setREVStartSize(e) {
     try {
         e.c = jQuery(e.c);
@@ -176,7 +193,14 @@ function setREVStartSize(e) {
     } catch (d) {
         console.log("Failure at Presize of Slider:" + d)
     }
-}
+}  
+  
+function createhomepageslider() {
+{{slider_js }}  
+       
+}  
+  
+
   
 });
 </script>
