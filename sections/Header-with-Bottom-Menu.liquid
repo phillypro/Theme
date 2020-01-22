@@ -183,7 +183,9 @@
    fill:{{ section.settings.cart_circle_color }};
    }
   
-  
+{% if section.settings.css != nil %}
+{{ section.settings.css }}
+{% endif %}
 {% endstyle %}
 <div class="header-wrap">
    <div class="inner-header">
@@ -539,8 +541,13 @@ function scrollheader() {
 "default":   10
 },
 {
-"type":      "header",
-"content":   "Shopping Cart Options"
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS"
 }
 ]
 }
