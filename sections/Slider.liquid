@@ -30,7 +30,7 @@
 
 <!-- see if it has close tag -->
 {% assign slider_html_with_script_test = section.settings.rev | split: '<script' %}
-{% assign slider_html_with_script_test = slider_html_with_script_test[0] | slice: 0 %}
+{% assign slider_html_with_script_test = slider_html_with_script_test[1] | slice: 0 %}
 {% if slider_html_with_script_test == '>' %}
   {% assign fromBody = true %}
 {% else %} 
