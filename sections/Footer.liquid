@@ -36,7 +36,7 @@
 {% for block in section.blocks %}
   {% case block.type %}
     {% when 'Mailing-List' %}
-    <style>      
+    {% style %}      
       
 {% assign loadedfonts = '' %}    
 {% assign familyandweight = block.settings.font.family | append: block.settings.font.weight %}
@@ -58,10 +58,10 @@
     font-weight:{{ block.settings.font.weight }}; 
     font-style:{{ block.settings.font.style }};  
       }
-
-      
-      
-    </style>
+     .mailing-list-wrap.mail-{{ block.id }} form button[type=submit] {
+      background:{{ block.settings.button_color }};color:{{ block.settings.button_font_color }};
+      }
+    {% endstyle %}
     <div class="mailing-list-wrap mail-{{ block.id }}">
        <div class="mailing-list-inner">
      {% if block.settings.message %}
@@ -82,7 +82,7 @@
       </div>
        
        
-      <button name="subscribe" id="mc-embedded-subscribe" style="background:{{ block.settings.button_color }};color:{{ block.settings.button_font_color }};" type="submit" class="mc-button">{{ block.settings.button_text }}</button>
+      <button name="subscribe" id="mc-embedded-subscribe" type="submit" class="mc-button">{{ block.settings.button_text }}</button>
 
      </form>  
 
@@ -93,19 +93,19 @@
      <form id="klaviyoFooter" class="klaviyoform" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
       <input type="hidden" name="g" value="{{ block.settings.klaviyo_list }}">
       <input type="email" value="" name="email" id="k_id_email" placeholder="Your@email.com">
-      <button style="background:{{ block.settings.button_color }};color:{{ block.settings.button_font_color }};" type="submit" class="klaviyo_submit_button">{{ block.settings.button_text }}</button>
+      <button type="submit" class="klaviyo_submit_button">{{ block.settings.button_text }}</button>
      </form>
       {% endif %}
        </div>
     </div>
     {% assign ajax = block.settings.ajax %}
   {% when 'Menu' %}
-    <style>
+    {% style %}
       #shopify-section-Footer .middle-footer .nav-{{ block.id }} a {
         color:{{ block.settings.color }};
         font-size:{{ block.settings.menu_fontsize }}px;
       }
-  </style>
+  {% endstyle %}
       <ul id="nav" class="nav nav-{{ block.id }}">
          {% for link in linklists[block.settings.menu].links %}
         <li><a  href="{{ link.url }}"><span>{{ link.title }}</span></a>
@@ -688,8 +688,6 @@ deferFooter(function () {
      color:#fff;
     }
     & button {
-    background: #D71180;
-    color: #fff;
     display: inline-block;
     padding: 0 30px;
     font-size: 23px;
@@ -790,4 +788,4 @@ max-width: 60px;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}    
+{% endjavascript %}      
