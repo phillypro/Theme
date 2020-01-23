@@ -33,8 +33,14 @@ color:{{ section.settings.buynowcolor }};
 
 
   {% if collection.description.size > 0 %}
+  <div class="row">
+    <div class="column">
     {{ collection.description }}
+    </div>
+   </div>
   {% endif %}
+  
+  
 <ul class="row align-center align-bottom collection-container">
 {% assign products_per = section.settings.products_per | plus: 0 %}  
 {% if products_per == 2 %}
