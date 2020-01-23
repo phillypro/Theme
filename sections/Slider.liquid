@@ -20,6 +20,24 @@
 {% assign link_structure = link_structure[3] | split: '"' %} 
 {% endif %}
 
+
+
+{% unless link_structure contains '/wp-content/uploads/' %}
+{% assign admin_link = link_structure[0] | split: '/' %}
+{% capture admin_link %}{% for link_part in admin_link %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
+{% assign admin_link_structure = admin_link | prepend: 'http' %}
+
+{% assign link_structure = section.settings.rev | split: '"http' %}  
+{% assign link_structure = link_structure[4] | split: '"' %} 
+
+{% capture theme_file_structure %}{{ 'transparent.png' | asset_url }}{% endcapture %}
+{% assign theme_file_structure = theme_file_structure | split: '?' %} 
+{% assign theme_file_structure = theme_file_structure[0] %} 
+{% assign theme_file_structure = theme_file_structure | split: 'transparent.png' %} 
+{% assign theme_file_structure = theme_file_structure[0] %} 
+{% endunless %}
+
+
 {% assign link_structure = link_structure[0] | prepend: 'http' %} 
 {% assign link_structure = link_structure | split: '/' %}
 {% capture original_link_structure %}{% for link_part in link_structure %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
@@ -27,6 +45,7 @@
 {% capture file_structure %}{{ '' | file_url }}{% endcapture %}
 {% assign file_structure = file_structure | split: '?' %} 
 {% assign new_link_structure = file_structure[0] %} 
+
 
 <!-- see if it has close tag -->
 {% assign slider_html_with_script_test = section.settings.rev | split: '<script' %}
@@ -51,6 +70,19 @@
 {% assign slider_html = slider_html | prepend: slider_additional_css %}
 {% endif %}
 {% assign slider_html =  slider_html | replace: original_link_structure, new_link_structure %}
+{% if admin_link_structure %}
+{% assign slider_html =  slider_html | replace: admin_link_structure, theme_file_structure %}
+{% endif %}
+
+<!-- get all the duplicates out -->
+{% for i in (1..30) %}
+{% assign png = i | prepend: '-' | append: '.png' %}
+{% assign jpg = i | prepend: '-' | append: '.jpg' %}
+{% assign slider_html =  slider_html | replace: png, '.png' %}
+{% assign slider_html =  slider_html | replace: jpg, '.jpg' %}
+{% endfor %}
+
+
 {% assign slider_html =  slider_html | remove: 'target="_self"' %}
 
 
