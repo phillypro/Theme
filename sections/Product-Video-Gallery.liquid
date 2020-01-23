@@ -526,6 +526,16 @@ if(window.$.mobile) {
           animation-direction: $direction;
 }
 
+
+.sticky-sidebar-container {             
+ & .sticky-sidebar {
+   @include bp(phablet) {
+   max-width: 100%;
+   }
+ }             
+}
+
+
 #shopify-section-Product-Video-Gallery {
 	& .Product-Video-Gallery-main {
 		position: relative;
