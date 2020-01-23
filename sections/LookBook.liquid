@@ -37,7 +37,7 @@ color:{{ section.settings.button_color }};
       {% when 'Image' %}
        
   <div class="grid-item">
-    <a class="hvr-grow lookbook-link" href="{{ block.settings.image | img_url: '1024x1024' }}" data-fancybox="lookbook-{{ randomNumber }}" data-caption="{{ block.settings.textarea }} {% unless block.settings.url == nil %}%%{{ block.settings.url }}%%{% endunless %}">
+    <a onClick="$.fancybox.close();" class="hvr-grow lookbook-link" href="{{ block.settings.image | img_url: '1024x1024' }}" data-fancybox="lookbook-{{ randomNumber }}" data-caption="{{ block.settings.textarea }} {% unless block.settings.url == nil %}%%{{ block.settings.url }}%%{% endunless %}">
       <img src="{{ block.settings.image | img_url: 'grande' }}" />
       {% unless block.settings.title == nil %}
       <div class="title">
@@ -111,6 +111,12 @@ var msnry = new Masonry( elem, {
   itemSelector: '.grid-item',
   percentPosition: true
 });  
+
+function customButton(event) {
+event.preventDefault;
+console.log('yo');  
+return false;
+}    
     
 $( '#lookbook-{{ randomNumber }} [data-fancybox]' ).fancybox({
     mobile: {
@@ -123,13 +129,18 @@ $( '#lookbook-{{ randomNumber }} [data-fancybox]' ).fancybox({
           var regex = /\%%(.*?)\%%/;
 var url = regex.exec(caption)[1];
          var currentnumber = item.opts.fancybox.replace('lookbook-','');
-          var button = '<div><a onClick="$.fancybox.close();" class="lookbook-button lookbook-button{{ randomNumber }} lookbook-button'+ currentnumber +'" href="'+url+'">{{ section.settings.button_text }}</a></div>';
-         caption = caption.replace(regex.exec(caption)[0], button);
+          var buttonDiv = document.createElement( 'div' );
+          buttonDiv.innerHTML = '<a class="lookbook-button lookbook-button'+ currentnumber +'" href="'+url+'">{{ section.settings.button_text }}</a>';
+          caption = caption.replace(regex.exec(caption)[0], buttonDiv.outerHTML);
         }
         return caption;
     }
 });      
     
+
+
+  
+  
     
 $(document).on("shopify:section:select", elem.closest('.shopify-section'),function(e){
 if( typeof msnry !== 'undefined') {
@@ -153,9 +164,10 @@ $(this).find('.lookbook-link').fancybox({
         if(caption.includes('%%')) {
           var regex = /\%%(.*?)\%%/;
 var url = regex.exec(caption)[1];
-         var currentnumber = item.opts.fancybox.replace('lookbook-','');
-          var button = '<div><a onClick="$.fancybox.close();" class="lookbook-button current-lookbook-button lookbook-button'+ currentnumber +'" href="'+url+'">{{ section.settings.button_text }}</a></div>';
-         caption = caption.replace(regex.exec(caption)[0], button);
+       var currentnumber = item.opts.fancybox.replace('lookbook-','');
+          var buttonDiv = document.createElement( 'div' );
+          buttonDiv.innerHTML = '<a class="lookbook-button current-lookbook-button lookbook-button'+ currentnumber +'" href="'+url+'">{{ section.settings.button_text }}</a>';
+        caption = caption.replace(regex.exec(caption)[0], buttonDiv.outerHTML);
         }
         return caption;
     }
