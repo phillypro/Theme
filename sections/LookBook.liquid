@@ -103,7 +103,16 @@ deferLookBook(function () {
   
   
   
-  setTimeout(function() {
+
+loadmsnry();
+var elem = document.querySelector('#lookbook-{{ randomNumber }}');  
+
+if(window.$.mobile) {
+   jQuery(document).on('pagecontainershow', loadmsnry);
+}
+  
+  
+function loadmsnry() {
 var elem = document.querySelector('#lookbook-{{ randomNumber }}');
 var msnry = new Masonry( elem, {
   // options
@@ -111,12 +120,8 @@ var msnry = new Masonry( elem, {
   itemSelector: '.grid-item',
   percentPosition: true
 });  
-
-function customButton(event) {
-event.preventDefault;
-console.log('yo');  
-return false;
-}    
+}  
+  
     
 $( '#lookbook-{{ randomNumber }} [data-fancybox]' ).fancybox({
     mobile: {
@@ -177,7 +182,7 @@ var url = regex.exec(caption)[1];
 });      
     
     
-  },50);
+
   
    
     
