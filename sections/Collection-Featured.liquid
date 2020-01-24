@@ -335,7 +335,7 @@ if (
     document.readyState === "complete" ||
     (document.readyState !== "loading" && !document.documentElement.doScroll)
 ) {
-  callbackCollections_List();
+  callbackCollections_Featured{{ section.id }}();
 } else {
   document.addEventListener("DOMContentLoaded", callbackCollections_Featured{{ section.id }});
 }
