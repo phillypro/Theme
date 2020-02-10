@@ -193,7 +193,9 @@ function loadCollectionDestroy{{randomNumber}} (event, ui) {
   var page = collection.closest('[data-role="page"]');
      if(ui.prevPage[0].id == page.id) {
       var page = ui.prevPage[0];
+      if (typeof page.infScroll !== 'undefined') {
       page.infScroll.destroy();
+      }
       //  console.log('destroyed' + page.id); 
 
   } 
@@ -227,7 +229,7 @@ function removeEvents{{randomNumber}}(event)  {
 function loadCollection() {
 
   var page = document.querySelector('.collection-{{ randomNumber }}').closest('[data-role="page"]');
-                               
+                                    if(document.querySelector('#' + page.id + ' .next a')) {                        
   var container = page.querySelector('.collection-container');
   page.infScroll = new InfiniteScroll( container, {
   path: '#' + page.id + ' .next a',
@@ -240,7 +242,7 @@ function loadCollection() {
        $.mobile.loading().hide();
    });
     //console.log('loaded' + page.id);
-  
+  }
 }  
   
   
