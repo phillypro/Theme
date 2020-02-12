@@ -46,7 +46,109 @@ It is important to show a search form on that page if search.performed is false.
         {% for item in search.results %}
           {% if item.object_type == 'product' %}
             {% assign product = item %}    
-            {% include 'product-item' %}
+          
+        
+        
+        {% if product.type == "OPTIONS_HIDDEN_PRODUCT" %}{% continue %}{% endif %}
+{% comment %}Is this product on sale?{% endcomment %}
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+
+
+
+
+
+
+
+
+    <li itemscope itemtype="http://schema.org/Product" data-id="{{ product.id }}" class="text-center columns large-3 medium-6 small-6 product {% if product.type contains 'book' %}book{% endif %} {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
+         
+        
+      
+       <a href="{{ product.url | within: collection }}">
+         
+         
+              {% if product.type contains 'book' %}
+
+    <div class="book-size">
+     {% for image in product.images limit: 1 %}
+        <article class="v-book has-groove angle" data-index="0" style="opacity: 1; top: 0px;">
+          <canvas id="canvas-{{ product.id }}" width="200" height="100"></canvas> 
+          <section class="v-book__cover is-front" style="background-image: url({{ image | product_img_url: '1024x1024' }});"> 
+            <section></section> 
+          </section> 
+          <section class="v-book__spine"></section> 
+          <section class="v-book__cover is-back">  
+     
+          </section> 
+        </article>
+        
+        
+        {% endfor %}
+         </div>
+                      
+                      
+                      {% else %}
+         
+         
+       <div class="image">
+         {% for tag in product.tags %}
+         <span class="tag">{{ tag }}</span>
+           {% endfor %}
+         {% if product.featured_image %}<img src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
+       </div>
+         
+         {% endif %}
+         
+         <h3>{{ product.title }}</h3>
+       
+         <p class="h1 medium-down--left">
+          {% if product.price_max > product.price %}
+        {% include 'price' with product.price_min %} 
+        {% else %}
+        {% include 'price' with product.price %}
+        {% endif %}
+            
+           
+            </p>
+
+          {% if on_sale %}
+          <div class="salew">
+            <span class="sale-tag medium-down--right{% if settings.product_reviews_enable %} has-reviews{% endif %}">
+              {% assign compare_price = product.compare_at_price %}
+              {% assign product_price = product.price %}
+              {% include 'price-sale' %}
+            </span>
+         </div>
+          {% endif %}
+       </a> 
+      
+      
+      
+      
+    
+       {% if product.price_max > product.price %}
+         {% assign totalprice = product.price_min %}   
+        {% else %}
+        {% assign totalprice = product.price %}      
+        {% endif %}
+     </li>
+
+
+
+
+
+
+        
+        
+        
+        
+        
+        
+        
           {% elsif item.object_type == 'article' %}
              {% assign article = item %}     
               <a href="{{ article.url }}" class="{% if i == 0 %}large-12 article-big{% else %}large-4{% endif %} medium-6 small-12 columns article-wrap">
