@@ -80,9 +80,12 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
   
   
 
-{% capture image %}{{ section.settings.image | img_url: '1024x1024' }}{% endcapture %}                                   
-      {% if image contains 'no-image' %}
-      {% else %} 
+{% capture image %}{{ section.settings.image | img_url: '1024x1024' }}{% endcapture %}      
+   
+  {% if section.settings.mp4_url or image contains 'no-image' %}
+   
+ 
+ 
        <div class="large-6 small-12 columns image">
 {% unless section.settings.youtube_url == nil %}      
  <a data-fancybox class="hvr-grow" href="{{ section.settings.youtube_url }}">
@@ -96,12 +99,22 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
    </svg>
 </a>
 {% endunless %}
+        {% if section.settings.mp4_url %}
+         <video playsinline="" autoplay="" preload="auto" loop="loop" muted="muted" onclick="event.preventDefault();">
+            <source src="{{ section.settings.mp4_url }}" type="video/mp4">
+         </video>
+        {% else %}
         <img src="{{ section.settings.image | img_url: '1024x1024' }}" />
+        {% endif %}
        </div>
-{% endif %}  
+
+    {% endif %}
+   
 
 </div>
 </div>
+
+
 
 
 
@@ -248,6 +261,12 @@ if (
        "id": "image",
        "type": "image_picker",
        "label": "Model Image PNG! (Optional)"
+},
+{
+"id": "mp4_url",
+"type": "url",
+"label": "MP4 Preview URL (Overwrites Image)",
+"info": "If filled out, this will show in place of image"
 },
 {
 "id": "youtube_url",
@@ -535,6 +554,9 @@ position:relative;
 min-height:100%;
 }
 }
+& video {
+max-width:100%;
+}
      }
     }
    }
@@ -554,4 +576,4 @@ min-height:100%;
 {% endstylesheet %}
 
 {% javascript %}       
-{% endjavascript %}     
+{% endjavascript %}      
