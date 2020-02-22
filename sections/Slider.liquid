@@ -96,10 +96,11 @@
 {% assign slider_js_edit = slider_js_edit[0] %}
 {% assign slider_js = slider_js | remove: slider_js_edit %}
 
+{% if section.settings.wait_slider %}
 {% unless slider_js contains 'waitForInit' %}
   {% assign slider_js = slider_js | replace: 'jsFileLocation:"",','jsFileLocation:"",waitForInit: true,' %}
 {% endunless %}
-
+{% endif %}
 
 {{ slider_html }}
   
@@ -109,7 +110,7 @@
   
   {% if google_font %}
   var styleArray = Array.prototype.slice.call(document.styleSheets);
-  var callbackSliderFont = function(){
+  var callbackSliderFont{{section.id}} = function(){
   // Handler when the DOM is fully loaded
     if(!styleArray.includes("{{ google_font }}")) {
     // add style
@@ -125,42 +126,41 @@ if (
     document.readyState === "complete" ||
     (document.readyState !== "loading" && !document.documentElement.doScroll)
 ) {
-  callbackSliderFont();
+  callbackSliderFont{{section.id}}();
 } else {
-  document.addEventListener("DOMContentLoaded", callbackSliderFont);
+  document.addEventListener("DOMContentLoaded", callbackSliderFont{{section.id}});
 }  
   {% endif %}
   
-function deferSlider(methodSlider) {
+function deferSlider{{section.id}}(methodSlider{{section.id}}) {
     if (window.jQuery) {
       if (window.jQuery.mobile) {
-        methodSlider();
+        methodSlider{{section.id}}();
       }else{
-        setTimeout(function() { deferSlider(methodSlider) }, 50);
+        setTimeout(function() { deferSlider{{section.id}}(methodSlider{{section.id}}) }, 50);
       }
     } else {
-        setTimeout(function() { deferSlider(methodSlider) }, 50);
+        setTimeout(function() { deferSlider{{section.id}}(methodSlider{{section.id}}) }, 50);
     }
 }
-deferSlider(function () {  
+deferSlider{{section.id}}(function () {  
    
 $(document).one( "pagecreate", '#index', function( event, ui ) {
 $(document).one("pagecontainerbeforeshow", function (event,ui) {
   if (ui.toPage[0].id == 'index') {
-  
     var page = ui.toPage[0];
     window.scrollTo(0, 0);
     var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
      if(!slider.hasClass('revslider-initialised')) {
        createslider{{ section.id }}();
+      function logLoaded{{section.id}}() {
        
-   function logLoaded3() {
-  var dataPrev = ui.prevPage[0] ;
+  var dataPrev = ui.prevPage[0];
   if(typeof dataPrev != 'undefined') {     
      var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
      if(!slider.hasClass('revslider-initialised')) {
       setTimeout(function() {         
-      slider.revstart();
+      slider.revstart();      
       },300);
      }
   }else{
@@ -172,11 +172,11 @@ $(document).one("pagecontainerbeforeshow", function (event,ui) {
   },2000);
   }
     }
-    (function listen3() {
+    (function listen{{section.id}}() {
         if (window.loaded) {
-            logLoaded3();
+            logLoaded{{section.id}}();
         } else {
-            window.setTimeout(listen3, 50);
+            window.setTimeout(listen{{section.id}}, 50);
         }
     })();
        
@@ -184,6 +184,7 @@ $(document).one("pagecontainerbeforeshow", function (event,ui) {
       slider.revredraw();
       slider.revresume();
      } 
+
   }
 });
 });  
@@ -197,6 +198,8 @@ $(document).one( "pageremove", '#index', function( event, ui ) {
   }
 });
   
+  
+
 function setREVStartSize(e) {
     try {
         e.c = jQuery(e.c);
@@ -227,10 +230,12 @@ function setREVStartSize(e) {
         console.log("Failure at Presize of Slider:" + d)
     }
 }  
+
   
 function createslider{{ section.id }}() {
+
 {{slider_js }}     
-}  
+} 
   
 
   
@@ -266,6 +271,12 @@ function createslider{{ section.id }}() {
         "type": "html",
         "id": "rev",
         "label": "Slider HTML"
+      },
+      {
+        "type": "checkbox",
+        "id": "wait_slider",
+        "label": "Wait for Page Load",
+        "default": true
       }
      ],
      "blocks": [
