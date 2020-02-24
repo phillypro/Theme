@@ -120,7 +120,7 @@
   {% endcase %}
 {% endfor %} 
   
-  
+{% if section.settings.instagram or section.settings.facebook or section.settings.youtube or section.settings.twitter %}
      <div class="row align-center align-middle text-center social-icons">
      {% if section.settings.instagram %}
 <a href="{{ section.settings.instagram }}"><svg width="381pt" height="381pt" viewBox="0 0 381 381" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -154,11 +154,12 @@
        </a>
 {% endif %}
    </div>
+{% endif %}   
 
   
   
   
-  
+      {% if section.settings.visa or section.settings.mastercard or section.settings.discover or section.settings.american or section.settings.paypal or section.settings.applepay %}
    <div class="row align-center align-middle text-center card-icons">
      {% if section.settings.visa %}<svg width="74pt" height="22pt" viewBox="0 0 74 22" version="1.1" xmlns="http://www.w3.org/2000/svg">
 <g id="#ffffffff">
@@ -231,6 +232,7 @@
 </svg>
 {% endif %}
    </div>
+{% endif %}   
 
 </div>
   <div class="bottom-footer">
