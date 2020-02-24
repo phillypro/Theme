@@ -26,10 +26,9 @@
 {% assign admin_link = link_structure[0] | split: '/' %}
 {% capture admin_link %}{% for link_part in admin_link %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
 {% assign admin_link_structure = admin_link | prepend: 'http' %}
-
 {% assign link_structure = section.settings.rev | split: '"http' %}  
-{% assign link_structure = link_structure[4] | split: '"' %} 
 
+{% assign link_structure = link_structure[2] | split: '"' %} 
 {% capture theme_file_structure %}{{ 'transparent.png' | asset_url }}{% endcapture %}
 {% assign theme_file_structure = theme_file_structure | split: '?' %} 
 {% assign theme_file_structure = theme_file_structure[0] %} 
@@ -41,6 +40,7 @@
 {% assign link_structure = link_structure[0] | prepend: 'http' %} 
 {% assign link_structure = link_structure | split: '/' %}
 {% capture original_link_structure %}{% for link_part in link_structure %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
+
 
 {% capture file_structure %}{{ '' | file_url }}{% endcapture %}
 {% assign file_structure = file_structure | split: '?' %} 
@@ -102,8 +102,9 @@
 {% endunless %}
 {% endif %}
 
+
 {{ slider_html }}
-  
+
 
   
 <script>
