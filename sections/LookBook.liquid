@@ -135,7 +135,7 @@ $( '#lookbook-{{ randomNumber }} [data-fancybox]' ).fancybox({
 var url = regex.exec(caption)[1];
          var currentnumber = item.opts.fancybox.replace('lookbook-','');
           var buttonDiv = document.createElement( 'div' );
-          buttonDiv.innerHTML = '<a class="lookbook-button lookbook-button'+ currentnumber +'" href="'+url+'">{{ section.settings.button_text }}</a>';
+          buttonDiv.innerHTML = '<a class="lookbook-button lookbook-button'+ currentnumber +'" href="'+url+'">' + urldecode('{{ section.settings.button_text | url_encode }}') + '</a>';
           caption = caption.replace(regex.exec(caption)[0], buttonDiv.outerHTML);
         }
         return caption;
@@ -171,7 +171,7 @@ $(this).find('.lookbook-link').fancybox({
 var url = regex.exec(caption)[1];
        var currentnumber = item.opts.fancybox.replace('lookbook-','');
           var buttonDiv = document.createElement( 'div' );
-          buttonDiv.innerHTML = '<a class="lookbook-button current-lookbook-button lookbook-button'+ currentnumber +'" href="'+url+'">{{ section.settings.button_text }}</a>';
+          buttonDiv.innerHTML = '<a class="lookbook-button current-lookbook-button lookbook-button'+ currentnumber +'" href="'+url+'">' + urldecode('{{ section.settings.button_text | url_encode }}') + '</a>';
         caption = caption.replace(regex.exec(caption)[0], buttonDiv.outerHTML);
         }
         return caption;
@@ -185,7 +185,9 @@ var url = regex.exec(caption)[1];
 
   
    
-    
+function urldecode(str) {
+   return decodeURIComponent((str+'').replace(/\+/g, '%20'));
+}    
   
   
   
