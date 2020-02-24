@@ -27,6 +27,10 @@
 }
 
 
+{% if section.settings.css != nil %}
+{{ section.settings.css }}
+{% endif %}
+
 {% endstyle %}
 {% if section.settings.blog != nil %}
 {% assign theblog = section.settings.blog %}
@@ -242,6 +246,16 @@
 "id": "fullwidth",
 "label": "Full Width",
 "default": false
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS",
+	"info": "Use [Font 2 Web](http://www.font2web.com/) to convert fonts"
 }
 ],
   "presets": [
@@ -407,7 +421,7 @@ display: none;
   }
   & .article-inner {
     min-height: 100%;
-
+    position:relative;
     border-radius: 5px;
    @include bp(phablet) {
     border:none;
