@@ -198,7 +198,17 @@ $(document).one( "pageremove", '#index', function( event, ui ) {
     });
   }
 });
-  
+$(document).one( "pagehide", '#index', function( event, ui ) {
+  var sliders = this.querySelectorAll('.rev_slider');
+  if(sliders ) {
+    sliders.forEach(function(slider) {
+  	var video = slider.querySelector('video');
+      if(video) {
+       video.muted = true;
+      }
+    });
+  }
+});  
   
 
 function setREVStartSize(e) {
