@@ -149,7 +149,9 @@ padding-top:25px;
 {% endif %}
 
 
-
+{% if count >= products_per %}
+  {% assign hasmore = true %}
+{% endif %}
       <li itemscope itemtype="http://schema.org/Product" data-id="{{ product.id }}" class="text-center product {% unless section.settings.carousel == false %}swiper-slide {% else %} columns {{ sizes }} small-6  {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}{% unless count >= products_per %} first-animate{% endunless %}{% endunless %}"  {% unless section.settings.carousel %} {% if count >= products_per %}style="display:none;"{% endif %} {% endunless %} >
          
       
@@ -472,7 +474,9 @@ var showmorebutton = document.querySelector('#shopify-section-{{ section.id }} .
 if(showmorebutton) {                                            
 showmorebutton.addEventListener("click", showmore);
   function showmore(e) {
-   e.preventDefault() 
+  // if has hidden 
+  {% if hasmore == false %}
+    e.preventDefault() 
     var ul = this.closest('.collection-featured').getElementsByTagName("ul")[0];
     var lis = ul.querySelectorAll("li");
     var i = 0
@@ -484,6 +488,7 @@ showmorebutton.addEventListener("click", showmore);
     if((i * 2) >= ul.childElementCount) {
      this.classList.add('disabled');
     }
+    {% endif %} 
   }
 }
 </script>
