@@ -1,4 +1,4 @@
-<style>
+{% style %}
 {% assign loadedfonts = '' %}    
 {% assign familyandweight = section.settings.font.family | append: section.settings.font.weight %}
 {% if loadedfonts contains familyandweight %}
@@ -54,8 +54,10 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
 }
   
 
-  
-</style>
+{% if section.settings.css != nil %}
+{{ section.settings.css }}
+{% endif %}    
+{% endstyle %}
 
 <div class="featured-video-section">
   <div class="section-title-wrap">
@@ -282,6 +284,15 @@ if (
         "type": "color",
         "label": "Background Color",
         "default": "#000"
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS"
 }
 ],
   "presets": [
