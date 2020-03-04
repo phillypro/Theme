@@ -402,7 +402,11 @@ container.style.opacity = '1';
   
 //set page dimensions
 $(page).page({domCache:true});   
-$(page).css({'padding-top' : $('#header').outerHeight()});   
+  if(jQuery("#header").hasClass("ui-toolbar-header-fixed") ) {
+  $(page).css({'padding-top' : $('#header').outerHeight()});   
+  }else if(jQuery("#footer").hasClass("ui-toolbar-footer-fixed") ) {
+  $(page).css({'padding-bottom' : $('#footer').outerHeight()});   
+  }
 var content = SetHeightOfForm();
 target = $(page).find("div.ui-content");
 if(target.height() != content)
@@ -410,7 +414,7 @@ if(target.height() != content)
   jQuery( window ).resize(function() {
   var content = SetHeightOfForm();
   target.css({'min-height' : content, 'height' : content});
-});                                   
+});                                     
                               
                                
 // stop all videos on close
@@ -696,14 +700,14 @@ $.ajax({
 //functions 
 function SetHeightOfForm() {
     var screen = jQuery.mobile.getScreenHeight();
-    var header = jQuery("#header").hasClass("footer") ? jQuery("#header").outerHeight() : jQuery("#header").outerHeight();
+    var fixed = jQuery("#header").hasClass("ui-toolbar-header-fixed") ? jQuery("#header").outerHeight() : jQuery("#footer").outerHeight();
 
     /* content div has padding of 1em = 16px (32px top+bottom). This step
    can be skipped by subtracting 32px from content var directly. */
     var contentCurrent = jQuery(".ui-content").outerHeight() - jQuery(".ui-content").height();
-    var content = screen - header - contentCurrent;
+    var content = screen - fixed - contentCurrent;
     return content;
-}  
+} 
   
   
 
