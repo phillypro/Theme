@@ -86,7 +86,9 @@ color: {{ section.settings.label_color }};
 #container-{{ randomNumber }} .fs-nav-dots button:hover::before, #container-{{ randomNumber }} .fs-nav-dots button.fs-dot-current::before { 
   background-color: {{ section.settings.navigation_active_color }};  
 }  
-  
+{% if section.settings.css != nil %}
+{{ section.settings.css }}
+{% endif %}   
 {% endstyle %}
 
   <div id="container-{{ randomNumber }}" class="container" style="opacity:0">
@@ -790,9 +792,28 @@ function activatestripe(paymentli) {
 });
 </script>
 {% schema %}
-  {
+   {
     "name": "Advanced Form",
     "settings": [
+{
+   "type":      "header",
+   "content":   "Form Settings"
+},
+{
+        "id": "title",
+        "type": "text",
+        "label": "Title",
+        "default": "Booking"
+},
+{
+        "id": "webhook",
+        "type": "url",
+        "label": "Slack Webhook"
+},{
+        "id": "confirmation",
+        "type": "textarea",
+        "label": "Confirmation Message"
+},
 {
    "type":      "header",
    "content":   "Colors"
@@ -844,23 +865,13 @@ function activatestripe(paymentli) {
        "default": "#ffffff"
 },
 {
-   "type":      "header",
-   "content":   "Form Settings"
+ "type": "header",
+ "content": "Additional Custom CSS"
 },
 {
-        "id": "title",
-        "type": "text",
-        "label": "Title",
-        "default": "Booking"
-},
-{
-        "id": "webhook",
-        "type": "url",
-        "label": "Slack Webhook"
-},{
-        "id": "confirmation",
-        "type": "textarea",
-        "label": "Confirmation Message"
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS"
 }],
 "blocks": [
     {
