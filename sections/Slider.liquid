@@ -170,49 +170,41 @@ function deferSlider{{section.id}}(methodSlider{{section.id}}) {
 }
 deferSlider{{section.id}}(function () {  
    
-$(document).one( "pagecreate", '#index', function( event, ui ) {
-$(document).one("pagecontainerbeforeshow", function (event,ui) {
-  if (ui.toPage[0].id == 'index') {
-    var page = ui.toPage[0];
-    window.scrollTo(0, 0);
-    var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
-     if(!slider.hasClass('revslider-initialised')) {
-       createslider{{ section.id }}();
-      function logLoaded{{section.id}}() {
-       
-  var dataPrev = ui.prevPage[0];
-  if(typeof dataPrev != 'undefined') {     
-     var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
-     if(!slider.hasClass('revslider-initialised')) {
-      setTimeout(function() {         
-      slider.revstart();      
-      },300);
-     }
-  }else{
-     setTimeout(function() {
-     var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
-     if(!slider.hasClass('revslider-initialised')) {
-       slider.revstart();
-     }
-  },2000);
-  }
-    }
-    (function listen{{section.id}}() {
-        if (window.loaded) {
-            logLoaded{{section.id}}();
-        } else {
-            window.setTimeout(listen{{section.id}}, 50);
-        }
-    })();
-       
-      }else{
-      slider.revredraw();
-      slider.revresume();
-     } 
+$(document).one("pagecreate", '#index', function (event, ui) {
+	$(document).one("pagecontainerbeforeshow", function (event, ui) {
+		if (ui.toPage[0].id == 'index') {
+			var page = ui.toPage[0];
+            window.dataPrev{{ section.id }} = ui.prevPage[0];
+			window.scrollTo(0, 0);
+			var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
+                   
+                // start slider                                        
+                {{slider_js }} 
+                                           
+                function logLoaded{{section.id}}() {
+                      var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
+                      slider.revstart();
+                }
+				(function listen{{section.id}}() {
+                 
+					if (window.loaded && typeof jQuery.fn.revolution.checkActions != 'undefined') {
+                      if(typeof window.dataPrev{{ section.id }} != 'undefined') {
+						logLoaded{{section.id}}();
+                      }else{
+                        setTimeout(function () {
+                        logLoaded{{section.id}}();                   
+                        }, 2000);
+                      }
+					} else {
+						window.setTimeout(listen{{section.id}}, 50);
+					}
+				})();
+          
 
-  }
+
+		}
+	});
 });
-});  
   
 $(document).one( "pageremove", '#index', function( event, ui ) {
   var sliders = this.querySelectorAll('.rev_slider');
@@ -267,11 +259,7 @@ function setREVStartSize(e) {
 }  
 
   
-function createslider{{ section.id }}() {
 
-{{slider_js }}     
-} 
-  
 
   
 });
