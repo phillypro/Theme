@@ -37,9 +37,23 @@
 {% endunless %}
 
 
+
+<!-- if it has a svg -->
+{% if section.settings.rev contains 'data-svg_src' %}
+{% assign svg_link_structure = section.settings.rev | split: 'data-svg_src="http' %}  
+{% assign svg_link_structure = svg_link_structure[1] | split: '"' %} 
+{% assign svg_link_structure = svg_link_structure[0] | prepend: 'http' %} 
+{% assign svg_link_structure = svg_link_structure | split: '/' %}
+{% capture original_svg_link_structure %}{% for svg_link_part in svg_link_structure %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ svg_link_part }}{% endunless %}{% endfor %}{% endcapture %}
+{% endif %}
+
+
+
 {% assign link_structure = link_structure[0] | prepend: 'http' %} 
 {% assign link_structure = link_structure | split: '/' %}
 {% capture original_link_structure %}{% for link_part in link_structure %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
+
+
 
 
 {% capture file_structure %}{{ '' | file_url }}{% endcapture %}
@@ -57,6 +71,9 @@
 {% endif %}
 
 
+
+
+
 <!-- if regular script tag -->
 {% if fromBody %}
 {% assign slider_html_with_script = section.settings.rev | split: '<script>' %}
@@ -69,9 +86,16 @@
 {% assign slider_html = slider_html_with_script[0] | append: '</div>' %}
 {% assign slider_html = slider_html | prepend: slider_additional_css %}
 {% endif %}
+{% if svg_link_structure %}
+{% assign slider_html =  slider_html | replace: original_svg_link_structure, new_link_structure %}
+{% endif %}
 {% assign slider_html =  slider_html | replace: original_link_structure, new_link_structure %}
 {% if admin_link_structure %}
 {% assign slider_html =  slider_html | replace: admin_link_structure, theme_file_structure %}
+{% endif %}
+{% if google_font %}
+{% assign slider_html = slider_html | split: 'type="text/css" media="all">' %}
+{% assign slider_html = slider_html[1] %}
 {% endif %}
 
 <!-- get all the duplicates out -->
