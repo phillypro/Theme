@@ -162,10 +162,10 @@ function deferSlider{{section.id}}(methodSlider{{section.id}}) {
       if (window.jQuery.mobile) {
         methodSlider{{section.id}}();
       }else{
-        setTimeout(function() { deferSlider{{section.id}}(methodSlider{{section.id}}) }, 50);
+        setTimeout(function() { deferSlider{{section.id}}(methodSlider{{section.id}}) }, 10);
       }
     } else {
-        setTimeout(function() { deferSlider{{section.id}}(methodSlider{{section.id}}) }, 50);
+        setTimeout(function() { deferSlider{{section.id}}(methodSlider{{section.id}}) }, 10);
     }
 }
 deferSlider{{section.id}}(function () {  
@@ -186,8 +186,8 @@ $(document).one("pagecreate", '#index', function (event, ui) {
                       slider.revstart();
                 }
 				(function listen{{section.id}}() {
-                 
 					if (window.loaded && typeof jQuery.fn.revolution.checkActions != 'undefined') {
+                      
                       if(typeof window.dataPrev{{ section.id }} != 'undefined') {
 						logLoaded{{section.id}}();
                       }else{
