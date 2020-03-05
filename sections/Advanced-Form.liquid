@@ -143,13 +143,13 @@ color: {{ section.settings.label_color }};
                       
 {% when 'Name' %}
 <li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required %}<span class="required">*</span>{% endif %}</label>
 	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
 </li>
 {% assign tabindex = tabindex | plus: 1 %}             
 {% when 'Email' %}
 <li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required %}<span class="required">*</span>{% endif %}</label>
 	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
 </li>
 {% assign tabindex = tabindex | plus: 1 %}    
@@ -161,19 +161,19 @@ color: {{ section.settings.label_color }};
 {% assign tabindex = tabindex | plus: 1 %}    
 {% when 'Url' %}
 <li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required %}<span class="required">*</span>{% endif %}</label>
 	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
 </li>
 {% assign tabindex = tabindex | plus: 1 %}                           
 {% when 'TextInput' %}
 <li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required %}<span class="required">*</span>{% endif %}</label>
 	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
 </li>
 {% assign tabindex = tabindex | plus: 1 %}                                   
 {% when 'TextArea' %}
 <li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required %}<span class="required">*</span>{% endif %}</label>
       <textarea class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="textarea" rows="10" cols="50"></textarea>
 </li>
 {% assign tabindex = tabindex | plus: 1 %}      
