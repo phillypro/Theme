@@ -64,9 +64,15 @@ body.{{ template | replace: '.', '' }} header .header-wrap .row .logo-wrap a:aft
 #container-{{ randomNumber }} .advancedform-wrapper .fs-form.fs-form-full .fs-fields>li label.fs-field-label, #container-{{ randomNumber }} .fs-controls .fs-numbers {
   color:{{ section.settings.label_color }};
 }
-#container-{{ randomNumber }} .advancedform-wrapper .fs-form.fs-form-full .fs-fields>li input {
+#container-{{ randomNumber }} .advancedform-wrapper .fs-form.fs-form-full .fs-fields>li select {
   color:{{ section.settings.input_color }};
+  border-color:{{ section.settings.input_color }};
 } 
+
+#container-{{ randomNumber }} .advancedform-wrapper .fs-form.fs-form-full .fs-fields>li input  {
+  color:{{ section.settings.input_color }};
+}
+
   
 #container-{{ randomNumber }} .fs-controls button.fs-continue {
 border-color: {{ section.settings.label_color }};
@@ -86,9 +92,23 @@ color: {{ section.settings.label_color }};
 #container-{{ randomNumber }} .fs-nav-dots button:hover::before, #container-{{ randomNumber }} .fs-nav-dots button.fs-dot-current::before { 
   background-color: {{ section.settings.navigation_active_color }};  
 }  
+
+
+#container-{{ randomNumber }} .advancedform-wrapper .fs-form.fs-form-full .fs-fields>li .fs-radio-custom span label {
+  color:{{ section.settings.button_input_color }};
+  background-color:{{ section.settings.button_input_background_color }};
+} 
+
+#container-{{ randomNumber }} .advancedform-wrapper .fs-form.fs-form-full .fs-fields>li .fs-radio-custom span input[type="radio"]:checked+label {
+  color:{{ section.settings.button_input_selected_color }};
+  background-color:{{ section.settings.button_input_selected_background_color }};
+}
+
+
+
 {% if section.settings.css != nil %}
 {{ section.settings.css }}
-{% endif %}   
+{% endif %} 
 {% endstyle %}
 
   <div id="container-{{ randomNumber }}" class="container" style="opacity:0">
@@ -102,170 +122,64 @@ color: {{ section.settings.label_color }};
 {% assign tabindex = 1 %}                      
 {% for block in section.blocks %}
 {% case block.type %}
-                      
-{% if block.settings.conditional != '' %}
-  {% assign conditional = block.settings.conditional | plus: 0 %} 
-  {% assign conditioncount = i | plus: 1 %}                    
-{% endif %}              
+                                   
                       
 {% when 'Youtube' %}                      
                       
-<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %} video" data-link-trigger>
+<li class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}conditional{% endif %} video" data-link-trigger>
   <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}</label>
  
-  <div class="fs-radio-group fs-radio-custom big-bubble clearfix fs-anim-lower">
+  <div class="fs-radio-group fs-radio-custom bigbuttons clearfix fs-anim-lower">
     <div class="video-wrap">
       <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ block.settings.youtube_url.id }}?playsinline=1&version=3&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     <div>
       <a href="#">{{ block.settings.button_text }}</a>
     </div>
-  </div>
-                      
+  </div>                  
 </li>                      
+ 
                       
-{% when 'Question' %}
-
-
-{% case block.settings.type %}
-{% when 'text' %}
-<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}">
+                      
+{% when 'Name' %}
+<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
   <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
 	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
 </li>
-{% assign tabindex = tabindex | plus: 1 %}                        
-{% when 'name' %}
-<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}">
-  <label id="af-{{ section.id }}-form-type-name" priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
-	<input value="" class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
+{% assign tabindex = tabindex | plus: 1 %}             
+{% when 'Email' %}
+<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
 </li>
-{% assign tabindex = tabindex | plus: 1 %} 
-{% assign conditionalmark = 1 %}                      
-{% when 'big bubble' %}
-<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}" data-input-trigger>
-	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}</label>
-    <div class="fs-radio-group fs-radio-custom big-bubble clearfix fs-anim-lower {% if section.settings.onerow != false %}onerow{% endif %}">
-      {% if block.settings.a != '' %}
-      {% assign length =  block.settings.a | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}a" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.a }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}a">{{ block.settings.a }}</label></span>
-     {% assign conditionalmark = conditionalmark | plus: 1 %}  
-     {% endif %}
-     {% if block.settings.b != '' %}
-      {% assign length =  block.settings.b | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}b" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.b }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}b">{{ block.settings.b }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-     {% assign conditionalmark = conditionalmark | plus: 1 %}  
-      {% endif %} 
-          {% if block.settings.c != '' %}
-       {% assign length =  block.settings.c | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}c" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.c }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}c">{{ block.settings.c }}</label></span>
-    {% assign tabindex = tabindex | plus: 1 %} 
-    {% assign conditionalmark = conditionalmark | plus: 1 %}    
-      {% endif %} 
-           {% if block.settings.d != '' %}
-       {% assign length =  block.settings.d | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}d" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.d }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}d">{{ block.settings.d }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-    {% assign conditionalmark = conditionalmark | plus: 1 %}    
-      {% endif %} 
-           {% if block.settings.e != '' %}
-       {% assign length =  block.settings.e | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}e" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.e }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}e">{{ block.settings.e }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-     {% assign conditionalmark = conditionalmark | plus: 1 %}   
-      {% endif %} 
-           {% if block.settings.f != '' %}
-       {% assign length =  block.settings.f | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}f" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.f }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}f">{{ block.settings.f }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-     {% assign conditionalmark = conditionalmark | plus: 1 %}   
-      {% endif %} 
-           {% if block.settings.g != '' %}
-       {% assign length =  block.settings.g | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}g" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.g }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}g">{{ block.settings.g }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-     {% assign conditionalmark = conditionalmark | plus: 1 %}   
-      {% endif %} 
-           {% if block.settings.h != '' %}
-       {% assign length =  block.settings.h | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}h" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.h }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}h">{{ block.settings.h }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-     {% assign conditionalmark = conditionalmark | plus: 1 %}   
-      {% endif %} 
-           {% if block.settings.i != '' %}
-       {% assign length =  block.settings.i | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}i" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.i }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}i">{{ block.settings.i }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-      {% endif %} 
-     
-      
-  </div>  
+{% assign tabindex = tabindex | plus: 1 %}    
+{% when 'Phone' %}
+<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" {% if block.settings.required != false %}required{% endif %}/>
 </li>
-{% assign conditionalmark = 1 %}                         
-{% when 'small bubble' %}
-<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}" data-input-trigger>
-	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}</label>
-    <div class="fs-radio-group fs-radio-custom small-bubble clearfix fs-anim-lower {% if section.settings.onerow != false %}onerow{% endif %}">
-      {% if block.settings.a != '' %}
-      {% assign length =  block.settings.a | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}a" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.a }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}a">{{ block.settings.a }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-    {% assign conditionalmark = conditionalmark | plus: 1 %}   
-      {% endif %}
-     {% if block.settings.b != '' %}
-      {% assign length =  block.settings.b | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}b" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.b }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}b">{{ block.settings.b }}</label></span>
-    {% assign tabindex = tabindex | plus: 1 %}
-      {% assign conditionalmark = conditionalmark | plus: 1 %} 
-      {% endif %} 
-          {% if block.settings.c != '' %}
-       {% assign length =  block.settings.c | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}c" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.c }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}c">{{ block.settings.c }}</label></span>
-    {% assign tabindex = tabindex | plus: 1 %} 
-      {% assign conditionalmark = conditionalmark | plus: 1 %} 
-      {% endif %} 
-           {% if block.settings.d != '' %}
-       {% assign length =  block.settings.d | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}d" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.d }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}d">{{ block.settings.d }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-      {% assign conditionalmark = conditionalmark | plus: 1 %} 
-      {% endif %} 
-           {% if block.settings.e != '' %}
-       {% assign length =  block.settings.e | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}e" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.e }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}e">{{ block.settings.e }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-      {% assign conditionalmark = conditionalmark | plus: 1 %} 
-      {% endif %} 
-           {% if block.settings.f != '' %}
-       {% assign length =  block.settings.f | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}f" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.f }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}f">{{ block.settings.f }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-      {% assign conditionalmark = conditionalmark | plus: 1 %} 
-      {% endif %} 
-           {% if block.settings.g != '' %}
-       {% assign length =  block.settings.g | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}g" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.g }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}}g">{{ block.settings.g }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-      {% assign conditionalmark = conditionalmark | plus: 1 %} 
-      {% endif %} 
-           {% if block.settings.h != '' %}
-       {% assign length =  block.settings.h | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}"  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}h" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.h }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}h">{{ block.settings.h }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %} 
-      {% assign conditionalmark = conditionalmark | plus: 1 %} 
-      {% endif %} 
-           {% if block.settings.i != '' %}
-       {% assign length =  block.settings.i | size %}
-      <span><input class="{% if conditional == conditionalmark %}conditionmark{% endif %}" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}i" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.i }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}i">{{ block.settings.i }}</label></span>
-     {% assign tabindex = tabindex | plus: 1 %}
-      {% assign conditionalmark = conditionalmark | plus: 1 %} 
-      {% endif %} 
-  </div>  
+{% assign tabindex = tabindex | plus: 1 %}    
+{% when 'Url' %}
+<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
 </li>
-                          
-{% when 'dropdown' %}
-<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}" data-input-trigger>
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}</label>
+{% assign tabindex = tabindex | plus: 1 %}                           
+{% when 'TextInput' %}
+<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
+</li>
+{% assign tabindex = tabindex | plus: 1 %}                                   
+{% when 'TextArea' %}
+<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
+      <textarea class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="textarea" rows="10" cols="50"></textarea>
+</li>
+{% assign tabindex = tabindex | plus: 1 %}      
+{% when 'DropDown' %}
+<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}" data-input-trigger>
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}</label>
    <div class="fs-anim-lower">
      <select {% if block.settings.conditional != '' %}conditional="{{ block.settings.conditional | minus: 1 }}"{% endif %} tabindex="{{ tabindex }}" name="af-{{ section.id }}-q{{ i }}" id="af-{{ section.id }}-q{{ i }}">
       {% if block.settings.a != '' %}
@@ -295,38 +209,133 @@ color: {{ section.settings.label_color }};
        {% if block.settings.i != '' %}
        <option value="{{ block.settings.i }}">{{ block.settings.i }}</option>
      {% endif %}      
+     {% if block.settings.j != '' %}
+       <option value="{{ block.settings.j }}">{{ block.settings.j }}</option>
+     {% endif %}     
+           {% if block.settings.k != '' %}
+       <option value="{{ block.settings.k }}">{{ block.settings.k }}</option>
+     {% endif %}   
+           {% if block.settings.l != '' %}
+       <option value="{{ block.settings.l }}">{{ block.settings.l }}</option>
+     {% endif %}   
+              {% if block.settings.m != '' %}
+       <option value="{{ block.settings.m }}">{{ block.settings.m }}</option>
+     {% endif %}   
+                     {% if block.settings.n != '' %}
+       <option value="{{ block.settings.n }}">{{ block.settings.n }}</option>
+     {% endif %}   
+                     {% if block.settings.n != '' %}
+       <option value="{{ block.settings.n }}">{{ block.settings.n }}</option>
+     {% endif %}   
+       {% if block.settings.o != '' %}
+       <option value="{{ block.settings.o }}">{{ block.settings.o }}</option>
+     {% endif %}   
      </select>
   </div>
+</li>                      
+{% assign tabindex = tabindex | plus: 1 %}  
+{% when 'BigButtons' %}
+<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}" data-input-trigger>
+	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}</label>
+    <div class="fs-radio-group fs-radio-custom bigbuttons clearfix fs-anim-lower {% if section.settings.onerow != false %}onerow{% endif %}">
+      {% if block.settings.a != '' %}
+      {% assign length =  block.settings.a | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}a" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.a }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}a">{{ block.settings.a }}</label></span>
+     {% endif %}
+     {% if block.settings.b != '' %}
+      {% assign length =  block.settings.b | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}b" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.b }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}b">{{ block.settings.b }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+          {% if block.settings.c != '' %}
+       {% assign length =  block.settings.c | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}c" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.c }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}c">{{ block.settings.c }}</label></span>
+    {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.d != '' %}
+       {% assign length =  block.settings.d | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}d" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.d }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}d">{{ block.settings.d }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.e != '' %}
+       {% assign length =  block.settings.e | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}e" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.e }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}e">{{ block.settings.e }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.f != '' %}
+       {% assign length =  block.settings.f | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}f" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.f }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}f">{{ block.settings.f }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.g != '' %}
+       {% assign length =  block.settings.g | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}g" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.g }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}g">{{ block.settings.g }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.h != '' %}
+       {% assign length =  block.settings.h | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}h" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.h }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}h">{{ block.settings.h }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.i != '' %}
+       {% assign length =  block.settings.i | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}i" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.i }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}i">{{ block.settings.i }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+  </div>  
 </li>
-{% assign tabindex = tabindex | plus: 1 %} 
-{% when 'email' %}
-<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}">
-	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
-	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="email" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
+{% when 'SmallButtons' %}
+<li class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}conditional{% endif %}" data-input-trigger>
+	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}</label>
+    <div class="fs-radio-group fs-radio-custom smallbuttons clearfix fs-anim-lower {% if section.settings.onerow != false %}onerow{% endif %}">
+      {% if block.settings.a != '' %}
+      {% assign length =  block.settings.a | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}a" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.a }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}a">{{ block.settings.a }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %}
+     {% if block.settings.b != '' %}
+      {% assign length =  block.settings.b | size %}
+      <span><input  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}b" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.b }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}b">{{ block.settings.b }}</label></span>
+    {% assign tabindex = tabindex | plus: 1 %}
+      {% endif %} 
+          {% if block.settings.c != '' %}
+       {% assign length =  block.settings.c | size %}
+      <span><input  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}c" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.c }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}c">{{ block.settings.c }}</label></span>
+    {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.d != '' %}
+       {% assign length =  block.settings.d | size %}
+      <span><input  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}d" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.d }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}d">{{ block.settings.d }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.e != '' %}
+       {% assign length =  block.settings.e | size %}
+      <span><input  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}e" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.e }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}e">{{ block.settings.e }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.f != '' %}
+       {% assign length =  block.settings.f | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}f" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.f }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}f">{{ block.settings.f }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.g != '' %}
+       {% assign length =  block.settings.g | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}g" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.g }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}}g">{{ block.settings.g }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.h != '' %}
+       {% assign length =  block.settings.h | size %}
+      <span><input  tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}h" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.h }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}h">{{ block.settings.h }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %} 
+      {% endif %} 
+           {% if block.settings.i != '' %}
+       {% assign length =  block.settings.i | size %}
+      <span><input tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}i" name="af-{{ section.id }}-q{{ i }}" type="radio" value="{{ block.settings.i }}"/><label class="{% if length == 3 %}small {% elsif length > 3 %}smaller{% endif %}" for="af-{{ section.id }}-q{{ i }}i">{{ block.settings.i }}</label></span>
+     {% assign tabindex = tabindex | plus: 1 %}
+      {% endif %} 
+  </div>  
 </li>
-{% assign tabindex = tabindex | plus: 1 %} 
-{% when 'phone' %}
-<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}">
-	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
-	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="tel" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
-</li>
- {% assign tabindex = tabindex | plus: 1 %}                      
-{% when 'textarea' %}
-<li class="{% if block.settings.conditional != '' %}conditional{% endif %} {% if i == conditioncount %}skip{% endif %}">
-	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}</label>
-    <div class="fs-anim-lower">
-      <textarea class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="textarea" rows="10" cols="50" placeholder="{{ block.settings.placeholder }}"></textarea>
-    </div>
-</li>
-{% assign tabindex = tabindex | plus: 1 %}                       
-{% endcase %}
-
-
-
-
-
-
-
+                                         
 {% assign i = i | plus: 1 %}                    
 {% endcase %}
 {% endfor %}
@@ -792,7 +801,7 @@ function activatestripe(paymentli) {
 });
 </script>
 {% schema %}
-   {
+  {
     "name": "Advanced Form",
     "settings": [
 {
@@ -828,18 +837,10 @@ function activatestripe(paymentli) {
        "label": "Background Color #2 (Optional Gradient)",
        "default": "transparent"
 },
-{
-       "id": "label_color",
-       "type": "color",
-       "label": "Label Color",
-       "default": "#ffffff"
-},
-{
-       "id": "input_color",
-       "type": "color",
-       "label": "Input Color",
-       "default": "#ffffff"
-},
+  {
+        "type": "header",
+        "content": "Form Navigation Colors"
+      },
 {
        "id": "navigation_color",
        "type": "color",
@@ -864,6 +865,50 @@ function activatestripe(paymentli) {
        "label": "Button Hover Color",
        "default": "#ffffff"
 },
+  {
+        "type": "header",
+        "content": "Form Input Colors"
+      },
+{
+       "id": "label_color",
+       "type": "color",
+       "label": "Question Label Color",
+       "default": "#ffffff"
+},
+{
+       "id": "input_color",
+       "type": "color",
+       "label": "Text Input Color",
+       "default": "#ffffff"
+},
+{
+        "type": "header",
+        "content": "Button Input Colors"
+},
+{
+       "id": "button_input_background_color",
+       "type": "color",
+       "label": "Button Background",
+       "default": "#8c68af"
+},
+{
+       "id": "button_input_color",
+       "type": "color",
+       "label": "Button Color",
+       "default": "#ffffff"
+},  
+{
+       "id": "button_input_selected_background_color",
+       "type": "color",
+       "label": "Selected Button Background",
+       "default": "#EA00A8"
+},
+{
+       "id": "button_input_selected_color",
+       "type": "color",
+       "label": "Selected Button Color",
+       "default": "#ffffff"
+},  
 {
  "type": "header",
  "content": "Additional Custom CSS"
@@ -875,12 +920,234 @@ function activatestripe(paymentli) {
 }],
 "blocks": [
     {
-     "type": "Question",
-     "name": "Question",
+     "type": "Name",
+     "name": "Name",
+     "limit": 1,
      "settings" : [
       {
         "type": "text",
         "id": "question",
+        "label": "Question",
+        "default": "What's your name?"
+      },
+     {
+        "type": "text",
+        "id": "placeholder",
+        "label": "Placeholder"
+      },
+     {
+  "type": "checkbox",
+  "id": "required",
+  "label": "Required"
+     },
+     {
+        "type": "header",
+        "content": "Lead Priority"
+      },
+     {
+   "type": "radio",
+   "id": "priority",
+   "options": [
+      { "value": "header-high", "label": "Header - High"},
+      { "value": "header-mid", "label": "Header - Medium"},
+      { "value": "header-low", "label": "Header - Low"},
+      { "value": "body-high", "label": "Body - High"},
+      { "value": "body-mid", "label": "Body - Medium"},
+      { "value": "body-low", "label": "Body - Low"},
+      { "value": "footer-high", "label": "Footer - High"},
+      { "value": "footer-mid", "label": "Footer - Medium"},
+      { "value": "footer-low", "label": "Footer - Low"}
+   ],
+   "default" : "header-high",
+   "label": "Order Priority"
+     },
+     {
+        "type": "header",
+        "content": "Conditional Logic"
+      },
+     {
+        "type": "checkbox",
+        "id": "conditional",
+        "label": "Enable Conditional Logic"
+      },
+     {
+        "type": "text",
+        "id": "conditional_block_id",
+        "label": "Conditional Block ID"
+      },
+{
+   "type": "select",
+   "id": "conditional_if",
+   "options": [
+      { "value": "is", "label": "is"},
+      { "value": "is not", "label": "is not"},
+      { "value": "contains", "label": "contains"},
+      { "value": "greater than", "label": "greater than"},
+      { "value": "less than", "label": "less than"}
+   ],
+   "label": "If Answer"
+},
+     {
+        "type": "text",
+        "id": "conditional_block_value",
+        "label": "This Value"
+      }
+]
+},
+    {
+     "type": "Email",
+     "name": "Email",
+     "limit": 1,
+     "settings" : [
+      {
+        "type": "text",
+        "id": "question",
+        "label": "Question",
+        "default": "What's your email?"
+      },
+     {
+        "type": "text",
+        "id": "placeholder",
+        "label": "Placeholder"
+      },
+     {
+  "type": "checkbox",
+  "id": "required",
+  "label": "Required",
+  "default":   true
+     },
+     {
+        "type": "header",
+        "content": "Lead Priority"
+      },
+     {
+   "type": "radio",
+   "id": "priority",
+   "options": [
+      { "value": "header-high", "label": "Header - High"},
+      { "value": "header-mid", "label": "Header - Medium"},
+      { "value": "header-low", "label": "Header - Low"},
+      { "value": "body-high", "label": "Body - High"},
+      { "value": "body-mid", "label": "Body - Medium"},
+      { "value": "body-low", "label": "Body - Low"},
+      { "value": "footer-high", "label": "Footer - High"},
+      { "value": "footer-mid", "label": "Footer - Medium"},
+      { "value": "footer-low", "label": "Footer - Low"}
+   ],
+   "default" : "footer-high",
+   "label": "Order Priority"
+     },
+     {
+        "type": "header",
+        "content": "Conditional Logic"
+      },
+     {
+        "type": "checkbox",
+        "id": "conditional",
+        "label": "Enable Conditional Logic"
+      },
+     {
+        "type": "text",
+        "id": "conditional_block_id",
+        "label": "Conditional Block ID"
+      },
+{
+   "type": "select",
+   "id": "conditional_if",
+   "options": [
+      { "value": "is", "label": "is"},
+      { "value": "is not", "label": "is not"},
+      { "value": "contains", "label": "contains"},
+      { "value": "greater than", "label": "greater than"},
+      { "value": "less than", "label": "less than"}
+   ],
+   "label": "If Answer"
+},
+     {
+        "type": "text",
+        "id": "conditional_block_value",
+        "label": "This Value"
+      }
+]
+},
+{
+     "type": "Phone",
+     "name": "Phone",
+     "limit": 1,
+     "settings" : [
+      {
+        "type": "text",
+        "id": "question",
+        "label": "Question",
+        "default": "What's your Phone Number?"
+      },
+     {
+  "type": "checkbox",
+  "id": "required",
+  "label": "Required",
+  "default":   true
+     },
+     {
+        "type": "header",
+        "content": "Lead Priority"
+      },
+     {
+   "type": "radio",
+   "id": "priority",
+   "options": [
+      { "value": "header-high", "label": "Header - High"},
+      { "value": "header-mid", "label": "Header - Medium"},
+      { "value": "header-low", "label": "Header - Low"},
+      { "value": "body-high", "label": "Body - High"},
+      { "value": "body-mid", "label": "Body - Medium"},
+      { "value": "body-low", "label": "Body - Low"},
+      { "value": "footer-high", "label": "Footer - High"},
+      { "value": "footer-mid", "label": "Footer - Medium"},
+      { "value": "footer-low", "label": "Footer - Low"}
+   ],
+   "default" : "footer-mid",
+   "label": "Order Priority"
+     },
+     {
+        "type": "header",
+        "content": "Conditional Logic"
+      },
+     {
+        "type": "checkbox",
+        "id": "conditional",
+        "label": "Enable Conditional Logic"
+      },
+     {
+        "type": "text",
+        "id": "conditional_block_id",
+        "label": "Conditional Block ID"
+      },
+{
+   "type": "select",
+   "id": "conditional_if",
+   "options": [
+      { "value": "is", "label": "is"},
+      { "value": "is not", "label": "is not"},
+      { "value": "contains", "label": "contains"},
+      { "value": "greater than", "label": "greater than"},
+      { "value": "less than", "label": "less than"}
+   ],
+   "label": "If Answer"
+},
+     {
+        "type": "text",
+        "id": "conditional_block_value",
+        "label": "This Value"
+      }
+]
+},
+{
+     "type": "Url",
+     "name": "Url",
+     "settings" : [
+      {
+        "type": "text",
+        "id": "title",
         "label": "Question"
       },
      {
@@ -893,25 +1160,218 @@ function activatestripe(paymentli) {
   "id": "required",
   "label": "Required"
      },
-      {
-   "type": "select",
-   "id": "type",
-   "options": [
-      { "value": "text", "label": "Text"},
-      { "value": "email", "label": "Email"},
-      { "value": "name", "label": "Name"},
-      { "value": "phone", "label": "Phone"},
-      { "value": "textarea", "label": "Text Area"},
-      { "value": "dropdown", "label": "DropDown"},
-      { "value": "big bubble", "label": "Big bubble"},
-      { "value": "small bubble", "label": "Small Bubble"}
-   ],
-   "label": "Question Type"
-     },
- 
      {
         "type": "header",
-        "content": "Optional Answers (if applicable)"
+        "content": "Lead Priority"
+      },
+     {
+   "type": "radio",
+   "id": "priority",
+   "options": [
+      { "value": "header-high", "label": "Header - High"},
+      { "value": "header-mid", "label": "Header - Medium"},
+      { "value": "header-low", "label": "Header - Low"},
+      { "value": "body-high", "label": "Body - High"},
+      { "value": "body-mid", "label": "Body - Medium"},
+      { "value": "body-low", "label": "Body - Low"},
+      { "value": "footer-high", "label": "Footer - High"},
+      { "value": "footer-mid", "label": "Footer - Medium"},
+      { "value": "footer-low", "label": "Footer - Low"}
+   ],
+   "default" : "body-mid",
+   "label": "Order Priority"
+     },
+     {
+        "type": "header",
+        "content": "Conditional Logic"
+      },
+     {
+        "type": "checkbox",
+        "id": "conditional",
+        "label": "Enable Conditional Logic"
+      },
+     {
+        "type": "text",
+        "id": "conditional_block_id",
+        "label": "Conditional Block ID"
+      },
+{
+   "type": "select",
+   "id": "conditional_if",
+   "options": [
+      { "value": "is", "label": "is"},
+      { "value": "is not", "label": "is not"},
+      { "value": "contains", "label": "contains"},
+      { "value": "greater than", "label": "greater than"},
+      { "value": "less than", "label": "less than"}
+   ],
+   "label": "If Answer"
+},
+     {
+        "type": "text",
+        "id": "conditional_block_value",
+        "label": "This Value"
+      }
+]
+},
+ {
+     "type": "TextInput",
+     "name": "Text Input",
+     "settings" : [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Question"
+      },
+     {
+        "type": "text",
+        "id": "placeholder",
+        "label": "Placeholder"
+      },
+     {
+  "type": "checkbox",
+  "id": "required",
+  "label": "Required"
+     },
+     {
+        "type": "header",
+        "content": "Lead Priority"
+      },
+     {
+   "type": "radio",
+   "id": "priority",
+   "options": [
+      { "value": "header-high", "label": "Header - High"},
+      { "value": "header-mid", "label": "Header - Medium"},
+      { "value": "header-low", "label": "Header - Low"},
+      { "value": "body-high", "label": "Body - High"},
+      { "value": "body-mid", "label": "Body - Medium"},
+      { "value": "body-low", "label": "Body - Low"},
+      { "value": "footer-high", "label": "Footer - High"},
+      { "value": "footer-mid", "label": "Footer - Medium"},
+      { "value": "footer-low", "label": "Footer - Low"}
+   ],
+   "default" : "body-mid",
+   "label": "Order Priority"
+     },
+     {
+        "type": "header",
+        "content": "Conditional Logic"
+      },
+     {
+        "type": "checkbox",
+        "id": "conditional",
+        "label": "Enable Conditional Logic"
+      },
+     {
+        "type": "text",
+        "id": "conditional_block_id",
+        "label": "Conditional Block ID"
+      },
+{
+   "type": "select",
+   "id": "conditional_if",
+   "options": [
+      { "value": "is", "label": "is"},
+      { "value": "is not", "label": "is not"},
+      { "value": "contains", "label": "contains"},
+      { "value": "greater than", "label": "greater than"},
+      { "value": "less than", "label": "less than"}
+   ],
+   "label": "If Answer"
+},
+     {
+        "type": "text",
+        "id": "conditional_block_value",
+        "label": "This Value"
+      }
+]
+},
+{
+     "type": "TextArea",
+     "name": "Text Area",
+     "settings" : [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Question"
+      },
+     {
+  "type": "checkbox",
+  "id": "required",
+  "label": "Required"
+     },
+     {
+        "type": "header",
+        "content": "Lead Priority"
+      },
+     {
+   "type": "radio",
+   "id": "priority",
+   "options": [
+      { "value": "header-high", "label": "Header - High"},
+      { "value": "header-mid", "label": "Header - Medium"},
+      { "value": "header-low", "label": "Header - Low"},
+      { "value": "body-high", "label": "Body - High"},
+      { "value": "body-mid", "label": "Body - Medium"},
+      { "value": "body-low", "label": "Body - Low"},
+      { "value": "footer-high", "label": "Footer - High"},
+      { "value": "footer-mid", "label": "Footer - Medium"},
+      { "value": "footer-low", "label": "Footer - Low"}
+   ],
+   "default" : "body-mid",
+   "label": "Order Priority"
+     },
+     {
+        "type": "header",
+        "content": "Conditional Logic"
+      },
+     {
+        "type": "checkbox",
+        "id": "conditional",
+        "label": "Enable Conditional Logic"
+      },
+     {
+        "type": "text",
+        "id": "conditional_block_id",
+        "label": "Conditional Block ID"
+      },
+{
+   "type": "select",
+   "id": "conditional_if",
+   "options": [
+      { "value": "is", "label": "is"},
+      { "value": "is not", "label": "is not"},
+      { "value": "contains", "label": "contains"},
+      { "value": "greater than", "label": "greater than"},
+      { "value": "less than", "label": "less than"}
+   ],
+   "label": "If Answer"
+},
+     {
+        "type": "text",
+        "id": "conditional_block_value",
+        "label": "This Value"
+      }
+]
+},
+{
+     "type": "DropDown",
+     "name": "Drop Down Select",
+     "settings" : [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Question"
+      },
+     {
+  "type": "checkbox",
+  "id": "required",
+  "label": "Required"
+     },
+      {
+        "type": "header",
+        "content": "Optional Answers"
       },
      {
         "type": "text",
@@ -958,10 +1418,35 @@ function activatestripe(paymentli) {
         "label": "Answer 9"
       },
      {
-  "type": "checkbox",
-  "id": "onerow",
-  "label": "Fit Options to One Row"
-     },
+        "type": "text",
+        "id": "j",
+        "label": "Answer 10"
+      },
+     {
+        "type": "text",
+        "id": "k",
+        "label": "Answer 11"
+      },
+     {
+        "type": "text",
+        "id": "l",
+        "label": "Answer 12"
+      },
+     {
+        "type": "text",
+        "id": "m",
+        "label": "Answer 13"
+      },
+     {
+        "type": "text",
+        "id": "n",
+        "label": "Answer 14"
+      },
+     {
+        "type": "text",
+        "id": "o",
+        "label": "Answer 15"
+      },
      {
         "type": "header",
         "content": "Lead Priority"
@@ -984,9 +1469,267 @@ function activatestripe(paymentli) {
    "label": "Order Priority"
      },
      {
-        "type": "text",
+        "type": "header",
+        "content": "Conditional Logic"
+      },
+     {
+        "type": "checkbox",
         "id": "conditional",
-        "label": "Conditional? (ex:2)"
+        "label": "Enable Conditional Logic"
+      },
+     {
+        "type": "text",
+        "id": "conditional_block_id",
+        "label": "Conditional Block ID"
+      },
+{
+   "type": "select",
+   "id": "conditional_if",
+   "options": [
+      { "value": "is", "label": "is"},
+      { "value": "is not", "label": "is not"},
+      { "value": "contains", "label": "contains"},
+      { "value": "greater than", "label": "greater than"},
+      { "value": "less than", "label": "less than"}
+   ],
+   "label": "If Answer"
+},
+     {
+        "type": "text",
+        "id": "conditional_block_value",
+        "label": "This Value"
+      }
+]
+},
+{
+     "type": "BigButtons",
+     "name": "Big Buttons",
+     "settings" : [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Question"
+      },
+     {
+  "type": "checkbox",
+  "id": "required",
+  "label": "Required"
+     },
+      {
+        "type": "header",
+        "content": "Optional Answers"
+      },
+     {
+        "type": "text",
+        "id": "a",
+        "label": "Answer 1"
+      },
+     {
+        "type": "text",
+        "id": "b",
+        "label": "Answer 2"
+      },
+     {
+        "type": "text",
+        "id": "c",
+        "label": "Answer 3"
+      },
+     {
+        "type": "text",
+        "id": "d",
+        "label": "Answer 4"
+      },
+     {
+        "type": "text",
+        "id": "e",
+        "label": "Answer 5"
+      },
+     {
+        "type": "text",
+        "id": "f",
+        "label": "Answer 6"
+      },     {
+        "type": "text",
+        "id": "g",
+        "label": "Answer 7"
+      },
+     {
+        "type": "text",
+        "id": "h",
+        "label": "Answer 8"
+      },
+     {
+        "type": "text",
+        "id": "i",
+        "label": "Answer 9"
+      },
+     {
+        "type": "header",
+        "content": "Lead Priority"
+      },
+     {
+   "type": "radio",
+   "id": "priority",
+   "options": [
+      { "value": "header-high", "label": "Header - High"},
+      { "value": "header-mid", "label": "Header - Medium"},
+      { "value": "header-low", "label": "Header - Low"},
+      { "value": "body-high", "label": "Body - High"},
+      { "value": "body-mid", "label": "Body - Medium"},
+      { "value": "body-low", "label": "Body - Low"},
+      { "value": "footer-high", "label": "Footer - High"},
+      { "value": "footer-mid", "label": "Footer - Medium"},
+      { "value": "footer-low", "label": "Footer - Low"}
+   ],
+   "default" : "body-mid",
+   "label": "Order Priority"
+     },
+     {
+        "type": "header",
+        "content": "Conditional Logic"
+      },
+     {
+        "type": "checkbox",
+        "id": "conditional",
+        "label": "Enable Conditional Logic"
+      },
+     {
+        "type": "text",
+        "id": "conditional_block_id",
+        "label": "Conditional Block ID"
+      },
+{
+   "type": "select",
+   "id": "conditional_if",
+   "options": [
+      { "value": "is", "label": "is"},
+      { "value": "is not", "label": "is not"},
+      { "value": "contains", "label": "contains"},
+      { "value": "greater than", "label": "greater than"},
+      { "value": "less than", "label": "less than"}
+   ],
+   "label": "If Answer"
+},
+     {
+        "type": "text",
+        "id": "conditional_block_value",
+        "label": "This Value"
+      }
+]
+},
+{
+     "type": "SmallButtons",
+     "name": "Small Buttons",
+     "settings" : [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Question"
+      },
+     {
+  "type": "checkbox",
+  "id": "required",
+  "label": "Required"
+     },
+      {
+        "type": "header",
+        "content": "Optional Answers"
+      },
+     {
+        "type": "text",
+        "id": "a",
+        "label": "Answer 1"
+      },
+     {
+        "type": "text",
+        "id": "b",
+        "label": "Answer 2"
+      },
+     {
+        "type": "text",
+        "id": "c",
+        "label": "Answer 3"
+      },
+     {
+        "type": "text",
+        "id": "d",
+        "label": "Answer 4"
+      },
+     {
+        "type": "text",
+        "id": "e",
+        "label": "Answer 5"
+      },
+     {
+        "type": "text",
+        "id": "f",
+        "label": "Answer 6"
+      },     {
+        "type": "text",
+        "id": "g",
+        "label": "Answer 7"
+      },
+     {
+        "type": "text",
+        "id": "h",
+        "label": "Answer 8"
+      },
+     {
+        "type": "text",
+        "id": "i",
+        "label": "Answer 9"
+      },
+     {
+        "type": "header",
+        "content": "Lead Priority"
+      },
+     {
+   "type": "radio",
+   "id": "priority",
+   "options": [
+      { "value": "header-high", "label": "Header - High"},
+      { "value": "header-mid", "label": "Header - Medium"},
+      { "value": "header-low", "label": "Header - Low"},
+      { "value": "body-high", "label": "Body - High"},
+      { "value": "body-mid", "label": "Body - Medium"},
+      { "value": "body-low", "label": "Body - Low"},
+      { "value": "footer-high", "label": "Footer - High"},
+      { "value": "footer-mid", "label": "Footer - Medium"},
+      { "value": "footer-low", "label": "Footer - Low"}
+   ],
+   "default" : "body-mid",
+   "label": "Order Priority"
+     },
+     {
+        "type": "header",
+        "content": "Conditional Logic"
+      },
+     {
+        "type": "checkbox",
+        "id": "conditional",
+        "label": "Enable Conditional Logic"
+      },
+     {
+        "type": "text",
+        "id": "conditional_block_id",
+        "label": "Conditional Block ID"
+      },
+{
+   "type": "select",
+   "id": "conditional_if",
+   "options": [
+      { "value": "is", "label": "is"},
+      { "value": "is not", "label": "is not"},
+      { "value": "contains", "label": "contains"},
+      { "value": "greater than", "label": "greater than"},
+      { "value": "less than", "label": "less than"}
+   ],
+   "label": "If Answer"
+},
+     {
+        "type": "text",
+        "id": "conditional_block_value",
+        "label": "This Value"
       }
 ]
 },
@@ -1010,7 +1753,38 @@ function activatestripe(paymentli) {
    "label": "Youtube URL",
    "accept": ["youtube"],
    "default": "https://www.youtube.com/watch?v=6L_k74BOLag"
-}
+},
+     {
+        "type": "header",
+        "content": "Conditional Logic"
+      },
+     {
+        "type": "checkbox",
+        "id": "conditional",
+        "label": "Enable Conditional Logic"
+      },
+     {
+        "type": "text",
+        "id": "conditional_block_id",
+        "label": "Conditional Block ID"
+      },
+{
+   "type": "select",
+   "id": "conditional_if",
+   "options": [
+      { "value": "is", "label": "is"},
+      { "value": "is not", "label": "is not"},
+      { "value": "contains", "label": "contains"},
+      { "value": "greater than", "label": "greater than"},
+      { "value": "less than", "label": "less than"}
+   ],
+   "label": "If Answer"
+},
+     {
+        "type": "text",
+        "id": "conditional_block_value",
+        "label": "This Value"
+      }
 ]
 }
  ]
@@ -1081,11 +1855,13 @@ function activatestripe(paymentli) {
   	padding:0;   
     position: relative;  
     -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
+    & .shopify-section {
+ height:100%;
+padding-top:0px;
+    }
 }
 
-.ui-content-form .shopify-section {
- height:100%;
-}
+
 
 .ui-content-form .container {
 @include transition(opacity,0.8s);
@@ -1125,7 +1901,7 @@ transform: translateY(-25%);
 transform: translateY(5%);
 }
 
-& .big-bubble {
+& .bigbuttons {
 @include bp(laptop) {
 max-width: 85%;
 }
@@ -1275,7 +2051,7 @@ font-size: 100%;
                 }
               }
        
-            &.small-bubble {
+            &.smallbuttons {
             flex-flow: column;
               & span {
                   max-width: none;
@@ -1485,14 +2261,16 @@ $(document).on("shopify:section:select",'#shopify-section-Advanced-Form',functio
 
 
 var formWrap = this.querySelector( '.fs-form-wrap' );
+var container = this.querySelector('.container');
+container.style.opacity = '1';  
 new FForm( formWrap, {
 	onReview : function() {
 			document.body.classList.add('overview' ); // for demo purposes only
+            
 	}
 } );
 
 
 });
  
-{% endjavascript %}                                                                                     
- 
+{% endjavascript %}                  
