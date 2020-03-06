@@ -65,9 +65,11 @@ body.{{ template | replace: '.', '' }} header .header-wrap .row .logo-wrap a:aft
   color:{{ section.settings.label_color }};
 }
 #container-{{ randomNumber }} .advancedform-wrapper .fs-form.fs-form-full .fs-fields>li select {
-  color:{{ section.settings.input_color }};
-  border-color:{{ section.settings.input_color }};
+  color:{{ section.settings.dropdown_color }};
+  border-color:{{ section.settings.dropdown_color }};
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill:{{ section.settings.dropdown_color | replace: '#', '%23' }}'></polygon></svg>");
 } 
+
 
 #container-{{ randomNumber }} .advancedform-wrapper .fs-form.fs-form-full .fs-fields>li input  {
   color:{{ section.settings.input_color }};
@@ -981,6 +983,16 @@ document.addEventListener('shopify:section:deselect',function(e){
        "id": "input_color",
        "type": "color",
        "label": "Text Input Color",
+       "default": "#ffffff"
+},
+ {
+        "type": "header",
+        "content": "Form DropDown Color"
+      },
+{
+       "id": "dropdown_color",
+       "type": "color",
+       "label": "DropDown Text Color",
        "default": "#ffffff"
 },
 {
