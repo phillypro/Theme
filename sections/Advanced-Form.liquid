@@ -123,11 +123,14 @@ color: {{ section.settings.label_color }};
 {% for block in section.blocks %}
 {% case block.type %}
                                    
+
+                      
                       
 {% when 'Youtube' %}                      
                       
 <li class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}conditional{% endif %} video" data-link-trigger>
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}</label>
+  <blockid>{{ block.id }}</blockid> 
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}">{{ block.settings.title }}</label>
  
   <div class="fs-radio-group fs-radio-custom bigbuttons clearfix fs-anim-lower">
     <div class="video-wrap">
@@ -141,47 +144,12 @@ color: {{ section.settings.label_color }};
  
                       
                       
-{% when 'Name' %}
-<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required %}<span class="required">*</span>{% endif %}</label>
-	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
-</li>
-{% assign tabindex = tabindex | plus: 1 %}             
-{% when 'Email' %}
-<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required %}<span class="required">*</span>{% endif %}</label>
-	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
-</li>
-{% assign tabindex = tabindex | plus: 1 %}    
-{% when 'Phone' %}
-<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.question }}{% if section.settings.required != false %}<span class="required">*</span>{% endif %}</label>
-	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" {% if block.settings.required != false %}required{% endif %}/>
-</li>
-{% assign tabindex = tabindex | plus: 1 %}    
-{% when 'Url' %}
-<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required %}<span class="required">*</span>{% endif %}</label>
-	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
-</li>
-{% assign tabindex = tabindex | plus: 1 %}                           
-{% when 'TextInput' %}
-<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required %}<span class="required">*</span>{% endif %}</label>
-	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="text" placeholder="{{ block.settings.placeholder }}" {% if block.settings.required != false %}required{% endif %}/>
-</li>
-{% assign tabindex = tabindex | plus: 1 %}                                   
-{% when 'TextArea' %}
-<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}">
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}{% if section.settings.required %}<span class="required">*</span>{% endif %}</label>
-      <textarea class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="textarea" rows="10" cols="50"></textarea>
-</li>
-{% assign tabindex = tabindex | plus: 1 %}      
 {% when 'DropDown' %}
-<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}" data-input-trigger>
-  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}</label>
+<li id="block-{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}" {% if block.slacktitle != '' %}title="{{ block.settings.slacktitle }}"{% endif %} data-input-trigger>
+  <blockid>{{ block.id }}</blockid> 
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}">{{ block.settings.title }}{% if block.settings.required and block.settings.conditional == false %}<span class="required">*</span>{% endif %}</label>
    <div class="fs-anim-lower">
-     <select {% if block.settings.conditional != '' %}conditional="{{ block.settings.conditional | minus: 1 }}"{% endif %} tabindex="{{ tabindex }}" name="af-{{ section.id }}-q{{ i }}" id="af-{{ section.id }}-q{{ i }}">
+     <select {% if block.settings.conditional != '' %}conditional="{{ block.settings.conditional | minus: 1 }}"{% endif %} tabindex="{{ tabindex }}" name="af-{{ section.id }}-q{{ i }}" id="af-{{ section.id }}-q{{ i }}" {% if block.settings.required and block.settings.conditional == false %}required{% endif %}>
       {% if block.settings.a != '' %}
        <option value="{{ block.settings.a }}" selected>{{ block.settings.a }}</option>
      {% endif %}
@@ -235,8 +203,9 @@ color: {{ section.settings.label_color }};
 </li>                      
 {% assign tabindex = tabindex | plus: 1 %}  
 {% when 'BigButtons' %}
-<li id="{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}" data-input-trigger>
-	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}</label>
+<li id="block-{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}" {% if block.slacktitle != '' %}title="{{ block.settings.slacktitle }}"{% endif %} data-input-trigger>
+	<blockid>{{ block.id }}</blockid> 
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}">{{ block.settings.title }}</label>
     <div class="fs-radio-group fs-radio-custom bigbuttons clearfix fs-anim-lower {% if section.settings.onerow != false %}onerow{% endif %}">
       {% if block.settings.a != '' %}
       {% assign length =  block.settings.a | size %}
@@ -285,8 +254,9 @@ color: {{ section.settings.label_color }};
   </div>  
 </li>
 {% when 'SmallButtons' %}
-<li class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}conditional{% endif %}" data-input-trigger>
-	<label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}"> {{ block.settings.title }}</label>
+<li id="block-{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}" {% if block.slacktitle != '' %}title="{{ block.settings.slacktitle }}"{% endif %}  data-input-trigger>
+	<blockid>{{ block.id }}</blockid> 
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}">{{ block.settings.title }}</label>
     <div class="fs-radio-group fs-radio-custom smallbuttons clearfix fs-anim-lower {% if section.settings.onerow != false %}onerow{% endif %}">
       {% if block.settings.a != '' %}
       {% assign length =  block.settings.a | size %}
@@ -335,9 +305,22 @@ color: {{ section.settings.label_color }};
       {% endif %} 
   </div>  
 </li>
-                                         
-{% assign i = i | plus: 1 %}                    
+{% when 'TextArea' %}
+<li id="block-{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %}" {% if block.slacktitle != '' %}title="{{ block.settings.slacktitle }}"{% endif %}>
+  <blockid>{{ block.id }}</blockid> 
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}">{{ block.settings.title }}{% if block.settings.required and block.settings.conditional == false %}<span class="required">*</span>{% endif %}</label>
+      <textarea class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" type="textarea" rows="10" cols="50" {% if block.settings.required and block.settings.conditional == false %}required{% endif %}></textarea>
+</li>
+{% assign tabindex = tabindex | plus: 1 %}                         
+{% else %}
+<li id="block-{{ block.id }}" class="{% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}skip{% endif %} {% case block.type %}{% when 'Phone' %}phone{% when 'Email' %}email{% endcase %}" {% if block.settings.slacktitle != '' %}title="{{ block.settings.slacktitle }}"{% endif %}>
+  <blockid>{{ block.id }}</blockid> 
+  <label priority="{{ block.settings.priority  }}" class="fs-field-label fs-anim-upper" for="af-{{ section.id }}-q{{ i }}">{{ block.settings.title }}{% if block.settings.required and block.settings.conditional == false %}<span class="required">*</span>{% endif %}</label>
+	<input class="fs-anim-lower" tabindex="{{ tabindex }}" id="af-{{ section.id }}-q{{ i }}" name="af-{{ section.id }}-q{{ i }}" {% case block.type %}{% when 'Phone' %}type="tel"{% else %}type="text"{% endcase %} {% if block.settings.required and block.settings.conditional == false %}required{% endif %}/>
+</li>  
+{% assign tabindex = tabindex | plus: 1 %}                                                                              
 {% endcase %}
+{% assign i = i | plus: 1 %}   
 {% endfor %}
 
                       				</ol><!-- /fs-fields -->
@@ -418,6 +401,8 @@ $(page).page({domCache:true});
   }else if(jQuery("#footer").hasClass("ui-toolbar-footer-fixed") ) {
   $(page).css({'padding-bottom' : $('#footer').outerHeight()});   
   }
+
+
 var content = SetHeightOfForm();
 target = $(page).find("div.ui-content");
 if(target.height() != content)
@@ -425,7 +410,7 @@ if(target.height() != content)
   jQuery( window ).resize(function() {
   var content = SetHeightOfForm();
   target.css({'min-height' : content, 'height' : content});
-});                                     
+});                                   
                               
                                
 // stop all videos on close
@@ -441,17 +426,59 @@ if(youtube) {
                                
                                
 // activate stripe if necessary
-var paymentli = $(container).find("li.payment");
-  if(paymentli.length) {
+var paymentli = container.querySelector("li.payment");
+  if(paymentli) {
     activatestripe(paymentli);
   }
   
-var formWrap = $(container).find( '.fs-form-wrap' ).get(0);
+var formWrap = container.querySelector( '.fs-form-wrap' );
+var formEl = formWrap.querySelector('form');
 new FForm( formWrap, {
 	onReview : function() {
 			document.body.classList.add('overview' ); // for demo purposes only
 	}
 } );
+  
+  
+// set conditionals  
+formEl.addEventListener('update', function(ev) {  
+{% for block in section.blocks %}
+  
+  
+  //set name variable
+  {% if block.type == 'Name' %}
+    if(ev.detail.hasOwnProperty('block-{{ block.id }}')) {      
+     var fields = formEl.querySelectorAll('label');
+     fields.forEach(function(element) {
+      if(element.innerHTML.indexOf('[name]') !== -1) {
+        var newLabel = element.innerHTML.replace('[name]',ev.detail['block-{{ block.id }}']);
+        element.innerHTML = newLabel;                                                            
+      }
+     })
+    }
+  {% endif %}
+  
+  
+  {% if block.settings.conditional and block.settings.conditional_block_id != '' and block.settings.conditional_block_value != '' %}
+  if(ev.detail.hasOwnProperty('block-{{ block.settings.conditional_block_id }}')) {           
+    var field = formEl.querySelector('#block-{{ block.id }}');                                              
+    {% case block.settings.conditional_if %}                            
+    {% when 'is' %}
+    if( ev.detail['block-{{ block.settings.conditional_block_id }}'] == '{{block.settings.conditional_block_value}}') {
+    {% when 'is not' %}
+    if( ev.detail['block-{{ block.settings.conditional_block_id }}'] !== '{{block.settings.conditional_block_value}}') {
+    {% when 'contains' %}
+    if( ev.detail['block-{{ block.settings.conditional_block_id }}'].indexOf('{{block.settings.conditional_block_value}}' !== -1)) {                          
+    {% endcase %}                                         
+           field.classList.remove('skip');                                       
+     }else{
+            field.classList.add('skip');  
+     }                                               
+  }
+  {% endif %}
+{% endfor %}
+})  
+  
   
 var getNextSibling = function (elem, selector) {
 
@@ -509,7 +536,7 @@ $(container).find(".fs-submit").on("click", function(event) {
     $.each(form.serializeArray(), function(i, field) {
         formdata[field.name] = field.value;
     });
-    var formlis = form.find('li:not(.skip):not(.payment)');
+    var formlis = form.find('li:not(.skip):not(.payment)');  
     // lets get the header first  
     var header = [];
     var headerhigh = [];
@@ -525,14 +552,24 @@ $(container).find(".fs-submit").on("click", function(event) {
     var footerlow = [];
     var master = [];
     $.each(formlis, function(i, field) {
-        var labelele = $(field).find('.fs-field-label');
-        var name = labelele.attr('for');
-        var label = labelele.text();
+
+        var labelele = field.querySelector('.fs-field-label');
+        var name = labelele.getAttribute("for");
+      
+      if(field.getAttribute('title')) {
+         var label = field.getAttribute('title');
+      }else{
+        var label = labelele.innerHTML;
+      }
+      
+      
         var value = formdata[name];
-        var priority = labelele.attr('priority');
-        if (labelele.siblings('input').attr('type') == 'tel') {
+        var priority = labelele.getAttribute('priority');
+      
+        if (field.querySelector('input').type == 'tel') {
             var value = formatPhoneNumber(value);
         }
+      
         if (priority == 'header-high') {
             var newobj = {
                 label: label,
@@ -623,6 +660,7 @@ $(container).find(".fs-submit").on("click", function(event) {
         body.push(bodyhigh);
     }
 
+
     if (footermid.length > 0) {
         footerhigh = footerhigh.concat(footermid);
     }
@@ -633,6 +671,7 @@ $(container).find(".fs-submit").on("click", function(event) {
     if (footerhigh.length > 0) {
         footer.push(footerhigh);
     }
+
 
     var master = master.concat(header, body, footer)
  
@@ -679,7 +718,6 @@ $.ajax({
 }else{ 
     
    var hiddenForm = form.next();
-  console.log(hiddenForm);
     // lets print out our master
     master.forEach(function(part, idx, i) {
         part.forEach(function(field, i) {
@@ -692,7 +730,8 @@ $.ajax({
   var data = text;
   var message = hiddenForm.find('#contactFormMessage')[0];
   message.value = data;
-  hiddenForm[0].submit();
+  console.log(data);
+  //hiddenForm[0].submit();
 }
   
   
@@ -718,7 +757,7 @@ function SetHeightOfForm() {
     var contentCurrent = jQuery(".ui-content").outerHeight() - jQuery(".ui-content").height();
     var content = screen - fixed - contentCurrent;
     return content;
-} 
+}  
   
   
 
@@ -737,11 +776,11 @@ function formatPhoneNumber(phoneNumberString) {
 function activatestripe(paymentli) {
   
 
-  var link = paymentli.find('a.option');
-  var amount = link.attr('amount') * 100;
-  var name = link.attr('name');
-  var desc = link.attr('description');
-  var icon = link.attr('icon');
+  var link = paymentli.querySelector('a.option');
+  var amount = link.getAttribute('amount') * 100;
+  var name = link.getAttribute('name');
+  var desc = link.getAttribute('description');
+  var icon = link.getAttribute('icon');
   
   var handler = StripeCheckout.configure({
 			key: 'pk_live_kL5lp70uRIq1mV6SLnRN8dHf002dQQFytX',
@@ -765,7 +804,8 @@ function activatestripe(paymentli) {
 				}).then( (response) => {
                     console.log(response);
                   if(response.status == 200) {
-                    $( "body" ).trigger('paymentreceived'); 
+                    var event = new Event('paymentreceived');
+                    document.body.dispatchEvent(event);
                   }
                 });
 			}
@@ -791,14 +831,40 @@ function activatestripe(paymentli) {
   
   
 } 
+});
   
 
+                                    
+document.addEventListener('shopify:section:select',function(e){
+  if(e.target.id == 'shopify-section-{{ section.id }}') {
+ document.body.classList.add('editing', 'editform');
 
-  
-  
-  
+var section = document.getElementById('shopify-section-{{ section.id }}');  
+                                      
+var formWrap = section.querySelector( '.fs-form-wrap' );
+var container = section.querySelector('.container');
+container.style.opacity = '1';  
+new FForm( formWrap, {
+	onReview : function() {
+			document.body.classList.add('overview' ); // for demo purposes only
+            
+	}
+} );
+
+}
   
 });
+document.addEventListener('shopify:section:deselect',function(e){
+    if(e.target.id == 'shopify-section-{{ section.id }}') {
+        document.body.classList.remove('editform');
+     }
+});  
+  
+  
+
+
+  
+  
 </script>
 {% schema %}
   {
@@ -865,6 +931,18 @@ function activatestripe(paymentli) {
        "label": "Button Hover Color",
        "default": "#ffffff"
 },
+{
+       "id": "submit_background_color",
+       "type": "color",
+       "label": "Submit Button Background",
+       "default": "#EA00A8"
+},
+{
+       "id": "submit_color",
+       "type": "color",
+       "label": "Submit Button Color",
+       "default": "#ffffff"
+},
   {
         "type": "header",
         "content": "Form Input Colors"
@@ -926,14 +1004,15 @@ function activatestripe(paymentli) {
      "settings" : [
       {
         "type": "text",
-        "id": "question",
+        "id": "title",
         "label": "Question",
         "default": "What's your name?"
       },
      {
         "type": "text",
-        "id": "placeholder",
-        "label": "Placeholder"
+        "id": "slacktitle",
+        "label": "Title (Optional)",
+        "default": "Name"
       },
      {
   "type": "checkbox",
@@ -981,9 +1060,7 @@ function activatestripe(paymentli) {
    "options": [
       { "value": "is", "label": "is"},
       { "value": "is not", "label": "is not"},
-      { "value": "contains", "label": "contains"},
-      { "value": "greater than", "label": "greater than"},
-      { "value": "less than", "label": "less than"}
+      { "value": "contains", "label": "contains"}
    ],
    "label": "If Answer"
 },
@@ -1001,14 +1078,15 @@ function activatestripe(paymentli) {
      "settings" : [
       {
         "type": "text",
-        "id": "question",
+        "id": "title",
         "label": "Question",
         "default": "What's your email?"
       },
      {
         "type": "text",
-        "id": "placeholder",
-        "label": "Placeholder"
+        "id": "slacktitle",
+        "label": "Title (Optional)",
+        "default": "Email"
       },
      {
   "type": "checkbox",
@@ -1057,9 +1135,7 @@ function activatestripe(paymentli) {
    "options": [
       { "value": "is", "label": "is"},
       { "value": "is not", "label": "is not"},
-      { "value": "contains", "label": "contains"},
-      { "value": "greater than", "label": "greater than"},
-      { "value": "less than", "label": "less than"}
+      { "value": "contains", "label": "contains"}
    ],
    "label": "If Answer"
 },
@@ -1077,9 +1153,15 @@ function activatestripe(paymentli) {
      "settings" : [
       {
         "type": "text",
-        "id": "question",
+        "id": "title",
         "label": "Question",
         "default": "What's your Phone Number?"
+      },
+     {
+        "type": "text",
+        "id": "slacktitle",
+        "label": "Title (Optional)",
+        "default": "Phone"
       },
      {
   "type": "checkbox",
@@ -1128,9 +1210,7 @@ function activatestripe(paymentli) {
    "options": [
       { "value": "is", "label": "is"},
       { "value": "is not", "label": "is not"},
-      { "value": "contains", "label": "contains"},
-      { "value": "greater than", "label": "greater than"},
-      { "value": "less than", "label": "less than"}
+      { "value": "contains", "label": "contains"}
    ],
    "label": "If Answer"
 },
@@ -1152,8 +1232,9 @@ function activatestripe(paymentli) {
       },
      {
         "type": "text",
-        "id": "placeholder",
-        "label": "Placeholder"
+        "id": "slacktitle",
+        "label": "Title (Optional)",
+        "default": "Website URL"
       },
      {
   "type": "checkbox",
@@ -1201,9 +1282,7 @@ function activatestripe(paymentli) {
    "options": [
       { "value": "is", "label": "is"},
       { "value": "is not", "label": "is not"},
-      { "value": "contains", "label": "contains"},
-      { "value": "greater than", "label": "greater than"},
-      { "value": "less than", "label": "less than"}
+      { "value": "contains", "label": "contains"}
    ],
    "label": "If Answer"
 },
@@ -1225,8 +1304,8 @@ function activatestripe(paymentli) {
       },
      {
         "type": "text",
-        "id": "placeholder",
-        "label": "Placeholder"
+        "id": "slacktitle",
+        "label": "Title (Optional)"
       },
      {
   "type": "checkbox",
@@ -1274,9 +1353,7 @@ function activatestripe(paymentli) {
    "options": [
       { "value": "is", "label": "is"},
       { "value": "is not", "label": "is not"},
-      { "value": "contains", "label": "contains"},
-      { "value": "greater than", "label": "greater than"},
-      { "value": "less than", "label": "less than"}
+      { "value": "contains", "label": "contains"}
    ],
    "label": "If Answer"
 },
@@ -1297,6 +1374,11 @@ function activatestripe(paymentli) {
         "label": "Question"
       },
      {
+        "type": "text",
+        "id": "slacktitle",
+        "label": "Title (Optional)"
+      },
+     {
   "type": "checkbox",
   "id": "required",
   "label": "Required"
@@ -1342,9 +1424,7 @@ function activatestripe(paymentli) {
    "options": [
       { "value": "is", "label": "is"},
       { "value": "is not", "label": "is not"},
-      { "value": "contains", "label": "contains"},
-      { "value": "greater than", "label": "greater than"},
-      { "value": "less than", "label": "less than"}
+      { "value": "contains", "label": "contains"}
    ],
    "label": "If Answer"
 },
@@ -1363,6 +1443,11 @@ function activatestripe(paymentli) {
         "type": "text",
         "id": "title",
         "label": "Question"
+      },
+     {
+        "type": "text",
+        "id": "slacktitle",
+        "label": "Title (Optional)"
       },
      {
   "type": "checkbox",
@@ -1488,9 +1573,7 @@ function activatestripe(paymentli) {
    "options": [
       { "value": "is", "label": "is"},
       { "value": "is not", "label": "is not"},
-      { "value": "contains", "label": "contains"},
-      { "value": "greater than", "label": "greater than"},
-      { "value": "less than", "label": "less than"}
+      { "value": "contains", "label": "contains"}
    ],
    "label": "If Answer"
 },
@@ -1511,6 +1594,11 @@ function activatestripe(paymentli) {
         "label": "Question"
       },
      {
+        "type": "text",
+        "id": "slacktitle",
+        "label": "Title (Optional)"
+      },
+     {
   "type": "checkbox",
   "id": "required",
   "label": "Required"
@@ -1604,9 +1692,7 @@ function activatestripe(paymentli) {
    "options": [
       { "value": "is", "label": "is"},
       { "value": "is not", "label": "is not"},
-      { "value": "contains", "label": "contains"},
-      { "value": "greater than", "label": "greater than"},
-      { "value": "less than", "label": "less than"}
+      { "value": "contains", "label": "contains"}
    ],
    "label": "If Answer"
 },
@@ -1627,6 +1713,11 @@ function activatestripe(paymentli) {
         "label": "Question"
       },
      {
+        "type": "text",
+        "id": "slacktitle",
+        "label": "Title (Optional)"
+      },
+     {
   "type": "checkbox",
   "id": "required",
   "label": "Required"
@@ -1720,9 +1811,7 @@ function activatestripe(paymentli) {
    "options": [
       { "value": "is", "label": "is"},
       { "value": "is not", "label": "is not"},
-      { "value": "contains", "label": "contains"},
-      { "value": "greater than", "label": "greater than"},
-      { "value": "less than", "label": "less than"}
+      { "value": "contains", "label": "contains"}
    ],
    "label": "If Answer"
 },
@@ -1774,9 +1863,7 @@ function activatestripe(paymentli) {
    "options": [
       { "value": "is", "label": "is"},
       { "value": "is not", "label": "is not"},
-      { "value": "contains", "label": "contains"},
-      { "value": "greater than", "label": "greater than"},
-      { "value": "less than", "label": "less than"}
+      { "value": "contains", "label": "contains"}
    ],
    "label": "If Answer"
 },
@@ -1844,8 +1931,32 @@ function activatestripe(paymentli) {
 
 
 
+.fs-form li {
+ & blockid {
+  position:absolute;
+  display:none;
+    z-index: 1;
+    color: #000;
+    top: -30px;
+    font-size: 15px;
+    @include bp(phablet) {
+         top: -30px;
+    font-size: 13px;
+    }
+    background: #fff;
+    padding: 3px 6px;
+    border: 1px solid #000;
+    border-radius: 4px;
+ }
+}
 
-
+.editing.editform {
+ & .fs-form li.fs-current {
+ & blockid {
+  display:block;
+ }
+}
+}
 
 
 
@@ -2257,20 +2368,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3c03a', end
 
 {% javascript %}   
 
-$(document).on("shopify:section:select",'#shopify-section-Advanced-Form',function(e){
 
-
-var formWrap = this.querySelector( '.fs-form-wrap' );
-var container = this.querySelector('.container');
-container.style.opacity = '1';  
-new FForm( formWrap, {
-	onReview : function() {
-			document.body.classList.add('overview' ); // for demo purposes only
-            
-	}
-} );
-
-
-});
  
-{% endjavascript %}                  
+{% endjavascript %}                                                                                                 
