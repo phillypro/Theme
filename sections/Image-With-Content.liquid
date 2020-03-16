@@ -36,6 +36,29 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
     margin-top:{{ block.settings.topposition }}px;
     margin-bottom:{{ block.settings.bottomposition }}px;
   }
+    {% when 'Button' %}  
+{% assign familyandweight = block.settings.font.family | append: block.settings.font.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ block.settings.font | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: block.settings.font.family | append: blocksettings.font.weight | append: block.settings.font.style | append: '|' %}
+
+#shopify-section-{{ section.id}} .block-{{ block.id }} {
+   text-align:{{ block.settings.alignment }};
+    margin-top:{{ block.settings.topposition }}px;
+    margin-bottom:{{ block.settings.bottomposition }}px;
+}
+
+#shopify-section-{{ section.id}} .block-{{ block.id }} a {
+    font-family: {{ block.settings.font.family }}; 
+    font-weight:{{ block.settings.font.weight }}; 
+    font-style:{{ block.settings.font.style }};    
+    font-size:{{ block.settings.fontsize }}px;
+    color: {{ block.settings.color }};
+    background: {{ block.settings.background }};
+}
+
     {% when 'Text' %}  
  
 {% assign familyandweight = block.settings.font.family | append: block.settings.font.weight %}
@@ -84,7 +107,9 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
     
   <div class="block-{{ block.id }}">{% unless block.settings.url == nil %}<a class="hvr-grow" href="{{ block.settings.url }}">{% endunless %}<img src="{{ block.settings.image | img_url: 'large' }}" />{% unless block.settings.url == nil %}</a>{% endunless %}</div>
     {% when 'Button' %} 
-   
+   <div class="block-{{ block.id }} isButton">
+     <a class="hvr-grow" href="{{ block.settings.url }}" >{{ block.settings.text }}</a>
+   </div>  
     {% when 'Text' %}
    <div class="block-{{ block.id }}">
        {{ block.settings.text }}
@@ -532,6 +557,81 @@ deferImageWithContent(function () {
     "default":   15
      }]
 },
+ {
+     "type": "Button",
+     "name": "Button",
+     "settings" : [
+{
+       "id": "url",
+       "type": "url",
+       "label": "Url"
+},
+{
+       "id": "text",
+       "type": "text",
+       "label": "Text",
+       "default": "Click Here"
+},
+{
+       "id": "color",
+       "type": "color",
+       "label": "Font Color",
+       "default": "#ffffff"
+},
+{
+       "id": "background",
+       "type": "color",
+       "label": "Background Color",
+       "default": "#000000"
+},
+ {
+     "type": "font_picker",
+     "id": "font",
+     "label": "Font",
+     "default": "work_sans_n6"
+   },
+  {
+    "type":   "range",
+    "id":     "fontsize",
+    "min":       12,
+    "max":       75,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Font Size",
+    "default":   20
+     },
+{
+   "type":      "radio",
+   "id":        "alignment",
+   "label":     "Alignment",
+   "options": [
+     { "value": "center", "label": "Center" },
+     { "value": "left", "label": "Left" },
+     { "value": "right", "label": "Right" }
+   ],
+   "default":   "center"
+},
+      {
+    "type":   "range",
+    "id":     "topposition",
+    "min":       0,
+    "max":       60,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Position from Top",
+    "default":   15
+     },
+     {
+    "type":   "range",
+    "id":     "bottomposition",
+    "min":       0,
+    "max":       60,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Position from Bottom",
+    "default":   15
+     }]
+},
 {
      "type": "Mailing-List",
      "name": "Mailing-List",
@@ -725,6 +825,13 @@ opacity:1;
      & .text {
        display: flex;
        flex-flow: column;
+       & .isButton a {
+    display: inline-block;
+    align-items: center;
+    line-height: 1;
+    padding: 22px 35px;
+    border-radius: 8px;
+        }
      }
      & .image {
        text-align:right;
@@ -798,4 +905,4 @@ text-align: center;
 
 {% javascript %}
 
-{% endjavascript %}                                       
+{% endjavascript %}                                          
