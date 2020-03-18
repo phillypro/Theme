@@ -1,7 +1,7 @@
 {% assign loadedfonts = '' %}   
 {% style %}
 #shopify-section-{{ section.id }} {
-  
+overflow: hidden; 
 background-size: cover;
 background-position: center;
 {% capture backgroundimage %}{{ section.settings.background_image | img_url: '1024x1024' }}{% endcapture %}                                   
