@@ -29,6 +29,13 @@
   
 {% include 'open-graph-tags' %}
 {{ content_for_header }}
+{% if settings.boldoptions %}  
+{%- include 'bold-options-hybrid' -%}
+{%- include 'bold-common' -%}  
+{%- include 'bold-product' with product, hide_action: 'header' -%}
+{% if template == 'product' and product.metafields.inventory.ShappifyHidden or product.type contains '_HIDDEN_' %}<meta name='robots' content='noindex'>{% endif %}
+{% endif %}
+
 
 {{ 'revolution.settings.css'  | asset_url  | stylesheet_tag }}    
 {{ 'revolution.captions-original.css'  | asset_url  | stylesheet_tag }}    
