@@ -1,3 +1,6 @@
+{% if settings.boldoptions %}
+{%- include 'bold-common' -%}  
+{% endif %}
 {% if cart.item_count > 0 %}
 <script>
   var checkoutBar = document.getElementById('checkout-bar');
@@ -71,7 +74,10 @@ document.body.append(checkoutbar);
 <div class="row">
 <div class="large-12 columns">    
   {% assign cartitems = cart.items %}
-  {% for item in cartitems reversed %}    
+  {% for item in cartitems reversed %}
+     {% if settings.boldoptions %}
+     {%- include 'bold-options-hybrid-cart-item' with item -%}   
+     {% endif %}
      <div cart-item="{{ item.id }}" class="product-cart-wrap">
        <div class="thumbnail-wrap" style="background-image:url({{ item | img_url: 'large' }})">
        </div>
@@ -84,6 +90,27 @@ document.body.append(checkoutbar);
              {% assign item_variant = item.variant %}
              {% if item_variant.option1 %}{{ item_variant.option1 }}{% endif %}
             {% if item_variant.option2 %}<span>{{ item_variant.option2 }}</span>{% endif %}
+	    {% if settings.boldoptions %}
+	              <div class="attributes">
+                      {% assign propertySize = item.properties | size %}
+                      {% if propertySize > 0 %}
+                      {% for p in item.properties %}
+                      {%- if p.first.first == '_' -%}{%- continue -%}{%- endif -%}
+                      {% assign first_character_in_key = p.first | truncate: 1, '' %}
+                      {% unless p.last == blank or first_character_in_key == '_' %}
+                      {{ p.first }}:
+                      {% if p.last contains '/uploads/' %}
+                      <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                      {% else %}
+                      {{ p.last }}
+                      {% endif %}
+                      <br/>
+                      {% endunless %}
+                      {% endfor %}
+                      {% endif %}
+                      <!-- Bold:POv2 -->
+                    </div>
+	    {% endif %}
          </a>
        </div>
        <div class="quantity-wrap">
@@ -95,7 +122,11 @@ document.body.append(checkoutbar);
        <div class="price-wrap">
          <span>
           <span> 
-          {% assign price = item.price | money | split: '.' %}{{ price.first }}
+	   {% if settings.boldoptions %}
+	   <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_item_price" style="display:none !important;"></span>{% include 'price' with item.price %}
+	   {% else %}
+           {% assign price = item.price | money | split: '.' %}{{ price.first }}
+	   {% endif %}
            </span>
            <div>       
           </div>
@@ -114,6 +145,13 @@ document.body.append(checkoutbar);
       
    <!-- get all cart items into an array -->
  {% for item in cart.items %}
+  {% if settings.boldoptions %}
+  {%- comment -%}Bold:PO 2.0 - Hybrid Input{%- endcomment -%}
+{%- if item.properties._boldBuilderId  and item.properties._boldVariantIds == null -%}
+<input type="hidden" name="updates[]" id="updates_{{- item.key -}}" class="bold_hidden_input cart__product-qty" value="{{- item.quantity -}}" min="0" data-id="{{- item.key -}}">
+{%- continue -%}
+{%- endif -%}
+  {% endif %}
    {% if forloop.last == true %}
     {% assign cartitems = cartitems | append: item.product.handle %}
    {% else %}
