@@ -1,3 +1,7 @@
+{% if settings.boldoptions %}
+{%- include 'bold-common' -%}
+{%- include 'bold-product' with product, hide_action: 'break', output: 'none' -%}
+{% endif %}
 
 {% assign add_to_cart = 'Add to cart' %}
 {% assign sold_out = 'Sold Out' %}
@@ -8,7 +12,8 @@
   <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
   
    
-  {% form 'product', product, data-ajax: 'false' %} 
+  {% if product.tags contains 'bold' %}{% else %}{% assign ajax = 'ajax' %}{% endif %}
+  {% form 'product', product, data-ajax: 'false', class: ajax %} 
     
   
     <!-- Product thumb -->
@@ -38,8 +43,9 @@
         {% assign hide_default_title = true %}
       {% endif %}       
 
-    
-                     
+    {% if settings.boldoptions %}
+      <div class="bold_options" data-product-id="{{ product.id }}"></div>
+    {% endif %}           
                      
     
     
