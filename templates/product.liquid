@@ -79,6 +79,13 @@
           {% endif %}
         </p>
       </div>
+                      
+{% if settings.quadpay %}    
+{% comment %} <!-- Insert QuadPay Widget --> {% endcomment %}
+<div style="margin: 0 0 10px 0; min-height: 20px;">
+  <quadpay-widget amount={{ variant.price | divided_by: 100.00 }}   breakpointAlignment="1022 center"></quadpay-widget>
+</div>       
+{% endif %}                     
     
     
    
@@ -247,10 +254,15 @@ var selectCallback = function(variant, selector) {
     // Whether the variant is in stock or not, we can update the price and compare at price.
     if ( variant.compare_at_price > variant.price ) {
       jQuery('#product-price-{{ product.id }}').html('<span class="product-price on-sale">'+ Shopify.formatMoney(variant.price, "{{ shop.money_format }}") +'</span>'+'&nbsp;<s class="product-compare-price">'+Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}")+ '</s>');
-    } else {
-    
+    } else {  
       jQuery('#product-price-{{ product.id }}').html('<span class="product-price">'+ Shopify.formatMoney(variant.price, "{{ shop.money_format }}") + '</span>' );
-    }        
+    }      
+             
+      {% if settings.quadpay %}   
+      {% assign new_money_format = shop.money_format | remove: '$' %}
+      jQuery('#product-price-{{ product.id }}').parent().find('quadpay-widget').attr('amount', Shopify.formatMoney(variant.price, "{{ new_money_format }}") );
+      {% endif %}                
+             
 
   } else {
     // variant doesn't exist.
