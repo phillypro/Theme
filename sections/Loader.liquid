@@ -199,9 +199,28 @@ visibility:visible;
 }  
 
   
-  
-  
-  
+{% if section.settings.brand_logo_svg != '' and section.settings.trace %} 
+            {% assign fill = section.settings.brand_logo_svg | split: 'fill="' %}  
+            {% assign fill =  fill[1] | split: '"' %}  
+            {% assign fill =  fill[0] | strip  %}  
+#shopify-section-Loader svg.trace path {
+stroke:{{ fill }};
+stroke-width: 2px;
+fill-opacity: 0;
+stroke-opacity: 0;
+-webkit-transition: fill-opacity .3s linear, stroke-opacity .3s linear;
+transition: fill-opacity .3s linear, stroke-opacity .3s linear;
+}  
+
+#shopify-section-Loader svg.trace.start path {
+stroke-opacity: 1;
+}
+#shopify-section-Loader svg.trace.start.fill path {
+fill-opacity: 1; 
+stroke-opacity: 0; 
+}
+
+{% endif %}
 
   
   
@@ -436,11 +455,88 @@ visibility:visible;
 {% endstyle %}   
 <div class="text-center">
           {% if section.settings.brand_logo_svg != '' %}
+           {% if section.settings.trace %}
+            {% assign svg = section.settings.brand_logo_svg | split: '<svg' %}  
+            {% assign svg =  svg[1] | split: '>' %}  
+            {% assign svg =  svg[0] %}  
+            {% if svg contains 'class' %}
+              {% assign svg = svg | split: 'class="' %}  
+              {% assign svg = svg[1] | split: '"' %}  
+              {% assign svgclasses = svg[0] %}  
+              {% assign new_svgclasses = svgclasses | append: ' trace' %}  
+              {% assign finalsvg = section.settings.brand_logo_svg | replace: svgclasses, new_svgclasses %}   
+               {{ finalsvg }}
+            {% else %}
+             {% assign finalsvg = section.settings.brand_logo_svg | replace: '<svg', '<svg class="trace"' %}     
+             {{ finalsvg }}
+            {% endif %}
+          {% else %}
             {{ section.settings.brand_logo_svg }}
+          {% endif %}
+  
+   
           {% else %}
            <img alt="{{ shop.name}} logo" src="{{ section.settings.brand_logo | img_url: 'medium' }}" />
           {% endif %}
 </div>
+
+
+{% if section.settings.trace %}
+<script>
+var callbackTrace = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.Walkway) {
+   // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdn.jsdelivr.net/gh/ConnorAtherton/walkway/walkway.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);   
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackCollection();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackTrace);
+}
+  
+function deferTrace(methodTrace) {
+    if (window.Walkway) {
+        methodTrace();
+    } else {
+        setTimeout(function() { deferTrace(methodTrace) }, 50);
+    }
+}
+deferTrace(function() { 
+
+  
+//optional for loader tracing 
+var svgEl = document.querySelector('#shopify-section-Loader svg');  
+svgEl.classList.add('start');
+  
+// Overwriting defaults
+var svg = new Walkway({
+  selector: '#shopify-section-Loader svg',
+  duration: '2000',
+  // can pass in a function or a string like 'easeOutQuint'
+  easing: function (t) {
+    return t * t;
+  }
+});
+
+svg.draw(function() {
+  svgEl.classList.add('fill');
+    window.draw = true; 
+});  
+  
+  
+  
+})
+</script>
+{% endif %}
 
 
 {% endif %}
