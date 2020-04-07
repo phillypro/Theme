@@ -33,11 +33,22 @@
         "type": "text",
         "id": "yotpoappkey",
         "label": "Yotpo App key"
+      },
+      {
+        "type": "header",
+        "content": "App Helpers"
+      },
+      {
+        "id": "boldoptions",
+        "default": false,
+        "label": "Enable Bold Options",
+        "info": "This Option Replaces Theme Installation for Bold Options App",
+        "type": "checkbox"
       }
     ],
     "name": "Apps and Services"
   },
-    {
+  {
     "settings": [
       {
         "type": "header",
@@ -51,7 +62,7 @@
       }
     ],
     "name": "Payment Gateways"
-  },    
+  },
   {
     "settings": [
       {
