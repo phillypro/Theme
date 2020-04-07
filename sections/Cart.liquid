@@ -321,6 +321,15 @@ document.body.append(checkoutbar);
           </span>
         </div>
 {% endif %}
+        
+{% if settings.quadpay %}        
+{% comment %} <!-- Insert QuadPay Widget --> {% endcomment %}
+<div class="quadpay" style="min-height:20px;">
+  <quadpay-widget amount={{ cart.total_price | divided_by: 100.00 }} alignment="right"></quadpay-widget>
+</div>        
+{% endif %}        
+        
+        
         {% unless section.settings.reserve == 'off' %}
         <div class="cart-reserve">
           <div>🔥 Items in your cart are in high demand. But we have reserved your order.</div>
