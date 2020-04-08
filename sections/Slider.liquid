@@ -180,37 +180,14 @@ $(document).one("pagecreate", '#index', function (event, ui) {
                    
                 // start slider                                        
                 {{slider_js }} 
-                                           
+                   
                 function logLoaded{{section.id}}() {
                       var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
                       slider.revstart();
                 }
-          
-                
-                // if first visit 
-              
-                if( typeof ui.prevPage[0] == 'undefined' && jQuery('#shopify-section-Loader').length) {
-                // we arent waiting for window.loaded
-                (function listen{{section.id}}() {
-					if (typeof jQuery.fn.revolution.checkActions != 'undefined') {
-                      
-                      if(typeof window.dataPrev{{ section.id }} != 'undefined') {
-						logLoaded{{section.id}}();
-                      }else{
-                        setTimeout(function () {
-                        logLoaded{{section.id}}();                   
-                        }, 50);
-                      }
-					} else {
-						window.setTimeout(listen{{section.id}}, 50);
-					}
-				})();
-                }else{
-          
 				(function listen{{section.id}}() {
-					if (window.loaded && typeof jQuery.fn.revolution.checkActions != 'undefined') {
-                      
-                      if(typeof window.dataPrev{{ section.id }} != 'undefined') {
+					if (window.loaded && typeof jQuery.fn.revolution.animateSlide != 'undefined') {
+                      if(typeof window.dataPrev{{ section.id }} == 'undefined' && document.getElementById("#shopify-section-Loader") == null) {
 						logLoaded{{section.id}}();
                       }else{
                         setTimeout(function () {
@@ -221,9 +198,6 @@ $(document).one("pagecreate", '#index', function (event, ui) {
 						window.setTimeout(listen{{section.id}}, 50);
 					}
 				})();
-                }
-          
-          
           
 
 
