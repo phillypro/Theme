@@ -120,6 +120,25 @@
 {% assign slider_js_edit = slider_js_edit[0] %}
 {% assign slider_js = slider_js | remove: slider_js_edit %}
 
+
+<!-- if has syle tag at the end lets capture it -->
+{% if section.settings.rev contains 'type="text/css"' %}
+{% assign slider_css = section.settings.rev | split: '<style' %}  
+{% assign slider_css_part_1 = slider_css[2] | split: '</style>' %}  
+{% assign slider_css_part_1 = slider_css_part_1[0] %}  
+{% assign slider_css_part_1 = slider_css_part_1 | prepend: '<style ' | append: '</style>'  %}  
+{{ slider_css_part_1 }}
+{% if slider_css[3] contains 'type="text/css"' %}
+{% assign slider_css_part_2 = slider_css[3] | split: '</style>' %}  
+{% assign slider_css_part_2 = slider_css_part_2[0] %}  
+{% assign slider_css_part_2 = slider_css_part_2 | prepend: '<style ' | append: '</style>'  %}  
+{{ slider_css_part_2 }}
+{% endif %}
+{% endif %}
+
+
+
+
 {% if section.settings.wait_slider %}
 {% unless slider_js contains 'waitForInit' %}
   {% assign slider_js = slider_js | replace: 'jsFileLocation:"",','jsFileLocation:"",waitForInit: true,' %}
@@ -128,6 +147,7 @@
 
 
 {{ slider_html }}
+
 
 
   
