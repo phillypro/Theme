@@ -176,12 +176,33 @@
   
   
   
+ {% unless section.settings.button_swap %}
    .cart-wrap .bag path {
    fill:{{ section.settings.cart_icon_color }};
    }
    .cart-wrap .circle path {
    fill:{{ section.settings.cart_circle_color }};
    }
+   {% else %}
+    header .inner-header .top-header>.row>div:nth-child(4) { 
+          max-width: 28%;
+    }
+    header .inner-header .top-header>.row>div:nth-child(4)>div a {
+     color:{{ section.settings.button_font_color }};
+     background:{{ section.settings.button_background_color }};
+     padding: 10px 20px;
+     border-radius: 5px;
+   }
+   @media only screen and (max-width:600px) {
+    header .inner-header .top-header>.row>div:nth-child(4) {
+    padding: 0 10px 0 0;
+   }
+    header .inner-header .top-header>.row>div:nth-child(4)>div a {
+    padding: 10px 11px;
+    font-size: 11px;
+   }
+   }
+   {% endunless %}
   
 {% if section.settings.css != nil %}
 {{ section.settings.css }}
@@ -233,9 +254,10 @@
             </div>
             <div class="large-3 columns cart-column">
                <div>
+                  {% unless section.settings.button_swap %}
                   <div class="desktopv account-links">
                      {% if customer  %}
-                     <a target="_blank" href="/account">Your Account</a>
+                     <a href="/account">Your Account</a>
                      {% else %}
                      {{ 'Sign in' | customer_login_link }}
                      or <a target="_parent" href="/account/register">Create an Account</a>
@@ -255,6 +277,14 @@
                         </span>
                      </a>
                   </div>
+                 {% else %}
+                  <div>
+                     <a href="{{ section.settings.button_url }}">
+                         {{ section.settings.button_text }}
+                     </a>
+                  </div>
+                  {% endunless %}
+     
                </div>
             </div>
          </div>
@@ -539,6 +569,39 @@ function scrollheader() {
 "step":      5,
 "label":     "Link Spacing",
 "default":   10
+},
+{
+"type":      "header",
+"content":   "Swap Cart Icon to Button?"
+},
+{
+  "id": "button_swap",
+  "type": "checkbox",
+  "label": "Enable Swap Cart Icon with Button",
+  "default": false
+},
+{
+  "id": "button_url",
+  "type": "url",
+  "label": "URL"
+},
+{
+  "id": "button_text",
+  "type": "text",
+  "label": "Button Text",
+  "default": "Contact Me"
+},
+{
+  "id": "button_background_color",
+  "type": "color",
+  "label": "Button Background Color",
+  "default": "#777"
+},
+{
+  "id": "button_font_color",
+  "type": "color",
+  "label": "Button Font Color",
+  "default": "#FFF"
 },
 {
  "type": "header",
