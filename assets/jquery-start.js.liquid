@@ -21,12 +21,7 @@ $(document).one("pagecontainershow", function (event,ui) {
    window.loaded = true; 
    function logLoaded2() {
    jQuery('html').addClass('loaded');
-   setTimeout(function() {
-      setTimeout(function() {
-      jQuery('#welcome-loader').remove();
-       },2000);
-  },1000);
-    }
+   }
 
   if ($('#shopify-section-Loader svg.trace').length) {
     (function listen2() {
