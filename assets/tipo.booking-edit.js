@@ -1,4 +1,4 @@
- "use strict";
+"use strict";
 if (typeof jQuery === 'undefined') {
 
     /*jquery*/
@@ -260,7 +260,7 @@ var tpBooking = function ($) {
                             bindEvent(false, selector);
 
                             if (tpbShopPlan == 'FREE' || tpbShopPlan == 'BASIC') {
-                                $('.tpb-booking-form .copyright').show();
+                              //  $('.tpb-booking-form .copyright').show();
                             }
                         });
                     }
@@ -314,7 +314,8 @@ var tpBooking = function ($) {
                                 isProductPage: isProductPage
                             }).then(function (bookingFormHTML) {
                                 $(form).after($('<div class="tpb-booking-form product"></div>').html(bookingFormHTML));
-                                bindEvent(true, '.tpb-booking-form.product');
+                                var bookingformEl = form.parent().find('.tpb-booking-form.product')[0];
+                                bindEvent(true, bookingformEl);
 
                                 if (tpbShopPlan == 'FREE' || tpbShopPlan == 'BASIC') {
                                  //   $('.tpb-booking-form .copyright').show();
@@ -338,15 +339,30 @@ var tpBooking = function ($) {
                             });
                         }
 
-                        if ($('.shopify-payment-button').length) {
+                        if ($(form).find('.shopify-payment-button').length) {
                             if (tpbSettings.general.hide_buy_now == 2 && is_enable) {
-                                $('.shopify-payment-button').hide();
+                                $(form).find('.shopify-payment-button').hide();
                             }
 
                             if (tpbSettings.general.hide_buy_now == 1) {
-                                $('.shopify-payment-button').hide();
+                               $(form).find('.shopify-payment-button').hide();
                             }
                         }
+                     
+                       var currentPage = $(form).closest('[data-role="page"]');
+                       var priceWrap = currentPage.find('.product-price'); 
+                      if(!priceWrap.hasClass('booking-duration')) {
+                       // get duration and unit
+                       window.tpbProducts.forEach(function (item, key) {
+                         if(item.id == window.tpbProductId) {
+                           var pduration = item.duration.rule;
+                           console.log(item);
+                           var punit = item.capacity.rule == 1 ? 'min' : 'hr' ;
+                           priceWrap.addClass('booking-duration').prepend(pduration + ' ' + punit + ' | ');
+                           
+                         }
+                       });
+                      }
                     }
                 }
             }
@@ -444,6 +460,10 @@ var tpBooking = function ($) {
         });
         $('body').on('change', '.tpb-timepicker input[name="time"]', function () {
             $('.tpb-box .continue-button.c2').removeAttr('disabled');
+     
+         
+          
+          
         });
 
         if (isProductPage) {
@@ -929,8 +949,10 @@ var tpBooking = function ($) {
 
 
             tpbStep = step;
-                                          var sticky = step.closest('.sticky-sidebar');
+     
+                              var sticky = $(self).closest('.sticky-sidebar');
                               if(sticky.length) {
+                               console.log('continue');
                                sticky.find('.sidebar_inner').trigger("sticky_kit:recalc");
                               }
           
@@ -1055,8 +1077,14 @@ var tpBooking = function ($) {
             window: window
         }).then(function (confirmFormHTML) {
             $('.tpb-box .step3').empty().html(confirmFormHTML).promise().done(function () {
+                  var sticky = $(self).closest('.sticky-sidebar');
+                              if(sticky.length) {
+                               console.log('continue');
+                               sticky.find('.sidebar_inner').trigger("sticky_kit:recalc");
+                              }
+              
                 callback();
-
+      
                 if ($('.tpb-form-control-select').length) {
                     $.each($('.tpb-form-control-select'), function(i, sel) {
                         new SlimSelect({
