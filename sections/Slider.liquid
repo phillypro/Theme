@@ -206,10 +206,11 @@ $(document).one("pagecreate", '#index', function (event, ui) {
                       slider.revstart();
                 }
 				(function listen{{section.id}}() {
-
-					if (window.loaded && window.revSlider) {
-                      if(typeof window.dataPrev{{ section.id }} == 'undefined' && document.getElementById("shopify-section-Loader") == null) {
+					if (window.loaded && typeof jQuery.fn.revolution.animateSlide != 'undefined') {
+                      if(document.getElementById("shopify-section-Loader") == null) {
 						logLoaded{{section.id}}();
+                      }else if(window.loaded && typeof window.dataPrev{{ section.id }} != 'undefined') {
+                      	logLoaded{{section.id}}();
                       }else{
                         setTimeout(function () {
                         logLoaded{{section.id}}();                   
