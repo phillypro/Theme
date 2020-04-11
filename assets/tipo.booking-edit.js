@@ -1443,6 +1443,48 @@ var tpBooking = function ($) {
     return modules;
 }(window.jQuery, window, document);
 
+
+function showDuration() {
+      if(typeof window.tpbProductsList == 'undefined') {
+      $.ajax({
+            url: tpbAppUrl + '/booking_api/services?shop=' + tpbUrlShop,
+            type: 'GET',
+            success: function success(data) {
+                if (data.success) {
+                    var products = data.products.map(function (product) {
+                        product.title = product.title.replace(/"/g, "&quot;");
+                        return product;
+                    });
+                    window.tpbProductsList = products;
+                    console.log(window.tpbProductsList);
+                }
+            }
+      });
+      }
+}
+showDuration(); 
+
+function deferProductList(methodProductList) {
+    if (window.tpbProductsList) {
+        methodProductList();
+    } else {
+        setTimeout(function() { deferProductList(methodProductList) }, 50);
+    }
+}
+deferProductList(function () {  
+  
+      window.tpbProductsList.forEach(function (item, key) {
+       var product = $('li.product[data-id="' + item.id + '"]') 
+       if(product.length && !product.hasClass('booking')) {
+          var pduration = item.duration.rule;
+          var punit = item.capacity.rule == 1 ? 'min' : 'hr' ;
+          product.addClass('booking').find('.h1').prepend(pduration + ' ' + punit + ' | ');                   
+     }
+    });  
+});
+  
+  
+
 $(document).ready(function () {
     // Check install
     var installed = false;
@@ -1490,7 +1532,6 @@ $(document).ready(function () {
       
     var form = $('form[method="post"][action="/cart/add"]:visible');
 
-      console.log(form);
     /*
     if (form.length && checkPageProduct) {
        tpBooking.appendBookingFormOnProductPage(form);
@@ -1503,6 +1544,9 @@ $(document).ready(function () {
 
     }
     */
+
+ 
+      
     
      $.each($('form[method="post"][action="/cart/add"]:visible'), function () {
        var form = $(this);
