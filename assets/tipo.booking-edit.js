@@ -1471,18 +1471,46 @@ function deferProductList(methodProductList) {
         setTimeout(function() { deferProductList(methodProductList) }, 50);
     }
 }
-deferProductList(function () {  
   
+deferProductList(function () {  
       window.tpbProductsList.forEach(function (item, key) {
-       var product = $('li.product[data-id="' + item.id + '"]') 
-       if(product.length && !product.hasClass('booking')) {
+       var product = $('li.product[data-id="' + item.id + '"]'); 
+        if(product.length) {
+        product.each(function () {
+       if(!$(this).hasClass('booking')) {
           var pduration = item.duration.rule;
           var punit = item.capacity.rule == 1 ? 'min' : 'hr' ;
-          product.addClass('booking').find('.h1').prepend(pduration + ' ' + punit + ' | ');                   
+          $(this).addClass('booking').find('.h1').prepend(pduration + ' ' + punit + ' | ');                   
      }
+    })
+        }                   
     });  
-});
+}); 
   
+
+$(document).on("pagecreate", function (event,ui) {  
+$(document).on("pagebeforeshow", '#index[data-role="page"], .collection-page[data-role="page"]', function (event,ui) {    
+  
+
+showDuration();   
+deferProductList(function () {  
+      window.tpbProductsList.forEach(function (item, key) {
+       var product = $('li.product[data-id="' + item.id + '"]'); 
+        if(product.length) {
+        product.each(function () {
+       if(!$(this).hasClass('booking')) {
+          var pduration = item.duration.rule;
+          var punit = item.capacity.rule == 1 ? 'min' : 'hr' ;
+          $(this).addClass('booking').find('.h1').prepend(pduration + ' ' + punit + ' | ');                   
+     }
+    })
+        }                   
+    });  
+}); 
+
+  
+});
+});  
   
 
 $(document).ready(function () {
