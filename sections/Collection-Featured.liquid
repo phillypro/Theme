@@ -27,6 +27,11 @@
    }
   
 {% if section.settings.linethrough %}
+
+   #shopify-section-{{ section.id }} .shopify-section .collection-featured .title h2 span {
+    background: #fff;
+   }
+
    #shopify-section-{{ section.id }} .collection-featured > .row.title h2:before {  
     position: absolute;
     content: "";
@@ -81,6 +86,16 @@ left:auto;
 
 
 
+#shopify-section-{{ section.id }} .collection-featured li.product h3  {
+color:{{ section.settings.producttitlecolor }};
+}
+#shopify-section-{{ section.id }} .collection-featured li.product .h1 {
+color:{{ section.settings.productpricecolor }};
+}
+#shopify-section-{{ section.id }} .collection-featured li.product .desc {
+color:{{ section.settings.productdesccolor }};
+}
+
 
 #shopify-section-{{ section.id }} .collection-featured .show-more a  {
 background:{{ section.settings.showmorebackground }};
@@ -101,6 +116,11 @@ padding-top:50px;
 padding-top:25px;
 }
 }  
+
+
+{% if section.settings.css != nil %}
+{{ section.settings.css | replace: '&gt;', '>' }}
+{% endif %}
 {% endstyle %}
 
 
@@ -186,6 +206,15 @@ padding-top:25px;
             </span>
          </div>
           {% endif %}
+         
+        {% if section.settings.desc %}
+         <div class="desc">
+           {{ product.description | truncate: 300, ", ..." }}
+         </div>
+         {% endif %}
+         
+         
+         
        </a> 
         
    {% if section.settings.sezzle %}
@@ -575,6 +604,12 @@ showmorebutton.addEventListener("click", showmore);
 }, 
 {
 "type": "checkbox",
+"id": "desc",
+"label": "Show Shortened Product Description",
+"default": false
+}, 
+{
+"type": "checkbox",
 "id": "carousel",
 "label": "Show As Carousel (refresh page after enabling this)",
 "default": false
@@ -584,7 +619,29 @@ showmorebutton.addEventListener("click", showmore);
 "id": "animate",
 "label": "Animate In",
 "default": true
-}, 
+},
+{
+ "type": "header",
+ "content": "Font Colors"
+},
+{
+       "id": "producttitlecolor",
+       "type": "color",
+       "label": "Product Title Color",
+       "default": "#000000"
+},
+{
+       "id": "productpricecolor",
+       "type": "color",
+       "label": "Product Price Color",
+       "default": "#000000"
+},
+{
+       "id": "productdesccolor",
+       "type": "color",
+       "label": "Product Description Color",
+       "default": "#000000"
+},
 {
  "type": "header",
  "content": "Buy Now Button"
@@ -628,8 +685,17 @@ showmorebutton.addEventListener("click", showmore);
        "type": "color",
        "label": "Font Color",
        "default": "#FFFFFF"
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS",
+	"info": "Use [Font 2 Web](http://www.font2web.com/) to convert fonts"
 }
-
 ],
   "presets": [
     {
@@ -735,7 +801,6 @@ opacity:1;
   	& h2 {
      position:relative;
     & span {
-    background: #fff;
     z-index: 2;
     position: relative;
     padding: 0 20px;
@@ -807,6 +872,9 @@ color: #ba5485;
           font-size: 80%;
        }
       }
+ & .desc {
+margin-top: 10px;
+}
       & .buynow {
     border-radius: 48px;
     padding: 11px 35px;
@@ -892,4 +960,4 @@ opacity:0.2;
 
 {% javascript %}       
  
-{% endjavascript %}                      
+{% endjavascript %}                          

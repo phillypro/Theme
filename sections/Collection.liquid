@@ -1,8 +1,11 @@
 {% style %}
-.collection-page li.product .buynow {
+#shopify-section-{{ section.id }} li.product .buynow {
 background:{{ section.settings.buynowbackground }};
 color:{{ section.settings.buynowcolor }};
 }
+{% if section.settings.css != nil %}
+{{ section.settings.css }}
+{% endif %}
 {% endstyle %}
 
 {% paginate collection.products by 12 %}
@@ -302,6 +305,16 @@ jQuery('.sort-by')
        "type": "color",
        "label": "Font Color",
        "default": "#FFFFFF"
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS",
+	"info": "Use [Font 2 Web](http://www.font2web.com/) to convert fonts"
 }]
   }
 {% endschema %}
