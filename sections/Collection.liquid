@@ -4,7 +4,7 @@ background:{{ section.settings.buynowbackground }};
 color:{{ section.settings.buynowcolor }};
 }
 {% if section.settings.css != nil %}
-{{ section.settings.css }}
+{{ section.settings.css | replace: '&gt;', '>' }}
 {% endif %}
 {% endstyle %}
 
@@ -121,6 +121,13 @@ color:{{ section.settings.buynowcolor }};
       </span>
    </div>
   {% endif %}
+  
+          {% if section.settings.desc %}
+         <div class="desc">
+           {{ product.description | truncate: 300, ", ..." }}
+         </div>
+         {% endif %}
+  
    <a href="{{ product.url }}" class="buynow add-product">{{ section.settings.buynowtext }}</a>
 </li>
    
@@ -281,6 +288,12 @@ jQuery('.sort-by')
 },
 {
 "type": "checkbox",
+"id": "desc",
+"label": "Show Shortened Product Description",
+"default": false
+}, 
+{
+"type": "checkbox",
 "id": "sezzle",
 "label": "Show Sezzle Price",
 "default": false
@@ -370,6 +383,9 @@ jQuery('.sort-by')
 
 .collection-page {
 
+ & .desc {
+margin-top: 10px;
+}
   & .sezzle-wrap {
          text-align: center;
                 margin-top: 10px;
@@ -425,4 +441,4 @@ background: #efefef;
 {% endstylesheet %} 
 
 {% javascript %}
-{% endjavascript %}  
+{% endjavascript %}    
