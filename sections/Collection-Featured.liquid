@@ -15,6 +15,7 @@
     font-weight:{{ section.settings.font.weight }}; 
     font-style:{{ section.settings.font.style }};    
       font-size:{{ section.settings.fontsize }}px;   
+        line-height: 1;
  }
 {% if section.settings.fullwidth %}
    #shopify-section-{{ section.id }} .collection-featured > .row {
@@ -807,6 +808,7 @@ opacity:1;
      font-size:100%;
     @include bp(mobile) {
       font-size:80%;
+      padding: 0;
     }
      }
    }
@@ -960,4 +962,4 @@ opacity:0.2;
 
 {% javascript %}       
  
-{% endjavascript %}                          
+{% endjavascript %}                            

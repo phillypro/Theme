@@ -13,6 +13,7 @@
     font-weight:{{ section.settings.title_font.weight }}; 
     font-style:{{ section.settings.title_font.style }};    
     font-size:{{ section.settings.title_font_size }}px;   
+line-height: 1;
 }
 
 #shopify-section-{{ section.id }} .featured-review .row .review .quote .inner svg path {
@@ -39,7 +40,9 @@ color:{{ section.settings.author_title_color }};
 fill: {{ section.settings.quote_bubble_color }};
 }
 
-
+{% if section.settings.css != nil %}
+{{ section.settings.css | replace: '&gt;', '>' }}
+{% endif %}
 {% endstyle %}
 
 
