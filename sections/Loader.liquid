@@ -451,7 +451,9 @@ stroke-opacity: 0;
 .sk-three-bounce .sk-child{
   background-color:{{ section.settings.spinner }}d1;
 }
- 
+{% if section.settings.css != nil %}
+{{ section.settings.css }}
+{% endif %}   
 {% endstyle %}   
 <div class="text-center">
           {% if section.settings.brand_logo_svg != '' %}
@@ -617,6 +619,15 @@ svg.draw(function() {
        "type": "color",
        "label": "Background Color #2 (Optional Gradient)",
        "default": "#D9DBEB"
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS"
 }]
   }
 {% endschema %}
