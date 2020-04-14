@@ -329,7 +329,11 @@ var setViewportWidth = function () {
   
 // Log the viewport width into the console
 var logWidth = function () {
-	if (viewportWidth > 1022) {
+var sidebarinner = document.querySelector('.sticky-sidebar-{{ product.id }} .sidebar_inner');
+var sidebarvideo = document.querySelector('.sticky-sidebar-video-{{ product.id }}');  
+  
+  
+	if (viewportWidth > 1022 && sidebarvideo.offsetHeight > sidebarinner.offsetHeight && sidebarvideo.offsetHeight - sidebarinner.offsetHeight > 100) {
       
     {% if sticky %}  
      var header = document.getElementsByTagName('header')[0];
