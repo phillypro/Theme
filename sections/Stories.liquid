@@ -1,5 +1,7 @@
 {% if section.settings.hidestories == true %}
-<style>
+{% style %}
+
+
   .stories-wrap {
   background-color:{{ section.settings.background_color }};
   }  
@@ -26,7 +28,19 @@
     background: linear-gradient(to bottom, {{ section.settings.bubble_tag_background_color }} 0%, {{ section.settings.bubble_tag_background_color_2 }} 100%);                            
   {% endif %}
 }  
-</style>
+
+.story .img-wrap {
+background-color:{{ section.settings.background_color }};
+}
+
+   {% for block in section.blocks %}
+   #story-{{ block.id }} .img {
+   background-image:url({{ block.settings.image | img_url: 'small' }}); 
+   background-position:{% if block.settings.imageposition != '' %}{{ block.settings.imageposition }}{% else %}0{% endif %}% 0%
+   }
+   {% endfor %}
+
+{% endstyle %}
 <div class="stories-wrap">
   <div class="swiper-container">
     <!-- Additional required wrapper -->
@@ -36,10 +50,10 @@
       {% when 'Video' %}
        <div class="swiper-slide">
        <div class="story-wrap">
-       <a class="story video" href="#" poster="{{ block.settings.image | img_url: '1024x1024' }}" mp4="{% if block.settings.mp41 %}{{ block.settings.mp41 }}{% if block.settings.mp41swipe %}::{{ block.settings.mp41swipe }}{% endif %}|{% endif %}{% if block.settings.mp42 %}{{ block.settings.mp42 }}{% if block.settings.mp42swipe %}::{{ block.settings.mp42swipe }}{% endif %}|{% endif %}{% if block.settings.mp43 %}{{ block.settings.mp43 }}{% if block.settings.mp43swipe %}::{{ block.settings.mp43swipe }}{% endif %}|{% endif %}{% if block.settings.mp44 %}{{ block.settings.mp44 }}{% if block.settings.mp44swipe %}::{{ block.settings.mp44swipe }}{% endif %}|{% endif %}{% if block.settings.mp45 %}{{ block.settings.mp45 }}{% if block.settings.mp45swipe %}::{{ block.settings.mp45swipe }}{% endif %}|{% endif %}{% if block.settings.mp46 %}{{ block.settings.mp46 }}{% if block.settings.mp46swipe %}::{{ block.settings.mp46swipe }}{% endif %}|{% endif %}{% if block.settings.mp47 %}{{ block.settings.mp47 }}{% if block.settings.mp47swipe %}::{{ block.settings.mp47swipe }}{% endif %}|{% endif %}{% if block.settings.mp48 %}{{ block.settings.mp48 }}{% if block.settings.mp48swipe %}::{{ block.settings.mp48swipe }}{% endif %}|{% endif %}{% if block.settings.mp49 %}{{ block.settings.mp49 }}{% if block.settings.mp49swipe %}::{{ block.settings.mp49swipe }}{% endif %}|{% endif %}{% if block.settings.mp410 %}{{ block.settings.mp410 }}{% if block.settings.mp410swipe %}::{{ block.settings.mp410swipe }}{% endif %}|{% endif %}">
-           <div class="gradient" style="">
-            <div class="img-wrap" style="background-color:{{ section.settings.background_color }};">
-             <div class="img" style="background-image:url({{ block.settings.image | img_url: 'small' }}); background-position:{% if block.settings.imageposition != '' %}{{ block.settings.imageposition }}{% else %}0{% endif %}% 0%">
+       <a id="story-{{ block.id }}" class="story video" href="#" poster="{{ block.settings.image | img_url: '1024x1024' }}" mp4="{% if block.settings.mp41 %}{{ block.settings.mp41 }}{% if block.settings.mp41swipe %}::{{ block.settings.mp41swipe }}{% endif %}|{% endif %}{% if block.settings.mp42 %}{{ block.settings.mp42 }}{% if block.settings.mp42swipe %}::{{ block.settings.mp42swipe }}{% endif %}|{% endif %}{% if block.settings.mp43 %}{{ block.settings.mp43 }}{% if block.settings.mp43swipe %}::{{ block.settings.mp43swipe }}{% endif %}|{% endif %}{% if block.settings.mp44 %}{{ block.settings.mp44 }}{% if block.settings.mp44swipe %}::{{ block.settings.mp44swipe }}{% endif %}|{% endif %}{% if block.settings.mp45 %}{{ block.settings.mp45 }}{% if block.settings.mp45swipe %}::{{ block.settings.mp45swipe }}{% endif %}|{% endif %}{% if block.settings.mp46 %}{{ block.settings.mp46 }}{% if block.settings.mp46swipe %}::{{ block.settings.mp46swipe }}{% endif %}|{% endif %}{% if block.settings.mp47 %}{{ block.settings.mp47 }}{% if block.settings.mp47swipe %}::{{ block.settings.mp47swipe }}{% endif %}|{% endif %}{% if block.settings.mp48 %}{{ block.settings.mp48 }}{% if block.settings.mp48swipe %}::{{ block.settings.mp48swipe }}{% endif %}|{% endif %}{% if block.settings.mp49 %}{{ block.settings.mp49 }}{% if block.settings.mp49swipe %}::{{ block.settings.mp49swipe }}{% endif %}|{% endif %}{% if block.settings.mp410 %}{{ block.settings.mp410 }}{% if block.settings.mp410swipe %}::{{ block.settings.mp410swipe }}{% endif %}|{% endif %}">
+           <div class="gradient">
+            <div class="img-wrap">
+             <div class="img">
              </div>
             </div>
               {% if block.settings.tag != '' %}<span class="tag">{{ block.settings.tag }}</span>{% endif %}
@@ -55,10 +69,10 @@
        <div class="swiper-slide">
        <div class="story-wrap">
           
-       <a class="story image" href="#" poster="{{ block.settings.image | img_url: '1024x1024' }}" image="{% if block.settings.img1 %}{{ block.settings.img1 | img_url: '1024x1024' }}{% if block.settings.img1swipe %}::{{ block.settings.img1swipe }}{% endif %}|{% endif %}{% if block.settings.img2 %}{{ block.settings.img2 | img_url: '1024x1024' }}{% if block.settings.img2swipe %}::{{ block.settings.img2swipe }}{% endif %}|{% endif %}{% if block.settings.img3 %}{{ block.settings.img3 | img_url: '1024x1024' }}{% if block.settings.img3swipe %}::{{ block.settings.img3swipe }}{% endif %}|{% endif %}{% if block.settings.img4 %}{{ block.settings.img4 | img_url: '1024x1024' }}{% if block.settings.img4swipe %}::{{ block.settings.img4swipe }}{% endif %}|{% endif %}{% if block.settings.img5 %}{{ block.settings.img5 | img_url: '1024x1024' }}{% if block.settings.img5swipe %}::{{ block.settings.img5swipe }}{% endif %}|{% endif %}{% if block.settings.img6 %}{{ block.settings.img6 | img_url: '1024x1024' }}{% if block.settings.img6swipe %}::{{ block.settings.img6swipe }}{% endif %}|{% endif %}{% if block.settings.img7 %}{{ block.settings.img7 | img_url: '1024x1024' }}{% if block.settings.img7swipe %}::{{ block.settings.img7swipe }}{% endif %}|{% endif %}{% if block.settings.img8 %}{{ block.settings.img8 | img_url: '1024x1024' }}{% if block.settings.img8swipe %}::{{ block.settings.img8swipe }}{% endif %}|{% endif %}{% if block.settings.img9 %}{{ block.settings.img9 | img_url: '1024x1024' }}{% if block.settings.img9swipe %}::{{ block.settings.img9swipe }}{% endif %}|{% endif %}{% if block.settings.img10 %}{{ block.settings.img10 | img_url: '1024x1024' }}{% if block.settings.img10swipe %}::{{ block.settings.img10swipe }}{% endif %}|{% endif %}">
+       <a id="story-{{ block.id }}" class="story image" href="#" poster="{{ block.settings.image | img_url: '1024x1024' }}" image="{% if block.settings.img1 %}{{ block.settings.img1 | img_url: '1024x1024' }}{% if block.settings.img1swipe %}::{{ block.settings.img1swipe }}{% endif %}|{% endif %}{% if block.settings.img2 %}{{ block.settings.img2 | img_url: '1024x1024' }}{% if block.settings.img2swipe %}::{{ block.settings.img2swipe }}{% endif %}|{% endif %}{% if block.settings.img3 %}{{ block.settings.img3 | img_url: '1024x1024' }}{% if block.settings.img3swipe %}::{{ block.settings.img3swipe }}{% endif %}|{% endif %}{% if block.settings.img4 %}{{ block.settings.img4 | img_url: '1024x1024' }}{% if block.settings.img4swipe %}::{{ block.settings.img4swipe }}{% endif %}|{% endif %}{% if block.settings.img5 %}{{ block.settings.img5 | img_url: '1024x1024' }}{% if block.settings.img5swipe %}::{{ block.settings.img5swipe }}{% endif %}|{% endif %}{% if block.settings.img6 %}{{ block.settings.img6 | img_url: '1024x1024' }}{% if block.settings.img6swipe %}::{{ block.settings.img6swipe }}{% endif %}|{% endif %}{% if block.settings.img7 %}{{ block.settings.img7 | img_url: '1024x1024' }}{% if block.settings.img7swipe %}::{{ block.settings.img7swipe }}{% endif %}|{% endif %}{% if block.settings.img8 %}{{ block.settings.img8 | img_url: '1024x1024' }}{% if block.settings.img8swipe %}::{{ block.settings.img8swipe }}{% endif %}|{% endif %}{% if block.settings.img9 %}{{ block.settings.img9 | img_url: '1024x1024' }}{% if block.settings.img9swipe %}::{{ block.settings.img9swipe }}{% endif %}|{% endif %}{% if block.settings.img10 %}{{ block.settings.img10 | img_url: '1024x1024' }}{% if block.settings.img10swipe %}::{{ block.settings.img10swipe }}{% endif %}|{% endif %}">
          <div class="gradient">
-            <div class="img-wrap" style="background-color:{{ section.settings.background_color }};">
-             <div class="img" style="background-image:url({{ block.settings.image | img_url: 'small' }}); background-position:{% if block.settings.imageposition != '' %}{{ block.settings.imageposition }}{% else %}0{% endif %}% 0%">
+            <div class="img-wrap">
+             <div class="img">
              </div>
             </div>
               {% if block.settings.tag != '' %}<span class="tag">{{ block.settings.tag }}</span>{% endif %}
@@ -74,10 +88,10 @@
        <div class="swiper-slide">
        <div class="story-wrap">
           
-       <a class="story" href="{{ block.settings.url }}" poster="{{ block.settings.image | img_url: '1024x1024' }}">
+       <a id="story-{{ block.id }}" class="story" href="{{ block.settings.url }}" poster="{{ block.settings.image | img_url: '1024x1024' }}">
            <div class="gradient">
-            <div class="img-wrap" style="background-color:{{ section.settings.background_color }};">
-             <div class="img" style="background-image:url({{ block.settings.image | img_url: 'small' }}); background-position:{% if block.settings.imageposition != '' %}{{ block.settings.imageposition }}{% else %}0{% endif %}% 0%">
+            <div class="img-wrap">
+             <div class="img">
              </div>
             </div>
              {% if block.settings.tag != '' %}<span class="tag">{{ block.settings.tag }}</span>{% endif %}
@@ -98,8 +112,8 @@
           
        <a class="story" href="https://youtu.be/bL_X_GK69P4?t=487" poster="{{ 'demo_stories_s-min.jpg' | asset_url }}">
            <div class="gradient">
-            <div class="img-wrap" style="background-color:{{ section.settings.background_color }};">
-             <div class="img" style="background-image:url(//cdn.shopify.com/s/files/1/0949/4410/t/75/assets/demo_stories_s-min.jpg?43598); background-position:0% 0%">
+            <div class="img-wrap">
+             <div class="img" style="background-image:url(//cdn.shopify.com/s/files/1/0949/4410/t/75/assets/demo_stories_s-min.jpg?43598);">
              </div>
             </div>
              <span class="tag">How To</span>
@@ -116,8 +130,8 @@
           
        <a class="story" href="https://youtu.be/bL_X_GK69P4?t=487" poster="{{ 'demo_stories_t-min.jpg' | asset_url }}">
            <div class="gradient">
-            <div class="img-wrap" style="background-color:{{ section.settings.background_color }};">
-             <div class="img" style="background-image:url(//cdn.shopify.com/s/files/1/0949/4410/t/75/assets/demo_stories_t-min.jpg?43598); background-position:0% 0%">
+            <div class="img-wrap">
+             <div class="img" style="background-image:url(//cdn.shopify.com/s/files/1/0949/4410/t/75/assets/demo_stories_t-min.jpg?43598);">
              </div>
             </div>
          </div>
@@ -133,8 +147,8 @@
           
        <a class="story" href="https://youtu.be/bL_X_GK69P4?t=487" poster="{{ 'demo_stories_a-min.jpg' | asset_url }}">
            <div class="gradient">
-            <div class="img-wrap" style="background-color:{{ section.settings.background_color }};">
-             <div class="img" style="background-image:url(//cdn.shopify.com/s/files/1/0949/4410/t/75/assets/demo_stories_a-min.jpg?43598); background-position:0% 0%">
+            <div class="img-wrap" >
+             <div class="img" style="background-image:url(//cdn.shopify.com/s/files/1/0949/4410/t/75/assets/demo_stories_a-min.jpg?43598);">
              </div>
             </div>
          </div>
@@ -150,8 +164,8 @@
           
        <a class="story" href="https://youtu.be/bL_X_GK69P4?t=487" poster="{{ 'demo_stories_r-min.jpg' | asset_url }}">
            <div class="gradient">
-            <div class="img-wrap" style="background-color:{{ section.settings.background_color }};"> 
-             <div class="img" style="background-image:url(//cdn.shopify.com/s/files/1/0949/4410/t/75/assets/demo_stories_r-min.jpg?43598); background-position:0% 0%">
+            <div class="img-wrap" > 
+             <div class="img" style="background-image:url(//cdn.shopify.com/s/files/1/0949/4410/t/75/assets/demo_stories_r-min.jpg?43598);">
              </div>
             </div>
          </div>
@@ -167,8 +181,8 @@
           
        <a class="story" href="https://youtu.be/bL_X_GK69P4?t=487" poster="{{ 'demo_stories_t-min.jpg' | asset_url }}">
            <div class="gradient">
-            <div class="img-wrap" style="background-color:{{ section.settings.background_color }};">
-             <div class="img" style="background-image:url(//cdn.shopify.com/s/files/1/0949/4410/t/75/assets/demo_stories_t-min.jpg?43598); background-position:0% 0%">
+            <div class="img-wrap" >
+             <div class="img" style="background-image:url(//cdn.shopify.com/s/files/1/0949/4410/t/75/assets/demo_stories_t-min.jpg?43598);">
              </div>
             </div>
          </div>
@@ -1507,6 +1521,9 @@ function playimg(imgEl, mySwiper) {
    @include bp(phabletup) {
       display:none;
   }
+  @include bp(phablet) {
+ position:static;
+}
   & + * {
     z-index:10;
     position: relative;
