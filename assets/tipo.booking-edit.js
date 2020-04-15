@@ -86,13 +86,1858 @@ if (!tpbSettings) {
     var _tpbSettings = {};
 }
 
-var tpBooking = function ($) {
+var tpBooking = function($) {
     var modules = {};
 
     /*Liquid.js*/
-    !function (t, e) { "object" == typeof exports && "undefined" != typeof module ? module.exports = e() : "function" == typeof define && define.amd ? define(e) : (t = t || self).tpbLiquid = e() }(this, function () { "use strict"; var r = function (t, e) { return (r = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (t, e) { t.__proto__ = e } || function (t, e) { for (var n in e) e.hasOwnProperty(n) && (t[n] = e[n]) })(t, e) }; function i(t, e) { function n() { this.constructor = t } r(t, e), t.prototype = null === e ? Object.create(e) : (n.prototype = e.prototype, new n) } var m = function () { return (m = Object.assign || function (t) { for (var e, n = 1, r = arguments.length; n < r; n++)for (var i in e = arguments[n]) Object.prototype.hasOwnProperty.call(e, i) && (t[i] = e[i]); return t }).apply(this, arguments) }; function p(s, o, u, a) { return new (u || (u = Promise))(function (t, e) { function n(t) { try { i(a.next(t)) } catch (t) { e(t) } } function r(t) { try { i(a.throw(t)) } catch (t) { e(t) } } function i(e) { e.done ? t(e.value) : new u(function (t) { t(e.value) }).then(n, r) } i((a = a.apply(s, o || [])).next()) }) } function d(n, r) { var i, s, o, t, u = { label: 0, sent: function () { if (1 & o[0]) throw o[1]; return o[1] }, trys: [], ops: [] }; return t = { next: e(0), throw: e(1), return: e(2) }, "function" == typeof Symbol && (t[Symbol.iterator] = function () { return this }), t; function e(e) { return function (t) { return function (e) { if (i) throw new TypeError("Generator is already executing."); for (; u;)try { if (i = 1, s && (o = 2 & e[0] ? s.return : e[0] ? s.throw || ((o = s.return) && o.call(s), 0) : s.next) && !(o = o.call(s, e[1])).done) return o; switch (s = 0, o && (e = [2 & e[0], o.value]), e[0]) { case 0: case 1: o = e; break; case 4: return u.label++ , { value: e[1], done: !1 }; case 5: u.label++ , s = e[1], e = [0]; continue; case 7: e = u.ops.pop(), u.trys.pop(); continue; default: if (!(o = 0 < (o = u.trys).length && o[o.length - 1]) && (6 === e[0] || 2 === e[0])) { u = 0; continue } if (3 === e[0] && (!o || e[1] > o[0] && e[1] < o[3])) { u.label = e[1]; break } if (6 === e[0] && u.label < o[1]) { u.label = o[1], o = e; break } if (o && u.label < o[2]) { u.label = o[2], u.ops.push(e); break } o[2] && u.ops.pop(), u.trys.pop(); continue }e = r.call(n, u) } catch (t) { e = [6, t], s = 0 } finally { i = o = 0 } if (5 & e[0]) throw e[1]; return { value: e[0] ? e[1] : void 0, done: !0 } }([e, t]) } } } var s = function () { function t() { } return t.prototype.valueOf = function () { }, t.prototype.liquidMethodMissing = function (t) { }, t }(), e = Object.prototype.toString; function g(t) { return "[object String]" === e.call(t) } function u(t) { return "function" == typeof t } function a(t) { return f(t) ? "" : (t = l(t), String(t)) } function o(t) { return t instanceof s ? t.valueOf() : t } function c(t) { return "number" == typeof t } function l(t) { return u(t.toLiquid) ? l(t.toLiquid()) : t } function f(t) { return null == t } function v(t) { return "[object Array]" === e.call(t) } function h(t, e) { for (var n in t = t || {}) if (t.hasOwnProperty(n) && !1 === e(t[n], n, t)) break; return t } function w(t) { return t[t.length - 1] } function y(t) { var e = typeof t; return null !== t && ("object" === e || "function" === e) } function b(t, e, n) { void 0 === n && (n = 1); for (var r = [], i = t; i < e; i += n)r.push(i); return r } function T(t, e, n) { void 0 === n && (n = " "); for (var r = e - (t = String(t)).length; 0 < r--;)t = n + t; return t } var t = function (r) { function t(t, e) { var n = r.call(this, t.message) || this; return n.originalError = t, n.token = e, n } return i(t, r), t.prototype.update = function () { var i, s, t, o, e = this.originalError, n = (i = this.token, s = i.input.split("\n"), t = Math.max(i.line - 2, 1), o = Math.min(i.line + 3, s.length), b(t, o + 1).map(function (t) { var e = t === i.line ? ">> " : "   ", n = T(String(t), String(o).length), r = s[t - 1]; return "" + e + n + "| " + r }).join("\n")); this.message = function (t, e) { e.file && (t += ", file:" + e.file); return t += ", line:" + e.line + ", col:" + e.col }(e.message, this.token), this.stack = this.message + "\n" + n + "\n" + this.stack + "\nFrom " + e.stack }, t }(Error), x = function (r) { function t(t, e) { var n = r.call(this, new Error(t), e) || this; return n.name = "TokenizationError", r.prototype.update.call(n), n } return i(t, r), t }(t), n = function (r) { function t(t, e) { var n = r.call(this, t, e) || this; return n.name = "ParseError", n.message = t.message, r.prototype.update.call(n), n } return i(t, r), t }(t), E = function (r) { function t(t, e) { var n = r.call(this, t, e.token) || this; return n.name = "RenderError", n.message = t.message, r.prototype.update.call(n), n } return i(t, r), t }(t), k = function (n) { function t(t) { var e = n.call(this, t) || this; return e.resolvedHTML = "", e.name = "RenderBreakError", e.message = t + "", e } return i(t, n), t }(Error), R = function (n) { function t(t) { var e = n.call(this, t) || this; return e.name = "AssertionError", e.message = t + "", e } return i(t, n), t }(Error); function q(t, e) { if (!t) throw new R(e = e || "expect " + t + " to be true") } var S = { root: ["."], cache: !1, extname: "", dynamicPartials: !0, trimTagRight: !1, trimTagLeft: !1, trimOutputRight: !1, trimOutputLeft: !1, greedy: !0, tagDelimiterLeft: "{%", tagDelimiterRight: "%}", outputDelimiterLeft: "{{", outputDelimiterRight: "}}", strictFilters: !1, strictVariables: !1 }; function O(t) { var e; return (t = t || {}).hasOwnProperty("root") && (t.root = v(e = t.root) ? e : g(e) ? [e] : []), t } function M(t) { return m({}, S, t) } var L = function () { function t(t, e) { void 0 === t && (t = {}), this.scopes = [{}], this.registers = {}, this.opts = M(e), this.environments = t } return t.prototype.getRegister = function (t, e) { return void 0 === e && (e = {}), this.registers[t] = this.registers[t] || e }, t.prototype.setRegister = function (t, e) { return this.registers[t] = e }, t.prototype.getAll = function () { return [this.environments].concat(this.scopes).reduce(function (t, e) { return m(t, e) }, {}) }, t.prototype.get = function (o) { return p(this, void 0, void 0, function () { var e, n, r, i, s; return d(this, function (t) { switch (t.label) { case 0: return [4, this.parseProp(o)]; case 1: for (e = t.sent(), n = this.findScope(e[0]) || this.environments, r = 0, i = e; r < i.length; r++)if (s = i[r], f(n = D(n, s)) && this.opts.strictVariables) throw new TypeError("undefined variable: " + s); return [2, n] } }) }) }, t.prototype.push = function (t) { return this.scopes.push(t) }, t.prototype.pop = function () { return this.scopes.pop() }, t.prototype.front = function () { return this.scopes[0] }, t.prototype.findScope = function (t) { for (var e = this.scopes.length - 1; 0 <= e; e--) { var n = this.scopes[e]; if (t in n) return n } return null }, t.prototype.parseProp = function (a) { return p(this, void 0, void 0, function () { function e() { r.length && n.push(r), r = "" } var n, r, i, s, o, u; return d(this, function (t) { switch (t.label) { case 0: a = String(a), n = [], r = "", s = 0, t.label = 1; case 1: if (!(s < a.length)) return [3, 10]; switch (a[s]) { case "[": return [3, 2]; case ".": return [3, 7] }return [3, 8]; case 2: return e(), o = a[s + 1], /['"]/.test(o) ? (q(-1 !== (i = a.indexOf(o, s + 2)), "unbalanced " + o + ": " + a), r = a.slice(s + 2, i), e(), s = i + 2, [3, 6]) : [3, 3]; case 3: return q(-1 !== (i = function (t, e) { for (var n = 1, r = e; r < t.length; r++)if ("[" === t[r] && n++ , "]" === t[r] && 0 === --n) return r; return -1 }(a, s + 1)), "unbalanced []: " + a), r = a.slice(s + 1, i), /^[+-]?\d+$/.test(r) ? [3, 5] : (u = String, [4, this.get(r)]); case 4: r = u.apply(void 0, [t.sent()]), t.label = 5; case 5: e(), s = i + 1, t.label = 6; case 6: return [3, 9]; case 7: return e(), s++ , [3, 9]; case 8: r += a[s++], t.label = 9; case 9: return [3, 1]; case 10: if (e(), !n.length) throw new TypeError('invalid path:"' + a + '"'); return [2, n] } }) }) }, t }(); function D(t, e) { return f(t) ? t : (t = l(t)) instanceof s ? u(t[e]) ? t[e]() : t.hasOwnProperty(e) ? t[e] : t.liquidMethodMissing(e) : "size" === e ? f((n = t).size) && (v(n) || g(n)) ? n.length : n.size : t[e]; var n } var P = Object.freeze({ ParseError: n, TokenizationError: x, RenderBreakError: k, AssertionError: R, Drop: s }); var F = { readFile: function (r) { return p(this, void 0, void 0, function () { return d(this, function (t) { return [2, new Promise(function (t, e) { var n = new XMLHttpRequest; n.onload = function () { 200 <= n.status && n.status < 300 ? t(n.responseText) : e(new Error(n.statusText)) }, n.onerror = function () { e(new Error("An error occurred whilst receiving the response.")) }, n.open("GET", r), n.send() })] }) }) }, resolve: function (t, e, i) { return t.length && "/" !== w(t) && (t += "/"), function (t, e) { var n = document.createElement("base"); n.href = t; var r = document.getElementsByTagName("head")[0]; r.insertBefore(n, r.firstChild); var i = document.createElement("a"); i.href = e; var s = i.href; return r.removeChild(n), s }(t, e).replace(/^(\w+:\/\/[^/]+)(\/[^?]+)/, function (t, e, n) { var r = n.split("/").pop(); return /\.\w+$/.test(r) ? t : e + n + i }) }, exists: function () { return p(this, void 0, void 0, function () { return d(this, function (t) { return [2, !0] }) }) } }, U = function (t, e, n, r, i) { this.trimLeft = !1, this.trimRight = !1, this.type = "notset", this.col = r, this.line = n, this.raw = t, this.value = t, this.input = e, this.file = i }, j = function (f) { function t(t, e, n, r, i, s, o, u) { var a = f.call(this, t, n, r, i, u) || this, c = "-" === e[0], l = "-" === w(e); return a.value = e.slice(c ? 1 : 0, l ? -1 : e.length).trim(), a.trimLeft = c || s, a.trimRight = l || o, a } return i(t, f), t }(U), _ = new RegExp(/'[^']*'/.source + "|" + /"[^"]*"/.source), A = new RegExp("(?:" + _.source + "|[^'\"])*"), H = /[+-]?(?:\d+\.?\d*|\.?\d+)/, N = /[\w-]+[?]?/, z = new RegExp("\\[(?:" + _.source + "|[\\w-\\.]+)\\]"), Y = new RegExp("(?:" + _.source + "|" + /true|false/.source + "|" + H.source + ")"), $ = new RegExp(N.source + "(?:\\." + N.source + "|" + z.source + ")*"), I = new RegExp("(?:" + $.source + "|" + H.source + ")"), C = new RegExp("\\(" + I.source + "\\.\\." + I.source + "\\)"), B = new RegExp("\\((" + I.source + ")\\.\\.(" + I.source + ")\\)"), V = new RegExp("(?:" + $.source + "|" + Y.source + "|" + C.source + ")"), G = new RegExp("(?:" + N.source + ")\\s*:\\s*(?:" + V.source + ")"), W = new RegExp("(" + N.source + ")\\s*:\\s*(" + V.source + ")", "g"), J = new RegExp("^\\s*(" + N.source + ")\\s*([\\s\\S]*?)\\s*$"), X = new RegExp("^" + _.source + "$"), K = new RegExp("^" + B.source + "$"), Q = [/\s+or\s+/, /\s+and\s+/, /==|!=|<=|>=|<|>|\s+contains\s+/], Z = function (c) { function t(t, e, n, r, i, s, o) { var u = c.call(this, t, e, n, r, i, s.trimTagLeft, s.trimTagRight, o) || this; u.type = "tag"; var a = u.value.match(J); if (!a) throw new x("illegal tag syntax", u); return u.name = a[1], u.args = a[2], u } return i(t, c), t.is = function (t) { return "tag" === t.type }, t }(j), tt = function (o) { function t(t, e, n, r, i) { var s = o.call(this, t, e, n, r, i) || this; return s.type = "html", s.value = t, s } return i(t, o), t.is = function (t) { return "html" === t.type }, t }(U); function et(t, e) { if (t && tt.is(t)) { var n = e ? /\s+$/g : /[\t\r ]*$/g; t.value = t.value.replace(n, "") } } function nt(t, e) { if (t && tt.is(t)) { var n = e ? /^\s+/g : /^[\t\r ]*\n?/g; t.value = t.value.replace(n, "") } } var rt, it, st = function (a) { function t(t, e, n, r, i, s, o) { var u = a.call(this, t, e, n, r, i, s.trimOutputLeft, s.trimOutputRight, o) || this; return u.type = "output", u } return i(t, a), t.is = function (t) { return "output" === t.type }, t }(j); (it = rt || (rt = {}))[it.HTML = 0] = "HTML", it[it.OUTPUT = 1] = "OUTPUT", it[it.TAG = 2] = "TAG"; var ot = function () { function t(t) { this.options = M(t) } return t.prototype.tokenize = function (t, e) { for (var n = [], r = this.options, i = r.tagDelimiterLeft, s = r.tagDelimiterRight, o = r.outputDelimiterLeft, u = r.outputDelimiterRight, a = 0, c = 1, l = rt.HTML, f = "", h = 0, p = 1, d = 1; a < t.length;) { if ("\n" === t[a] && (c++ , h = a + 1), l === rt.HTML) { if (t.substr(a, o.length) === o) { f && n.push(new tt(f, t, p, d, e)), p = c, d = a - h + 1, a += (f = o).length, l = rt.OUTPUT; continue } if (t.substr(a, i.length) === i) { f && n.push(new tt(f, t, p, d, e)), p = c, d = a - h + 1, a += (f = i).length, l = rt.TAG; continue } } else { if (l === rt.OUTPUT && t.substr(a, u.length) === u) { f += u, n.push(new st(f, f.slice(o.length, -u.length), t, p, d, this.options, e)), f = "", p = c, d = (a += u.length) - h + 1, l = rt.HTML; continue } if (t.substr(a, s.length) === s) { f += s, n.push(new Z(f, f.slice(i.length, -s.length), t, p, d, this.options, e)), f = "", p = c, d = (a += s.length) - h + 1, l = rt.HTML; continue } } f += t[a++] } if (l === rt.HTML) return f && n.push(new tt(f, t, p, d, e)), function (t, e) { e = m({ greedy: !0 }, e); for (var n = !1, r = 0; r < t.length; r++) { var i = t[r]; !n && i.trimLeft && et(t[r - 1], e.greedy), Z.is(i) && ("raw" === i.name ? n = !0 : "endraw" === i.name && (n = !1)), !n && i.trimRight && nt(t[r + 1], e.greedy) } }(n, this.options), n; var g = l === rt.OUTPUT ? "output" : "tag", v = 16 < f.length ? f.slice(0, 13) + "..." : f; throw new x(g + ' "' + v + '" not closed', new U(f, t, p, d, e)) }, t }(), ut = function () { function t() { } return t.prototype.renderTemplates = function (u, a) { return p(this, void 0, void 0, function () { var e, n, r, i, s, o; return d(this, function (t) { switch (t.label) { case 0: q(a, "unable to evalTemplates: context undefined"), e = "", n = 0, r = u, t.label = 1; case 1: if (!(n < r.length)) return [3, 6]; i = r[n], t.label = 2; case 2: return t.trys.push([2, 4, , 5]), s = e, [4, i.render(a)]; case 3: return e = s + t.sent(), [3, 5]; case 4: if ("RenderBreakError" === (o = t.sent()).name) throw o.resolvedHTML = e, o; throw "RenderError" === o.name ? o : new E(o, i); case 5: return n++ , [3, 1]; case 6: return [2, e] } }) }) }, t }(); function at(t) { return t && u(t.equals) } var ct = function (t) { function e() { return null !== t && t.apply(this, arguments) || this } return i(e, t), e.prototype.equals = function (t) { return g(t) || v(t) ? 0 === t.length : !!y(t) && 0 === Object.keys(t).length }, e.prototype.gt = function () { return !1 }, e.prototype.geq = function () { return !1 }, e.prototype.lt = function () { return !1 }, e.prototype.leq = function () { return !1 }, e.prototype.valueOf = function () { return "" }, e }(s), lt = function (e) { function t() { return null !== e && e.apply(this, arguments) || this } return i(t, e), t.prototype.equals = function (t) { return !1 === t || (!!f(o(t)) || (g(t) ? /^\s*$/.test(t) : e.prototype.equals.call(this, t))) }, t }(ct), ft = function (t) { function e() { return null !== t && t.apply(this, arguments) || this } return i(e, t), e.prototype.equals = function (t) { return f(o(t)) || t instanceof lt }, e.prototype.gt = function () { return !1 }, e.prototype.geq = function () { return !1 }, e.prototype.lt = function () { return !1 }, e.prototype.leq = function () { return !1 }, e.prototype.valueOf = function () { return null }, e }(s), ht = { "==": function (t, e) { return at(t) ? t.equals(e) : at(e) ? e.equals(t) : t === e }, "!=": function (t, e) { return at(t) ? !t.equals(e) : at(e) ? !e.equals(t) : t !== e }, ">": function (t, e) { return at(t) ? t.gt(e) : at(e) ? e.lt(t) : e < t }, "<": function (t, e) { return at(t) ? t.lt(e) : at(e) ? e.gt(t) : t < e }, ">=": function (t, e) { return at(t) ? t.geq(e) : at(e) ? e.leq(t) : e <= t }, "<=": function (t, e) { return at(t) ? t.leq(e) : at(e) ? e.geq(t) : t <= e }, contains: function (t, e) { return !(!t || !u(t.indexOf)) && -1 < t.indexOf(e) }, and: function (t, e) { return mt(t) && mt(e) }, or: function (t, e) { return mt(t) || mt(e) } }; function pt(f, h) { return p(this, void 0, void 0, function () { var e, n, r, i, s, o, u, a, c, l; return d(this, function (t) { switch (t.label) { case 0: q(h, "unable to parseExp: scope undefined"), e = Q, r = 0, t.label = 1; case 1: return r < e.length ? (i = e[r], s = new RegExp("^(" + A.source + ")(" + i.source + ")(" + A.source + ")$"), (n = f.match(s)) ? [4, pt(n[1], h)] : [3, 4]) : [3, 5]; case 2: return o = t.sent(), u = ht[n[2].trim()], [4, pt(n[3], h)]; case 3: return a = t.sent(), [2, u(o, a)]; case 4: return r++ , [3, 1]; case 5: return (n = f.match(K)) ? [4, vt(n[1], h)] : [3, 8]; case 6: return c = t.sent(), [4, vt(n[2], h)]; case 7: return l = t.sent(), [2, b(+c, +l + 1)]; case 8: return [2, gt(f, h)] } }) }) } function dt(n, r) { return p(this, void 0, void 0, function () { var e; return d(this, function (t) { switch (t.label) { case 0: return e = o, [4, pt(n, r)]; case 1: return [2, e.apply(void 0, [t.sent()])] } }) }) } function gt(e, n) { return p(this, void 0, void 0, function () { return d(this, function (t) { return e ? "true" === (e = e.trim()) ? [2, !0] : "false" === e ? [2, !1] : "nil" === e || "null" === e ? [2, new ft] : "empty" === e ? [2, new ct] : "blank" === e ? [2, new lt] : isNaN(Number(e)) ? '"' !== e[0] && "'" !== e[0] || e[0] !== w(e) ? [2, n.get(e)] : [2, e.slice(1, -1)] : [2, Number(e)] : [2, null] }) }) } function vt(n, r) { return p(this, void 0, void 0, function () { var e; return d(this, function (t) { switch (t.label) { case 0: return e = o, [4, gt(n, r)]; case 1: return [2, e.apply(void 0, [t.sent()])] } }) }) } function mt(t) { return !wt(t) } function wt(t) { return !1 === t || null == t } var yt = function () { function c() { } return c.create = function (u, a) { return p(this, void 0, void 0, function () { var e, n, r, i, s, o; return d(this, function (t) { switch (t.label) { case 0: e = new c, W.lastIndex = 0, t.label = 1; case 1: return (n = W.exec(u)) ? (r = n[1], i = n[2], s = e, o = r, [4, gt(i, a)]) : [3, 3]; case 2: return s[o] = t.sent(), [3, 1]; case 3: return [2, e] } }) }) }, c }(), bt = function (t) { this.token = t }, Tt = function (s) { function o(t, e, n) { var r = s.call(this, t) || this; r.name = t.name; var i = o.impls[t.name]; return q(i, "tag " + t.name + " not found"), r.impl = Object.create(i), r.impl.liquid = n, r.impl.parse && r.impl.parse(t, e), r } return i(o, s), o.prototype.render = function (s) { return p(this, void 0, void 0, function () { var e, n, r, i; return d(this, function (t) { switch (t.label) { case 0: return [4, yt.create(this.token.args, s)]; case 1: return e = t.sent(), u((n = this.impl).render) ? (i = a, [4, n.render(s, e)]) : [3, 3]; case 2: return r = i.apply(void 0, [t.sent()]), [3, 4]; case 3: r = "", t.label = 4; case 4: return [2, r] } }) }) }, o.register = function (t, e) { o.impls[t] = e }, o.clear = function () { o.impls = {} }, o.impls = {}, o }(bt), xt = function () { function i(t, e, n) { var r = i.impls[t]; if (!r && n) throw new TypeError("undefined filter: " + t); this.name = t, this.impl = r || function (t) { return t }, this.args = e } return i.prototype.render = function (l, f) { return p(this, void 0, void 0, function () { var e, n, r, i, s, o, u, a, c; return d(this, function (t) { switch (t.label) { case 0: e = [], n = 0, r = this.args, t.label = 1; case 1: return n < r.length ? (i = r[n], v(i) ? (o = (s = e).push, u = [i[0]], [4, gt(i[1], f)]) : [3, 3]) : [3, 6]; case 2: return o.apply(s, [u.concat([t.sent()])]), [3, 5]; case 3: return c = (a = e).push, [4, gt(i, f)]; case 4: c.apply(a, [t.sent()]), t.label = 5; case 5: return n++ , [3, 1]; case 6: return [2, this.impl.apply({ context: f }, [l].concat(e))] } }) }) }, i.register = function (t, e) { i.impls[t] = e }, i.clear = function () { i.impls = {} }, i.impls = {}, i }(); var Et, kt, Rt = function () { function t(t, e) { this.handlers = {}, this.stopRequested = !1, this.tokens = t, this.parseToken = e } return t.prototype.on = function (t, e) { return this.handlers[t] = e, this }, t.prototype.trigger = function (t, e) { var n = this.handlers[t]; return !!n && (n(e), !0) }, t.prototype.start = function () { var t; for (this.trigger("start"); !this.stopRequested && (t = this.tokens.shift());)if (!(this.trigger("token", t) || Z.is(t) && this.trigger("tag:" + t.name, t))) { var e = this.parseToken(t, this.tokens); this.trigger("template", e) } return this.stopRequested || this.trigger("end"), this }, t.prototype.stop = function () { return this.stopRequested = !0, this }, t }(), qt = function () { function r(t, e) { this.filters = []; var n = r.tokenize(t); this.strictFilters = e, this.initial = n[0], this.parseFilters(n, 1) } return r.prototype.parseFilters = function (t, e) { for (var n = e; n < t.length;)if ("|" === t[n]) { for (var r = ++n; n < t.length && "|" !== t[n];)n++; this.parseFilter(t, r, n) } else n++ }, r.prototype.parseFilter = function (t, e, n) { for (var r, i, s = t[e], o = [], u = e + 1; u < n + 1; u++)u === n || "," === t[u] ? ((r || i) && o.push(r ? [r, i] : i), i = r = void 0) : ":" === t[u] ? (r = i, i = void 0) : void 0 === i && (i = t[u]); this.filters.push(new xt(s, o, this.strictFilters)) }, r.prototype.value = function (i) { return p(this, void 0, void 0, function () { var e, n, r; return d(this, function (t) { switch (t.label) { case 0: return [4, pt(this.initial, i)]; case 1: e = t.sent(), n = 0, r = this.filters, t.label = 2; case 2: return n < r.length ? [4, r[n].render(e, i)] : [3, 5]; case 3: e = t.sent(), t.label = 4; case 4: return n++ , [3, 2]; case 5: return [2, e] } }) }) }, r.tokenize = function (t) { for (var e = [], n = 0; n < t.length;) { var r = t[n]; if ('"' === r || "'" === r) { var i = n; for (n += 2; n < t.length && t[n - 1] !== r; ++n); e.push(t.slice(i, n)) } else if (/\s/.test(r)) n++; else if (/[|,:]/.test(r)) e.push(t[n++]); else { for (i = n++; n < t.length && !/[|,:\s]/.test(t[n]); ++n); e.push(t.slice(i, n)) } } return e }, r }(), St = function (r) { function t(t, e) { var n = r.call(this, t) || this; return n.value = new qt(t.value, e), n } return i(t, r), t.prototype.render = function (e) { return p(this, void 0, void 0, function () { return d(this, function (t) { switch (t.label) { case 0: return [4, this.value.value(e)]; case 1: return [2, a(o(t.sent()))] } }) }) }, t }(bt), Ot = function (n) { function t(t) { var e = n.call(this, t) || this; return e.str = t.value, e } return i(t, n), t.prototype.render = function () { return p(this, void 0, void 0, function () { return d(this, function (t) { return [2, this.str] }) }) }, t }(bt), Mt = function () { function t(t) { this.liquid = t } return t.prototype.parse = function (t) { for (var e, n = []; e = t.shift();)n.push(this.parseToken(e, t)); return n }, t.prototype.parseToken = function (e, t) { try { return Z.is(e) ? new Tt(e, t, this.liquid) : st.is(e) ? new St(e, this.liquid.options.strictFilters) : new Ot(e) } catch (t) { throw new n(t, e) } }, t.prototype.parseStream = function (t) { var n = this; return new Rt(t, function (t, e) { return n.parseToken(t, e) }) }, t }(), Lt = new RegExp("(" + N.source + ")\\s*=([^]*)"), Dt = { parse: function (t) { var e = t.args.match(Lt); q(e, "illegal token " + t.raw), this.key = e[1], this.value = e[2] }, render: function (r) { return p(this, void 0, void 0, function () { var e, n; return d(this, function (t) { switch (t.label) { case 0: return e = r.front(), n = this.key, [4, this.liquid.evalValue(this.value, r)]; case 1: return e[n] = t.sent(), [2] } }) }) } }, Pt = function (n) { function t(t) { var e = n.call(this) || this; return e.i = 0, e.length = t, e } return i(t, n), t.prototype.next = function () { this.i++ }, t.prototype.index0 = function () { return this.i }, t.prototype.index = function () { return this.i + 1 }, t.prototype.first = function () { return 0 === this.i }, t.prototype.last = function () { return this.i === this.length - 1 }, t.prototype.rindex = function () { return this.length - this.i }, t.prototype.rindex0 = function () { return this.length - this.i - 1 }, t.prototype.valueOf = function () { return JSON.stringify(this) }, t }(s), Ft = new RegExp("^(" + N.source + ")\\s+in\\s+(" + V.source + ")(?:\\s+" + G.source + ")*(?:\\s+(reversed))?(?:\\s+" + G.source + ")*$"), Ut = { type: "block", parse: function (t, e) { var n, r = this, i = Ft.exec(t.args); q(i, "illegal tag: " + t.raw), this.variable = i[1], this.collection = i[2], this.reversed = !!i[3], this.templates = [], this.elseTemplates = []; var s = this.liquid.parser.parseStream(e).on("start", function () { return n = r.templates }).on("tag:else", function () { return n = r.elseTemplates }).on("tag:endfor", function () { return s.stop() }).on("template", function (t) { return n.push(t) }).on("end", function () { throw new Error("tag " + t.raw + " not closed") }); s.start() }, render: function (f, h) { return p(this, void 0, void 0, function () { var e, n, r, i, s, o, u, a, c, l; return d(this, function (t) { switch (t.label) { case 0: return [4, pt(this.collection, f)]; case 1: if (v(e = t.sent()) || (g(e) && 0 < e.length ? e = [e] : y(e) && (e = Object.keys(e).map(function (t) { return [t, e[t]] }))), !v(e) || !e.length) return [2, this.liquid.renderer.renderTemplates(this.elseTemplates, f)]; n = h.offset || 0, r = void 0 === h.limit ? e.length : h.limit, e = e.slice(n, n + r), this.reversed && e.reverse(), i = { forloop: new Pt(e.length) }, f.push(i), s = "", o = 0, u = e, t.label = 2; case 2: if (!(o < u.length)) return [3, 8]; a = u[o], i[this.variable] = a, t.label = 3; case 3: return t.trys.push([3, 5, , 6]), c = s, [4, this.liquid.renderer.renderTemplates(this.templates, f)]; case 4: return s = c + t.sent(), [3, 6]; case 5: if ("RenderBreakError" !== (l = t.sent()).name) throw l; return s += l.resolvedHTML, "break" === l.message ? [3, 8] : [3, 6]; case 6: i.forloop.next(), t.label = 7; case 7: return o++ , [3, 2]; case 8: return f.pop(), [2, s] } }) }) } }, jt = new RegExp("(" + N.source + ")"), _t = { parse: function (t, e) { var n = this, r = t.args.match(jt); q(r, t.args + " not valid identifier"), this.variable = r[1], this.templates = []; var i = this.liquid.parser.parseStream(e); i.on("tag:endcapture", function () { return i.stop() }).on("template", function (t) { return n.templates.push(t) }).on("end", function () { throw new Error("tag " + t.raw + " not closed") }), i.start() }, render: function (n) { return p(this, void 0, void 0, function () { var e; return d(this, function (t) { switch (t.label) { case 0: return [4, this.liquid.renderer.renderTemplates(this.templates, n)]; case 1: return e = t.sent(), n.front()[this.variable] = e, [2] } }) }) } }, At = { parse: function (t, e) { var n = this; this.cond = t.args, this.cases = [], this.elseTemplates = []; var r = [], i = this.liquid.parser.parseStream(e).on("tag:when", function (t) { n.cases.push({ val: t.args, templates: r = [] }) }).on("tag:else", function () { return r = n.elseTemplates }).on("tag:endcase", function () { return i.stop() }).on("template", function (t) { return r.push(t) }).on("end", function () { throw new Error("tag " + t.raw + " not closed") }); i.start() }, render: function (s) { return p(this, void 0, void 0, function () { var e, n, r, i; return d(this, function (t) { switch (t.label) { case 0: e = 0, t.label = 1; case 1: return e < this.cases.length ? [4, dt((n = this.cases[e]).val, s)] : [3, 5]; case 2: return r = t.sent(), [4, dt(this.cond, s)]; case 3: if (i = t.sent(), r === i) return [2, this.liquid.renderer.renderTemplates(n.templates, s)]; t.label = 4; case 4: return e++ , [3, 1]; case 5: return [2, this.liquid.renderer.renderTemplates(this.elseTemplates, s)] } }) }) } }, Ht = { parse: function (t, e) { var n = this.liquid.parser.parseStream(e); n.on("token", function (t) { "endcomment" === t.name && n.stop() }).on("end", function () { throw new Error("tag " + t.raw + " not closed") }), n.start() } }; (kt = Et || (Et = {}))[kt.OUTPUT = 0] = "OUTPUT", kt[kt.STORE = 1] = "STORE"; var Nt = Et, zt = /[^\s,]+/, Yt = new RegExp("with\\s+(" + V.source + ")"), $t = { parse: function (t) { var e = zt.exec(t.args); e && (this.staticValue = e[0]), (e = V.exec(t.args)) && (this.value = e[0]), (e = Yt.exec(t.args)) && (this.with = e[1]) }, render: function (c, l) { return p(this, void 0, void 0, function () { var e, n, r, i, s, o, u, a; return d(this, function (t) { switch (t.label) { case 0: return c.opts.dynamicPartials ? X.exec(this.value) ? (n = this.value.slice(1, -1), [4, this.liquid.parseAndRender(n, c.getAll(), c.opts)]) : [3, 2] : [3, 5]; case 1: return e = t.sent(), [3, 4]; case 2: return [4, vt(this.value, c)]; case 3: e = t.sent(), t.label = 4; case 4: return [3, 6]; case 5: e = this.staticValue, t.label = 6; case 6: return q(e, "cannot include with empty filename"), r = c.getRegister("blocks"), i = c.getRegister("blockMode"), c.setRegister("blocks", {}), c.setRegister("blockMode", Nt.OUTPUT), this.with ? (s = l, o = e, [4, gt(this.with, c)]) : [3, 8]; case 7: s[o] = t.sent(), t.label = 8; case 8: return [4, this.liquid.getTemplate(e, c.opts)]; case 9: return u = t.sent(), c.push(l), [4, this.liquid.renderer.renderTemplates(u, c)]; case 10: return a = t.sent(), c.pop(), c.setRegister("blocks", r), c.setRegister("blockMode", i), [2, a] } }) }) } }, It = { parse: function (t) { var e = t.args.match(N); q(e, "illegal identifier " + t.args), this.variable = e[0] }, render: function (t) { var e = t.environments; return c(e[this.variable]) || (e[this.variable] = 0), --e[this.variable] } }, Ct = new RegExp("^(?:(" + V.source + ")\\s*:\\s*)?(.*)$"), Bt = new RegExp(V.source, "g"), Vt = { parse: function (t) { var e = Ct.exec(t.args); q(e, "illegal tag: " + t.raw), this.group = e[1] || ""; var n = e[2]; for (this.candidates = []; e = Bt.exec(n);)this.candidates.push(e[0]); q(this.candidates.length, "empty candidates: " + t.raw) }, render: function (o) { return p(this, void 0, void 0, function () { var e, n, r, i, s; return d(this, function (t) { switch (t.label) { case 0: return [4, vt(this.group, o)]; case 1: return e = t.sent(), n = "cycle:" + e + ":" + this.candidates.join(","), r = o.getRegister("cycle"), void 0 === (i = r[n]) && (i = r[n] = 0), s = this.candidates[i], i = (i + 1) % this.candidates.length, r[n] = i, [2, vt(s, o)] } }) }) } }, Gt = { parse: function (t, e) { var n, r = this; this.branches = [], this.elseTemplates = []; var i = this.liquid.parser.parseStream(e).on("start", function () { return r.branches.push({ cond: t.args, templates: n = [] }) }).on("tag:elsif", function (t) { r.branches.push({ cond: t.args, templates: n = [] }) }).on("tag:else", function () { return n = r.elseTemplates }).on("tag:endif", function () { return i.stop() }).on("template", function (t) { return n.push(t) }).on("end", function () { throw new Error("tag " + t.raw + " not closed") }); i.start() }, render: function (i) { return p(this, void 0, void 0, function () { var e, n, r; return d(this, function (t) { switch (t.label) { case 0: e = 0, n = this.branches, t.label = 1; case 1: return e < n.length ? [4, dt((r = n[e]).cond, i)] : [3, 4]; case 2: if (mt(t.sent())) return [2, this.liquid.renderer.renderTemplates(r.templates, i)]; t.label = 3; case 3: return e++ , [3, 1]; case 4: return [2, this.liquid.renderer.renderTemplates(this.elseTemplates, i)] } }) }) } }, Wt = { parse: function (t) { var e = t.args.match(N); q(e, "illegal identifier " + t.args), this.variable = e[0] }, render: function (t) { var e = t.environments; c(e[this.variable]) || (e[this.variable] = 0); var n = e[this.variable]; return e[this.variable]++ , n } }, Jt = /\S+/, Xt = { parse: function (t, e) { var n = Jt.exec(t.args); n && (this.staticLayout = n[0]), (n = V.exec(t.args)) && (this.layout = n[0]), this.tpls = this.liquid.parser.parse(e) }, render: function (u, a) { return p(this, void 0, void 0, function () { var e, n, r, i, s, o; return d(this, function (t) { switch (t.label) { case 0: return u.opts.dynamicPartials ? [4, vt(this.layout, u)] : [3, 2]; case 1: return n = t.sent(), [3, 3]; case 2: n = this.staticLayout, t.label = 3; case 3: return q(e = n, "cannot apply layout with empty filename"), u.setRegister("blockMode", Nt.STORE), r = u.getRegister("blocks"), [4, this.liquid.renderer.renderTemplates(this.tpls, u)]; case 4: return i = t.sent(), void 0 === r[""] && (r[""] = i), [4, this.liquid.getTemplate(e, u.opts)]; case 5: return s = t.sent(), u.push(a), u.setRegister("blockMode", Nt.OUTPUT), [4, this.liquid.renderer.renderTemplates(s, u)]; case 6: return o = t.sent(), u.pop(), [2, o] } }) }) } }, Kt = { parse: function (t, e) { var n = this, r = /\w+/.exec(t.args); this.block = r ? r[0] : "", this.tpls = []; var i = this.liquid.parser.parseStream(e).on("tag:endblock", function () { return i.stop() }).on("template", function (t) { return n.tpls.push(t) }).on("end", function () { throw new Error("tag " + t.raw + " not closed") }); i.start() }, render: function (s) { return p(this, void 0, void 0, function () { var e, n, r, i; return d(this, function (t) { switch (t.label) { case 0: return e = s.getRegister("blocks"), void 0 === (n = e[this.block]) ? [3, 1] : (i = n, [3, 3]); case 1: return [4, this.liquid.renderer.renderTemplates(this.tpls, s)]; case 2: i = t.sent(), t.label = 3; case 3: return r = i, s.getRegister("blockMode", Nt.OUTPUT) === Nt.STORE ? (e[this.block] = r, [2, ""]) : [2, r] } }) }) } }, Qt = { parse: function (t, e) { var n = this; this.tokens = []; var r = this.liquid.parser.parseStream(e); r.on("token", function (t) { "endraw" === t.name ? r.stop() : n.tokens.push(t) }).on("end", function () { throw new Error("tag " + t.raw + " not closed") }), r.start() }, render: function () { return this.tokens.map(function (t) { return t.raw }).join("") } }, Zt = function (r) { function t(t, e) { var n = r.call(this, t) || this; return n.length = t, n.cols = e, n } return i(t, r), t.prototype.row = function () { return Math.floor(this.i / this.cols) + 1 }, t.prototype.col0 = function () { return this.i % this.cols }, t.prototype.col = function () { return this.col0() + 1 }, t.prototype.col_first = function () { return 0 === this.col0() }, t.prototype.col_last = function () { return this.col() === this.cols }, t }(Pt), te = new RegExp("^(" + N.source + ")\\s+in\\s+(" + V.source + ")(?:\\s+" + G.source + ")*$"), ee = { assign: Dt, for: Ut, capture: _t, case: At, comment: Ht, include: $t, decrement: It, increment: Wt, cycle: Vt, if: Gt, layout: Xt, block: Kt, raw: Qt, tablerow: { parse: function (t, e) { var n, r = this, i = te.exec(t.args); q(i, "illegal tag: " + t.raw), this.variable = i[1], this.collection = i[2], this.templates = []; var s = this.liquid.parser.parseStream(e).on("start", function () { return n = r.templates }).on("tag:endtablerow", function () { return s.stop() }).on("template", function (t) { return n.push(t) }).on("end", function () { throw new Error("tag " + t.raw + " not closed") }); s.start() }, render: function (l, f) { return p(this, void 0, void 0, function () { var e, n, r, i, s, o, u, a, c; return d(this, function (t) { switch (t.label) { case 0: return [4, dt(this.collection, l)]; case 1: e = t.sent() || [], n = f.offset || 0, r = void 0 === f.limit ? e.length : f.limit, e = e.slice(n, n + r), i = f.cols || e.length, s = new Zt(e.length, i), o = { tablerowloop: s }, l.push(o), u = "", a = 0, t.label = 2; case 2: return a < e.length ? (o[this.variable] = e[a], 0 === s.col0() && (1 !== s.row() && (u += "</tr>"), u += '<tr class="row' + s.row() + '">'), u += '<td class="col' + s.col() + '">', c = u, [4, this.liquid.renderer.renderTemplates(this.templates, l)]) : [3, 5]; case 3: u = c + t.sent(), u += "</td>", t.label = 4; case 4: return a++ , s.next(), [3, 2]; case 5: return e.length && (u += "</tr>"), l.pop(), [2, u] } }) }) } }, unless: { parse: function (t, e) { var n, r = this; this.templates = [], this.elseTemplates = []; var i = this.liquid.parser.parseStream(e).on("start", function () { n = r.templates, r.cond = t.args }).on("tag:else", function () { return n = r.elseTemplates }).on("tag:endunless", function () { return i.stop() }).on("template", function (t) { return n.push(t) }).on("end", function () { throw new Error("tag " + t.raw + " not closed") }); i.start() }, render: function (e) { return p(this, void 0, void 0, function () { return d(this, function (t) { switch (t.label) { case 0: return [4, dt(this.cond, e)]; case 1: return [2, wt(t.sent()) ? this.liquid.renderer.renderTemplates(this.templates, e) : this.liquid.renderer.renderTemplates(this.elseTemplates, e)] } }) }) } }, break: { render: function () { return p(this, void 0, void 0, function () { return d(this, function (t) { throw new k("break") }) }) } }, continue: { render: function () { return p(this, void 0, void 0, function () { return d(this, function (t) { throw new k("continue") }) }) } } }, ne = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&#34;", "'": "&#39;" }, re = { "&amp;": "&", "&lt;": "<", "&gt;": ">", "&#34;": '"', "&#39;": "'" }; function ie(t) { return String(t).replace(/&|<|>|"|'/g, function (t) { return ne[t] }) } var se = { escape: ie, escape_once: function (t) { return ie(String(t).replace(/&(amp|lt|gt|#34|#39);/g, function (t) { return re[t] })) }, newline_to_br: function (t) { return t.replace(/\n/g, "<br />") }, strip_html: function (t) { return t.replace(/<script.*?<\/script>|<!--.*?-->|<style.*?<\/style>|<.*?>/g, "") } }, oe = { append: function (t, e) { return t + e }, prepend: function (t, e) { return e + t }, capitalize: function (t) { return String(t).charAt(0).toUpperCase() + t.slice(1) }, lstrip: function (t) { return String(t).replace(/^\s+/, "") }, downcase: function (t) { return t.toLowerCase() }, upcase: function (t) { return String(t).toUpperCase() }, remove: function (t, e) { return t.split(e).join("") }, remove_first: function (t, e) { return t.replace(e, "") }, replace: function (t, e, n) { return String(t).split(e).join(n) }, replace_first: function (t, e, n) { return String(t).replace(e, n) }, rstrip: function (t) { return String(t).replace(/\s+$/, "") }, split: function (t, e) { return String(t).split(e) }, strip: function (t) { return String(t).trim() }, strip_newlines: function (t) { return String(t).replace(/\n/g, "") }, truncate: function (t, e, n) { return void 0 === e && (e = 50), void 0 === n && (n = "..."), (t = String(t)).length <= e ? t : t.substr(0, e - n.length) + n }, truncatewords: function (t, e, n) { void 0 === e && (e = 15), void 0 === n && (n = "..."); var r = t.split(/\s+/), i = r.slice(0, e).join(" "); return r.length >= e && (i += n), i } }, ue = { abs: function (t) { return Math.abs(t) }, ceil: function (t) { return Math.ceil(t) }, divided_by: function (t, e) { return t / e }, floor: function (t) { return Math.floor(t) }, minus: function (t, e) { return t - e }, modulo: function (t, e) { return t % e }, round: function (t, e) { void 0 === e && (e = 0); var n = Math.pow(10, e); return Math.round(t * n) / n }, plus: function (t, e) { return Number(t) + Number(e) }, times: function (t, e) { return t * e } }, ae = { url_decode: function (t) { return t.split("+").map(decodeURIComponent).join(" ") }, url_encode: function (t) { return t.split(" ").map(encodeURIComponent).join("+") } }, ce = { join: function (t, e) { return t.join(void 0 === e ? " " : e) }, last: function (t) { return w(t) }, first: function (t) { return t[0] }, map: function (t, e) { return t.map(function (t) { return t[e] }) }, reverse: function (t) { return t.slice().reverse() }, sort: function (t, e) { return t.sort(e) }, size: function (t) { return t.length }, concat: function (t, e) { return Array.prototype.concat.call(t, e) }, slice: function (t, e, n) { return void 0 === n && (n = 1), e = e < 0 ? t.length + e : e, t.slice(e, e + n) }, uniq: function (t) { var e = {}; return (t || []).filter(function (t) { return !e.hasOwnProperty(String(t)) && (e[String(t)] = !0) }) }, where: function (t, e, n) { return t.filter(function (t) { return void 0 === n ? mt(t[e]) : t[e] === n }) } }, le = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], fe = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], he = le.map(ge), pe = fe.map(ge), de = { 1: "st", 2: "nd", 3: "rd", default: "th" }; function ge(t) { return t.slice(0, 3) } var ve = { daysInMonth: function (t) { return [31, ve.isLeapYear(t) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] }, getDayOfYear: function (t) { for (var e = 0, n = 0; n < t.getMonth(); ++n)e += ve.daysInMonth(t)[n]; return e + t.getDate() }, getWeekOfYear: function (t, e) { var n = this.getDayOfYear(t) + (e - t.getDay()), r = 7 - new Date(t.getFullYear(), 0, 1).getDay() + e; return T(String(Math.floor((n - r) / 7) + 1), 2, "0") }, isLeapYear: function (t) { var e = t.getFullYear(); return !(0 != (3 & e) || !(e % 100 || e % 400 == 0 && e)) }, getSuffix: function (t) { var e = t.getDate().toString(), n = parseInt(e.slice(-1)); return de[n] || de.default }, century: function (t) { return parseInt(t.getFullYear().toString().substring(0, 2), 10) } }, me = { a: function (t) { return pe[t.getDay()] }, A: function (t) { return fe[t.getDay()] }, b: function (t) { return he[t.getMonth()] }, B: function (t) { return le[t.getMonth()] }, c: function (t) { return t.toLocaleString() }, C: function (t) { return ve.century(t) }, d: function (t) { return T(t.getDate(), 2, "0") }, e: function (t) { return T(t.getDate(), 2) }, H: function (t) { return T(t.getHours(), 2, "0") }, I: function (t) { return T(String(t.getHours() % 12 || 12), 2, "0") }, j: function (t) { return T(ve.getDayOfYear(t), 3, "0") }, k: function (t) { return T(t.getHours(), 2) }, l: function (t) { return T(String(t.getHours() % 12 || 12), 2) }, L: function (t) { return T(t.getMilliseconds(), 3, "0") }, m: function (t) { return T(t.getMonth() + 1, 2, "0") }, M: function (t) { return T(t.getMinutes(), 2, "0") }, p: function (t) { return t.getHours() < 12 ? "AM" : "PM" }, P: function (t) { return t.getHours() < 12 ? "am" : "pm" }, q: function (t) { return ve.getSuffix(t) }, s: function (t) { return Math.round(t.valueOf() / 1e3) }, S: function (t) { return T(t.getSeconds(), 2, "0") }, u: function (t) { return t.getDay() || 7 }, U: function (t) { return ve.getWeekOfYear(t, 0) }, w: function (t) { return t.getDay() }, W: function (t) { return ve.getWeekOfYear(t, 1) }, x: function (t) { return t.toLocaleDateString() }, X: function (t) { return t.toLocaleTimeString() }, y: function (t) { return t.getFullYear().toString().substring(2, 4) }, Y: function (t) { return t.getFullYear() }, z: function (t) { var e = t.getTimezoneOffset() / 60 * 100; return (0 < e ? "-" : "+") + T(String(Math.abs(e)), 4, "0") }, "%": function () { return "%" } }; me.h = me.b, me.N = me.L; var we = m({}, se, oe, ue, ae, { date: function (t, e) { var n, r = t; return "now" === t ? r = new Date : c(t) ? r = new Date(1e3 * t) : g(t) && (r = /^\d+$/.test(t) ? new Date(1e3 * +t) : new Date(t)), (n = r) instanceof Date && !isNaN(n.getTime()) ? function (t, e) { for (var n = "", r = e; ;) { var i = /%./g, s = i.exec(r); if (!s) return n + r; n += r.slice(0, i.lastIndex - 2), r = r.slice(i.lastIndex); var o = s[0].charAt(1), u = me[o]; n += u ? u(t) : "%" + o } }(r, e) : t } }, { default: function (t, e) { return wt(o(t)) || "" === t ? e : t } }, ce); return function () { function e(t) { void 0 === t && (t = {}); var n = this; this.cache = {}, this.options = M(O(t)), this.parser = new Mt(this), this.renderer = new ut, this.tokenizer = new ot(this.options), h(ee, function (t, e) { return n.registerTag(e, t) }), h(we, function (t, e) { return n.registerFilter(e, t) }) } return e.prototype.parse = function (t, e) { var n = this.tokenizer.tokenize(t, e); return this.parser.parse(n) }, e.prototype.render = function (t, e, n) { var r = m({}, this.options, O(n)), i = new L(e, r); return this.renderer.renderTemplates(t, i) }, e.prototype.parseAndRender = function (n, r, i) { return p(this, void 0, void 0, function () { var e; return d(this, function (t) { switch (t.label) { case 0: return [4, this.parse(n)]; case 1: return e = t.sent(), [2, this.render(e, r, i)] } }) }) }, e.prototype.getTemplate = function (f, h) { return p(this, void 0, void 0, function () { var e, n, r, i, s, o, u, a, c, l = this; return d(this, function (t) { switch (t.label) { case 0: e = O(h), n = e.root ? e.root.concat(this.options.root) : this.options.root, r = n.map(function (t) { return F.resolve(t, f, l.options.extname) }), i = 0, s = r, t.label = 1; case 1: return i < s.length ? (o = s[i], this.options.cache && this.cache[o] ? [2, this.cache[o]] : [4, F.exists(o)]) : [3, 5]; case 2: return t.sent() ? (a = this.parse, [4, F.readFile(o)]) : [3, 4]; case 3: return u = a.apply(this, [t.sent(), o]), this.options.cache && (this.cache[o] = u), [2, u]; case 4: return i++ , [3, 1]; case 5: throw (c = new Error("ENOENT")).message = 'ENOENT: Failed to lookup "' + f + '" in "' + n + '"', c.code = "ENOENT", c } }) }) }, e.prototype.renderFile = function (r, i, s) { return p(this, void 0, void 0, function () { var e, n; return d(this, function (t) { switch (t.label) { case 0: return e = O(s), [4, this.getTemplate(r, e)]; case 1: return n = t.sent(), [2, this.render(n, i, s)] } }) }) }, e.prototype.evalValue = function (t, e) { return new qt(t, this.options.strictFilters).value(e) }, e.prototype.registerFilter = function (t, e) { return xt.register(t, e) }, e.prototype.registerTag = function (t, e) { return Tt.register(t, e) }, e.prototype.plugin = function (t) { return t.call(this, e) }, e.prototype.express = function () { var i = this; return function (t, e, n) { var r = { root: this.root }; i.renderFile(t, e, r).then(function (t) { return n(null, t) }, n) } }, (e.default = e).isTruthy = mt, e.isFalsy = wt, e.evalExp = dt, e.evalValue = vt, e.Types = P, e }() });
+    ! function(t, e) {
+        "object" == typeof exports && "undefined" != typeof module ? module.exports = e() : "function" == typeof define && define.amd ? define(e) : (t = t || self).tpbLiquid = e()
+    }(this, function() {
+        "use strict";
+        var r = function(t, e) {
+            return (r = Object.setPrototypeOf || {
+                    __proto__: []
+                }
+                instanceof Array && function(t, e) {
+                    t.__proto__ = e
+                } || function(t, e) {
+                    for (var n in e) e.hasOwnProperty(n) && (t[n] = e[n])
+                })(t, e)
+        };
+
+        function i(t, e) {
+            function n() {
+                this.constructor = t
+            }
+            r(t, e), t.prototype = null === e ? Object.create(e) : (n.prototype = e.prototype, new n)
+        }
+        var m = function() {
+            return (m = Object.assign || function(t) {
+                for (var e, n = 1, r = arguments.length; n < r; n++)
+                    for (var i in e = arguments[n]) Object.prototype.hasOwnProperty.call(e, i) && (t[i] = e[i]);
+                return t
+            }).apply(this, arguments)
+        };
+
+        function p(s, o, u, a) {
+            return new(u || (u = Promise))(function(t, e) {
+                function n(t) {
+                    try {
+                        i(a.next(t))
+                    } catch (t) {
+                        e(t)
+                    }
+                }
+
+                function r(t) {
+                    try {
+                        i(a.throw(t))
+                    } catch (t) {
+                        e(t)
+                    }
+                }
+
+                function i(e) {
+                    e.done ? t(e.value) : new u(function(t) {
+                        t(e.value)
+                    }).then(n, r)
+                }
+                i((a = a.apply(s, o || [])).next())
+            })
+        }
+
+        function d(n, r) {
+            var i, s, o, t, u = {
+                label: 0,
+                sent: function() {
+                    if (1 & o[0]) throw o[1];
+                    return o[1]
+                },
+                trys: [],
+                ops: []
+            };
+            return t = {
+                next: e(0),
+                throw: e(1),
+                return: e(2)
+            }, "function" == typeof Symbol && (t[Symbol.iterator] = function() {
+                return this
+            }), t;
+
+            function e(e) {
+                return function(t) {
+                    return function(e) {
+                        if (i) throw new TypeError("Generator is already executing.");
+                        for (; u;) try {
+                            if (i = 1, s && (o = 2 & e[0] ? s.return : e[0] ? s.throw || ((o = s.return) && o.call(s), 0) : s.next) && !(o = o.call(s, e[1])).done) return o;
+                            switch (s = 0, o && (e = [2 & e[0], o.value]), e[0]) {
+                                case 0:
+                                case 1:
+                                    o = e;
+                                    break;
+                                case 4:
+                                    return u.label++, {
+                                        value: e[1],
+                                        done: !1
+                                    };
+                                case 5:
+                                    u.label++, s = e[1], e = [0];
+                                    continue;
+                                case 7:
+                                    e = u.ops.pop(), u.trys.pop();
+                                    continue;
+                                default:
+                                    if (!(o = 0 < (o = u.trys).length && o[o.length - 1]) && (6 === e[0] || 2 === e[0])) {
+                                        u = 0;
+                                        continue
+                                    }
+                                    if (3 === e[0] && (!o || e[1] > o[0] && e[1] < o[3])) {
+                                        u.label = e[1];
+                                        break
+                                    }
+                                    if (6 === e[0] && u.label < o[1]) {
+                                        u.label = o[1], o = e;
+                                        break
+                                    }
+                                    if (o && u.label < o[2]) {
+                                        u.label = o[2], u.ops.push(e);
+                                        break
+                                    }
+                                    o[2] && u.ops.pop(), u.trys.pop();
+                                    continue
+                            }
+                            e = r.call(n, u)
+                        } catch (t) {
+                            e = [6, t], s = 0
+                        } finally {
+                            i = o = 0
+                        }
+                        if (5 & e[0]) throw e[1];
+                        return {
+                            value: e[0] ? e[1] : void 0,
+                            done: !0
+                        }
+                    }([e, t])
+                }
+            }
+        }
+        var s = function() {
+                function t() {}
+                return t.prototype.valueOf = function() {}, t.prototype.liquidMethodMissing = function(t) {}, t
+            }(),
+            e = Object.prototype.toString;
+
+        function g(t) {
+            return "[object String]" === e.call(t)
+        }
+
+        function u(t) {
+            return "function" == typeof t
+        }
+
+        function a(t) {
+            return f(t) ? "" : (t = l(t), String(t))
+        }
+
+        function o(t) {
+            return t instanceof s ? t.valueOf() : t
+        }
+
+        function c(t) {
+            return "number" == typeof t
+        }
+
+        function l(t) {
+            return u(t.toLiquid) ? l(t.toLiquid()) : t
+        }
+
+        function f(t) {
+            return null == t
+        }
+
+        function v(t) {
+            return "[object Array]" === e.call(t)
+        }
+
+        function h(t, e) {
+            for (var n in t = t || {})
+                if (t.hasOwnProperty(n) && !1 === e(t[n], n, t)) break;
+            return t
+        }
+
+        function w(t) {
+            return t[t.length - 1]
+        }
+
+        function y(t) {
+            var e = typeof t;
+            return null !== t && ("object" === e || "function" === e)
+        }
+
+        function b(t, e, n) {
+            void 0 === n && (n = 1);
+            for (var r = [], i = t; i < e; i += n) r.push(i);
+            return r
+        }
+
+        function T(t, e, n) {
+            void 0 === n && (n = " ");
+            for (var r = e - (t = String(t)).length; 0 < r--;) t = n + t;
+            return t
+        }
+        var t = function(r) {
+                function t(t, e) {
+                    var n = r.call(this, t.message) || this;
+                    return n.originalError = t, n.token = e, n
+                }
+                return i(t, r), t.prototype.update = function() {
+                    var i, s, t, o, e = this.originalError,
+                        n = (i = this.token, s = i.input.split("\n"), t = Math.max(i.line - 2, 1), o = Math.min(i.line + 3, s.length), b(t, o + 1).map(function(t) {
+                            var e = t === i.line ? ">> " : "   ",
+                                n = T(String(t), String(o).length),
+                                r = s[t - 1];
+                            return "" + e + n + "| " + r
+                        }).join("\n"));
+                    this.message = function(t, e) {
+                        e.file && (t += ", file:" + e.file);
+                        return t += ", line:" + e.line + ", col:" + e.col
+                    }(e.message, this.token), this.stack = this.message + "\n" + n + "\n" + this.stack + "\nFrom " + e.stack
+                }, t
+            }(Error),
+            x = function(r) {
+                function t(t, e) {
+                    var n = r.call(this, new Error(t), e) || this;
+                    return n.name = "TokenizationError", r.prototype.update.call(n), n
+                }
+                return i(t, r), t
+            }(t),
+            n = function(r) {
+                function t(t, e) {
+                    var n = r.call(this, t, e) || this;
+                    return n.name = "ParseError", n.message = t.message, r.prototype.update.call(n), n
+                }
+                return i(t, r), t
+            }(t),
+            E = function(r) {
+                function t(t, e) {
+                    var n = r.call(this, t, e.token) || this;
+                    return n.name = "RenderError", n.message = t.message, r.prototype.update.call(n), n
+                }
+                return i(t, r), t
+            }(t),
+            k = function(n) {
+                function t(t) {
+                    var e = n.call(this, t) || this;
+                    return e.resolvedHTML = "", e.name = "RenderBreakError", e.message = t + "", e
+                }
+                return i(t, n), t
+            }(Error),
+            R = function(n) {
+                function t(t) {
+                    var e = n.call(this, t) || this;
+                    return e.name = "AssertionError", e.message = t + "", e
+                }
+                return i(t, n), t
+            }(Error);
+
+        function q(t, e) {
+            if (!t) throw new R(e = e || "expect " + t + " to be true")
+        }
+        var S = {
+            root: ["."],
+            cache: !1,
+            extname: "",
+            dynamicPartials: !0,
+            trimTagRight: !1,
+            trimTagLeft: !1,
+            trimOutputRight: !1,
+            trimOutputLeft: !1,
+            greedy: !0,
+            tagDelimiterLeft: "{%",
+            tagDelimiterRight: "%}",
+            outputDelimiterLeft: "{{",
+            outputDelimiterRight: "}}",
+            strictFilters: !1,
+            strictVariables: !1
+        };
+
+        function O(t) {
+            var e;
+            return (t = t || {}).hasOwnProperty("root") && (t.root = v(e = t.root) ? e : g(e) ? [e] : []), t
+        }
+
+        function M(t) {
+            return m({}, S, t)
+        }
+        var L = function() {
+            function t(t, e) {
+                void 0 === t && (t = {}), this.scopes = [{}], this.registers = {}, this.opts = M(e), this.environments = t
+            }
+            return t.prototype.getRegister = function(t, e) {
+                return void 0 === e && (e = {}), this.registers[t] = this.registers[t] || e
+            }, t.prototype.setRegister = function(t, e) {
+                return this.registers[t] = e
+            }, t.prototype.getAll = function() {
+                return [this.environments].concat(this.scopes).reduce(function(t, e) {
+                    return m(t, e)
+                }, {})
+            }, t.prototype.get = function(o) {
+                return p(this, void 0, void 0, function() {
+                    var e, n, r, i, s;
+                    return d(this, function(t) {
+                        switch (t.label) {
+                            case 0:
+                                return [4, this.parseProp(o)];
+                            case 1:
+                                for (e = t.sent(), n = this.findScope(e[0]) || this.environments, r = 0, i = e; r < i.length; r++)
+                                    if (s = i[r], f(n = D(n, s)) && this.opts.strictVariables) throw new TypeError("undefined variable: " + s);
+                                return [2, n]
+                        }
+                    })
+                })
+            }, t.prototype.push = function(t) {
+                return this.scopes.push(t)
+            }, t.prototype.pop = function() {
+                return this.scopes.pop()
+            }, t.prototype.front = function() {
+                return this.scopes[0]
+            }, t.prototype.findScope = function(t) {
+                for (var e = this.scopes.length - 1; 0 <= e; e--) {
+                    var n = this.scopes[e];
+                    if (t in n) return n
+                }
+                return null
+            }, t.prototype.parseProp = function(a) {
+                return p(this, void 0, void 0, function() {
+                    function e() {
+                        r.length && n.push(r), r = ""
+                    }
+                    var n, r, i, s, o, u;
+                    return d(this, function(t) {
+                        switch (t.label) {
+                            case 0:
+                                a = String(a), n = [], r = "", s = 0, t.label = 1;
+                            case 1:
+                                if (!(s < a.length)) return [3, 10];
+                                switch (a[s]) {
+                                    case "[":
+                                        return [3, 2];
+                                    case ".":
+                                        return [3, 7]
+                                }
+                                return [3, 8];
+                            case 2:
+                                return e(), o = a[s + 1], /['"]/.test(o) ? (q(-1 !== (i = a.indexOf(o, s + 2)), "unbalanced " + o + ": " + a), r = a.slice(s + 2, i), e(), s = i + 2, [3, 6]) : [3, 3];
+                            case 3:
+                                return q(-1 !== (i = function(t, e) {
+                                    for (var n = 1, r = e; r < t.length; r++)
+                                        if ("[" === t[r] && n++, "]" === t[r] && 0 === --n) return r;
+                                    return -1
+                                }(a, s + 1)), "unbalanced []: " + a), r = a.slice(s + 1, i), /^[+-]?\d+$/.test(r) ? [3, 5] : (u = String, [4, this.get(r)]);
+                            case 4:
+                                r = u.apply(void 0, [t.sent()]), t.label = 5;
+                            case 5:
+                                e(), s = i + 1, t.label = 6;
+                            case 6:
+                                return [3, 9];
+                            case 7:
+                                return e(), s++, [3, 9];
+                            case 8:
+                                r += a[s++], t.label = 9;
+                            case 9:
+                                return [3, 1];
+                            case 10:
+                                if (e(), !n.length) throw new TypeError('invalid path:"' + a + '"');
+                                return [2, n]
+                        }
+                    })
+                })
+            }, t
+        }();
+
+        function D(t, e) {
+            return f(t) ? t : (t = l(t)) instanceof s ? u(t[e]) ? t[e]() : t.hasOwnProperty(e) ? t[e] : t.liquidMethodMissing(e) : "size" === e ? f((n = t).size) && (v(n) || g(n)) ? n.length : n.size : t[e];
+            var n
+        }
+        var P = Object.freeze({
+            ParseError: n,
+            TokenizationError: x,
+            RenderBreakError: k,
+            AssertionError: R,
+            Drop: s
+        });
+        var F = {
+                readFile: function(r) {
+                    return p(this, void 0, void 0, function() {
+                        return d(this, function(t) {
+                            return [2, new Promise(function(t, e) {
+                                var n = new XMLHttpRequest;
+                                n.onload = function() {
+                                    200 <= n.status && n.status < 300 ? t(n.responseText) : e(new Error(n.statusText))
+                                }, n.onerror = function() {
+                                    e(new Error("An error occurred whilst receiving the response."))
+                                }, n.open("GET", r), n.send()
+                            })]
+                        })
+                    })
+                },
+                resolve: function(t, e, i) {
+                    return t.length && "/" !== w(t) && (t += "/"),
+                        function(t, e) {
+                            var n = document.createElement("base");
+                            n.href = t;
+                            var r = document.getElementsByTagName("head")[0];
+                            r.insertBefore(n, r.firstChild);
+                            var i = document.createElement("a");
+                            i.href = e;
+                            var s = i.href;
+                            return r.removeChild(n), s
+                        }(t, e).replace(/^(\w+:\/\/[^/]+)(\/[^?]+)/, function(t, e, n) {
+                            var r = n.split("/").pop();
+                            return /\.\w+$/.test(r) ? t : e + n + i
+                        })
+                },
+                exists: function() {
+                    return p(this, void 0, void 0, function() {
+                        return d(this, function(t) {
+                            return [2, !0]
+                        })
+                    })
+                }
+            },
+            U = function(t, e, n, r, i) {
+                this.trimLeft = !1, this.trimRight = !1, this.type = "notset", this.col = r, this.line = n, this.raw = t, this.value = t, this.input = e, this.file = i
+            },
+            j = function(f) {
+                function t(t, e, n, r, i, s, o, u) {
+                    var a = f.call(this, t, n, r, i, u) || this,
+                        c = "-" === e[0],
+                        l = "-" === w(e);
+                    return a.value = e.slice(c ? 1 : 0, l ? -1 : e.length).trim(), a.trimLeft = c || s, a.trimRight = l || o, a
+                }
+                return i(t, f), t
+            }(U),
+            _ = new RegExp(/'[^']*'/.source + "|" + /"[^"]*"/.source),
+            A = new RegExp("(?:" + _.source + "|[^'\"])*"),
+            H = /[+-]?(?:\d+\.?\d*|\.?\d+)/,
+            N = /[\w-]+[?]?/,
+            z = new RegExp("\\[(?:" + _.source + "|[\\w-\\.]+)\\]"),
+            Y = new RegExp("(?:" + _.source + "|" + /true|false/.source + "|" + H.source + ")"),
+            $ = new RegExp(N.source + "(?:\\." + N.source + "|" + z.source + ")*"),
+            I = new RegExp("(?:" + $.source + "|" + H.source + ")"),
+            C = new RegExp("\\(" + I.source + "\\.\\." + I.source + "\\)"),
+            B = new RegExp("\\((" + I.source + ")\\.\\.(" + I.source + ")\\)"),
+            V = new RegExp("(?:" + $.source + "|" + Y.source + "|" + C.source + ")"),
+            G = new RegExp("(?:" + N.source + ")\\s*:\\s*(?:" + V.source + ")"),
+            W = new RegExp("(" + N.source + ")\\s*:\\s*(" + V.source + ")", "g"),
+            J = new RegExp("^\\s*(" + N.source + ")\\s*([\\s\\S]*?)\\s*$"),
+            X = new RegExp("^" + _.source + "$"),
+            K = new RegExp("^" + B.source + "$"),
+            Q = [/\s+or\s+/, /\s+and\s+/, /==|!=|<=|>=|<|>|\s+contains\s+/],
+            Z = function(c) {
+                function t(t, e, n, r, i, s, o) {
+                    var u = c.call(this, t, e, n, r, i, s.trimTagLeft, s.trimTagRight, o) || this;
+                    u.type = "tag";
+                    var a = u.value.match(J);
+                    if (!a) throw new x("illegal tag syntax", u);
+                    return u.name = a[1], u.args = a[2], u
+                }
+                return i(t, c), t.is = function(t) {
+                    return "tag" === t.type
+                }, t
+            }(j),
+            tt = function(o) {
+                function t(t, e, n, r, i) {
+                    var s = o.call(this, t, e, n, r, i) || this;
+                    return s.type = "html", s.value = t, s
+                }
+                return i(t, o), t.is = function(t) {
+                    return "html" === t.type
+                }, t
+            }(U);
+
+        function et(t, e) {
+            if (t && tt.is(t)) {
+                var n = e ? /\s+$/g : /[\t\r ]*$/g;
+                t.value = t.value.replace(n, "")
+            }
+        }
+
+        function nt(t, e) {
+            if (t && tt.is(t)) {
+                var n = e ? /^\s+/g : /^[\t\r ]*\n?/g;
+                t.value = t.value.replace(n, "")
+            }
+        }
+        var rt, it, st = function(a) {
+            function t(t, e, n, r, i, s, o) {
+                var u = a.call(this, t, e, n, r, i, s.trimOutputLeft, s.trimOutputRight, o) || this;
+                return u.type = "output", u
+            }
+            return i(t, a), t.is = function(t) {
+                return "output" === t.type
+            }, t
+        }(j);
+        (it = rt || (rt = {}))[it.HTML = 0] = "HTML", it[it.OUTPUT = 1] = "OUTPUT", it[it.TAG = 2] = "TAG";
+        var ot = function() {
+                function t(t) {
+                    this.options = M(t)
+                }
+                return t.prototype.tokenize = function(t, e) {
+                    for (var n = [], r = this.options, i = r.tagDelimiterLeft, s = r.tagDelimiterRight, o = r.outputDelimiterLeft, u = r.outputDelimiterRight, a = 0, c = 1, l = rt.HTML, f = "", h = 0, p = 1, d = 1; a < t.length;) {
+                        if ("\n" === t[a] && (c++, h = a + 1), l === rt.HTML) {
+                            if (t.substr(a, o.length) === o) {
+                                f && n.push(new tt(f, t, p, d, e)), p = c, d = a - h + 1, a += (f = o).length, l = rt.OUTPUT;
+                                continue
+                            }
+                            if (t.substr(a, i.length) === i) {
+                                f && n.push(new tt(f, t, p, d, e)), p = c, d = a - h + 1, a += (f = i).length, l = rt.TAG;
+                                continue
+                            }
+                        } else {
+                            if (l === rt.OUTPUT && t.substr(a, u.length) === u) {
+                                f += u, n.push(new st(f, f.slice(o.length, -u.length), t, p, d, this.options, e)), f = "", p = c, d = (a += u.length) - h + 1, l = rt.HTML;
+                                continue
+                            }
+                            if (t.substr(a, s.length) === s) {
+                                f += s, n.push(new Z(f, f.slice(i.length, -s.length), t, p, d, this.options, e)), f = "", p = c, d = (a += s.length) - h + 1, l = rt.HTML;
+                                continue
+                            }
+                        }
+                        f += t[a++]
+                    }
+                    if (l === rt.HTML) return f && n.push(new tt(f, t, p, d, e)),
+                        function(t, e) {
+                            e = m({
+                                greedy: !0
+                            }, e);
+                            for (var n = !1, r = 0; r < t.length; r++) {
+                                var i = t[r];
+                                !n && i.trimLeft && et(t[r - 1], e.greedy), Z.is(i) && ("raw" === i.name ? n = !0 : "endraw" === i.name && (n = !1)), !n && i.trimRight && nt(t[r + 1], e.greedy)
+                            }
+                        }(n, this.options), n;
+                    var g = l === rt.OUTPUT ? "output" : "tag",
+                        v = 16 < f.length ? f.slice(0, 13) + "..." : f;
+                    throw new x(g + ' "' + v + '" not closed', new U(f, t, p, d, e))
+                }, t
+            }(),
+            ut = function() {
+                function t() {}
+                return t.prototype.renderTemplates = function(u, a) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r, i, s, o;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    q(a, "unable to evalTemplates: context undefined"), e = "", n = 0, r = u, t.label = 1;
+                                case 1:
+                                    if (!(n < r.length)) return [3, 6];
+                                    i = r[n], t.label = 2;
+                                case 2:
+                                    return t.trys.push([2, 4, , 5]), s = e, [4, i.render(a)];
+                                case 3:
+                                    return e = s + t.sent(), [3, 5];
+                                case 4:
+                                    if ("RenderBreakError" === (o = t.sent()).name) throw o.resolvedHTML = e, o;
+                                    throw "RenderError" === o.name ? o : new E(o, i);
+                                case 5:
+                                    return n++, [3, 1];
+                                case 6:
+                                    return [2, e]
+                            }
+                        })
+                    })
+                }, t
+            }();
+
+        function at(t) {
+            return t && u(t.equals)
+        }
+        var ct = function(t) {
+                function e() {
+                    return null !== t && t.apply(this, arguments) || this
+                }
+                return i(e, t), e.prototype.equals = function(t) {
+                    return g(t) || v(t) ? 0 === t.length : !!y(t) && 0 === Object.keys(t).length
+                }, e.prototype.gt = function() {
+                    return !1
+                }, e.prototype.geq = function() {
+                    return !1
+                }, e.prototype.lt = function() {
+                    return !1
+                }, e.prototype.leq = function() {
+                    return !1
+                }, e.prototype.valueOf = function() {
+                    return ""
+                }, e
+            }(s),
+            lt = function(e) {
+                function t() {
+                    return null !== e && e.apply(this, arguments) || this
+                }
+                return i(t, e), t.prototype.equals = function(t) {
+                    return !1 === t || (!!f(o(t)) || (g(t) ? /^\s*$/.test(t) : e.prototype.equals.call(this, t)))
+                }, t
+            }(ct),
+            ft = function(t) {
+                function e() {
+                    return null !== t && t.apply(this, arguments) || this
+                }
+                return i(e, t), e.prototype.equals = function(t) {
+                    return f(o(t)) || t instanceof lt
+                }, e.prototype.gt = function() {
+                    return !1
+                }, e.prototype.geq = function() {
+                    return !1
+                }, e.prototype.lt = function() {
+                    return !1
+                }, e.prototype.leq = function() {
+                    return !1
+                }, e.prototype.valueOf = function() {
+                    return null
+                }, e
+            }(s),
+            ht = {
+                "==": function(t, e) {
+                    return at(t) ? t.equals(e) : at(e) ? e.equals(t) : t === e
+                },
+                "!=": function(t, e) {
+                    return at(t) ? !t.equals(e) : at(e) ? !e.equals(t) : t !== e
+                },
+                ">": function(t, e) {
+                    return at(t) ? t.gt(e) : at(e) ? e.lt(t) : e < t
+                },
+                "<": function(t, e) {
+                    return at(t) ? t.lt(e) : at(e) ? e.gt(t) : t < e
+                },
+                ">=": function(t, e) {
+                    return at(t) ? t.geq(e) : at(e) ? e.leq(t) : e <= t
+                },
+                "<=": function(t, e) {
+                    return at(t) ? t.leq(e) : at(e) ? e.geq(t) : t <= e
+                },
+                contains: function(t, e) {
+                    return !(!t || !u(t.indexOf)) && -1 < t.indexOf(e)
+                },
+                and: function(t, e) {
+                    return mt(t) && mt(e)
+                },
+                or: function(t, e) {
+                    return mt(t) || mt(e)
+                }
+            };
+
+        function pt(f, h) {
+            return p(this, void 0, void 0, function() {
+                var e, n, r, i, s, o, u, a, c, l;
+                return d(this, function(t) {
+                    switch (t.label) {
+                        case 0:
+                            q(h, "unable to parseExp: scope undefined"), e = Q, r = 0, t.label = 1;
+                        case 1:
+                            return r < e.length ? (i = e[r], s = new RegExp("^(" + A.source + ")(" + i.source + ")(" + A.source + ")$"), (n = f.match(s)) ? [4, pt(n[1], h)] : [3, 4]) : [3, 5];
+                        case 2:
+                            return o = t.sent(), u = ht[n[2].trim()], [4, pt(n[3], h)];
+                        case 3:
+                            return a = t.sent(), [2, u(o, a)];
+                        case 4:
+                            return r++, [3, 1];
+                        case 5:
+                            return (n = f.match(K)) ? [4, vt(n[1], h)] : [3, 8];
+                        case 6:
+                            return c = t.sent(), [4, vt(n[2], h)];
+                        case 7:
+                            return l = t.sent(), [2, b(+c, +l + 1)];
+                        case 8:
+                            return [2, gt(f, h)]
+                    }
+                })
+            })
+        }
+
+        function dt(n, r) {
+            return p(this, void 0, void 0, function() {
+                var e;
+                return d(this, function(t) {
+                    switch (t.label) {
+                        case 0:
+                            return e = o, [4, pt(n, r)];
+                        case 1:
+                            return [2, e.apply(void 0, [t.sent()])]
+                    }
+                })
+            })
+        }
+
+        function gt(e, n) {
+            return p(this, void 0, void 0, function() {
+                return d(this, function(t) {
+                    return e ? "true" === (e = e.trim()) ? [2, !0] : "false" === e ? [2, !1] : "nil" === e || "null" === e ? [2, new ft] : "empty" === e ? [2, new ct] : "blank" === e ? [2, new lt] : isNaN(Number(e)) ? '"' !== e[0] && "'" !== e[0] || e[0] !== w(e) ? [2, n.get(e)] : [2, e.slice(1, -1)] : [2, Number(e)] : [2, null]
+                })
+            })
+        }
+
+        function vt(n, r) {
+            return p(this, void 0, void 0, function() {
+                var e;
+                return d(this, function(t) {
+                    switch (t.label) {
+                        case 0:
+                            return e = o, [4, gt(n, r)];
+                        case 1:
+                            return [2, e.apply(void 0, [t.sent()])]
+                    }
+                })
+            })
+        }
+
+        function mt(t) {
+            return !wt(t)
+        }
+
+        function wt(t) {
+            return !1 === t || null == t
+        }
+        var yt = function() {
+                function c() {}
+                return c.create = function(u, a) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r, i, s, o;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    e = new c, W.lastIndex = 0, t.label = 1;
+                                case 1:
+                                    return (n = W.exec(u)) ? (r = n[1], i = n[2], s = e, o = r, [4, gt(i, a)]) : [3, 3];
+                                case 2:
+                                    return s[o] = t.sent(), [3, 1];
+                                case 3:
+                                    return [2, e]
+                            }
+                        })
+                    })
+                }, c
+            }(),
+            bt = function(t) {
+                this.token = t
+            },
+            Tt = function(s) {
+                function o(t, e, n) {
+                    var r = s.call(this, t) || this;
+                    r.name = t.name;
+                    var i = o.impls[t.name];
+                    return q(i, "tag " + t.name + " not found"), r.impl = Object.create(i), r.impl.liquid = n, r.impl.parse && r.impl.parse(t, e), r
+                }
+                return i(o, s), o.prototype.render = function(s) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r, i;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    return [4, yt.create(this.token.args, s)];
+                                case 1:
+                                    return e = t.sent(), u((n = this.impl).render) ? (i = a, [4, n.render(s, e)]) : [3, 3];
+                                case 2:
+                                    return r = i.apply(void 0, [t.sent()]), [3, 4];
+                                case 3:
+                                    r = "", t.label = 4;
+                                case 4:
+                                    return [2, r]
+                            }
+                        })
+                    })
+                }, o.register = function(t, e) {
+                    o.impls[t] = e
+                }, o.clear = function() {
+                    o.impls = {}
+                }, o.impls = {}, o
+            }(bt),
+            xt = function() {
+                function i(t, e, n) {
+                    var r = i.impls[t];
+                    if (!r && n) throw new TypeError("undefined filter: " + t);
+                    this.name = t, this.impl = r || function(t) {
+                        return t
+                    }, this.args = e
+                }
+                return i.prototype.render = function(l, f) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r, i, s, o, u, a, c;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    e = [], n = 0, r = this.args, t.label = 1;
+                                case 1:
+                                    return n < r.length ? (i = r[n], v(i) ? (o = (s = e).push, u = [i[0]], [4, gt(i[1], f)]) : [3, 3]) : [3, 6];
+                                case 2:
+                                    return o.apply(s, [u.concat([t.sent()])]), [3, 5];
+                                case 3:
+                                    return c = (a = e).push, [4, gt(i, f)];
+                                case 4:
+                                    c.apply(a, [t.sent()]), t.label = 5;
+                                case 5:
+                                    return n++, [3, 1];
+                                case 6:
+                                    return [2, this.impl.apply({
+                                        context: f
+                                    }, [l].concat(e))]
+                            }
+                        })
+                    })
+                }, i.register = function(t, e) {
+                    i.impls[t] = e
+                }, i.clear = function() {
+                    i.impls = {}
+                }, i.impls = {}, i
+            }();
+        var Et, kt, Rt = function() {
+                function t(t, e) {
+                    this.handlers = {}, this.stopRequested = !1, this.tokens = t, this.parseToken = e
+                }
+                return t.prototype.on = function(t, e) {
+                    return this.handlers[t] = e, this
+                }, t.prototype.trigger = function(t, e) {
+                    var n = this.handlers[t];
+                    return !!n && (n(e), !0)
+                }, t.prototype.start = function() {
+                    var t;
+                    for (this.trigger("start"); !this.stopRequested && (t = this.tokens.shift());)
+                        if (!(this.trigger("token", t) || Z.is(t) && this.trigger("tag:" + t.name, t))) {
+                            var e = this.parseToken(t, this.tokens);
+                            this.trigger("template", e)
+                        } return this.stopRequested || this.trigger("end"), this
+                }, t.prototype.stop = function() {
+                    return this.stopRequested = !0, this
+                }, t
+            }(),
+            qt = function() {
+                function r(t, e) {
+                    this.filters = [];
+                    var n = r.tokenize(t);
+                    this.strictFilters = e, this.initial = n[0], this.parseFilters(n, 1)
+                }
+                return r.prototype.parseFilters = function(t, e) {
+                    for (var n = e; n < t.length;)
+                        if ("|" === t[n]) {
+                            for (var r = ++n; n < t.length && "|" !== t[n];) n++;
+                            this.parseFilter(t, r, n)
+                        } else n++
+                }, r.prototype.parseFilter = function(t, e, n) {
+                    for (var r, i, s = t[e], o = [], u = e + 1; u < n + 1; u++) u === n || "," === t[u] ? ((r || i) && o.push(r ? [r, i] : i), i = r = void 0) : ":" === t[u] ? (r = i, i = void 0) : void 0 === i && (i = t[u]);
+                    this.filters.push(new xt(s, o, this.strictFilters))
+                }, r.prototype.value = function(i) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    return [4, pt(this.initial, i)];
+                                case 1:
+                                    e = t.sent(), n = 0, r = this.filters, t.label = 2;
+                                case 2:
+                                    return n < r.length ? [4, r[n].render(e, i)] : [3, 5];
+                                case 3:
+                                    e = t.sent(), t.label = 4;
+                                case 4:
+                                    return n++, [3, 2];
+                                case 5:
+                                    return [2, e]
+                            }
+                        })
+                    })
+                }, r.tokenize = function(t) {
+                    for (var e = [], n = 0; n < t.length;) {
+                        var r = t[n];
+                        if ('"' === r || "'" === r) {
+                            var i = n;
+                            for (n += 2; n < t.length && t[n - 1] !== r; ++n);
+                            e.push(t.slice(i, n))
+                        } else if (/\s/.test(r)) n++;
+                        else if (/[|,:]/.test(r)) e.push(t[n++]);
+                        else {
+                            for (i = n++; n < t.length && !/[|,:\s]/.test(t[n]); ++n);
+                            e.push(t.slice(i, n))
+                        }
+                    }
+                    return e
+                }, r
+            }(),
+            St = function(r) {
+                function t(t, e) {
+                    var n = r.call(this, t) || this;
+                    return n.value = new qt(t.value, e), n
+                }
+                return i(t, r), t.prototype.render = function(e) {
+                    return p(this, void 0, void 0, function() {
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    return [4, this.value.value(e)];
+                                case 1:
+                                    return [2, a(o(t.sent()))]
+                            }
+                        })
+                    })
+                }, t
+            }(bt),
+            Ot = function(n) {
+                function t(t) {
+                    var e = n.call(this, t) || this;
+                    return e.str = t.value, e
+                }
+                return i(t, n), t.prototype.render = function() {
+                    return p(this, void 0, void 0, function() {
+                        return d(this, function(t) {
+                            return [2, this.str]
+                        })
+                    })
+                }, t
+            }(bt),
+            Mt = function() {
+                function t(t) {
+                    this.liquid = t
+                }
+                return t.prototype.parse = function(t) {
+                    for (var e, n = []; e = t.shift();) n.push(this.parseToken(e, t));
+                    return n
+                }, t.prototype.parseToken = function(e, t) {
+                    try {
+                        return Z.is(e) ? new Tt(e, t, this.liquid) : st.is(e) ? new St(e, this.liquid.options.strictFilters) : new Ot(e)
+                    } catch (t) {
+                        throw new n(t, e)
+                    }
+                }, t.prototype.parseStream = function(t) {
+                    var n = this;
+                    return new Rt(t, function(t, e) {
+                        return n.parseToken(t, e)
+                    })
+                }, t
+            }(),
+            Lt = new RegExp("(" + N.source + ")\\s*=([^]*)"),
+            Dt = {
+                parse: function(t) {
+                    var e = t.args.match(Lt);
+                    q(e, "illegal token " + t.raw), this.key = e[1], this.value = e[2]
+                },
+                render: function(r) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    return e = r.front(), n = this.key, [4, this.liquid.evalValue(this.value, r)];
+                                case 1:
+                                    return e[n] = t.sent(), [2]
+                            }
+                        })
+                    })
+                }
+            },
+            Pt = function(n) {
+                function t(t) {
+                    var e = n.call(this) || this;
+                    return e.i = 0, e.length = t, e
+                }
+                return i(t, n), t.prototype.next = function() {
+                    this.i++
+                }, t.prototype.index0 = function() {
+                    return this.i
+                }, t.prototype.index = function() {
+                    return this.i + 1
+                }, t.prototype.first = function() {
+                    return 0 === this.i
+                }, t.prototype.last = function() {
+                    return this.i === this.length - 1
+                }, t.prototype.rindex = function() {
+                    return this.length - this.i
+                }, t.prototype.rindex0 = function() {
+                    return this.length - this.i - 1
+                }, t.prototype.valueOf = function() {
+                    return JSON.stringify(this)
+                }, t
+            }(s),
+            Ft = new RegExp("^(" + N.source + ")\\s+in\\s+(" + V.source + ")(?:\\s+" + G.source + ")*(?:\\s+(reversed))?(?:\\s+" + G.source + ")*$"),
+            Ut = {
+                type: "block",
+                parse: function(t, e) {
+                    var n, r = this,
+                        i = Ft.exec(t.args);
+                    q(i, "illegal tag: " + t.raw), this.variable = i[1], this.collection = i[2], this.reversed = !!i[3], this.templates = [], this.elseTemplates = [];
+                    var s = this.liquid.parser.parseStream(e).on("start", function() {
+                        return n = r.templates
+                    }).on("tag:else", function() {
+                        return n = r.elseTemplates
+                    }).on("tag:endfor", function() {
+                        return s.stop()
+                    }).on("template", function(t) {
+                        return n.push(t)
+                    }).on("end", function() {
+                        throw new Error("tag " + t.raw + " not closed")
+                    });
+                    s.start()
+                },
+                render: function(f, h) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r, i, s, o, u, a, c, l;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    return [4, pt(this.collection, f)];
+                                case 1:
+                                    if (v(e = t.sent()) || (g(e) && 0 < e.length ? e = [e] : y(e) && (e = Object.keys(e).map(function(t) {
+                                            return [t, e[t]]
+                                        }))), !v(e) || !e.length) return [2, this.liquid.renderer.renderTemplates(this.elseTemplates, f)];
+                                    n = h.offset || 0, r = void 0 === h.limit ? e.length : h.limit, e = e.slice(n, n + r), this.reversed && e.reverse(), i = {
+                                        forloop: new Pt(e.length)
+                                    }, f.push(i), s = "", o = 0, u = e, t.label = 2;
+                                case 2:
+                                    if (!(o < u.length)) return [3, 8];
+                                    a = u[o], i[this.variable] = a, t.label = 3;
+                                case 3:
+                                    return t.trys.push([3, 5, , 6]), c = s, [4, this.liquid.renderer.renderTemplates(this.templates, f)];
+                                case 4:
+                                    return s = c + t.sent(), [3, 6];
+                                case 5:
+                                    if ("RenderBreakError" !== (l = t.sent()).name) throw l;
+                                    return s += l.resolvedHTML, "break" === l.message ? [3, 8] : [3, 6];
+                                case 6:
+                                    i.forloop.next(), t.label = 7;
+                                case 7:
+                                    return o++, [3, 2];
+                                case 8:
+                                    return f.pop(), [2, s]
+                            }
+                        })
+                    })
+                }
+            },
+            jt = new RegExp("(" + N.source + ")"),
+            _t = {
+                parse: function(t, e) {
+                    var n = this,
+                        r = t.args.match(jt);
+                    q(r, t.args + " not valid identifier"), this.variable = r[1], this.templates = [];
+                    var i = this.liquid.parser.parseStream(e);
+                    i.on("tag:endcapture", function() {
+                        return i.stop()
+                    }).on("template", function(t) {
+                        return n.templates.push(t)
+                    }).on("end", function() {
+                        throw new Error("tag " + t.raw + " not closed")
+                    }), i.start()
+                },
+                render: function(n) {
+                    return p(this, void 0, void 0, function() {
+                        var e;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    return [4, this.liquid.renderer.renderTemplates(this.templates, n)];
+                                case 1:
+                                    return e = t.sent(), n.front()[this.variable] = e, [2]
+                            }
+                        })
+                    })
+                }
+            },
+            At = {
+                parse: function(t, e) {
+                    var n = this;
+                    this.cond = t.args, this.cases = [], this.elseTemplates = [];
+                    var r = [],
+                        i = this.liquid.parser.parseStream(e).on("tag:when", function(t) {
+                            n.cases.push({
+                                val: t.args,
+                                templates: r = []
+                            })
+                        }).on("tag:else", function() {
+                            return r = n.elseTemplates
+                        }).on("tag:endcase", function() {
+                            return i.stop()
+                        }).on("template", function(t) {
+                            return r.push(t)
+                        }).on("end", function() {
+                            throw new Error("tag " + t.raw + " not closed")
+                        });
+                    i.start()
+                },
+                render: function(s) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r, i;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    e = 0, t.label = 1;
+                                case 1:
+                                    return e < this.cases.length ? [4, dt((n = this.cases[e]).val, s)] : [3, 5];
+                                case 2:
+                                    return r = t.sent(), [4, dt(this.cond, s)];
+                                case 3:
+                                    if (i = t.sent(), r === i) return [2, this.liquid.renderer.renderTemplates(n.templates, s)];
+                                    t.label = 4;
+                                case 4:
+                                    return e++, [3, 1];
+                                case 5:
+                                    return [2, this.liquid.renderer.renderTemplates(this.elseTemplates, s)]
+                            }
+                        })
+                    })
+                }
+            },
+            Ht = {
+                parse: function(t, e) {
+                    var n = this.liquid.parser.parseStream(e);
+                    n.on("token", function(t) {
+                        "endcomment" === t.name && n.stop()
+                    }).on("end", function() {
+                        throw new Error("tag " + t.raw + " not closed")
+                    }), n.start()
+                }
+            };
+        (kt = Et || (Et = {}))[kt.OUTPUT = 0] = "OUTPUT", kt[kt.STORE = 1] = "STORE";
+        var Nt = Et,
+            zt = /[^\s,]+/,
+            Yt = new RegExp("with\\s+(" + V.source + ")"),
+            $t = {
+                parse: function(t) {
+                    var e = zt.exec(t.args);
+                    e && (this.staticValue = e[0]), (e = V.exec(t.args)) && (this.value = e[0]), (e = Yt.exec(t.args)) && (this.with = e[1])
+                },
+                render: function(c, l) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r, i, s, o, u, a;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    return c.opts.dynamicPartials ? X.exec(this.value) ? (n = this.value.slice(1, -1), [4, this.liquid.parseAndRender(n, c.getAll(), c.opts)]) : [3, 2] : [3, 5];
+                                case 1:
+                                    return e = t.sent(), [3, 4];
+                                case 2:
+                                    return [4, vt(this.value, c)];
+                                case 3:
+                                    e = t.sent(), t.label = 4;
+                                case 4:
+                                    return [3, 6];
+                                case 5:
+                                    e = this.staticValue, t.label = 6;
+                                case 6:
+                                    return q(e, "cannot include with empty filename"), r = c.getRegister("blocks"), i = c.getRegister("blockMode"), c.setRegister("blocks", {}), c.setRegister("blockMode", Nt.OUTPUT), this.with ? (s = l, o = e, [4, gt(this.with, c)]) : [3, 8];
+                                case 7:
+                                    s[o] = t.sent(), t.label = 8;
+                                case 8:
+                                    return [4, this.liquid.getTemplate(e, c.opts)];
+                                case 9:
+                                    return u = t.sent(), c.push(l), [4, this.liquid.renderer.renderTemplates(u, c)];
+                                case 10:
+                                    return a = t.sent(), c.pop(), c.setRegister("blocks", r), c.setRegister("blockMode", i), [2, a]
+                            }
+                        })
+                    })
+                }
+            },
+            It = {
+                parse: function(t) {
+                    var e = t.args.match(N);
+                    q(e, "illegal identifier " + t.args), this.variable = e[0]
+                },
+                render: function(t) {
+                    var e = t.environments;
+                    return c(e[this.variable]) || (e[this.variable] = 0), --e[this.variable]
+                }
+            },
+            Ct = new RegExp("^(?:(" + V.source + ")\\s*:\\s*)?(.*)$"),
+            Bt = new RegExp(V.source, "g"),
+            Vt = {
+                parse: function(t) {
+                    var e = Ct.exec(t.args);
+                    q(e, "illegal tag: " + t.raw), this.group = e[1] || "";
+                    var n = e[2];
+                    for (this.candidates = []; e = Bt.exec(n);) this.candidates.push(e[0]);
+                    q(this.candidates.length, "empty candidates: " + t.raw)
+                },
+                render: function(o) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r, i, s;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    return [4, vt(this.group, o)];
+                                case 1:
+                                    return e = t.sent(), n = "cycle:" + e + ":" + this.candidates.join(","), r = o.getRegister("cycle"), void 0 === (i = r[n]) && (i = r[n] = 0), s = this.candidates[i], i = (i + 1) % this.candidates.length, r[n] = i, [2, vt(s, o)]
+                            }
+                        })
+                    })
+                }
+            },
+            Gt = {
+                parse: function(t, e) {
+                    var n, r = this;
+                    this.branches = [], this.elseTemplates = [];
+                    var i = this.liquid.parser.parseStream(e).on("start", function() {
+                        return r.branches.push({
+                            cond: t.args,
+                            templates: n = []
+                        })
+                    }).on("tag:elsif", function(t) {
+                        r.branches.push({
+                            cond: t.args,
+                            templates: n = []
+                        })
+                    }).on("tag:else", function() {
+                        return n = r.elseTemplates
+                    }).on("tag:endif", function() {
+                        return i.stop()
+                    }).on("template", function(t) {
+                        return n.push(t)
+                    }).on("end", function() {
+                        throw new Error("tag " + t.raw + " not closed")
+                    });
+                    i.start()
+                },
+                render: function(i) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    e = 0, n = this.branches, t.label = 1;
+                                case 1:
+                                    return e < n.length ? [4, dt((r = n[e]).cond, i)] : [3, 4];
+                                case 2:
+                                    if (mt(t.sent())) return [2, this.liquid.renderer.renderTemplates(r.templates, i)];
+                                    t.label = 3;
+                                case 3:
+                                    return e++, [3, 1];
+                                case 4:
+                                    return [2, this.liquid.renderer.renderTemplates(this.elseTemplates, i)]
+                            }
+                        })
+                    })
+                }
+            },
+            Wt = {
+                parse: function(t) {
+                    var e = t.args.match(N);
+                    q(e, "illegal identifier " + t.args), this.variable = e[0]
+                },
+                render: function(t) {
+                    var e = t.environments;
+                    c(e[this.variable]) || (e[this.variable] = 0);
+                    var n = e[this.variable];
+                    return e[this.variable]++, n
+                }
+            },
+            Jt = /\S+/,
+            Xt = {
+                parse: function(t, e) {
+                    var n = Jt.exec(t.args);
+                    n && (this.staticLayout = n[0]), (n = V.exec(t.args)) && (this.layout = n[0]), this.tpls = this.liquid.parser.parse(e)
+                },
+                render: function(u, a) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r, i, s, o;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    return u.opts.dynamicPartials ? [4, vt(this.layout, u)] : [3, 2];
+                                case 1:
+                                    return n = t.sent(), [3, 3];
+                                case 2:
+                                    n = this.staticLayout, t.label = 3;
+                                case 3:
+                                    return q(e = n, "cannot apply layout with empty filename"), u.setRegister("blockMode", Nt.STORE), r = u.getRegister("blocks"), [4, this.liquid.renderer.renderTemplates(this.tpls, u)];
+                                case 4:
+                                    return i = t.sent(), void 0 === r[""] && (r[""] = i), [4, this.liquid.getTemplate(e, u.opts)];
+                                case 5:
+                                    return s = t.sent(), u.push(a), u.setRegister("blockMode", Nt.OUTPUT), [4, this.liquid.renderer.renderTemplates(s, u)];
+                                case 6:
+                                    return o = t.sent(), u.pop(), [2, o]
+                            }
+                        })
+                    })
+                }
+            },
+            Kt = {
+                parse: function(t, e) {
+                    var n = this,
+                        r = /\w+/.exec(t.args);
+                    this.block = r ? r[0] : "", this.tpls = [];
+                    var i = this.liquid.parser.parseStream(e).on("tag:endblock", function() {
+                        return i.stop()
+                    }).on("template", function(t) {
+                        return n.tpls.push(t)
+                    }).on("end", function() {
+                        throw new Error("tag " + t.raw + " not closed")
+                    });
+                    i.start()
+                },
+                render: function(s) {
+                    return p(this, void 0, void 0, function() {
+                        var e, n, r, i;
+                        return d(this, function(t) {
+                            switch (t.label) {
+                                case 0:
+                                    return e = s.getRegister("blocks"), void 0 === (n = e[this.block]) ? [3, 1] : (i = n, [3, 3]);
+                                case 1:
+                                    return [4, this.liquid.renderer.renderTemplates(this.tpls, s)];
+                                case 2:
+                                    i = t.sent(), t.label = 3;
+                                case 3:
+                                    return r = i, s.getRegister("blockMode", Nt.OUTPUT) === Nt.STORE ? (e[this.block] = r, [2, ""]) : [2, r]
+                            }
+                        })
+                    })
+                }
+            },
+            Qt = {
+                parse: function(t, e) {
+                    var n = this;
+                    this.tokens = [];
+                    var r = this.liquid.parser.parseStream(e);
+                    r.on("token", function(t) {
+                        "endraw" === t.name ? r.stop() : n.tokens.push(t)
+                    }).on("end", function() {
+                        throw new Error("tag " + t.raw + " not closed")
+                    }), r.start()
+                },
+                render: function() {
+                    return this.tokens.map(function(t) {
+                        return t.raw
+                    }).join("")
+                }
+            },
+            Zt = function(r) {
+                function t(t, e) {
+                    var n = r.call(this, t) || this;
+                    return n.length = t, n.cols = e, n
+                }
+                return i(t, r), t.prototype.row = function() {
+                    return Math.floor(this.i / this.cols) + 1
+                }, t.prototype.col0 = function() {
+                    return this.i % this.cols
+                }, t.prototype.col = function() {
+                    return this.col0() + 1
+                }, t.prototype.col_first = function() {
+                    return 0 === this.col0()
+                }, t.prototype.col_last = function() {
+                    return this.col() === this.cols
+                }, t
+            }(Pt),
+            te = new RegExp("^(" + N.source + ")\\s+in\\s+(" + V.source + ")(?:\\s+" + G.source + ")*$"),
+            ee = {
+                assign: Dt,
+                for: Ut,
+                capture: _t,
+                case: At,
+                comment: Ht,
+                include: $t,
+                decrement: It,
+                increment: Wt,
+                cycle: Vt,
+                if: Gt,
+                layout: Xt,
+                block: Kt,
+                raw: Qt,
+                tablerow: {
+                    parse: function(t, e) {
+                        var n, r = this,
+                            i = te.exec(t.args);
+                        q(i, "illegal tag: " + t.raw), this.variable = i[1], this.collection = i[2], this.templates = [];
+                        var s = this.liquid.parser.parseStream(e).on("start", function() {
+                            return n = r.templates
+                        }).on("tag:endtablerow", function() {
+                            return s.stop()
+                        }).on("template", function(t) {
+                            return n.push(t)
+                        }).on("end", function() {
+                            throw new Error("tag " + t.raw + " not closed")
+                        });
+                        s.start()
+                    },
+                    render: function(l, f) {
+                        return p(this, void 0, void 0, function() {
+                            var e, n, r, i, s, o, u, a, c;
+                            return d(this, function(t) {
+                                switch (t.label) {
+                                    case 0:
+                                        return [4, dt(this.collection, l)];
+                                    case 1:
+                                        e = t.sent() || [], n = f.offset || 0, r = void 0 === f.limit ? e.length : f.limit, e = e.slice(n, n + r), i = f.cols || e.length, s = new Zt(e.length, i), o = {
+                                            tablerowloop: s
+                                        }, l.push(o), u = "", a = 0, t.label = 2;
+                                    case 2:
+                                        return a < e.length ? (o[this.variable] = e[a], 0 === s.col0() && (1 !== s.row() && (u += "</tr>"), u += '<tr class="row' + s.row() + '">'), u += '<td class="col' + s.col() + '">', c = u, [4, this.liquid.renderer.renderTemplates(this.templates, l)]) : [3, 5];
+                                    case 3:
+                                        u = c + t.sent(), u += "</td>", t.label = 4;
+                                    case 4:
+                                        return a++, s.next(), [3, 2];
+                                    case 5:
+                                        return e.length && (u += "</tr>"), l.pop(), [2, u]
+                                }
+                            })
+                        })
+                    }
+                },
+                unless: {
+                    parse: function(t, e) {
+                        var n, r = this;
+                        this.templates = [], this.elseTemplates = [];
+                        var i = this.liquid.parser.parseStream(e).on("start", function() {
+                            n = r.templates, r.cond = t.args
+                        }).on("tag:else", function() {
+                            return n = r.elseTemplates
+                        }).on("tag:endunless", function() {
+                            return i.stop()
+                        }).on("template", function(t) {
+                            return n.push(t)
+                        }).on("end", function() {
+                            throw new Error("tag " + t.raw + " not closed")
+                        });
+                        i.start()
+                    },
+                    render: function(e) {
+                        return p(this, void 0, void 0, function() {
+                            return d(this, function(t) {
+                                switch (t.label) {
+                                    case 0:
+                                        return [4, dt(this.cond, e)];
+                                    case 1:
+                                        return [2, wt(t.sent()) ? this.liquid.renderer.renderTemplates(this.templates, e) : this.liquid.renderer.renderTemplates(this.elseTemplates, e)]
+                                }
+                            })
+                        })
+                    }
+                },
+                break: {
+                    render: function() {
+                        return p(this, void 0, void 0, function() {
+                            return d(this, function(t) {
+                                throw new k("break")
+                            })
+                        })
+                    }
+                },
+                continue: {
+                    render: function() {
+                        return p(this, void 0, void 0, function() {
+                            return d(this, function(t) {
+                                throw new k("continue")
+                            })
+                        })
+                    }
+                }
+            },
+            ne = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&#34;",
+                "'": "&#39;"
+            },
+            re = {
+                "&amp;": "&",
+                "&lt;": "<",
+                "&gt;": ">",
+                "&#34;": '"',
+                "&#39;": "'"
+            };
+
+        function ie(t) {
+            return String(t).replace(/&|<|>|"|'/g, function(t) {
+                return ne[t]
+            })
+        }
+        var se = {
+                escape: ie,
+                escape_once: function(t) {
+                    return ie(String(t).replace(/&(amp|lt|gt|#34|#39);/g, function(t) {
+                        return re[t]
+                    }))
+                },
+                newline_to_br: function(t) {
+                    return t.replace(/\n/g, "<br />")
+                },
+                strip_html: function(t) {
+                    return t.replace(/<script.*?<\/script>|<!--.*?-->|<style.*?<\/style>|<.*?>/g, "")
+                }
+            },
+            oe = {
+                append: function(t, e) {
+                    return t + e
+                },
+                prepend: function(t, e) {
+                    return e + t
+                },
+                capitalize: function(t) {
+                    return String(t).charAt(0).toUpperCase() + t.slice(1)
+                },
+                lstrip: function(t) {
+                    return String(t).replace(/^\s+/, "")
+                },
+                downcase: function(t) {
+                    return t.toLowerCase()
+                },
+                upcase: function(t) {
+                    return String(t).toUpperCase()
+                },
+                remove: function(t, e) {
+                    return t.split(e).join("")
+                },
+                remove_first: function(t, e) {
+                    return t.replace(e, "")
+                },
+                replace: function(t, e, n) {
+                    return String(t).split(e).join(n)
+                },
+                replace_first: function(t, e, n) {
+                    return String(t).replace(e, n)
+                },
+                rstrip: function(t) {
+                    return String(t).replace(/\s+$/, "")
+                },
+                split: function(t, e) {
+                    return String(t).split(e)
+                },
+                strip: function(t) {
+                    return String(t).trim()
+                },
+                strip_newlines: function(t) {
+                    return String(t).replace(/\n/g, "")
+                },
+                truncate: function(t, e, n) {
+                    return void 0 === e && (e = 50), void 0 === n && (n = "..."), (t = String(t)).length <= e ? t : t.substr(0, e - n.length) + n
+                },
+                truncatewords: function(t, e, n) {
+                    void 0 === e && (e = 15), void 0 === n && (n = "...");
+                    var r = t.split(/\s+/),
+                        i = r.slice(0, e).join(" ");
+                    return r.length >= e && (i += n), i
+                }
+            },
+            ue = {
+                abs: function(t) {
+                    return Math.abs(t)
+                },
+                ceil: function(t) {
+                    return Math.ceil(t)
+                },
+                divided_by: function(t, e) {
+                    return t / e
+                },
+                floor: function(t) {
+                    return Math.floor(t)
+                },
+                minus: function(t, e) {
+                    return t - e
+                },
+                modulo: function(t, e) {
+                    return t % e
+                },
+                round: function(t, e) {
+                    void 0 === e && (e = 0);
+                    var n = Math.pow(10, e);
+                    return Math.round(t * n) / n
+                },
+                plus: function(t, e) {
+                    return Number(t) + Number(e)
+                },
+                times: function(t, e) {
+                    return t * e
+                }
+            },
+            ae = {
+                url_decode: function(t) {
+                    return t.split("+").map(decodeURIComponent).join(" ")
+                },
+                url_encode: function(t) {
+                    return t.split(" ").map(encodeURIComponent).join("+")
+                }
+            },
+            ce = {
+                join: function(t, e) {
+                    return t.join(void 0 === e ? " " : e)
+                },
+                last: function(t) {
+                    return w(t)
+                },
+                first: function(t) {
+                    return t[0]
+                },
+                map: function(t, e) {
+                    return t.map(function(t) {
+                        return t[e]
+                    })
+                },
+                reverse: function(t) {
+                    return t.slice().reverse()
+                },
+                sort: function(t, e) {
+                    return t.sort(e)
+                },
+                size: function(t) {
+                    return t.length
+                },
+                concat: function(t, e) {
+                    return Array.prototype.concat.call(t, e)
+                },
+                slice: function(t, e, n) {
+                    return void 0 === n && (n = 1), e = e < 0 ? t.length + e : e, t.slice(e, e + n)
+                },
+                uniq: function(t) {
+                    var e = {};
+                    return (t || []).filter(function(t) {
+                        return !e.hasOwnProperty(String(t)) && (e[String(t)] = !0)
+                    })
+                },
+                where: function(t, e, n) {
+                    return t.filter(function(t) {
+                        return void 0 === n ? mt(t[e]) : t[e] === n
+                    })
+                }
+            },
+            le = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            fe = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            he = le.map(ge),
+            pe = fe.map(ge),
+            de = {
+                1: "st",
+                2: "nd",
+                3: "rd",
+                default: "th"
+            };
+
+        function ge(t) {
+            return t.slice(0, 3)
+        }
+        var ve = {
+                daysInMonth: function(t) {
+                    return [31, ve.isLeapYear(t) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+                },
+                getDayOfYear: function(t) {
+                    for (var e = 0, n = 0; n < t.getMonth(); ++n) e += ve.daysInMonth(t)[n];
+                    return e + t.getDate()
+                },
+                getWeekOfYear: function(t, e) {
+                    var n = this.getDayOfYear(t) + (e - t.getDay()),
+                        r = 7 - new Date(t.getFullYear(), 0, 1).getDay() + e;
+                    return T(String(Math.floor((n - r) / 7) + 1), 2, "0")
+                },
+                isLeapYear: function(t) {
+                    var e = t.getFullYear();
+                    return !(0 != (3 & e) || !(e % 100 || e % 400 == 0 && e))
+                },
+                getSuffix: function(t) {
+                    var e = t.getDate().toString(),
+                        n = parseInt(e.slice(-1));
+                    return de[n] || de.default
+                },
+                century: function(t) {
+                    return parseInt(t.getFullYear().toString().substring(0, 2), 10)
+                }
+            },
+            me = {
+                a: function(t) {
+                    return pe[t.getDay()]
+                },
+                A: function(t) {
+                    return fe[t.getDay()]
+                },
+                b: function(t) {
+                    return he[t.getMonth()]
+                },
+                B: function(t) {
+                    return le[t.getMonth()]
+                },
+                c: function(t) {
+                    return t.toLocaleString()
+                },
+                C: function(t) {
+                    return ve.century(t)
+                },
+                d: function(t) {
+                    return T(t.getDate(), 2, "0")
+                },
+                e: function(t) {
+                    return T(t.getDate(), 2)
+                },
+                H: function(t) {
+                    return T(t.getHours(), 2, "0")
+                },
+                I: function(t) {
+                    return T(String(t.getHours() % 12 || 12), 2, "0")
+                },
+                j: function(t) {
+                    return T(ve.getDayOfYear(t), 3, "0")
+                },
+                k: function(t) {
+                    return T(t.getHours(), 2)
+                },
+                l: function(t) {
+                    return T(String(t.getHours() % 12 || 12), 2)
+                },
+                L: function(t) {
+                    return T(t.getMilliseconds(), 3, "0")
+                },
+                m: function(t) {
+                    return T(t.getMonth() + 1, 2, "0")
+                },
+                M: function(t) {
+                    return T(t.getMinutes(), 2, "0")
+                },
+                p: function(t) {
+                    return t.getHours() < 12 ? "AM" : "PM"
+                },
+                P: function(t) {
+                    return t.getHours() < 12 ? "am" : "pm"
+                },
+                q: function(t) {
+                    return ve.getSuffix(t)
+                },
+                s: function(t) {
+                    return Math.round(t.valueOf() / 1e3)
+                },
+                S: function(t) {
+                    return T(t.getSeconds(), 2, "0")
+                },
+                u: function(t) {
+                    return t.getDay() || 7
+                },
+                U: function(t) {
+                    return ve.getWeekOfYear(t, 0)
+                },
+                w: function(t) {
+                    return t.getDay()
+                },
+                W: function(t) {
+                    return ve.getWeekOfYear(t, 1)
+                },
+                x: function(t) {
+                    return t.toLocaleDateString()
+                },
+                X: function(t) {
+                    return t.toLocaleTimeString()
+                },
+                y: function(t) {
+                    return t.getFullYear().toString().substring(2, 4)
+                },
+                Y: function(t) {
+                    return t.getFullYear()
+                },
+                z: function(t) {
+                    var e = t.getTimezoneOffset() / 60 * 100;
+                    return (0 < e ? "-" : "+") + T(String(Math.abs(e)), 4, "0")
+                },
+                "%": function() {
+                    return "%"
+                }
+            };
+        me.h = me.b, me.N = me.L;
+        var we = m({}, se, oe, ue, ae, {
+            date: function(t, e) {
+                var n, r = t;
+                return "now" === t ? r = new Date : c(t) ? r = new Date(1e3 * t) : g(t) && (r = /^\d+$/.test(t) ? new Date(1e3 * +t) : new Date(t)), (n = r) instanceof Date && !isNaN(n.getTime()) ? function(t, e) {
+                    for (var n = "", r = e;;) {
+                        var i = /%./g,
+                            s = i.exec(r);
+                        if (!s) return n + r;
+                        n += r.slice(0, i.lastIndex - 2), r = r.slice(i.lastIndex);
+                        var o = s[0].charAt(1),
+                            u = me[o];
+                        n += u ? u(t) : "%" + o
+                    }
+                }(r, e) : t
+            }
+        }, {
+            default: function(t, e) {
+                return wt(o(t)) || "" === t ? e : t
+            }
+        }, ce);
+        return function() {
+            function e(t) {
+                void 0 === t && (t = {});
+                var n = this;
+                this.cache = {}, this.options = M(O(t)), this.parser = new Mt(this), this.renderer = new ut, this.tokenizer = new ot(this.options), h(ee, function(t, e) {
+                    return n.registerTag(e, t)
+                }), h(we, function(t, e) {
+                    return n.registerFilter(e, t)
+                })
+            }
+            return e.prototype.parse = function(t, e) {
+                var n = this.tokenizer.tokenize(t, e);
+                return this.parser.parse(n)
+            }, e.prototype.render = function(t, e, n) {
+                var r = m({}, this.options, O(n)),
+                    i = new L(e, r);
+                return this.renderer.renderTemplates(t, i)
+            }, e.prototype.parseAndRender = function(n, r, i) {
+                return p(this, void 0, void 0, function() {
+                    var e;
+                    return d(this, function(t) {
+                        switch (t.label) {
+                            case 0:
+                                return [4, this.parse(n)];
+                            case 1:
+                                return e = t.sent(), [2, this.render(e, r, i)]
+                        }
+                    })
+                })
+            }, e.prototype.getTemplate = function(f, h) {
+                return p(this, void 0, void 0, function() {
+                    var e, n, r, i, s, o, u, a, c, l = this;
+                    return d(this, function(t) {
+                        switch (t.label) {
+                            case 0:
+                                e = O(h), n = e.root ? e.root.concat(this.options.root) : this.options.root, r = n.map(function(t) {
+                                    return F.resolve(t, f, l.options.extname)
+                                }), i = 0, s = r, t.label = 1;
+                            case 1:
+                                return i < s.length ? (o = s[i], this.options.cache && this.cache[o] ? [2, this.cache[o]] : [4, F.exists(o)]) : [3, 5];
+                            case 2:
+                                return t.sent() ? (a = this.parse, [4, F.readFile(o)]) : [3, 4];
+                            case 3:
+                                return u = a.apply(this, [t.sent(), o]), this.options.cache && (this.cache[o] = u), [2, u];
+                            case 4:
+                                return i++, [3, 1];
+                            case 5:
+                                throw (c = new Error("ENOENT")).message = 'ENOENT: Failed to lookup "' + f + '" in "' + n + '"', c.code = "ENOENT", c
+                        }
+                    })
+                })
+            }, e.prototype.renderFile = function(r, i, s) {
+                return p(this, void 0, void 0, function() {
+                    var e, n;
+                    return d(this, function(t) {
+                        switch (t.label) {
+                            case 0:
+                                return e = O(s), [4, this.getTemplate(r, e)];
+                            case 1:
+                                return n = t.sent(), [2, this.render(n, i, s)]
+                        }
+                    })
+                })
+            }, e.prototype.evalValue = function(t, e) {
+                return new qt(t, this.options.strictFilters).value(e)
+            }, e.prototype.registerFilter = function(t, e) {
+                return xt.register(t, e)
+            }, e.prototype.registerTag = function(t, e) {
+                return Tt.register(t, e)
+            }, e.prototype.plugin = function(t) {
+                return t.call(this, e)
+            }, e.prototype.express = function() {
+                var i = this;
+                return function(t, e, n) {
+                    var r = {
+                        root: this.root
+                    };
+                    i.renderFile(t, e, r).then(function(t) {
+                        return n(null, t)
+                    }, n)
+                }
+            }, (e.default = e).isTruthy = mt, e.isFalsy = wt, e.evalExp = dt, e.evalValue = vt, e.Types = P, e
+        }()
+    });
     var tpb_engine = new tpbLiquid();
-    tpb_engine.registerFilter('getIndex', function (initial, container) {
+    tpb_engine.registerFilter('getIndex', function(initial, container) {
         var index = 0;
 
         for (var i = 0; i < container.length; i++) {
@@ -101,14 +1946,14 @@ var tpBooking = function ($) {
 
         return index;
     });
-    tpb_engine.registerFilter('format_money', function (v, arg) {
+    tpb_engine.registerFilter('format_money', function(v, arg) {
         return Shopify.formatMoney(v, arg);
     });
-    tpb_engine.registerFilter('multipleWith', function (v, arg) {
+    tpb_engine.registerFilter('multipleWith', function(v, arg) {
         return v * arg;
     });
 
-    modules.getPlan = function () {
+    modules.getPlan = function() {
         $.ajax({
             url: tpbAppUrl + '/booking_api/getPlan?urlShop=' + tpbUrlShop,
             type: 'GET',
@@ -117,15 +1962,15 @@ var tpBooking = function ($) {
                     tpbShopPlan = data.plan;
 
                     if (tpbShopPlan == 'FREE' || tpbShopPlan == 'BASIC') {
-                      //  $('#tpb-history-booking .copyright').show();
-                      //  $('.tpb-booking-form .copyright').show();
+                        //  $('#tpb-history-booking .copyright').show();
+                        //  $('.tpb-booking-form .copyright').show();
                     }
                 }
             }
         });
     };
 
-    modules.getHistory = function (page) {
+    modules.getHistory = function(page) {
         $.ajax({
             url: tpbAppUrl + '/booking_api/get-history?urlShop=' + tpbUrlShop + '&customerId=' + tpbCustomerId + '&page=' + page,
             type: 'GET',
@@ -145,11 +1990,11 @@ var tpBooking = function ($) {
                         bookings: tpbDataHistory,
                         settings: tpbSettings,
                         window: window
-                    }).then(function (htmlHistory) {
+                    }).then(function(htmlHistory) {
                         htmlHistory += '<div style="text-align: center;" class="pagination-control"></div>';
                         $(divHistoryBooking).html(htmlHistory);
                         $(document).on('click', 'button.tpb-btnExport', function() {
-                            location.href=tpbAppUrl + '/exportFileBookingByCustomer?customerId=' + tpbCustomerId + '&shopUrl=' + tpbUrlShop
+                            location.href = tpbAppUrl + '/exportFileBookingByCustomer?customerId=' + tpbCustomerId + '&shopUrl=' + tpbUrlShop
                         });
 
                         if (tpbpTotalPageHistory > 1) {
@@ -157,26 +2002,26 @@ var tpBooking = function ($) {
                             $('.pagination-control').html(htmlPagination);
                         }
 
-                        $('.tpb-table_status .tpb-context-table_status').each(function () {
+                        $('.tpb-table_status .tpb-context-table_status').each(function() {
                             var cellText = $(this).html();
                             if (cellText == 'Rejected') $(this).addClass('tpb-context-table_status-rejected');
                             if (cellText == 'Canceled') $(this).addClass('tpb-context-table_status-canceled');
                             if (cellText == 'Pending') $(this).addClass('tpb-context-table_status-pending');
                             if (cellText == 'Approved') $(this).addClass('tpb-context-table_status-accepted');
                         });
-                        $('.tbb-firstPage-history').on('click', function () {
+                        $('.tbb-firstPage-history').on('click', function() {
                             tpBooking.getHistory(1);
                         });
-                        $('.tbb-prevPage-history').on('click', function () {
+                        $('.tbb-prevPage-history').on('click', function() {
                             tpBooking.getHistory(tpbCurrentPageHistory - 1);
                         });
-                        $('.tbb-paginationItem-history').on('click', function () {
+                        $('.tbb-paginationItem-history').on('click', function() {
                             tpBooking.getHistory($(this).data('page'));
                         });
-                        $('.tbb-nextPage-history').on('click', function () {
+                        $('.tbb-nextPage-history').on('click', function() {
                             tpBooking.getHistory(tpbCurrentPageHistory + 1);
                         });
-                        $('.tbb-lastPage-history').on('click', function () {
+                        $('.tbb-lastPage-history').on('click', function() {
                             tpBooking.getHistory(tpbpTotalPageHistory);
                         });
 
@@ -196,7 +2041,7 @@ var tpBooking = function ($) {
         });
     };
 
-    modules.appendHistoryModal = function (data, selector) {
+    modules.appendHistoryModal = function(data, selector) {
         // Prepare data
         var extraFieldSets = data.extraFieldSets;
         var featured_image = data.service.image;
@@ -220,7 +2065,7 @@ var tpBooking = function ($) {
             date: date,
             settings: tpbSettings,
             window: window
-        }).then(function (bookingFormHTML) {
+        }).then(function(bookingFormHTML) {
             $(selector).empty();
             $(selector).html(bookingFormHTML)
             bindEvent(false, selector);
@@ -231,14 +2076,14 @@ var tpBooking = function ($) {
     modules.product = {};
     modules.variant = {};
 
-    modules.appendBookingForm = function (selector) {
+    modules.appendBookingForm = function(selector) {
         var bookingFormTemplate = $('#tpb-booking-form').length ? $('#tpb-booking-form').html() : "";
         $.ajax({
             url: tpbAppUrl + '/booking_api/services?shop=' + tpbUrlShop,
             type: 'GET',
             success: function success(data) {
                 if (data.success) {
-                    var products = data.products.map(function (product) {
+                    var products = data.products.map(function(product) {
                         product.title = product.title.replace(/"/g, "&quot;");
                         return product;
                     });
@@ -255,12 +2100,12 @@ var tpBooking = function ($) {
                             tpbShopId: tpbShopId,
                             settings: tpbSettings,
                             isProductPage: isProductPage
-                        }).then(function (bookingFormHTML) {
+                        }).then(function(bookingFormHTML) {
                             $(selector).html($(selector).html() + bookingFormHTML);
                             bindEvent(false, selector);
 
                             if (tpbShopPlan == 'FREE' || tpbShopPlan == 'BASIC') {
-                              //  $('.tpb-booking-form .copyright').show();
+                                //  $('.tpb-booking-form .copyright').show();
                             }
                         });
                     }
@@ -269,7 +2114,7 @@ var tpBooking = function ($) {
         });
     };
 
-    modules.appendBookingFormOnProductPage = function (form) {
+    modules.appendBookingFormOnProductPage = function(form) {
         var bookingFormTemplate = $('#tpb-booking-form').length ? $('#tpb-booking-form').html() : "";
         tpbVariantId = getSelectedVariant(form) ? getSelectedVariant(form) : getFirstAvailableVariant(tpbProduct);
         $.ajax({
@@ -277,7 +2122,7 @@ var tpBooking = function ($) {
             type: 'GET',
             success: function success(data) {
                 if (data.success) {
-                    var products = data.products.map(function (product) {
+                    var products = data.products.map(function(product) {
                         product.title = product.title.replace(/"/g, "&quot;");
                         return product;
                     });
@@ -286,7 +2131,7 @@ var tpBooking = function ($) {
                     tpbTimeZoneServer = data.timeZoneServer;
                     tpbTimeZoneShop = data.timeZoneShop;
                     tpbSettings = data.settings ? typeof data.settings == 'string' ? JSON.parse(data.settings) : data.settings : tpbSettings;
-                    tpbProductsApi.map(function (product) {
+                    tpbProductsApi.map(function(product) {
                         if (product.id == tpbProduct.id) {
                             tpbInventoryPolicy = product.variants[0].inventory_policy;
                             tpbInventoryQuantity = product.variants[0].inventory_quantity;
@@ -312,29 +2157,47 @@ var tpBooking = function ($) {
                                 tpbShopId: tpbShopId,
                                 settings: tpbSettings,
                                 isProductPage: isProductPage
-                            }).then(function (bookingFormHTML) {
+                            }).then(function(bookingFormHTML) {
                                 $(form).after($('<div class="tpb-booking-form product"></div>').html(bookingFormHTML));
                                 var bookingformEl = form.parent().find('.tpb-booking-form.product')[0];
                                 bindEvent(true, bookingformEl);
 
                                 if (tpbShopPlan == 'FREE' || tpbShopPlan == 'BASIC') {
-                                 //   $('.tpb-booking-form .copyright').show();
+                                    //   $('.tpb-booking-form .copyright').show();
                                 }
                                 var sticky = form.closest('.sticky-sidebar');
-                              if(sticky.length) {
-                               sticky.find('.sidebar_inner').trigger("sticky_kit:recalc");
-                              }
+                                if (sticky.length) {
+                                    sticky.find('.sidebar_inner').trigger("sticky_kit:recalc");
+                                }
+
+                                var sticky = form.closest('.sticky-sidebar');
+                                var stepsEl = form[0].parentElement.querySelectorAll('.tpb-form .content > div');
+                                var bookingformEl = form.parent().find('.tpb-booking-form.product')[0];
+
+
+                                [].forEach.call(stepsEl, function(div) {
+                                    "webkitTransitionEnd mozTransitionEnd MSTransitionEnd otransitionend transitionend".split(" ").map(name => div.addEventListener(name, function(e) {
+                                        var currStep2 = e.currentTarget.getAttribute('class').replace('step', '')
+                                        if (sticky.length && bookingformEl.querySelector('.tpb-form .content').getAttribute('data-step') == currStep2) {
+
+                                            sticky.find('.sidebar_inner').trigger("sticky_kit:recalc");
+                                        }
+                                    }, false));
+
+
+                                });
+
                             });
                         }
 
                         if (tpbSettings.general.hide_add_to_cart == 2 && is_enable) {
-                            $.each($('form[action*="cart"]').find('button[type="submit"],.tpb-atc-wrapper,input[type="submit"]'), function () {
+                            $.each($('form[action*="cart"]').find('button[type="submit"],.tpb-atc-wrapper,input[type="submit"]'), function() {
                                 $(this).parent().css('display', 'none');
                             });
                         }
 
                         if (tpbSettings.general.hide_add_to_cart == 1) {
-                            $.each($('form[action*="cart"]').find('button[type="submit"],.tpb-atc-wrapper,input[type="submit"]'), function () {
+                            $.each($('form[action*="cart"]').find('button[type="submit"],.tpb-atc-wrapper,input[type="submit"]'), function() {
                                 $(this).parent().css('display', 'none');
                             });
                         }
@@ -345,24 +2208,28 @@ var tpBooking = function ($) {
                             }
 
                             if (tpbSettings.general.hide_buy_now == 1) {
-                               $(form).find('.shopify-payment-button').hide();
+                                $(form).find('.shopify-payment-button').hide();
                             }
                         }
-                     
-                       var currentPage = $(form).closest('[data-role="page"]');
-                       var priceWrap = currentPage.find('.product-price'); 
-                      if(!priceWrap.hasClass('booking-duration')) {
-                       // get duration and unit
-                       window.tpbProducts.forEach(function (item, key) {
-                         if(item.id == window.tpbProductId) {
-                           var pduration = item.duration.rule;
-                           console.log(item);
-                           var punit = item.capacity.rule == 1 ? 'min' : 'hr' ;
-                           priceWrap.addClass('booking-duration').prepend(pduration + ' ' + punit + ' | ');
-                           
-                         }
-                       });
-                      }
+
+                        var currentPage = $(form).closest('[data-role="page"]');
+                        var priceWrap = currentPage.find('.product-price');
+                        if (!priceWrap.hasClass('booking-duration')) {
+                            // get duration and unit
+                            window.tpbProducts.forEach(function(item, key) {
+                                if (item.id == window.tpbProductId) {
+                                    var pduration = item.duration.rule;
+
+                                    var punit = item.capacity.rule == 1 ? 'min' : 'hr';
+                                    priceWrap.addClass('booking-duration').prepend(pduration + ' ' + punit + ' | ');
+
+                                }
+                            });
+                        }
+
+
+
+
                     }
                 }
             }
@@ -370,7 +2237,7 @@ var tpBooking = function ($) {
     };
 
     var bindEvent = function bindEvent(isProductPage, self) {
-        $("#bring_qty").on("keypress keyup blur change", function (event) {
+        $("#bring_qty").on("keypress keyup blur change", function(event) {
             $(this).val($(this).val().replace(/[^\d].+/, ""));
 
             if (event.which < 48 || event.which > 57) {
@@ -392,18 +2259,18 @@ var tpBooking = function ($) {
             cl = '';
         if (x <= 680 && window_width > x) cl = 'x480';
         $(self).addClass(cl);
-        $(self).find('select.slim-select').each(function (i, sel) {
+        $(self).find('select.slim-select').each(function(i, sel) {
             new SlimSelect({
                 select: sel,
                 placeholder: $(sel).attr('placeholder')
             });
         });
-        $(self).find('.bringToggle').on('change', function () {
+        $(self).find('.bringToggle').on('change', function() {
             var bring_qty = !$(this).is(":checked") ? 0 : 1;
             $(self).find('#bring_qty').val(bring_qty);
             $(self).find('.tpb-form-control.bringQty').toggle();
         });
-        $(self).find('.tpb-datepicker').on('pick.datepicker', function (e) {
+        $(self).find('.tpb-datepicker').on('pick.datepicker', function(e) {
             var date = e.date,
                 html = '';
             var d = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
@@ -447,7 +2314,7 @@ var tpBooking = function ($) {
 
             if ($(self).find('.tpb-timepicker input[name="time"]').length > 0) {
                 var checkInput = false;
-                $.each($(self).find('.tpb-timepicker input[name="time"]'), function (key, input) {
+                $.each($(self).find('.tpb-timepicker input[name="time"]'), function(key, input) {
                     if (!$(input).hasClass('ip-radio-disabled') && !checkInput) {
                         $(input).prop("checked", true);
                         $('.tpb-box .continue-button.c2').removeAttr('disabled');
@@ -458,25 +2325,25 @@ var tpBooking = function ($) {
 
             $(self).find('.tpb-timepicker').css('display', 'flex');
         });
-        $('body').on('change', '.tpb-timepicker input[name="time"]', function () {
+        $('body').on('change', '.tpb-timepicker input[name="time"]', function() {
             $('.tpb-box .continue-button.c2').removeAttr('disabled');
-     
-         
-          
-          
+
+
+
+
         });
 
         if (isProductPage) {
             var rqLocations = $.getJSON(tpbAppUrl + '/booking_api/locations?productId=' + $('#tpb-productId-input').val());
             var rqProducts = $.getJSON('/products/' + $('#tpb-productId-input').data('handle') + '.js');
-            $.when(rqLocations, rqProducts).done(function (responseLocations, responseProducts) {
+            $.when(rqLocations, rqProducts).done(function(responseLocations, responseProducts) {
                 // Location Select
                 responseLocations = responseLocations[0];
                 responseProducts = responseProducts[0];
                 modules.product = responseProducts;
                 modules.variant = responseProducts.variants[0];
                 tpbVariantId = modules.variant.id
-                tpbProductsApi.map(function (product) {
+                tpbProductsApi.map(function(product) {
                     if (product.id == modules.product.id) {
                         tpbInventoryPolicy = product.variants[0].inventory_policy;
                         tpbInventoryQuantity = product.variants[0].inventory_quantity;
@@ -511,7 +2378,7 @@ var tpBooking = function ($) {
                 }
 
                 var productId = $('#tpb-productId-input').val();
-                var product = tpbProducts.filter(function (product) {
+                var product = tpbProducts.filter(function(product) {
                     return product.id == productId;
                 })[0];
                 var capacity = product.capacity;
@@ -522,7 +2389,7 @@ var tpBooking = function ($) {
                     var variantId = parseInt(tpbVariantId);
                     if (capacity.options) {
                         var indexVariant = 0;
-                        var variant = responseProducts.variants.filter(function (variant, index) {
+                        var variant = responseProducts.variants.filter(function(variant, index) {
                             if (parseInt(variant.id) == variantId) {
                                 indexVariant = index;
                                 return variant;
@@ -556,7 +2423,7 @@ var tpBooking = function ($) {
 
 
                 var options = responseProducts.options;
-                if(options.length > 0) {
+                if (options.length > 0) {
                     $(self).find('label.tpb-label-option1').html(options[0].name);
                     $(self).find('div.tpb-option-1').show();
                     var option1 = [];
@@ -573,7 +2440,7 @@ var tpBooking = function ($) {
                     $(self).find('div.select.tpb-select-option-1').show()
                     $(self).find('select.tpb-select-option-1').attr('data-label', options[0].name)
                 }
-                if(options.length > 1) {
+                if (options.length > 1) {
                     $(self).find('label.tpb-label-option2').html(options[1].name);
                     $(self).find('div.tpb-option-2').show();
                     var option2 = [];
@@ -590,7 +2457,7 @@ var tpBooking = function ($) {
                     $(self).find('div.select.tpb-select-option-2').show()
                     $(self).find('select.tpb-select-option-2').attr('data-label', options[1].name)
                 }
-                if(options.length > 2) {
+                if (options.length > 2) {
                     $(self).find('label.tpb-label-option3').html(options[2].name);
                     $(self).find('div.tpb-option-3').show();
                     var option3 = [];
@@ -607,7 +2474,7 @@ var tpBooking = function ($) {
                     $(self).find('div.select.tpb-select-option-3').show()
                     $(self).find('select.tpb-select-option-3').attr('data-label', options[2].name)
                 }
-                if(responseProducts.variants.length > 1) {
+                if (responseProducts.variants.length > 1) {
                     $(self).find('.tpb-form-control.variant').show();
                 }
                 tpbAvailable = responseProducts.variants[0].available;
@@ -636,18 +2503,18 @@ var tpBooking = function ($) {
             }
         }
 
-        $(self).find('.tpb-select-product').on('change', function () {
+        $(self).find('.tpb-select-product').on('change', function() {
             var rqLocations = $.getJSON(tpbAppUrl + '/booking_api/locations?productId=' + $(this).val());
             var rqProducts = $.getJSON('/products/' + $(this).find(':selected').data('handle') + '.js');
             var selectProduct = this;
-            $.when(rqLocations, rqProducts).done(function (responseLocations, responseProducts) {
+            $.when(rqLocations, rqProducts).done(function(responseLocations, responseProducts) {
                 // Location Select
                 responseLocations = responseLocations[0];
                 responseProducts = responseProducts[0];
                 modules.product = responseProducts;
                 modules.variant = responseProducts.variants[0];
                 tpbVariantId = modules.variant.id
-                tpbProductsApi.map(function (product) {
+                tpbProductsApi.map(function(product) {
                     if (product.id == modules.product.id) {
                         tpbInventoryPolicy = product.variants[0].inventory_policy;
                         tpbInventoryQuantity = product.variants[0].inventory_quantity;
@@ -682,7 +2549,7 @@ var tpBooking = function ($) {
                 }
 
                 var productId = $(selectProduct).val();
-                var product = tpbProducts.filter(function (product) {
+                var product = tpbProducts.filter(function(product) {
                     return product.id == productId;
                 })[0];
                 var capacity = product.capacity;
@@ -691,7 +2558,7 @@ var tpBooking = function ($) {
                 if (capacity.type == 'variant') {
                     if (capacity.options) {
                         var indexVariant = 0;
-                        var variant = responseProducts.variants.filter(function (variant, index) {
+                        var variant = responseProducts.variants.filter(function(variant, index) {
                             if (parseInt(variant.id) == tpbVariantId) {
                                 indexVariant = index;
                                 return variant;
@@ -726,7 +2593,7 @@ var tpBooking = function ($) {
 
 
                 var options = responseProducts.options;
-                if(options.length > 0) {
+                if (options.length > 0) {
                     $(self).find('label.tpb-label-option1').html(options[0].name)
                     $(self).find('div.tpb-option-1').show()
                     var option1 = [];
@@ -743,7 +2610,7 @@ var tpBooking = function ($) {
                     $(self).find('div.select.tpb-select-option-1').show()
                     $(self).find('select.tpb-select-option-1').attr('data-label', options[0].name)
                 }
-                if(options.length > 1) {
+                if (options.length > 1) {
                     $(self).find('label.tpb-label-option2').html(options[1].name);
                     $(self).find('div.tpb-option-2').show();
                     var option2 = [];
@@ -760,7 +2627,7 @@ var tpBooking = function ($) {
                     $(self).find('div.select.tpb-select-option-2').show()
                     $(self).find('select.tpb-select-option-2').attr('data-label', options[1].name);
                 }
-                if(options.length > 2) {
+                if (options.length > 2) {
                     $(self).find('label.tpb-label-option3').html(options[2].name);
                     $(self).find('div.tpb-option-3').show()
                     var option3 = [];
@@ -777,7 +2644,7 @@ var tpBooking = function ($) {
                     $(self).find('div.select.tpb-select-option-3').show()
                     $(self).find('select.tpb-select-option-3').attr('data-label', options[2].name);
                 }
-                if(responseProducts.variants.length > 1) {
+                if (responseProducts.variants.length > 1) {
                     $(self).find('.tpb-form-control.variant').show();
                 }
                 tpbVariantId = responseProducts.variants[0].id
@@ -792,7 +2659,7 @@ var tpBooking = function ($) {
 
             if (!isProductPage && tpbStep == 2) {
                 $(self).closest('.tpb-booking-form').find('.spinner').addClass('loading');
-                getSlots($(self).closest('.tpb-booking-form'), function () {
+                getSlots($(self).closest('.tpb-booking-form'), function() {
                     $(self).closest('.tpb-booking-form').find('.spinner').removeClass('loading');
                 });
             }
@@ -801,13 +2668,13 @@ var tpBooking = function ($) {
         });
 
 
-        $(self).find('.tpb-select-option').on('change', function () {
+        $(self).find('.tpb-select-option').on('change', function() {
             var self = this;
             var option1 = $('.tpb-select-option-1').val();
             var option2 = $('.tpb-select-option-2').val();
             var option3 = $('.tpb-select-option-3').val();
             var index = 0;
-            modules.product.variants.forEach(function (variant, index_v) {
+            modules.product.variants.forEach(function(variant, index_v) {
                 if ((variant.option1 ? option1 == variant.option1 : true) && (variant.option2 ? option2 == variant.option2 : true) && (variant.option3 ? option3 == variant.option3 : true)) {
                     tpbVariantId = variant.id
                     modules.variant = variant;
@@ -820,7 +2687,7 @@ var tpBooking = function ($) {
                 $(self).closest('.inner-step').find('.tpb-text-price').html(Shopify.formatMoney(tpbPriceProduct, window.moneyFormat));
             }
 
-            tpbProductsApi.map(function (product) {
+            tpbProductsApi.map(function(product) {
                 if (product.id == modules.product.id) {
                     tpbInventoryPolicy = product.variants[index].inventory_policy;
                     tpbInventoryQuantity = product.variants[index].inventory_quantity;
@@ -829,7 +2696,7 @@ var tpBooking = function ($) {
             });
             tpbAvailable = modules.product.variants[index].available;
             var productId = modules.product.id;
-            var product = tpbProducts.filter(function (product) {
+            var product = tpbProducts.filter(function(product) {
                 return product.id == productId;
             })[0];
             var capacity = product.capacity;
@@ -893,7 +2760,7 @@ var tpBooking = function ($) {
 
                 if (!isProductPage && tpbStep == 2) {
                     $(self).closest('.tpb-booking-form').find('.spinner').addClass('loading');
-                    getSlots($(self).closest('.tpb-booking-form'), function () {
+                    getSlots($(self).closest('.tpb-booking-form'), function() {
                         $(self).closest('.tpb-booking-form').find('.spinner').removeClass('loading');
                     });
                 }
@@ -902,34 +2769,34 @@ var tpBooking = function ($) {
             modules.checkDisabled(self);
         });
 
-        $(self).find('.tpb-select-location').on('change', function () {
+        $(self).find('.tpb-select-location').on('change', function() {
             modules.getSelectEmployee(self, $(this).val());
 
             if (!isProductPage && tpbStep == 2) {
                 $(self).closest('.tpb-booking-form').find('.spinner').addClass('loading');
-                getSlots($(self).closest('.tpb-booking-form'), function () {
+                getSlots($(self).closest('.tpb-booking-form'), function() {
                     $(self).closest('.tpb-booking-form').find('.spinner').removeClass('loading');
                 });
             }
         });
-        $(self).find('.tpb-select-employee').on('change', function () {
+        $(self).find('.tpb-select-employee').on('change', function() {
             if (!isProductPage && tpbStep == 2) {
                 $(self).closest('.tpb-booking-form').find('.spinner').addClass('loading');
-                getSlots($(self).closest('.tpb-booking-form'), function () {
+                getSlots($(self).closest('.tpb-booking-form'), function() {
                     $(self).closest('.tpb-booking-form').find('.spinner').removeClass('loading');
                 });
             }
 
             modules.checkDisabled(this);
         });
-        $(self).find('.tpb-box .continue-button').on('click', function () {
+        $(self).find('.tpb-box .continue-button').on('click', function() {
             var step = $(this).closest('.tpb-box').find('.content').attr('data-step');
             var button = this;
             step++;
             $(self).find('.spinner').addClass('loading');
 
             if (step == 2) {
-                getSlots(self, function () {
+                getSlots(self, function() {
                     // var cell_height = ($('.tpb-datepicker .datepicker-container').width())/7
                     // $('.tpb-datepicker .datepicker-panel>ul>li').css('height',cell_height+'px').css('line-height',cell_height+'px')
                     $(button).hide();
@@ -940,29 +2807,25 @@ var tpBooking = function ($) {
             }
 
             if (step == 3) {
-                getExtraFieldSets(self, function (_self) {
+                getExtraFieldSets(self, function(_self) {
                     $(self).find('.content').attr('data-step', parseInt(step));
                     $(self).find('.spinner').removeClass('loading');
-                    bindConfirmForm(_self, function () {});
+                    bindConfirmForm(_self, function() {});
                 });
             } // $(this).closest('.tpb-box').find('.content').attr('data-step', parseInt(step))
 
 
             tpbStep = step;
-     
-                              var sticky = $(self).closest('.sticky-sidebar');
-                              if(sticky.length) {
-                               console.log('continue');
-                               sticky.find('.sidebar_inner').trigger("sticky_kit:recalc");
-                              }
-          
+
+
+
         });
     };
 
     var getDuration = function getDuration(self) {
         var productId = $(self).find('.tpb-select-product').val() ? $(self).find('.tpb-select-product').val() : $(self).find('#tpb-productId-input').val();
         var variantTitle = modules.variant.title;
-        var product = tpbProducts.filter(function (product) {
+        var product = tpbProducts.filter(function(product) {
             return product.id == productId;
         })[0];
         var duration = product.duration;
@@ -970,16 +2833,16 @@ var tpBooking = function ($) {
         var rule;
         if (duration.type == 'variant') {
             if (duration.option) {
-                rule = duration.rule.filter(function (r) {
+                rule = duration.rule.filter(function(r) {
                     return variantTitle.indexOf(r.value) > -1;
                 })[0];
             } else {
-                rule = duration.rule.filter(function (r) {
+                rule = duration.rule.filter(function(r) {
                     return r.value == tpbVariantId;
                 })[0];
             }
-            if(!rule) {
-                rule = duration.rule.filter(function (r) {
+            if (!rule) {
+                rule = duration.rule.filter(function(r) {
                     return variantTitle.indexOf(r.value) > -1;
                 })[0];
             }
@@ -1002,7 +2865,7 @@ var tpBooking = function ($) {
         });
         getDuration(self);
         var rq1 = $.getJSON(tpbAppUrl + '/booking_api/slots?' + paramsSlot);
-        $.when(rq1).done(function (responseSlots) {
+        $.when(rq1).done(function(responseSlots) {
             var sampleTimeSlots = responseSlots;
             $(self).find('.tpb-box .timeSlots').val(JSON.stringify(sampleTimeSlots));
             var arrDatesSlots = Object.keys(sampleTimeSlots);
@@ -1032,15 +2895,15 @@ var tpBooking = function ($) {
         var paramFieldSets = jQuery.param({
             productId: productId
         });
-        var product = tpbProducts.filter(function (product) {
+        var product = tpbProducts.filter(function(product) {
             return product.id == productId;
         })[0];
 
         if (product) {
             if (product.extra_filed_set_id) {
                 var rq1 = $.getJSON(tpbAppUrl + '/booking_api/getExtraField?' + paramFieldSets);
-                $.when(rq1).done(function (responseExtraFieldSets) {
-                    $(self).find('.tpb-box .extraFieldSets').val(JSON.stringify(responseExtraFieldSets)).promise().done(function () {
+                $.when(rq1).done(function(responseExtraFieldSets) {
+                    $(self).find('.tpb-box .extraFieldSets').val(JSON.stringify(responseExtraFieldSets)).promise().done(function() {
                         callback(self);
                     });
                 });
@@ -1075,16 +2938,39 @@ var tpBooking = function ($) {
             datetime: date + ' ' + time,
             settings: tpbSettings,
             window: window
-        }).then(function (confirmFormHTML) {
-            $('.tpb-box .step3').empty().html(confirmFormHTML).promise().done(function () {
-                  var sticky = $(self).closest('.sticky-sidebar');
-                              if(sticky.length) {
-                               console.log('continue');
-                               sticky.find('.sidebar_inner').trigger("sticky_kit:recalc");
-                              }
-              
+        }).then(function(confirmFormHTML) {
+            $('.tpb-box .step3').empty().html(confirmFormHTML).promise().done(function() {
+                var sidebarinner = self.closest('.sidebar_inner');
+                var sidebarvideo = self.closest('.sticky-sidebar-container').querySelector('.sticky-sidebar-video');
+
+                var sticky = $(self).closest('.sticky-sidebar');
+                if (sticky.length) {
+                    if (sidebarvideo.offsetHeight > sidebarinner.offsetHeight && sidebarvideo.offsetHeight - sidebarinner.offsetHeight > 100) {
+                        $(sidebarinner).trigger("sticky_kit:recalc");
+                    } else {
+                        $(sidebarinner).trigger("sticky_kit:detach");
+                        var backB = self.querySelector('.step3 .back-button');
+                        backB.addEventListener('click', function(e) {
+                            var header = document.getElementsByTagName('header')[0];
+                            if (header) {
+                                if (getComputedStyle(header).position == 'fixed') {
+                                    var fixedheader = true;
+                                }
+                            }
+                            if (fixedheader) {
+                                $(sidebarinner).stick_in_parent({
+                                    offset_top: header.offsetHeight + 20
+                                });
+                            } else {
+                                $(sidebarinner).stick_in_parent();
+                            }
+
+                        });
+                    }
+                }
+
                 callback();
-      
+
                 if ($('.tpb-form-control-select').length) {
                     $.each($('.tpb-form-control-select'), function(i, sel) {
                         new SlimSelect({
@@ -1094,19 +2980,19 @@ var tpBooking = function ($) {
 
                 }
 
-                $('.tpb-form').on('submit', function (e) {
+                $('.tpb-form').on('submit', function(e) {
                     e.preventDefault();
                     // $('.tpb-form input[name=datetime]').val(tpbMoment($(self).find('.tpb-box input.date').val() + ' ' + $(self).find('.tpb-box input[name=time]:checked').val()).format('YYYY-MM-DDTHH:mm'));
 
                     var dateTime = $(self).find('.tpb-box input.date').val() + ' ' + $(self).find('.tpb-box input[name=time]:checked').val();
                     var dataTimeFormat = tpbMoment(dateTime, 'YYYY-MM-DD hh:mm a').format('YYYY-MM-DD HH:mm');
-                    if(!Date.parse(dataTimeFormat)) {
+                    if (!Date.parse(dataTimeFormat)) {
                         dataTimeFormat = tpbMoment(dateTime, 'YYYY-MM-DD hh:mm a').format('YYYY-MM-DDTHH:mm');
                     }
                     $('.tpb-form input[name=datetime]').val(dataTimeFormat);
                     var extraFields = $(self).find('.extra-fields .element').find('input[type=text], input[type=radio], input[type=checkbox], select, textarea');
                     var dataExtraFields = {};
-                    $.each(extraFields, function (index, field) {
+                    $.each(extraFields, function(index, field) {
                         var element = field;
                         var name = field.name;
                         var required = $(field).hasClass('required');
@@ -1148,7 +3034,7 @@ var tpBooking = function ($) {
                         };
                     });
                     var checkValidate = false;
-                    $.each(dataExtraFields, function (index, field) {
+                    $.each(dataExtraFields, function(index, field) {
                         if (field.required) {
                             if (!field.value) {
                                 $(field.element).closest('.element').find('.error-message').show();
@@ -1168,7 +3054,10 @@ var tpBooking = function ($) {
                     var cartPostData = {},
                         additional_data = [];
                     var data = $(this).serializeArray();
-                    data.push({name: 'variantId', value: tpbVariantId + ""});
+                    data.push({
+                        name: 'variantId',
+                        value: tpbVariantId + ""
+                    });
                     var dataDisplay = [];
                     var additionalData = [];
                     var duration = {};
@@ -1220,8 +3109,8 @@ var tpBooking = function ($) {
                         if (['variantId', 'productId', 'option1', 'option2', 'option3'].indexOf(dataDisplay[i].name) > -1) continue;
 
                         if (
-                            (tpbSettings.general.multipleEmployees == '0' && dataDisplay[i].name == 'employeeId')
-                            || (tpbSettings.general.multipleLocations == '0' && dataDisplay[i].name == 'locationId')
+                            (tpbSettings.general.multipleEmployees == '0' && dataDisplay[i].name == 'employeeId') ||
+                            (tpbSettings.general.multipleLocations == '0' && dataDisplay[i].name == 'locationId')
                         ) {
                             continue;
                         }
@@ -1280,7 +3169,7 @@ var tpBooking = function ($) {
         });
     };
 
-    modules.checkDisabled = function (self) {
+    modules.checkDisabled = function(self) {
         var bringQty = true;
 
         if ($("#bring_qty").length > 0) {
@@ -1297,7 +3186,7 @@ var tpBooking = function ($) {
         }
     };
 
-    modules.getPagination = function (currentPage, totalPageHistory) {
+    modules.getPagination = function(currentPage, totalPageHistory) {
         var classFirstItem = '';
         var classLastItem = '';
 
@@ -1381,8 +3270,8 @@ var tpBooking = function ($) {
         return html;
     };
 
-    modules.getSelectEmployee = function (self, locatonId) {
-        $.getJSON(tpbAppUrl + '/booking_api/employees?locationId=' + locatonId + '&productId=' + modules.product.id, function (response) {
+    modules.getSelectEmployee = function(self, locatonId) {
+        $.getJSON(tpbAppUrl + '/booking_api/employees?locationId=' + locatonId + '&productId=' + modules.product.id, function(response) {
             var employees = [{
                 'placeholder': true,
                 'text': response.length > 0 ? $(self).find('select.tpb-select-employee').attr('placeholder') : tpbSettings.translation.no_employee
@@ -1414,18 +3303,18 @@ var tpBooking = function ($) {
         });
     };
 
-    modules.convertDataPageCart = function (page) {
-        var formCart = $('#' + page.id +' form[action*="/cart"]');
+    modules.convertDataPageCart = function(page) {
+        var formCart = $('#' + page.id + ' form[action*="/cart"]');
 
         if (formCart.length && !checkPageProduct) {
-            $.each($(formCart), function () {
+            $.each($(formCart), function() {
                 var htmlForm = $(this).html();
                 tpBooking.converthtmlForm($(this), htmlForm);
             })
         }
     };
 
-    modules.converthtmlForm = function (obj, htmlForm) {
+    modules.converthtmlForm = function(obj, htmlForm) {
         var start = htmlForm.indexOf('_tipo_booking_json');
 
         if (start == -1) {
@@ -1445,78 +3334,80 @@ var tpBooking = function ($) {
 
 
 function showDuration() {
-      if(typeof window.tpbProductsList == 'undefined') {
-      $.ajax({
+    if (typeof window.tpbProductsList == 'undefined') {
+        $.ajax({
             url: tpbAppUrl + '/booking_api/services?shop=' + tpbUrlShop,
             type: 'GET',
             success: function success(data) {
                 if (data.success) {
-                    var products = data.products.map(function (product) {
+                    var products = data.products.map(function(product) {
                         product.title = product.title.replace(/"/g, "&quot;");
                         return product;
                     });
                     window.tpbProductsList = products;
-                    console.log(window.tpbProductsList);
+
                 }
             }
-      });
-      }
+        });
+    }
 }
-showDuration(); 
+showDuration();
 
 function deferProductList(methodProductList) {
     if (window.tpbProductsList) {
         methodProductList();
     } else {
-        setTimeout(function() { deferProductList(methodProductList) }, 50);
+        setTimeout(function() {
+            deferProductList(methodProductList)
+        }, 50);
     }
 }
-  
-deferProductList(function () {  
-      window.tpbProductsList.forEach(function (item, key) {
-       var product = $('li.product[data-id="' + item.id + '"]'); 
-        if(product.length) {
-        product.each(function () {
-       if(!$(this).hasClass('booking')) {
-          var pduration = item.duration.rule;
-          var punit = item.capacity.rule == 1 ? 'min' : 'hr' ;
-          $(this).addClass('booking').find('.h1').prepend(pduration + ' ' + punit + ' | ');                   
-     }
-    })
-        }                   
-    });  
-}); 
-  
 
-$(document).on("pagecreate", function (event,ui) {  
-$(document).on("pagebeforeshow", '#index[data-role="page"], .collection-page[data-role="page"]', function (event,ui) {    
-  
-
-showDuration();   
-deferProductList(function () {  
-      window.tpbProductsList.forEach(function (item, key) {
-       var product = $('li.product[data-id="' + item.id + '"]'); 
-        if(product.length) {
-        product.each(function () {
-       if(!$(this).hasClass('booking')) {
-          var pduration = item.duration.rule;
-          var punit = item.capacity.rule == 1 ? 'min' : 'hr' ;
-          $(this).addClass('booking').find('.h1').prepend(pduration + ' ' + punit + ' | ');                   
-     }
-    })
-        }                   
-    });  
-}); 
-
-  
+deferProductList(function() {
+    window.tpbProductsList.forEach(function(item, key) {
+        var product = $('li.product[data-id="' + item.id + '"]');
+        if (product.length) {
+            product.each(function() {
+                if (!$(this).hasClass('booking')) {
+                    var pduration = item.duration.rule;
+                    var punit = item.capacity.rule == 1 ? 'min' : 'hr';
+                    $(this).addClass('booking').find('.h1').prepend(pduration + ' ' + punit + ' | ');
+                }
+            })
+        }
+    });
 });
-});  
-  
 
-$(document).ready(function () {
+
+$(document).on("pagecreate", function(event, ui) {
+    $(document).on("pagebeforeshow", '#index[data-role="page"], .collection-page[data-role="page"]', function(event, ui) {
+
+
+        showDuration();
+        deferProductList(function() {
+            window.tpbProductsList.forEach(function(item, key) {
+                var product = $('li.product[data-id="' + item.id + '"]');
+                if (product.length) {
+                    product.each(function() {
+                        if (!$(this).hasClass('booking')) {
+                            var pduration = item.duration.rule;
+                            var punit = item.capacity.rule == 1 ? 'min' : 'hr';
+                            $(this).addClass('booking').find('.h1').prepend(pduration + ' ' + punit + ' | ');
+                        }
+                    })
+                }
+            });
+        });
+
+
+    });
+});
+
+
+$(document).ready(function() {
     // Check install
     var installed = false;
-    $("script").each(function () {
+    $("script").each(function() {
         if ($(this).text().indexOf("tipo.booking.init.js?") != -1 && $(this).text().indexOf("asyncLoad") != -1 && $(this).text().indexOf("initSchema") == -1) {
             installed = true;
         }
@@ -1529,7 +3420,7 @@ $(document).ready(function () {
 
     tpBooking.getPlan();
 
-    if ($(divHistoryBooking).length && $(divHistoryBooking).is(':empty') ) {
+    if ($(divHistoryBooking).length && $(divHistoryBooking).is(':empty')) {
         $(divHistoryBooking).append('<div class="tpb-header"><p>Booking History</p></div>');
         var htmlModal = $('#tpb-modal-control').length ? $('#tpb-modal-control').html() : "";
         $('body').append(htmlModal);
@@ -1539,25 +3430,25 @@ $(document).ready(function () {
 
         var span = document.getElementsByClassName(".tpb-close")[0]; // When the user clicks the button, open the modal
 
-        $('body').on('click', '.tpb-btnView', function () {
+        $('body').on('click', '.tpb-btnView', function() {
             var index = $(this).data('index');
             var data = tpbDataHistory[index];
             tpBooking.appendHistoryModal(data, $('#tpb-modal .tpb-content'));
             $(modal).css('display', "block");
         }); // When the user clicks on <span> (x), close the modal
 
-        $('body').on('click', '.tpb-close', function () {
+        $('body').on('click', '.tpb-close', function() {
             $(modal).css('display', "none");
         }); // When the user clicks anywhere outside of the modal, close it
 
-        window.onclick = function (event) {
+        window.onclick = function(event) {
             if (event.target == modal) {
                 $(modal).css('display', "none");
             }
         };
-    }  
-      
-      
+    }
+
+
     var form = $('form[method="post"][action="/cart/add"]:visible');
 
     /*
@@ -1573,54 +3464,52 @@ $(document).ready(function () {
     }
     */
 
- 
-      
-    
-     $.each($('form[method="post"][action="/cart/add"]:visible'), function () {
-       var form = $(this);
-       if(!form.hasClass('booking-loaded')) {
-       form.addClass('booking-loaded');
-       console.log(form.parent().find('.tpb-booking-form').length);
-       if (form.length && form.parent().find('.tpb-booking-form').length == 0  && checkPageProduct) {
-       tpBooking.appendBookingFormOnProductPage(form);
-       var page = form.closest('[data-role="page"]')[0];
-       console.log('#' + page.id + ' .tpb-box .back-button');
-       $(document).on('click','#' + page.id + ' .tpb-box .back-button', function (e) {
-        console.log('yo');
-        var box = $(e.currentTarget).closest('.tpb-box');
-        var step = box.find('.content').attr('data-step');
-        step--;
 
-        if (step == 1) {
-            box.find('.step1 .continue-button').show();
+
+
+    $.each($('form[method="post"][action="/cart/add"]:visible'), function() {
+        var form = $(this);
+        if (!form.hasClass('booking-loaded')) {
+            form.addClass('booking-loaded');
+
+            if (form.length && form.parent().find('.tpb-booking-form').length == 0 && checkPageProduct) {
+                tpBooking.appendBookingFormOnProductPage(form);
+                var page = form.closest('[data-role="page"]')[0];
+
+
+
+
+                $(document).on('click', '#' + page.id + ' .tpb-box .back-button', function(e) {
+                    var box = $(e.currentTarget).closest('.tpb-box');
+                    var step = box.find('.content').attr('data-step');
+                    step--;
+
+                    if (step == 1) {
+                        box.find('.step1 .continue-button').show();
+                    }
+
+                    box.find('.content').attr('data-step', parseInt(step));
+                    tpbStep = step;
+
+
+                });
+                $(document).on('click', '#' + page.id + ' .tpb-box .tpb-message_not-available .dismiss svg', function(e) {
+                    $(e.currentTarget).closest('.tpb-message_not-available').css('display', 'none');
+                });
+                tpBooking.convertDataPageCart(page);
+                $(document).on('resize', '#' + page.id + '.tpb-booking-form.product', function() {
+                    var x = $(this).width(),
+                        window_width = window.innerWidth,
+                        cl = '';
+                    if (x <= 680 && window_width > x) cl = 'x480';
+
+                    if (!$(this).hasClass(cl)) {
+                        $(this).addClass(cl);
+                    }
+                });
+            }
         }
+    })
 
-        box.find('.content').attr('data-step', parseInt(step));
-        tpbStep = step;
-                             var sticky = form.closest('.sticky-sidebar');
-                              if(sticky.length) {
-                               sticky.find('.sidebar_inner').trigger("sticky_kit:recalc");
-                              }
-         
-         
-       }); 
-       $(document).on('click','#' + page.id + ' .tpb-box .tpb-message_not-available .dismiss svg', function (e) {
-        $(e.currentTarget).closest('.tpb-message_not-available').css('display', 'none');
-       });
-       tpBooking.convertDataPageCart(page);  
-       $(document).on('resize','#' + page.id + '.tpb-booking-form.product', function () {
-        var x = $(this).width(),
-            window_width = window.innerWidth,
-            cl = '';
-        if (x <= 680 && window_width > x) cl = 'x480';
-
-        if (!$(this).hasClass(cl)) {
-            $(this).addClass(cl);
-         }
-      }); 
-      }
-       }
-     })
-    
 
 });
