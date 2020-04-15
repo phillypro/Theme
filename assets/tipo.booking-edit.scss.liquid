@@ -1471,3 +1471,144 @@ bottom: calc(0% + 5px);
 
 
 
+
+// responsive sizes
+@mixin bp($point) {
+  
+  $bp-small: "(max-width: 350px)";
+  $bp-mobile: "(max-width: 600px)";
+  $bp-mobileup: "(min-width: 600px)";
+  $bp-phablet: "(max-width: 1022px)";
+  $bp-phabletup: "(min-width: 1022px)";
+  $bp-tablet: "(max-width: 1280px)";
+  $bp-tabletup: "(min-width: 1280px)";
+  $bp-laptop: "(max-width: 1600px)";
+  $bp-desktop: "(min-width: 1600px)";
+  @if $point == desktop {
+    @media #{$bp-desktop}  { @content; }
+  }  
+  @else if $point == laptop {
+    @media #{$bp-laptop} { @content; }
+  }
+  @else if $point == tablet {
+    @media #{$bp-tablet} { @content; }
+  }
+  @else if $point == tabletup {
+    @media #{$bp-tabletup} { @content; }
+  }
+  @else if $point == phablet {
+    @media #{$bp-phablet} { @content; }
+  }
+  @else if $point == phabletup {
+    @media #{$bp-phabletup} { @content; }
+  }
+  @else if $point == mobile {
+    @media #{$bp-mobile}  { @content; }
+  }
+  @else if $point == mobileup {
+    @media #{$bp-mobileup} { @content; }
+  }
+  @else if $point == small {
+    @media #{$bp-small}  { @content; }
+  }
+
+}
+
+
+
+[data-role="page"] .tpb-booking-form {
+   border-radius:unset;
+   border:none;
+    -moz-box-shadow:none;
+     -webkit-box-shadow:none; 
+    box-shadow:none;
+   background:none;
+ & .tpb-box {
+   border-radius:unset;
+   background:none;
+   & .content[data-step="3"] .step2 {
+     width: 33.31%;
+   }
+   & .content {
+     & .step1 {
+       background-image: none;
+       background:none;
+       padding:0px 0 1px;
+     }
+     & .step3 {
+      background:none;
+     }
+     & .tpb-datepicker .datepicker-panel>ul>li {
+          border-radius: unset;
+       @include bp(phabletup) {
+       font-size: 19px;
+       }
+     }
+     & .tpb-timepicker .radiobtn label {
+       @include bp(phabletup) {
+         font-size: 19px;
+       }
+     }
+      & .x480 .action {
+      padding:0 !important;
+     }
+     & .action {
+       padding:0 !important;
+       @media only screen and (max-width: 640px) and (orientation: portrait) {
+       padding:0 !important;
+       }
+       & .fullwidth {
+          padding: 15px 0px;
+       }
+       & .continue-button {
+font-size: 1.2em;
+    letter-spacing: normal;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: .85em 1em;
+       }
+       & .confirm-button {
+        cursor:pointer;
+       }
+     }
+     & .confirm .product-info { 
+       display:none;
+     }
+     & .confirm .extra-fields .element input, .confirm .extra-fields .element textarea, .confirm .extra-fields .element .ss-single-selected {
+    background-color: #fefefe !important;
+    box-shadow: inset 0 1px 2px rgba(10,10,10,.1);
+       border: 1px solid #cacaca;
+     }
+     & .confirm .subtotal {
+    background: none;
+    border: none;
+    padding: 15px 0px;
+    margin-bottom: 30px;
+     }
+     & .confirm .booking-info {
+         border-top:.1rem solid rgba(0, 0, 0, 0.04);
+    border-bottom: .1rem solid rgba(0, 0, 0, 0.04);
+       padding: 20px 0px;
+     }
+     .confirm .extra-fields {
+    padding: 20px 0px;
+     }
+   }
+ }
+}
+
+/* hide all step 1 options */
+[data-role="page"] .tpb-booking-form .tpb-box .content .step1 {
+  & h5, & .tpb-form-control.product, & .tpb-form-control.price {
+   display:none !important;
+  }
+}
+form.booking-loaded {
+  & .product-add {
+   display:none;
+  }
+}
+
+
