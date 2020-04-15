@@ -1,3 +1,6 @@
+{% if settings.tipobooking %} 
+{% include 'tipo.booking.script' %}
+{% endif %}
 {% if settings.boldoptions %}
 {%- include 'bold-common' -%}
 {%- include 'bold-product' with product, hide_action: 'break', output: 'none' -%}
