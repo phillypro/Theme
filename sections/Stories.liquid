@@ -257,7 +257,7 @@ var stringToHTML = function (str) {
    var popup = document.querySelector('#popup');
   if(popup == null) {
    var body =  document.getElementsByTagName("body")[0];
-   body.prepend(stringToHTML('<div id="popup" class="popup"><div class="popup-inner"><div class="close" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"width="50" height="50"viewBox="0 0 50 50"style="fill:#fff;"><g id="surface1"><path style=" " d="M 14.40625 13 L 13 14.40625 L 23.625 25 L 13 35.59375 L 14.40625 37 L 25.0625 26.40625 L 35.6875 37 L 37.09375 35.59375 L 26.46875 25 L 37.09375 14.40625 L 35.6875 13 L 25.0625 23.59375 Z "></path></g></svg> </div> <div id="progress-bars-wrap"></div> <div id="NavLeft" class="control left"></div> <div id="NavRight" class="control right"></div> <div class="story-profile"> <div class="story-profile-pic"> <div> </div> </div> <div class="story-profile-content"> </div></div> <div id="swipe" style="opacity:0;"><div class="arrows"><svg width="669pt" height="1151pt" viewBox="0 0 669 1151" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="arrow1" opacity="1" transform="translate(0,0)"><path fill="#ffffff" opacity="1" d=" M 323.44 179.52 C 332.65 174.88 344.63 176.71 351.95 184.01 C 454.69 285.94 557.42 387.89 660.15 489.82 C 667.74 496.79 670.18 508.61 666.01 518.02 C 664.40 522.06 661.41 525.31 658.30 528.27 C 645.11 541.42 631.97 554.63 618.77 567.77 C 609.61 576.78 593.46 576.71 584.35 567.64 C 501.06 485.17 417.76 402.71 334.51 320.19 C 251.25 402.68 167.96 485.15 84.67 567.62 C 75.57 576.71 59.39 576.79 50.22 567.76 C 36.04 553.61 21.86 539.45 7.72 525.26 C -1.47 515.92 -1.17 499.36 8.33 490.35 C 108.70 390.71 209.12 291.13 309.49 191.49 C 314.05 187.41 317.77 182.18 323.44 179.52 Z" /></g><g id="arrow2" opacity="1" transform="translate(0,0)"> <path fill="#ffffff" opacity="1" d=" M 316.30 585.25 C 319.46 581.99 323.46 579.50 327.87 578.35 C 335.44 577.33 343.93 577.47 350.00 582.81 C 358.67 590.85 366.83 599.43 375.31 607.68 C 469.85 701.50 564.40 795.31 658.95 889.12 C 662.07 892.02 664.83 895.43 666.32 899.47 C 669.86 908.36 667.78 919.21 661.03 926.02 C 646.86 940.19 632.72 954.38 618.52 968.51 C 608.85 977.78 591.92 976.94 583.08 966.91 C 500.25 884.82 417.33 802.80 334.51 720.69 C 251.34 803.09 168.13 885.46 84.95 967.85 C 75.46 977.68 58.02 977.26 48.96 967.05 C 35.17 953.18 21.27 939.41 7.50 925.52 C -1.37 916.24 -1.11 900.10 8.07 891.12 C 110.78 789.13 213.56 687.21 316.30 585.25 Z" /></g> <animateTransform attributeName="transform"type="translate"from="0 0"to="0 -200"dur="1.4s"values="0 0 ; 0 -200 ; 0 200 ; 0 0 ; 0 0" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow1" /> <animateTransform attributeName="transform"type="scale"from="1"to="1"dur="1.4s"values="1 ; 0.9 ; 0.9 ; 1 ; 1" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow1" additive="sum" /> <animate attributeType="CSS" attributeName="opacity"from="1"to="0"dur="1.4s"values="1 ; 0 ; 0 ; 1 ; 1" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow1" /> <animateTransform attributeName="transform"type="translate"from="0 0"to="0 -200"dur="1.4s"begin="0.2s" values="0 0 ; 0 -200 ; 0 200 ; 0 0 ; 0 0" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow2" /> <animateTransform attributeName="transform"type="scale"from="1"to="1"dur="1.4s"begin="0.2s" values="1 ; 0.9 ; 0.9 ; 1 ; 1" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow2" additive="sum" /> <animate attributeType="CSS" attributeName="opacity"from="1"to="0"dur="1.4s"begin="0.2s" values="1 ; 0 ; 0 ; 1 ; 1" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow2" /> </svg> </div> Swipe up to view </div><div class="swiper-container"> <!-- Additional required wrapper --> <div class="swiper-wrapper"> <!-- Slides --> <div class="swiper-slide"> </div> </div></div></div> <div id="popup-overlay"></div></div>'));
+   body.prepend(stringToHTML('<div id="popup" class="popup"><div class="popup-inner"><div class="close" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"width="50" height="50"viewBox="0 0 50 50"style="fill:#fff;"><g id="surface1"><path style=" " d="M 14.40625 13 L 13 14.40625 L 23.625 25 L 13 35.59375 L 14.40625 37 L 25.0625 26.40625 L 35.6875 37 L 37.09375 35.59375 L 26.46875 25 L 37.09375 14.40625 L 35.6875 13 L 25.0625 23.59375 Z "></path></g></svg> </div> <div id="progress-bars-wrap"></div> <div id="NavLeft" class="control left"></div> <div id="NavRight" class="control right"></div> <div class="story-profile"> <div class="story-profile-pic"> <div> </div> </div> <div class="story-profile-content"> </div></div> <div id="swipe" style="opacity:0;"><div class="arrows"><svg width="669pt" height="1151pt" viewBox="0 0 669 1151" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="arrow1" opacity="1" transform="translate(0,0)"><path fill="#ffffff" opacity="1" d=" M 323.44 179.52 C 332.65 174.88 344.63 176.71 351.95 184.01 C 454.69 285.94 557.42 387.89 660.15 489.82 C 667.74 496.79 670.18 508.61 666.01 518.02 C 664.40 522.06 661.41 525.31 658.30 528.27 C 645.11 541.42 631.97 554.63 618.77 567.77 C 609.61 576.78 593.46 576.71 584.35 567.64 C 501.06 485.17 417.76 402.71 334.51 320.19 C 251.25 402.68 167.96 485.15 84.67 567.62 C 75.57 576.71 59.39 576.79 50.22 567.76 C 36.04 553.61 21.86 539.45 7.72 525.26 C -1.47 515.92 -1.17 499.36 8.33 490.35 C 108.70 390.71 209.12 291.13 309.49 191.49 C 314.05 187.41 317.77 182.18 323.44 179.52 Z" /></g><g id="arrow2" opacity="1" transform="translate(0,0)"> <path fill="#ffffff" opacity="1" d=" M 316.30 585.25 C 319.46 581.99 323.46 579.50 327.87 578.35 C 335.44 577.33 343.93 577.47 350.00 582.81 C 358.67 590.85 366.83 599.43 375.31 607.68 C 469.85 701.50 564.40 795.31 658.95 889.12 C 662.07 892.02 664.83 895.43 666.32 899.47 C 669.86 908.36 667.78 919.21 661.03 926.02 C 646.86 940.19 632.72 954.38 618.52 968.51 C 608.85 977.78 591.92 976.94 583.08 966.91 C 500.25 884.82 417.33 802.80 334.51 720.69 C 251.34 803.09 168.13 885.46 84.95 967.85 C 75.46 977.68 58.02 977.26 48.96 967.05 C 35.17 953.18 21.27 939.41 7.50 925.52 C -1.37 916.24 -1.11 900.10 8.07 891.12 C 110.78 789.13 213.56 687.21 316.30 585.25 Z" /></g> <animateTransform attributeName="transform"type="translate"from="0 0"to="0 -200"dur="1.4s"values="0 0 ; 0 -200 ; 0 200 ; 0 0 ; 0 0" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow1" /> <animateTransform attributeName="transform"type="scale"from="1"to="1"dur="1.4s"values="1 ; 0.9 ; 0.9 ; 1 ; 1" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow1" additive="sum" /> <animate attributeType="CSS" attributeName="opacity"from="1"to="0"dur="1.4s"values="1 ; 0 ; 0 ; 1 ; 1" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow1" /> <animateTransform attributeName="transform"type="translate"from="0 0"to="0 -200"dur="1.4s"begin="0.2s" values="0 0 ; 0 -200 ; 0 200 ; 0 0 ; 0 0" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow2" /> <animateTransform attributeName="transform"type="scale"from="1"to="1"dur="1.4s"begin="0.2s" values="1 ; 0.9 ; 0.9 ; 1 ; 1" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow2" additive="sum" /> <animate attributeType="CSS" attributeName="opacity"from="1"to="0"dur="1.4s"begin="0.2s" values="1 ; 0 ; 0 ; 1 ; 1" keyTimes="0; 0.35; 0.364; 0.77; 1" repeatCount="indefinite"xlink:href="#arrow2" /> </svg> </div> Swipe up to view </div><div class="shadow"></div><div class="swiper-container"> <!-- Additional required wrapper --> <div class="swiper-wrapper"> <!-- Slides --> <div class="swiper-slide"> </div> </div></div></div> <div id="popup-overlay"></div></div>'));
   }
   
  function logLoaded{{section.id}}() {
@@ -312,6 +312,7 @@ function story(ev) {
     var height = height - storyheight;
     
     var popup = $('#popup');
+    var popupEl = document.querySelector('#popup');
     
    
   // throw popup into position
@@ -332,14 +333,18 @@ function story(ev) {
  }
     
     
-  //get bubble stuff
-    var bubbleimage = $(this).find('.img');
-    var bubbleimagestyle = bubbleimage.attr('style')
-    var bubbletitle = $(this).children('.title').text();
-    var storyprofile =  popup.find('.story-profile');
+    //get bubble stuff
+    var bubbleImage = this.querySelector('.img');
+    var bubbleImageBackground = getComputedStyle(bubbleImage).backgroundImage;
+    var bubbleImagePosition = getComputedStyle(bubbleImage).backgroundPosition;
+    var bubbleTitle = this.querySelector('.title').innerHTML;
+    var storyprofile = popupEl.querySelector('.story-profile');
     //place bubble stuff
-    storyprofile.children('.story-profile-pic').children('div').attr('style', bubbleimagestyle);
-    storyprofile.children('.story-profile-content').text(bubbletitle);
+    var storyProfileImage = storyprofile.querySelector('.story-profile-pic div');
+    storyProfileImage.style.backgroundImage = bubbleImageBackground;
+    storyProfileImage.style.backgroundPosition = bubbleImagePosition;
+    var storyProfileContent = storyprofile.querySelector('.story-profile-content');
+    storyProfileContent.innerHTML = bubbleTitle;
     
         
     
@@ -447,13 +452,13 @@ function story(ev) {
       
       
      
-     $(this).get(0).oncanplay = (event) => {  
-      var promise = $(this).get(0).play();
+     this.oncanplay = (event) => {  
+      var promise = this.play();
       if (promise !== undefined) {
         promise.then(_ => {
          // Autoplay started!
           if(index !== 0) {
-          $(this).get(0).pause();
+          this.pause();
           }else{
          //  alert('played');
           }
@@ -468,7 +473,7 @@ function story(ev) {
     }); 
     
    // play first video
-   var firstvideo = jQuery('#popup').find('video').first().get(0); 
+   var firstvideo = document.querySelector('#popup video');    
    playvideo(firstvideo,mySwiper);
     
    jQuery('#popup').find('video').each(function( index, value) {     
@@ -482,7 +487,7 @@ function story(ev) {
   } else if (isimage) {
    // play first video
    convertimagestomp4(mySwiper);
-   var firstimg = jQuery('#popup').find('img').first().get(0); 
+   var firstimg = document.querySelector('#popup img'); 
    playimg(firstimg,mySwiper);
   }
 
@@ -1668,6 +1673,11 @@ font-size: 11px;
     & .popup-inner #swipe {
      opacity:1 !important;
     }
+    & .popup-inner .shadow {
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 88%, rgba(0,0,0,0.23) 100%);
+    background: -webkit-linear-gradient(top,  rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 88%, rgba(0,0,0,0.23) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 88%, rgba(0,0,0,0.23) 100%);
+    }
   }
   }
   &.transition {
@@ -1733,6 +1743,7 @@ transition:  opacity 0.2s linear;
     padding: 0 4px;
         z-index: 10;
     & svg {
+    filter: drop-shadow(1px 4px 6px rgba(0,0,0,0.07));
     line-height: 1;
       max-width:40px;
       height:auto;
@@ -1756,6 +1767,16 @@ transition:  opacity 0.2s linear;
     right:0;
      width: 70%;
   }
+  & .shadow {
+position: absolute;
+width: 100%;  
+height:100%;
+pointer-events:none;
+background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0, 0) 22%);
+background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0, 0) 22%);
+background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0, 0) 22%);
+z-index: 2;
+  }
   & #swipe {
     opacity:0;
     pointer-events:none;
@@ -1775,6 +1796,8 @@ transition:  opacity 0.2s linear;
     text-align: center;
     margin: 0 auto;
     height: 33px;
+
+
    & svg {
     width: 17px;
     height: 100%;
@@ -1815,10 +1838,11 @@ transition:  opacity 0.2s linear;
     }
     & .story-profile-content {
     color: white;
-    text-shadow: rgba(0, 0, 0, 0.16) 0px 1px 1px;
+    text-shadow: rgba(0,0,0,0.07) 0px 1px 12px;
     margin-left: 10px;
-          font-size: 15px;
-          margin: 0px 0px 0px 10px;
+    font-size: 15px;
+    margin: 0px 0px 0px 10px;
+    font-weight: 600;
     }
 }    
   & #progress-bars-wrap {
@@ -1910,4 +1934,4 @@ $('body').removeClass('editstories');
 
 });   
               
-{% endjavascript %}    
+{% endjavascript %}                                
