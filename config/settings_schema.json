@@ -44,13 +44,6 @@
         "label": "Enable Bold Options",
         "info": "This Option Replaces Theme Installation for Bold Options App",
         "type": "checkbox"
-      },
-      {
-        "id": "tipobooking",
-        "default": false,
-        "label": "Enable Tipo Booking",
-        "info": "This Option Replaces Theme Installation for Tipo Booking",
-        "type": "checkbox"
       }
     ],
     "name": "Apps and Services"
@@ -66,12 +59,24 @@
         "default": false,
         "label": "Enable Quadpay",
         "type": "checkbox"
+      },
+      {
+        "id": "afterpay",
+        "default": false,
+        "label": "Enable Afterpay",
+        "type": "checkbox"
       }
     ],
     "name": "Payment Gateways"
   },
   {
     "settings": [
+      {
+        "id": "gotocart",
+        "default": true,
+        "label": "Enable Redirect to cart on Add",
+        "type": "checkbox"
+      },
       {
         "content": "Default Additional Details",
         "type": "header"
