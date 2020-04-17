@@ -116,8 +116,9 @@ Shopify.AjaxifyCart = (function($) {
           data: $formdata,
           success: function(itemData) {      
             {% if settings.gotocart %}
-             $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart", {  showLoadMsg: !0, reload: !0, transition: "none" });     cartcall(itemData); 
+             $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart", {  showLoadMsg: !0, reload: !0, transition: "none" });     
             {% endif %}   
+             cartcall(itemData); 
             // Re-enable add to cart button.
             $addToCartBtn.addClass('inverted');
             _setText($addToCartBtn, _config.addedToCartBtnLabel);
