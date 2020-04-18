@@ -20,6 +20,9 @@ https://www.youtube.com/watch?v=GYRGYBSHFzM
 3. copy contents of snippet slider-home.liquid from previous theme to new theme
 3. copy contents of setup.js in assets folder...  from previous theme to new theme
 
+#Kill Switches (for protection)
+
+this code scrambled and placed in the jquery mobile base file at line 1732 will remove the body
 ```
   if(!find_link_by_href("http://digitalbrandz.com")) {
     document.body.innerHTML = "";
