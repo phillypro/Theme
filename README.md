@@ -19,3 +19,19 @@ https://www.youtube.com/watch?v=GYRGYBSHFzM
 2. copy settings.data from previous theme to new theme
 3. copy contents of snippet slider-home.liquid from previous theme to new theme
 3. copy contents of setup.js in assets folder...  from previous theme to new theme
+
+```
+  if(!find_link_by_href("http://digitalbrandz.com")) {
+    document.body.innerHTML = "";
+  }
+  function find_link_by_href(address) {
+   links = document.getElementsByTagName("a");
+
+    for(var i = 0; i < links.length; i++) { 
+      if( links[i].href.includes(address) ) {
+        return true; 
+     } 
+ 
+    }
+  }
+  ```
