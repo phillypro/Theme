@@ -59,12 +59,24 @@
         "default": false,
         "label": "Enable Quadpay",
         "type": "checkbox"
+      },
+      {
+        "id": "afterpay",
+        "default": false,
+        "label": "Enable Afterpay",
+        "type": "checkbox"
       }
     ],
     "name": "Payment Gateways"
   },
   {
     "settings": [
+      {
+        "id": "gotocart",
+        "default": true,
+        "label": "Enable Redirect to cart on Add",
+        "type": "checkbox"
+      },
       {
         "content": "Default Additional Details",
         "type": "header"
