@@ -29,6 +29,9 @@
   
 {% include 'open-graph-tags' %}
 {{ content_for_header }}
+{% if settings.tipobooking %}    
+{% include 'tipo.booking.script' %}  
+{% endif %} 
 {% if settings.boldoptions %}  
 {%- include 'bold-options-hybrid' -%}
 {%- include 'bold-common' -%}  
