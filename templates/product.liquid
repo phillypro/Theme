@@ -1,3 +1,6 @@
+{% if settings.tipobooking %} 
+{% include 'tipo.booking.script' %}
+{% endif %}
 {% if settings.boldoptions %}
 {%- include 'bold-common' -%}
 {%- include 'bold-product' with product, hide_action: 'break', output: 'none' -%}
@@ -12,8 +15,7 @@
   <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
   
    
-  {% if product.tags contains 'bold' %}{% else %}{% assign ajax = 'ajax' %}{% endif %}
-  {% form 'product', product, data-ajax: 'false', class: ajax %} 
+
     
   
     <!-- Product thumb -->
@@ -34,7 +36,8 @@
 
                     
                      
-        
+   {% if product.tags contains 'bold' %}{% else %}{% assign ajax = 'ajax' %}{% endif %}
+  {% form 'product', product, data-ajax: 'false', class: ajax %}        
                      
                      
                      
@@ -102,7 +105,7 @@
         <button id="add-{{ product.id }}" class="button shopify-payment-button__button add" type="submit">{{ add_to_cart | escape }}</button>
         {{ form | payment_button }}
       </div>
-     
+  {% endform %}
            
            {% section 'Product-Description' %}
 
@@ -123,7 +126,7 @@
     
     
 
-  {% endform %}
+
 </div>
    
   
@@ -190,7 +193,11 @@ deferAjaxifyCart(function () {
     }
 }
 deferShopifyPaymentButtons(function () {
-    Shopify.PaymentButton.init();   
+  var page = document.querySelector('#product-{{ product.id }}');
+    if(page.classList.contains('bookingloaded')) {                                  
+    Shopify.PaymentButton.init();  
+      console.log('yo');
+    }
 });  
   
 // activate swatch  
