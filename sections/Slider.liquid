@@ -206,7 +206,7 @@ $(document).one("pagecreate", '#index', function (event, ui) {
                       slider.revstart();
                 }
 				(function listen{{section.id}}() {
-					if (window.loaded && typeof jQuery.fn.revolution.animateSlide != 'undefined') {
+							if (window.loaded && window.revSlider) {
                       if(document.getElementById("shopify-section-Loader") == null) {
 						logLoaded{{section.id}}();
                       }else if(window.loaded && typeof window.dataPrev{{ section.id }} != 'undefined') {
