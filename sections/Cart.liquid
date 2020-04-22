@@ -32,6 +32,9 @@ document.body.append(checkoutbar);
     #cart-total {
  color:{{ section.settings.totalcolor}};
 }
+#cart .sezzle-checkout-button-wrapper .sezzle-button-text .sezzle-payment-amount {
+  color:{{ section.settings.totalcolor}};
+}
 {% endstyle %}
 <div class="cart-header">
   <div class="row">
@@ -1123,6 +1126,9 @@ transition:  transform 0.2s linear;
       }
     }
   }
+  & .sezzle-checkout-button-wrapper .sezzle-button-text .sezzle-payment-amount {
+    font-size: 181%;
+}
 & .cart-reserve {
 text-align:right;
   & > div:nth-child(1) {
