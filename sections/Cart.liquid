@@ -448,6 +448,30 @@ deferCart(function () {
   
   
 </script>
+{% if settings.sezzlemerchantid != nil %}
+<script type="text/javascript">
+document.sezzleConfig = {
+	"configGroups": [
+		{
+			"targetXPath": ".product-price",
+			"fontWeight": 400,
+			"urlMatch": "product"
+		},
+		{
+			"targetXPath": "#cart-total",
+			"alignment": "right",
+			"urlMatch": "cart"
+		}
+	],
+	"supportedCountryCodes": [
+		"US",
+		"IN",
+		"CA"
+	]
+}
+</script>
+<script src="https://widget.sezzle.com/v1/javascript/price-widget?uuid={{ settings.sezzlemerchantid }}"></script>
+{% endif %}
 {% else %}
 <div class="row align-center">
   <div class="large-3 medium-4 small-6 column text-center">
