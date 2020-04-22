@@ -192,12 +192,8 @@ deferAjaxifyCart(function () {
         setTimeout(function() { deferShopifyPaymentButtons(methodShopifyPaymentButtons) }, 50);
     }
 }
-deferShopifyPaymentButtons(function () {
-  var page = document.querySelector('#product-{{ product.id }}');
-    if(page.classList.contains('bookingloaded')) {                                  
+deferShopifyPaymentButtons(function () {                     
     Shopify.PaymentButton.init();  
-      console.log('yo');
-    }
 });  
   
 // activate swatch  
