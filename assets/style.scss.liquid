@@ -1097,10 +1097,34 @@ font-family: 'Open Sans', sans-serif;
            text-transform: capitalize;
      }
     }  
-    & .sezzle-checkout-button-wrapper .sezzle-button-text .sezzle-payment-amount {
-    font-size:181%;
+    & .sezzle-product-page-widget {
+        @include bp(phablet) {
+        margin: 10px auto 0 auto !important;
+        }
+     & .sezzle-checkout-button-wrapper {
+      & .sezzle-button-text {
+       &.sezzle-center {    
+        @include bp(phabletup) {
+         text-align:left;
+         margin: 0;  
+        }
+       }
+       &.sezzle-left { 
+        @include bp(phablet) {
+         text-align:center;
+        }
+       }
+        & .sezzle-payment-amount {
+          font-size:181%;
+          @include bp(phablet) {
+             font-size:100%;        
+          }
+        }
+      }
+     }
     }
     & .product-add {
+    margin-top: 20px;
      & a {
           color: #9e3a8e; 
      }
