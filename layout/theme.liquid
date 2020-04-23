@@ -21,9 +21,12 @@
   
   
   
-  
 
-<meta name="theme-color" content="#ffffff">
+
+<link rel="manifest" href="{{'manifest.json' | asset_url }}">
+<meta name="apple-mobile-web-app-title" content="{% unless settings.home_title != nil %}{{ settings.home_title }}{% else %}{{ shop.name }}{% endunless %}">
+<meta name="application-name" content="{% unless settings.home_title != nil %}{{ settings.home_title }}{% else %}{{ shop.name }}{% endunless %}">
+  
 <link rel="canonical" href="{{ canonical_url }}" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
   
