@@ -78,7 +78,6 @@
         {% else %}
         <link itemprop="availability" href="http://schema.org/OutOfStock" />
         {% endif %}
-        <p>
           {% assign variant = product.selected_or_first_available_variant %}
           {% if product.compare_at_price > product.price %}
           <span class="product-price on-sale" itemprop="price">{{ variant.price | money }}</span>
@@ -86,7 +85,6 @@
           {% else %}
           <span class="product-price" itemprop="price">{{ variant.price | money }}</span>
           {% endif %}
-        </p>
       </div>
                       
 {% if settings.quadpay %}    
@@ -230,12 +228,12 @@ if(window.$.mobile) {
 
 var selectCallback = function(variant, selector) {
   if (variant) {    
-    var form = jQuery('#' + selector.domIdPrefix).closest('form');
+    var formEl = document.querySelector('#' + selector.domIdPrefix).closest('form');    
 
     for (var i=0,length=variant.options.length; i<length; i++) {
-      var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + encodeURI(variant.options[i]) +'"]');
-      if (radioButton.length) {
-        radioButton.get(0).checked = true;
+      var radioButton = formEl.querySelector('.swatch[data-option-index="' + i + '"] input[value="' + encodeURI(variant.options[i]) +'"]');
+      if (radioButton !== null) {
+        radioButton.checked = true;
       }
     }
     
@@ -243,41 +241,84 @@ var selectCallback = function(variant, selector) {
     // Selected a valid variant that is available.
     if (variant.available) {         
       // Enabling add to cart button.
-      jQuery('#add-{{ product.id }}').removeClass('disabled').prop('disabled', false).val({{ add_to_cart | json }});
-    
+      var addToCartButton = formEl.querySelector('#add-{{ product.id }}');
+      
+      if(addToCartButton !== null) {
+      addToCartButton.classList.remove('disabled'); 
+      addToCartButton.disabled = false;
+      addToCartButton.value = '{{ add_to_cart | json }}';
+      }
+
+     
+
+      
+    var backorderEl = formEl.querySelector('#backorder-{{ product.id }}');
       // If item is backordered yet can still be ordered, we'll show special message.
       if (variant.inventory_management && variant.inventory_quantity <= 0) {
-        jQuery('#selected-variant-{{ product.id }}').html({{ product.title | json }}{% unless hide_default_title %} + ' - ' + variant.title{% endunless %});
-        jQuery('#backorder-{{ product.id }}').removeClass("hidden");
+        var selectedVariant = formEl.querySelector('#selected-variant-{{ product.id }}');
+        if(selectedVariant !== null) {
+          selectedVariant.innerHTML = '{{ product.title | json }}{% unless hide_default_title %} + ' - ' + variant.title{% endunless %}';
+        }                                           
+      if(backorderEl !== null) {
+         backorderEl.classList.remove('hidden');
+        }
       } else {
-        jQuery('#backorder-{{ product.id }}').addClass("hidden");
+        if(backorderEl !== null) {
+         backorderEl.classList.add('hidden');
+        }
       }
       
     } else {
       // Variant is sold out.
-      jQuery('#backorder-{{ product.id }}').addClass('hidden');
-      jQuery('#add-{{ product.id }}').val({{ sold_out | json }}).addClass('disabled').prop('disabled', true);       
+      if(backorderEl !== null) {
+      backorderEl.classList.add('hidden');
+      }
+      if(addToCartButton !== null) {
+      addToCartButton.value = '{{ sold_out | json }}';
+      addToCartButton.classList.add('disabled');  
+      addToCartButton.disabled = true;   
+      }
     }
       
     
+    var pricewrapEl = formEl.querySelector('#product-price-{{ product.id }}');
+    var priceEl = pricewrapEl.querySelector('.product-price');                                      
     // Whether the variant is in stock or not, we can update the price and compare at price.
     if ( variant.compare_at_price > variant.price ) {
-      jQuery('#product-price-{{ product.id }}').html('<span class="product-price on-sale">'+ Shopify.formatMoney(variant.price, "{{ shop.money_format }}") +'</span>'+'&nbsp;<s class="product-compare-price">'+Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}")+ '</s>');
-    } else {  
-      jQuery('#product-price-{{ product.id }}').html('<span class="product-price">'+ Shopify.formatMoney(variant.price, "{{ shop.money_format }}") + '</span>' );
+      priceEl.innerHTML = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");   
+      var compareEl = pricewrapEl.querySelector('.product-compare-price');
+      if(compareEl == null) {  
+       var compareEl = document.createElement("s");  
+       compareEl.classList.add('product-compare-price');
+       pricewrapEl.append(compareEl);
+      }
+      compareEl.innerHTML = Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}");
+    
+    } else {           
+      priceEl.innerHTML = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");    
     }      
              
       {% if settings.quadpay %}   
       {% assign new_money_format = shop.money_format | remove: '$' %}
-      jQuery('#product-price-{{ product.id }}').parent().find('quadpay-widget').attr('amount', Shopify.formatMoney(variant.price, "{{ new_money_format }}") );
+      var quadpayWidget = formEl.querySelector('quadpay-widget');
+      quadpayWidget.setAttribute('amount', Shopify.formatMoney(variant.price, "{{ new_money_format }}"));
       {% endif %}                
              
 
   } else {
     // variant doesn't exist.
-    jQuery('#product-price-{{ product.id }}').empty();
-    jQuery('#backorder-{{ product.id }}').addClass('hidden');
-    jQuery('#add-{{ product.id }}').val({{ unavailable | json }}).addClass('disabled').prop('disabled', true);
+    priceEl.innerHTML = '';    
+    if(compareEl != null) {   
+     compareEl.innerHTML = '';                            
+    }
+    if(backorderEl !== null) {                            
+    backorderEl.classList.add('hidden');
+    }
+    if(addToCartButton !== null) {
+      addToCartButton.value = '{{ unavailable | json }}';
+      addToCartButton.classList.add('disabled');  
+      addToCartButton.disabled = true;   
+    }
   }
 
 };
