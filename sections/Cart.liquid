@@ -843,9 +843,13 @@ padding-top:0 !important;
       } 
     }
   }
-  & form {
+    & form {
+     padding-bottom: 40px;
     @include bp(tablet) {
     padding-bottom: 75px;
+    }
+    @include bp(phablet) {
+    padding-bottom: 135px;
     }
     & > .row {
       & > .columns:nth-child(1) {
