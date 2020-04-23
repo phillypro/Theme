@@ -35,9 +35,18 @@
       form.addEventListener('submit', multiselectsubmit);   
       }
       
+     setTimeout(function() {
+      // add selected to total...and zero it out
+     var pricewrapEl = form.querySelector('#product-price-{{ product.id }}');
+      var priceEl = form.querySelector('.product-price');
+      priceEl.innerHTML = '$0.00'; 
+      var totalSelect = document.createElement("SPAN");
+      totalSelect.classList.add('total-select');
+      totalSelect.innerHTML = 'Selected Total'; 
+      pricewrapEl.prepend(totalSelect);
+     },50);
       
-      
-      
+     
       
         function multiselectsubmit(e) {
          e.preventDefault();
@@ -229,10 +238,18 @@
                      var quantityspan = quantitywrap.getElementsByTagName('span')[0];
                      var currentquantity = Number(quantityspan.innerHTML);
                      var inventory =  Number(this.getAttribute('inventory'));
+                 
                      // add quantity     
                   if(currentquantity < inventory) {
                      quantityspan.innerHTML = ++currentquantity;
-                     this.setAttribute('quantity', quantityspan.innerHTML);
+                    this.setAttribute('quantity', quantityspan.innerHTML);
+                    // add to total price
+                    var mspriceEl = quantitywrap.nextElementSibling.querySelector('.multiselect_price');
+                    var msprice = parseFloat(mspriceEl.innerHTML.replace('$',''));
+                    var totalSelectEl = form.querySelector('.product-price');
+                    var totalSelect = parseFloat(totalSelectEl.innerHTML.replace('$',''));
+                    var newTotal = (Number(msprice) + Number(totalSelect)).toFixed(2);
+                    totalSelectEl.innerHTML = '$' + newTotal;
          
                   }
                if(currentquantity > 1) {
@@ -247,6 +264,9 @@
                   }
                 }
            
+                // add to total
+           
+                  
                
                 if(this.checked === false ) {
                  this.checked = true; 
@@ -268,6 +288,9 @@
              quantitycheckbox.nextElementSibling.getElementsByTagName('span')[0].innerHTML = 0;
              quantitycheckbox.parentElement.classList.remove('active');
           }); 
+          // clear current total
+          var totalSelectEl = form.querySelector('.product-price'); 
+          totalSelectEl.innerHTML = '$0.00';  
          });
          {% endif %}   
       </script>
@@ -436,6 +459,15 @@
                   if(currentquantity < inventory) {
                      quantityspan.innerHTML = ++currentquantity;
                      this.setAttribute('quantity', quantityspan.innerHTML);
+                    
+                    // add to total price
+                    var mspriceEl = quantitywrap.nextElementSibling.querySelector('.multiselect_price');
+                    var msprice = parseFloat(mspriceEl.innerHTML.replace('$',''));
+                    var totalSelectEl = form.querySelector('.product-price');
+                    var totalSelect = parseFloat(totalSelectEl.innerHTML.replace('$',''));
+                    var newTotal = (Number(msprice) + Number(totalSelect)).toFixed(2);
+                    totalSelectEl.innerHTML = '$' + newTotal;
+         
       
                   }
                 if(currentquantity > 1) {
@@ -471,6 +503,8 @@
              quantitycheckbox.nextElementSibling.getElementsByTagName('span')[0].innerHTML = 0;
              quantitycheckbox.parentElement.classList.remove('active');
           }); 
+          var totalSelectEl = form.querySelector('.product-price'); 
+          totalSelectEl.innerHTML = '$0.00'; 
         });
         });
         {% endif %}   
@@ -673,6 +707,14 @@
                   if(currentquantity < inventory) {
                      quantityspan.innerHTML = ++currentquantity;
                      this.setAttribute('quantity', quantityspan.innerHTML);
+                    
+                    // add to total price
+                    var mspriceEl = quantitywrap.nextElementSibling.querySelector('.multiselect_price');
+                    var msprice = parseFloat(mspriceEl.innerHTML.replace('$',''));
+                    var totalSelectEl = form.querySelector('.product-price');
+                    var totalSelect = parseFloat(totalSelectEl.innerHTML.replace('$',''));
+                    var newTotal = (Number(msprice) + Number(totalSelect)).toFixed(2);
+                    totalSelectEl.innerHTML = '$' + newTotal;
                   }
                 if(currentquantity > 1) {
                  quantitywrap.classList.add('pop'); 
@@ -708,6 +750,8 @@
              quantitycheckbox.nextElementSibling.getElementsByTagName('span')[0].innerHTML = 0;
              quantitycheckbox.parentElement.classList.remove('active');
           }); 
+          var totalSelectEl = form.querySelector('.product-price'); 
+          totalSelectEl.innerHTML = '$0.00'; 
         });
         });
           
