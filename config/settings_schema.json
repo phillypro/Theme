@@ -1,5 +1,5 @@
 [
-  {
+    {
     "settings": [
       {
         "content": "SEO Information",
@@ -19,7 +19,34 @@
         "id": "home_image",
         "label": "Homepage image",
         "type": "image_picker"
-      }
+      },
+      {
+        "content": "Web App Settings",
+        "type": "header"
+      },
+      {
+        "id": "short_app_name",
+        "label": "App Name",
+        "type": "text"
+      },
+      {
+        "id": "app_image",
+        "label": "App Home Screen Image",
+        "type": "image_picker"
+      },
+      {
+       "id": "app_theme_color",
+       "type": "color",
+       "label": "Theme Color",
+        "info": "this colors the address bar to match the overall color of your website, try matching this with header color"
+       },
+       {
+       "id": "app_background_color",
+       "type": "color",
+       "label": "Loading Background Color",
+        "info": "this is the background color of the page while loading the app"
+       }
+      
     ],
     "name": "Google SEO"
   },
