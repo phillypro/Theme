@@ -1,13 +1,31 @@
 {% style %}
-  #shopify-section-Mobile-Menu .ui-panel-inner .content .content-inner .mobile-menu ul li {
+{% assign loadedfonts = '' %}    
+{% assign familyandweight = section.settings.font.family | append: section.settings.font.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ section.settings.font | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: section.settings.font.family | append: section.settings.font.weight | append: section.settings.font.style | append: '|' %}
+
+
+
+
+  #shopify-section-{{ section.id }} .ui-panel-inner .content .content-inner .mobile-menu ul li {
       line-height:{{ section.settings.link_spacing }};
   }
-  #shopify-section-Mobile-Menu .ui-panel-inner .content .content-inner .mobile-menu ul li a {
+  #shopify-section-{{ section.id }} .ui-panel-inner .content .content-inner .mobile-menu ul li a {
    color:{{ section.settings.link_color }};
+    font-family: {{ section.settings.font.family }}; 
+    font-style:{{ section.settings.font.style }};
   }
   
+#shopify-section-{{ section.id }} .ui-panel-inner .content .content-inner .search .inner-addon #productsearch {
+    font-family: {{ section.settings.font.family }}; 
+    font-style:{{ section.settings.font.style }};
+}
+
   
- #shopify-section-Mobile-Menu .ui-panel-inner {
+ #shopify-section-{{ section.id }} .ui-panel-inner {
   {% capture backgroundimage %}{{ section.settings.background_image | img_url: '1024x1024' }}{% endcapture %}                                   
 {% if backgroundimage contains 'no-image' %}
   {% if section.settings.background_color_2 contains 'transparent' %}
@@ -22,13 +40,16 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
 {% endif %}     
 }
 
-#shopify-section-Mobile-Menu .ui-panel-inner .content .content-inner .mobile-menu ul > li {
+#shopify-section-{{ section.id }} .ui-panel-inner .content .content-inner .mobile-menu ul > li {
 font-size:{{ section.settings.link_size }}%;
 }
-
+{% if section.settings.css != nil %}
+{% assign css = section.settings.css | replace: '&gt;','>' %}
+{{ css }}
+{% endif %}
 {% endstyle %}
 <style>
-  #shopify-section-Mobile-Menu .ui-panel-inner .content .content-inner .mobile-menu ul li {
+  #shopify-section-{{ section.id }} .ui-panel-inner .content .content-inner .mobile-menu ul li {
     {% if section.settings.link_border == true %}
       border-bottom: 1px solid {{ section.settings.link_color }}42;
     {% endif %} 
@@ -43,7 +64,7 @@ font-size:{{ section.settings.link_size }}%;
  <input type="hidden" name="type" value="product" />
   <div class="inner-addon right-addon">
     <i style="color:{{ section.settings.search_color }};" class="glyphicon glyphicon-search"></i>
-    <input style="color:{{ section.settings.search_color }}; border-bottom-color:{{ section.settings.search_color }};" id="productsearch" type="text" name="q" placeholder="Search..." value="{{ search.terms }}"  data-role="none" autocomplete="off" />
+    <input style="color:{{ section.settings.search_color }}; border-bottom-color:{{ section.settings.search_color }};" id="productsearch" type="text" name="q" placeholder="{{ section.settings.search_placeholder }}" value="{{ search.terms }}"  data-role="none" autocomplete="off" />
   </div>
 </form>
   
@@ -150,6 +171,12 @@ document.documentElement.style.height = vpH.toString() + "px";
    "content":   "Menu Options"
 },
 {
+    "type": "font_picker",
+     "id": "font",
+     "label": "Menu Font",
+     "default": "work_sans_n6"
+},
+{
    "type":      "header",
    "content":   "Mobile Menu Colors"
 },{
@@ -177,6 +204,12 @@ document.documentElement.style.height = vpH.toString() + "px";
        "type": "color",
        "label": "Search Color",
        "default": "#000000"
+},
+{
+       "id": "search_placeholder",
+       "type": "text",
+       "label": "Search Placeholder Text",
+       "default": "Search..."
 },
 {
    "type":      "header",
@@ -224,6 +257,15 @@ document.documentElement.style.height = vpH.toString() + "px";
   "id": "link_border",
   "label": "Border Line",
   "default": false
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS"
 }
 ]
   }
