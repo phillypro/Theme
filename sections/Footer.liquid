@@ -111,20 +111,20 @@
   {% when 'Menu' %}
     {% style %}
 
-{% assign familyandweight = section.settings.menu_font.family | append: section.settings.menu_font.weight %}
+{% assign familyandweight = block.settings.menu_font.family | append: block.settings.menu_font.weight %}
 {% if loadedfonts contains familyandweight %}
 {% else %}
-  {{ section.settings.menu_font | font_face }}  
+  {{ block.settings.menu_font | font_face }}  
 {% endif %}   
-{% assign loadedfonts = loadedfonts | append: section.settings.menu_font.family | append: section.settings.menu_font.weight | append: section.settings.menu_font.style | append: '|' %}
+{% assign loadedfonts = loadedfonts | append: block.settings.menu_font.family | append: block.settings.menu_font.weight | append: block.settings.menu_font.style | append: '|' %}
 
   
-      #shopify-section-Footer .middle-footer .nav-{{ block.id }} a {
-        color:{{ block.settings.color }};
-        font-size:{{ block.settings.menu_fontsize }}px;
-      font-family: {{ section.settings.menu_font.family }}; 
-    font-weight:{{ section.settings.menu_font.weight }}; 
-    font-style:{{ section.settings.menu_font.style }};
+    #shopify-section-Footer .middle-footer .nav-{{ block.id }} a {
+    color:{{ block.settings.color }};
+    font-size:{{ block.settings.menu_fontsize }}px;
+    font-family: {{ block.settings.menu_font.family }}; 
+    font-weight:{{ block.settings.menu_font.weight }}; 
+    font-style:{{ block.settings.menu_font.style }};
       }
   {% endstyle %}
       <ul id="nav" class="nav nav-{{ block.id }}">
