@@ -32,6 +32,10 @@
     fill:{{ section.settings.card_color }};
   }
   
+{% if section.settings.css != nil %}
+{% assign css = section.settings.css | replace: '&gt;','>' %}
+{{ css }}
+{% endif %}
 {% endstyle %}
 
 
@@ -521,8 +525,17 @@ deferFooter(function () {
 {
 "id": "social_color",
  "type": "color",
-  "label": "Card Color",
+  "label": "Social Icon Color",
    "default": "#000"
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS"
 }],
     "blocks": [    {
      "type": "Mailing-List",
