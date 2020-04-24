@@ -264,9 +264,11 @@
                      or <a target="_parent" href="/account/register">Create an Account</a>
                      {% endif %}
                   </div>
-                   <div> 
-                    {% unless section.settings.text_cart %}
+                   {% unless section.settings.text_cart %}
+                  <div> 
+                    
                      <a href="/cart">
+                      
                         <span class="cart-icon">
                            <span class="cart-count">
                            {{ cart.item_count }}
@@ -278,12 +280,15 @@
                            </svg>
                         </span>
                      </a>
+                 </div>
                      {% else%}
+                 <div class="text-cart">
                      <a href="/cart">
                           {{ section.settings.text_cart_text }} (<span class="cart-count">{{ cart.item_count }}</span>)  
                      </a>
+                 </div>
                     {% endunless %}
-                  </div>
+                  
                  {% else %}
                   <div>
                      <a href="{{ section.settings.button_url }}">
@@ -816,6 +821,14 @@ header {
           }
         }
       }
+      & .text-cart {
+width: 36%;
+    font-size: 14px;
+@include bp(phablet) {
+width:100%;
+font-size:11px;
+}
+}
                   }
 				}
 			}
