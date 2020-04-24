@@ -6,6 +6,25 @@ color:{{ section.settings.buynowcolor }};
 {% if section.settings.css != nil %}
 {{ section.settings.css | replace: '&gt;', '>' }}
 {% endif %}
+
+{% assign loadedfonts = '' %}    
+{% assign familyandweight = section.settings.font_title.family | append: section.settings.font_title.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ section.settings.font_title | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: section.settings.font_title.family | append: section.settings.font_title.weight | append: section.settings.font_title.style | append: '|' %}
+
+  .collection-page .collection-title h1 {
+    font-family: {{ section.settings.font_title.family }}; 
+    font-weight:{{ section.settings.font_title.weight }}; 
+    font-style:{{ section.settings.font_title.style }};
+    font-size:{{ section.settings.fontsize_title }}px;
+    {% if section.settings.uppercase %}
+      text-transform:uppercase;
+    {% endif %}
+  }
+
 {% endstyle %}
 
 {% paginate collection.products by 12 %}
@@ -275,6 +294,34 @@ jQuery('.sort-by')
   {
     "name": "Collection",
     "settings": [
+{ "type": "header",
+"content": "Title Style"
+},
+{
+    "type": "font_picker",
+     "id": "font_title",
+     "label": "Title Font",
+     "default": "work_sans_n6"
+},
+{
+    "type":   "range",
+    "id":     "fontsize_title",
+    "min":       20,
+    "max":       75,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Title Font Size",
+    "default":   25
+},
+{
+"type": "checkbox",
+"id": "uppercase",
+"label": "Uppercase",
+"default": true
+},
+{ "type": "header",
+"content": "Collection Layout Options"
+},
 {
    "type": "select",
    "id": "products_per",
