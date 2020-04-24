@@ -754,6 +754,9 @@ deferFooter(function () {
     max-width: 70.5rem;
     text-align:center;
   & p {
+    @include bp(phablet) {
+    padding: 0 15px;
+   }
      & span {
      @include bp(phablet) {
      font-size: 80%;
@@ -904,4 +907,4 @@ max-width: 60px;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}      
+{% endjavascript %}         
