@@ -1,3 +1,4 @@
+{% assign loadedfonts = '' %}    
 {% style %}
   #shopify-section-Footer {
  {% if section.settings.top_background_color_2 contains 'transparent' %}
@@ -10,7 +11,7 @@
   }
   
   #shopify-section-Footer .bottom-footer {
-  {% if section.settings.bottom_background_color_2 contains 'transparent' %}
+  {% if section.settings.bottom_background_color_2 contains 'transparent' or section.settings.bottom_background_color_2 contains 'rgba(0,0,0,0)' %}
       background-color:{{ section.settings.bottom_background_color }};                            
   {% else %}     
     background: -moz-linear-gradient(left, {{ section.settings.bottom_background_color }} 0%, {{ section.settings.bottom_background_color_2 }} 100%);
@@ -109,9 +110,21 @@
     {% assign ajax = block.settings.ajax %}
   {% when 'Menu' %}
     {% style %}
+
+{% assign familyandweight = section.settings.menu_font.family | append: section.settings.menu_font.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ section.settings.menu_font | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: section.settings.menu_font.family | append: section.settings.menu_font.weight | append: section.settings.menu_font.style | append: '|' %}
+
+  
       #shopify-section-Footer .middle-footer .nav-{{ block.id }} a {
         color:{{ block.settings.color }};
         font-size:{{ block.settings.menu_fontsize }}px;
+      font-family: {{ section.settings.menu_font.family }}; 
+    font-weight:{{ section.settings.menu_font.weight }}; 
+    font-style:{{ section.settings.menu_font.style }};
       }
   {% endstyle %}
       <ul id="nav" class="nav nav-{{ block.id }}">
@@ -675,6 +688,12 @@ deferFooter(function () {
    "label": "Linklist"
 },
 {
+    "type": "font_picker",
+     "id": "menu_font",
+     "label": "Menu Font",
+     "default": "work_sans_n6"
+},
+{
 "id": "color",
  "type": "color",
   "label": "Color",
@@ -754,9 +773,8 @@ deferFooter(function () {
     max-width: 70.5rem;
     text-align:center;
   & p {
-    @include bp(phablet) {
+
     padding: 0 15px;
-   }
      & span {
      @include bp(phablet) {
      font-size: 80%;
@@ -907,4 +925,4 @@ max-width: 60px;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}         
+{% endjavascript %}            
