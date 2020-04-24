@@ -205,7 +205,8 @@
    {% endunless %}
   
 {% if section.settings.css != nil %}
-{{ section.settings.css }}
+{% assign css = section.settings.css | replace: '&gt;','>' %}
+{{ css }}
 {% endif %}
 {% endstyle %}
 <div class="header-wrap">
