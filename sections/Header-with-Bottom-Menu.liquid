@@ -264,7 +264,8 @@
                      or <a target="_parent" href="/account/register">Create an Account</a>
                      {% endif %}
                   </div>
-                  <div>
+                   <div> 
+                    {% unless section.settings.text_cart %}
                      <a href="/cart">
                         <span class="cart-icon">
                            <span class="cart-count">
@@ -277,6 +278,11 @@
                            </svg>
                         </span>
                      </a>
+                     {% else%}
+                     <a href="/cart">
+                          {{ section.settings.text_cart_text }} (<span class="cart-count">{{ cart.item_count }}</span>)  
+                     </a>
+                    {% endunless %}
                   </div>
                  {% else %}
                   <div>
@@ -603,6 +609,22 @@ function scrollheader() {
   "type": "color",
   "label": "Button Font Color",
   "default": "#FFF"
+},
+{
+"type":      "header",
+"content":   "Swap Cart Icon to Pure Text Cart"
+},
+{
+  "id": "text_cart",
+  "type": "checkbox",
+  "label": "Enable Swap Cart Icon with Pure Text Cart",
+  "default": false
+},
+{
+  "id": "text_cart_text",
+  "type": "text",
+  "label": "Pure Text Cart Message",
+  "default": "My Bag"
 },
 {
  "type": "header",
