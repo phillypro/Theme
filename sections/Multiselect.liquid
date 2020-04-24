@@ -93,9 +93,11 @@
        
       
    </script>
-     <style>
+  {% style %}
        #product-variants-{{ product.id }} { display: none !important; }
-   </style>
+       #shopify-section-Multiselect .multi-swatch .option-wrap .multi-swatch-element.active label {border-color:{{ section.settings.selectedColor }};}
+       #shopify-section-Multiselect .multi-swatch .option-wrap .multi-swatch-element .quantity span { background: {{ section.settings.selectedColor }};}
+  {% endstyle %}
    {% endif %}
    {% assign found_option = false %}
    {% assign is_color = false %}
@@ -837,7 +839,18 @@ function animateEnd{{ product.id }}() {
 "label": "Animate Intro",
 "default":true,
 "info": "fade in effect for the options"
-}],
+},
+{
+"type": "header",
+"content": "Color & Style"
+},
+{
+"id": "selectedColor",
+"type": "color",
+"label": "Selected Color",
+"default": "#F1A3B0"
+}
+],
 "blocks": [
 {
 "type": "Multiselect",
