@@ -1,4 +1,24 @@
 {% style %}
+{% assign loadedfonts = '' %}    
+{% assign familyandweight = section.settings.font_title.family | append: section.settings.font_title.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ section.settings.font_title | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: section.settings.font_title.family | append: section.settings.font_title.weight | append: section.settings.font_title.style | append: '|' %}
+
+ #shopify-section-Contact > .contact-wrap > .row > .column h2 {
+    font-family: {{ section.settings.font_title.family }}; 
+    font-weight:{{ section.settings.font_title.weight }}; 
+    font-style:{{ section.settings.font_title.style }};
+    font-size:{{ section.settings.fontsize_title }}px;
+    {% if section.settings.uppercase %}
+      text-transform:uppercase;
+    {% endif %}
+  }
+
+
+
   .shopify-section-{{ section.id }}-wrap { 
  {% if section.settings.background_color_2 contains 'transparent' %}
       background-color:{{ section.settings.background_color }};                            
@@ -79,7 +99,33 @@
 {% schema %}
   {
     "name": "Contact",
-    "settings": [{
+    "settings": [
+{ "type": "header",
+"content": "Title Style"
+},
+{
+    "type": "font_picker",
+     "id": "font_title",
+     "label": "Title Font",
+     "default": "work_sans_n6"
+},
+{
+    "type":   "range",
+    "id":     "fontsize_title",
+    "min":       20,
+    "max":       75,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Title Font Size",
+    "default":   25
+},
+{
+"type": "checkbox",
+"id": "uppercase",
+"label": "Uppercase",
+"default": true
+},
+{
    "type":      "header",
    "content":   "Background Style"
 },{
@@ -130,6 +176,7 @@
 {% stylesheet 'scss' %}
 
 #shopify-section-Contact {
+padding-bottom: 20px;
  & > .contact-wrap > .row > .column h2 {
   font-weight:bold;
  }
@@ -147,4 +194,4 @@
 {% endstylesheet %}
 
 {% javascript %}
-{% endjavascript %}
+{% endjavascript %}  
