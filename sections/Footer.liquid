@@ -1,13 +1,18 @@
 {% assign loadedfonts = '' %}    
 {% style %}
   #shopify-section-Footer {
- {% if section.settings.top_background_color_2 contains 'transparent' %}
+  {% capture backgroundimage %}{{ section.settings.top_background_image | img_url: '1024x1024' }}{% endcapture %}          
+{% if backgroundimage contains 'no-image' %}
+{% if section.settings.top_background_color_2 contains 'transparent' %}
       background-color:{{ section.settings.top_background_color }};                            
   {% else %}     
     background: -moz-linear-gradient(left, {{ section.settings.top_background_color }} 0%, {{ section.settings.top_background_color_2 }} 100%);
     background: -webkit-linear-gradient(left, {{ section.settings.btop_ackground_color }} 0%, {{ section.settings.top_background_color_2 }} 100%);
     background: linear-gradient(to right, {{ section.settings.top_background_color }} 0%, {{ section.settings.top_background_color_2 }} 100%);                            
 {% endif %}  
+{% else %}
+background-image:url({{ section.settings.top_background_image | img_url: '1024x1024' }}); background-color:{{ section.settings.top_background_color }};
+{% endif %}     
   }
   
   #shopify-section-Footer .bottom-footer {
@@ -463,7 +468,13 @@ deferFooter(function () {
        "type": "color",
        "label": "Background Color #2 (Optional Gradient)",
        "default": "transparent"
-},{
+},
+{
+       "id": "top_background_image",
+       "type": "image_picker",
+       "label": "Background Image (Optional)"
+},
+{
         "type": "header",
         "content": "Bottom Header Style & Color"
       },{
@@ -793,6 +804,8 @@ deferFooter(function () {
 }
 
 #shopify-section-Footer {
+    background-size:cover;
+    background-repeat:no-repeat;
     border-width: 0;
   & .middle-footer {
    padding:50px 0 30px;
@@ -952,4 +965,4 @@ max-width: 60px;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}               
+{% endjavascript %}                 
