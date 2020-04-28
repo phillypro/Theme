@@ -77,10 +77,9 @@ document.body.append(checkoutbar);
 <div class="row">
 <div class="large-12 columns">    
   {% assign cartitems = cart.items %}
-  {% for item in cartitems reversed %}
-     {% if settings.boldoptions %}
+ {% if settings.boldoptions %}
+  {% for item in cartitems %}
      {%- include 'bold-options-hybrid-cart-item' with item -%}   
-     {% endif %}
      <div cart-item="{{ item.id }}" class="product-cart-wrap">
        <div class="thumbnail-wrap" style="background-image:url({{ item | img_url: 'large' }})">
        </div>
@@ -93,7 +92,6 @@ document.body.append(checkoutbar);
              {% assign item_variant = item.variant %}
              {% if item_variant.option1 %}{{ item_variant.option1 }}{% endif %}
             {% if item_variant.option2 %}<span>{{ item_variant.option2 }}</span>{% endif %}
-	    {% if settings.boldoptions %}
 	              <div class="attributes">
                       {% assign propertySize = item.properties | size %}
                       {% if propertySize > 0 %}
@@ -113,23 +111,18 @@ document.body.append(checkoutbar);
                       {% endif %}
                       <!-- Bold:POv2 -->
                     </div>
-	    {% endif %}
          </a>
        </div>
        <div class="quantity-wrap">
          <div>
-          <input type="number" name="updates[{{ item.id }}]" id="updates_{{ item.id }}" class="quantity input-number" min="0" max="99" value="{{ item.quantity }}"  />
+<input type="number" name="updates[]" id="updates_{{ item.id }}" class="quantity input-number" min="0" max="99" value="{{ item.quantity }}"  />           
          </div>
          <a href="#" product-id="{{ item.id }}" class="remove"></a>
        </div>
        <div class="price-wrap">
          <span>
           <span> 
-	   {% if settings.boldoptions %}
 	   <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_item_price" style="display:none !important;"></span>{% include 'price' with item.price %}
-	   {% else %}
-           {% assign price = item.price | money | split: '.' %}{{ price.first }}
-	   {% endif %}
            </span>
            <div>       
           </div>
@@ -137,6 +130,45 @@ document.body.append(checkoutbar);
        </div>
      </div>  
   {% endfor %}
+  
+  {% else %}
+  
+  {% for item in cartitems reversed %}
+     <div cart-item="{{ item.id }}" class="product-cart-wrap">
+       <div class="thumbnail-wrap" style="background-image:url({{ item | img_url: 'large' }})">
+       </div>
+       <div class="quantity-display">
+         {{ item.quantity }}
+       </div>
+       <div class="product-title-wrap">
+         <a href="{{ item.url }}">
+             {{ item.product.title }} 
+             {% assign item_variant = item.variant %}
+             {% if item_variant.option1 %}{{ item_variant.option1 }}{% endif %}
+            {% if item_variant.option2 %}<span>{{ item_variant.option2 }}</span>{% endif %}
+         </a>
+       </div>
+       <div class="quantity-wrap">
+         <div>
+<input type="number" name="updates[]" id="updates_{{ item.id }}" class="quantity input-number" min="0" max="99" value="{{ item.quantity }}"  />           
+         </div>
+         <a href="#" product-id="{{ item.id }}" class="remove"></a>
+       </div>
+       <div class="price-wrap">
+         <span>
+          <span> 
+           {% assign price = item.price | money | split: '.' %}{{ price.first }}
+           </span>
+           <div>       
+          </div>
+         </span>
+       </div>
+     </div>  
+  {% endfor %}
+  
+  {% endif %}
+  
+  
   </div>
 </div>
   <div class="row align-justify">
