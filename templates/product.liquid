@@ -185,7 +185,30 @@ deferAjaxifyCart(function () {
 // activate shopify payment buttons
   function deferShopifyPaymentButtons(methodShopifyPaymentButtons) {
     if (window.Shopify.PaymentButton) {
+              {% if settings.boldoptions %}
+      var page = document.querySelector('#product-{{ product.id }}');
+      var boldWrapper = page.querySelector('.bold_options');   
+      console.log(boldWrapper);
+        function deferBoldButtons(methodBoldButtons) {
+    if (boldWrapper.classList.contains("bold_options_loaded")) {
+         setTimeout(function() {
+           if(boldWrapper.innerHTML.trim().length > 0) {
+           var existingButtons = page.querySelector('.shopify-payment-button');
+           existingButtons.remove();
+           }else{
+            methodBoldButtons();
+           }
+        }, 50);
+    } else {
+        setTimeout(function() { deferBoldButtons(methodBoldButtons) }, 50);
+    }
+}
+deferBoldButtons(function () {   
+        Shopify.PaymentButton.init();  
+});    
+      {% else %}
         methodShopifyPaymentButtons();
+      {% endif %}
     } else {
         setTimeout(function() { deferShopifyPaymentButtons(methodShopifyPaymentButtons) }, 50);
     }
@@ -204,6 +227,7 @@ deferShopifyPaymentButtons(function () {
     thingitwants.value = optionValue;
     thingitwants.onchange();
   }));  
+
 
   
   
