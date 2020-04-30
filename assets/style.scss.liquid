@@ -1753,7 +1753,9 @@ padding: 8px 15px;
 -ms-flex-flow: row wrap;
     flex-flow: row wrap;  
 .swatch-element {
-      min-width: 25%;
+  @include bp(mobile) {
+      min-width: 33%;
+  }
   &.color {
   & label {
     height:auto;
