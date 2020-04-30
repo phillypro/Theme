@@ -190,11 +190,13 @@ deferAjaxifyCart(function () {
       var boldWrapper = page.querySelector('.bold_options');   
       console.log(boldWrapper);
         function deferBoldButtons(methodBoldButtons) {
-    if (boldWrapper.classList.contains("bold_options_loaded")) {
-         setTimeout(function() {
-           if(boldWrapper.innerHTML.trim().length > 0) {
+     if(boldWrapper.innerHTML.trim().length > 0) {
+           // remove dynamic buttons
            var existingButtons = page.querySelector('.shopify-payment-button');
            existingButtons.remove();
+           // set form to ajax false
+           var form = page.querySelector('form');
+           form.classList.add('bold');   
            }else{
             methodBoldButtons();
            }
