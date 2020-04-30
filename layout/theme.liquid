@@ -211,22 +211,42 @@ visibility:visible;
 <!-- {% comment %} QuadPay: Modern Browsers {% endcomment %} -->
 <script async src="https://widgets.quadpay.com/quadpay-widget-2.2.5.js" type="application/javascript"></script>  
 {% endif %}
-
+  
+  
 {% if settings.sezzlemerchantid != nil %}
+<style>
+.sezzle-checkout-button-wrapper {
+    padding: 0 0 0px;  
+}
+.sezzle-product-page-widget, .sezzle-shopify-info-button {
+      overflow: hidden;
+}
+.sezzle-button-text {
+max-width:100% !important;  
+}
+</style>
 <script type="text/javascript">
 document.sezzleConfig = {
 	"configGroups": [
 		{
 			"targetXPath": ".product-price",
+            "widgetType": "product-page",
+            "marginTop": 10,
 			"fontWeight": 400,
+              "fontSize": 15
 		},
       	{
-			"targetXPath": ".product/.h1",
+		 	"targetXPath": ".product/.h1",
+            "widgetType": "product-preview",
 			"fontWeight": 400,
+            "fontSize": 15
 		},
 		{
 			"targetXPath": "#cart-total",
+            "widgetType": "cart",
+            "marginBottom": 10,
 			"alignment": "right",
+            "fontSize": 15
 		}
 	],
 	"supportedCountryCodes": [
@@ -238,6 +258,7 @@ document.sezzleConfig = {
 </script>
 <script src="https://widget.sezzle.com/v1/javascript/price-widget?uuid={{ settings.sezzlemerchantid }}"></script>
 <script>
+  setTimeout(function() {  
 $(document).on("pagebeforecreate", function(e, data) {
   var pageClasses = Array.from(e.target.classList);
   var classes = ['template-index','collection-page', 'template-product', 'template-cart'];
@@ -249,7 +270,7 @@ szl.remove();
 }           
 }
 });
-
+}, 800);
 
 var diff = function(arr, arr2) {
     var ret = [];
