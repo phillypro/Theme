@@ -168,193 +168,241 @@
 {% endcomment %}
 
 <script>
-
 // activate Ajax Cart
-  function deferAjaxifyCart(methodAjaxifyCart) {
-    if (window.Shopify.AjaxifyCart) {
-        methodAjaxifyCart();
-    } else {
-        setTimeout(function() { deferAjaxifyCart(methodAjaxifyCart) }, 50);
-    }
+function deferAjaxifyCart(methodAjaxifyCart) {
+ if (window.Shopify.AjaxifyCart) {
+  methodAjaxifyCart();
+ } else {
+  setTimeout(function() {
+   deferAjaxifyCart(methodAjaxifyCart)
+  }, 50);
+ }
 }
-deferAjaxifyCart(function () {
-   Shopify.AjaxifyCart.init();     
-});    
-  
-  
-// activate shopify payment buttons
-  function deferShopifyPaymentButtons(methodShopifyPaymentButtons) {
-    if (window.Shopify.PaymentButton) {
-              {% if settings.boldoptions %}
-      var page = document.querySelector('#product-{{ product.id }}');
-      var boldWrapper = page.querySelector('.bold_options');   
-      console.log(boldWrapper);
-        function deferBoldButtons(methodBoldButtons) {
-     if(boldWrapper.innerHTML.trim().length > 0) {
-           // remove dynamic buttons
-           var existingButtons = page.querySelector('.shopify-payment-button');
-           existingButtons.remove();
-           // set form to ajax false
-           var form = page.querySelector('form');
-           form.classList.add('bold');   
-           }else{
-            methodBoldButtons();
-           }
-        }, 50);
-    } else {
-        setTimeout(function() { deferBoldButtons(methodBoldButtons) }, 50);
-    }
-}
-deferBoldButtons(function () {   
-        Shopify.PaymentButton.init();  
-});    
-      {% else %}
-        methodShopifyPaymentButtons();
-      {% endif %}
-    } else {
-        setTimeout(function() { deferShopifyPaymentButtons(methodShopifyPaymentButtons) }, 50);
-    }
-}
-deferShopifyPaymentButtons(function () {                     
-    Shopify.PaymentButton.init();  
-});  
-  
-// activate swatch  
-  var page = document.querySelector('#product-{{ product.id }}');
-  var swatches = page.querySelectorAll('.swatch input[type=radio]');
-  swatches.forEach( radio => radio.addEventListener('change', function() {
-    var optionIndex = this.closest('.swatch').getAttribute('data-option-index');
-    var optionValue = this.value;
-    var thingitwants = this.closest('form').querySelectorAll('.single-option-selector')[optionIndex];
-    thingitwants.value = optionValue;
-    thingitwants.onchange();
-  }));  
-
-
-  
-  
-  
-setTimeout(function() {
-// if jQuery Mobile 
-if(window.$.mobile) {
-  
-// Remove page when done 
-  jQuery(document).on('pagehide', '#product-{{ product.id }}' ,function (event, ui) {
-   if (ui.prevPage[0].className.includes('template-product')) {
-      jQuery(ui.prevPage[0]).remove(); 
-   }
+deferAjaxifyCart(function() {
+ Shopify.AjaxifyCart.init();
 });
-  
-  
-  
-  
+
+
+// activate shopify payment buttons
+function deferShopifyPaymentButtons(methodShopifyPaymentButtons) {
+ if (window.Shopify.PaymentButton) {
+  {% if settings.boldoptions %}
+  var page = document.querySelector('#product-{{ product.id }}');
+  var boldWrapper = page.querySelector('.bold_options');
+
+  function deferBoldButtons(methodBoldButtons) {
+   if (boldWrapper.classList.contains("bold_options_loaded")) {
+    setTimeout(function() {
+     if (boldWrapper.innerHTML.trim().length > 0) {
+      // remove dynamic buttons
+      var existingButtons = page.querySelector('.shopify-payment-button');
+      existingButtons.remove();
+     } else {
+      methodBoldButtons();
+     }
+    }, 50);
+   } else {
+    setTimeout(function() {
+     deferBoldButtons(methodBoldButtons)
+    }, 50);
+   }
+  }
+  deferBoldButtons(function() {
+   Shopify.PaymentButton.init();
+  }); 
+  {% else %}
+  methodShopifyPaymentButtons(); 
+  {% endif %}
+ } else {
+  setTimeout(function() {
+   deferShopifyPaymentButtons(methodShopifyPaymentButtons)
+  }, 50);
+ }
 }
-  },300);
-  
+deferShopifyPaymentButtons(function() {
+ Shopify.PaymentButton.init();
+});
+
+
+
+// activate bold on product form  
+{% if settings.boldoptions %}
+var page = document.querySelector('#product-{{ product.id }}');
+var boldWrapper = page.querySelector('.bold_options');
+
+function deferBoldForm(methodBoldForm) {
+ if (boldWrapper.classList.contains("bold_options_loaded")) {
+  setTimeout(function() {
+   if (boldWrapper.innerHTML.trim().length > 0) {
+    methodBoldForm();
+   }
+  }, 900);
+ } else {
+  setTimeout(function() {
+   deferBoldForm(methodBoldForm)
+  }, 50);
+ }
+}
+deferBoldForm(function() {
+ var form = page.querySelector('form');
+ form.classList.add('bold');
+}); 
+{% endif %}
+
+
+
+
+
+
+
+
+
+// activate swatch  
+var page = document.querySelector('#product-{{ product.id }}');
+var swatches = page.querySelectorAll('.swatch input[type=radio]');
+swatches.forEach(radio => radio.addEventListener('change', function() {
+ var optionIndex = this.closest('.swatch').getAttribute('data-option-index');
+ var optionValue = this.value;
+ var thingitwants = this.closest('form').querySelectorAll('.single-option-selector')[optionIndex];
+ thingitwants.value = optionValue;
+ thingitwants.onchange();
+}));
+
+
+
+
+setTimeout(function() {
+ // if jQuery Mobile 
+ if (window.$.mobile) {
+
+  // Remove page when done 
+  jQuery(document).on('pagehide', '#product-{{ product.id }}', function(event, ui) {
+   if (ui.prevPage[0].className.includes('template-product')) {
+    jQuery(ui.prevPage[0]).remove();
+   }
+  });
+
+
+
+
+ }
+}, 300);
+
 
 var selectCallback = function(variant, selector) {
-  if (variant) {    
-    var formEl = document.querySelector('#' + selector.domIdPrefix).closest('form');    
+ if (variant) {
+  var formEl = document.querySelector('#' + selector.domIdPrefix).closest('form');
 
-    for (var i=0,length=variant.options.length; i<length; i++) {
-      var radioButton = formEl.querySelector('.swatch[data-option-index="' + i + '"] input[value="' + encodeURI(variant.options[i]) +'"]');
-      if (radioButton !== null) {
-        radioButton.checked = true;
-      }
-    }
-    
-    
-    // Selected a valid variant that is available.
-    if (variant.available) {         
-      // Enabling add to cart button.
-      var addToCartButton = formEl.querySelector('#add-{{ product.id }}');
-      
-      if(addToCartButton !== null) {
-      addToCartButton.classList.remove('disabled'); 
-      addToCartButton.disabled = false;
-      addToCartButton.value = '{{ add_to_cart | json }}';
-      }
-
-     
-
-      
-    var backorderEl = formEl.querySelector('#backorder-{{ product.id }}');
-      // If item is backordered yet can still be ordered, we'll show special message.
-      if (variant.inventory_management && variant.inventory_quantity <= 0) {
-        var selectedVariant = formEl.querySelector('#selected-variant-{{ product.id }}');
-        if(selectedVariant !== null) {
-          selectedVariant.innerHTML = '{{ product.title | json }}{% unless hide_default_title %} + ' - ' + variant.title{% endunless %}';
-        }                                           
-      if(backorderEl !== null) {
-         backorderEl.classList.remove('hidden');
-        }
-      } else {
-        if(backorderEl !== null) {
-         backorderEl.classList.add('hidden');
-        }
-      }
-      
-    } else {
-      // Variant is sold out.
-      if(backorderEl !== null) {
-      backorderEl.classList.add('hidden');
-      }
-      if(addToCartButton !== null) {
-      addToCartButton.value = '{{ sold_out | json }}';
-      addToCartButton.classList.add('disabled');  
-      addToCartButton.disabled = true;   
-      }
-    }
-      
-    
-    var pricewrapEl = formEl.querySelector('#product-price-{{ product.id }}');
-    var priceEl = pricewrapEl.querySelector('.product-price');                                      
-    // Whether the variant is in stock or not, we can update the price and compare at price.
-    if ( variant.compare_at_price > variant.price ) {
-      priceEl.innerHTML = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");   
-      var compareEl = pricewrapEl.querySelector('.product-compare-price');
-      if(compareEl == null) {  
-       var compareEl = document.createElement("s");  
-       compareEl.classList.add('product-compare-price');
-       pricewrapEl.append(compareEl);
-      }
-      compareEl.innerHTML = Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}");
-    
-    } else {           
-      priceEl.innerHTML = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");    
-    }      
-             
-      {% if settings.quadpay %}   
-      {% assign new_money_format = shop.money_format | remove: '$' %}
-      var quadpayWidget = formEl.querySelector('quadpay-widget');
-      quadpayWidget.setAttribute('amount', Shopify.formatMoney(variant.price, "{{ new_money_format }}"));
-      {% endif %}                
-             
-
-  } else {
-    // variant doesn't exist.
-    priceEl.innerHTML = '';    
-    if(compareEl != null) {   
-     compareEl.innerHTML = '';                            
-    }
-    if(backorderEl !== null) {                            
-    backorderEl.classList.add('hidden');
-    }
-    if(addToCartButton !== null) {
-      addToCartButton.value = '{{ unavailable | json }}';
-      addToCartButton.classList.add('disabled');  
-      addToCartButton.disabled = true;   
-    }
+  for (var i = 0, length = variant.options.length; i < length; i++) {
+   var radioButton = formEl.querySelector('.swatch[data-option-index="' + i + '"] input[value="' + encodeURI(variant.options[i]) + '"]');
+   if (radioButton !== null) {
+    radioButton.checked = true;
+   }
   }
 
-};
-  
 
-  new Shopify.OptionSelectors('product-select-{{ product.id }}', { product: {{ product | json }}, onVariantSelected: selectCallback, enableHistoryState: false });
-  // Add label if only one product option and it isn't 'Title'.
-  {% if product.options.size == 1 and product.options.first != 'Title' %}
-    $('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>');
+  // Selected a valid variant that is available.
+  if (variant.available) {
+   // Enabling add to cart button.
+   var addToCartButton = formEl.querySelector('#add-{{ product.id }}');
+
+   if (addToCartButton !== null) {
+    addToCartButton.classList.remove('disabled');
+    addToCartButton.disabled = false;
+    addToCartButton.value = '{{ add_to_cart | json }}';
+   }
+
+
+
+
+   var backorderEl = formEl.querySelector('#backorder-{{ product.id }}');
+   // If item is backordered yet can still be ordered, we'll show special message.
+   if (variant.inventory_management && variant.inventory_quantity <= 0) {
+    var selectedVariant = formEl.querySelector('#selected-variant-{{ product.id }}');
+    if (selectedVariant !== null) {
+     selectedVariant.innerHTML = '{{ product.title | json }}{% unless hide_default_title %} + ' - ' + variant.title{% endunless %}';
+    }
+    if (backorderEl !== null) {
+     backorderEl.classList.remove('hidden');
+    }
+   } else {
+    if (backorderEl !== null) {
+     backorderEl.classList.add('hidden');
+    }
+   }
+
+  } else {
+   // Variant is sold out.
+   if (backorderEl !== null) {
+    backorderEl.classList.add('hidden');
+   }
+   if (addToCartButton !== null) {
+    addToCartButton.value = '{{ sold_out | json }}';
+    addToCartButton.classList.add('disabled');
+    addToCartButton.disabled = true;
+   }
+  }
+
+
+  var pricewrapEl = formEl.querySelector('#product-price-{{ product.id }}');
+  var priceEl = pricewrapEl.querySelector('.product-price');
+  // Whether the variant is in stock or not, we can update the price and compare at price.
+  if (variant.compare_at_price > variant.price) {
+   priceEl.innerHTML = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");
+   var compareEl = pricewrapEl.querySelector('.product-compare-price');
+   if (compareEl == null) {
+    var compareEl = document.createElement("s");
+    compareEl.classList.add('product-compare-price');
+    pricewrapEl.append(compareEl);
+   }
+   compareEl.innerHTML = Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}");
+
+  } else {
+   priceEl.innerHTML = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");
+  }
+
+  {% if settings.quadpay %} 
+  {% assign new_money_format = shop.money_format | remove: '$' %}
+  var quadpayWidget = formEl.querySelector('quadpay-widget');
+  quadpayWidget.setAttribute('amount', Shopify.formatMoney(variant.price, "{{ new_money_format }}")); 
   {% endif %}
+
+
+ } else {
+  // variant doesn't exist.
+  priceEl.innerHTML = '';
+  if (compareEl != null) {
+   compareEl.innerHTML = '';
+  }
+  if (backorderEl !== null) {
+   backorderEl.classList.add('hidden');
+  }
+  if (addToCartButton !== null) {
+   addToCartButton.value = '{{ unavailable | json }}';
+   addToCartButton.classList.add('disabled');
+   addToCartButton.disabled = true;
+  }
+ }
+
+}; 
+{% if settings.boldoptions %}
+new Shopify.OptionSelectors('product-select-{{ product.id }}', {
+ product: {%- include 'bold-product', output: 'json' -%},
+ onVariantSelected: selectCallback,
+ enableHistoryState: false
+}); 
+{% else %}
+new Shopify.OptionSelectors('product-select-{{ product.id }}', {
+ product: {{ product | json }},
+ onVariantSelected: selectCallback,
+ enableHistoryState: false
+}); 
+{% endif %}
+
+// Add label if only one product option and it isn't 'Title'.
+{% if product.options.size == 1 and product.options.first != 'Title' %}
+$('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>'); 
+{% endif %}
 
 
 Shopify.Image.preload({{ product.images | json }}, 'grande');
