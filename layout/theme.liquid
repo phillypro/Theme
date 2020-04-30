@@ -212,6 +212,69 @@ visibility:visible;
 <script async src="https://widgets.quadpay.com/quadpay-widget-2.2.5.js" type="application/javascript"></script>  
 {% endif %}
 
+{% if settings.sezzlemerchantid != nil %}
+<script type="text/javascript">
+document.sezzleConfig = {
+	"configGroups": [
+		{
+			"targetXPath": ".product-price",
+			"fontWeight": 400,
+		},
+      	{
+			"targetXPath": ".product/.h1",
+			"fontWeight": 400,
+		},
+		{
+			"targetXPath": "#cart-total",
+			"alignment": "right",
+		}
+	],
+	"supportedCountryCodes": [
+		"US",
+		"IN",
+		"CA"
+	]
+}
+</script>
+<script src="https://widget.sezzle.com/v1/javascript/price-widget?uuid={{ settings.sezzlemerchantid }}"></script>
+<script>
+$(document).on("pagebeforecreate", function(e, data) {
+  var pageClasses = Array.from(e.target.classList);
+  var classes = ['template-index','collection-page', 'template-product', 'template-cart'];
+  if(diff(pageClasses, classes)) {
+removeJS('widget.sezzle.com');
+var szl = document.querySelector('iframe[name="szl"]');
+if(szl) {
+szl.remove();   
+}           
+}
+});
+
+
+var diff = function(arr, arr2) {
+    var ret = [];
+    for(var i in arr) {   
+        if(arr2.indexOf(arr[i]) > -1){
+            ret.push(arr[i]);
+        }
+    }
+  if(ret.length == 0) {
+    return false;
+  }else{
+   return true
+  }
+};  
+  
+
+function removeJS(filename){
+ var tags = document.getElementsByTagName('script');
+ for (var i = tags.length; i >= 0; i--){ //search backwards within nodelist for matching elements to remove
+  if (tags[i] && tags[i].getAttribute('src') != null && tags[i].getAttribute('src').indexOf(filename) != -1)
+   tags[i].parentNode.removeChild(tags[i]); //remove element by calling parentNode.removeChild()
+ }
+}   
+</script>  
+{% endif %}
   
 </body>
 </html>
