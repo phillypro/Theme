@@ -860,6 +860,40 @@ background: #d85089;
  }
 }
 
+li.product {
+  & .image {
+background-color: #ddd;    
+{% case settings.product_image_size %}
+{% when 'portrait' %}
+    position: relative;
+    height: 0;
+    padding-bottom: 125%;
+    overflow: hidden;    
+{% when 'square' %}
+    position: relative;
+    height: 0;
+    padding-bottom: 100%;
+    overflow: hidden;
+{% when 'none' %}
+
+{% endcase %}
+    & .inner {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;  
+{% case settings.product_image_size %}
+{% when 'portrait' %}      
+    align-items: center;
+{% when 'square' %}
+    align-items: center;    
+{% when 'none' %}
+
+{% endcase %}      
+    }
+  }
+}
+
 /* Shop -------------------------------------------------------------------------------------------------------------*/
 
 .collection-page {
