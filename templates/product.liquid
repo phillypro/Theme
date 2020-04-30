@@ -144,7 +144,13 @@
 {% assign Product-FAQ = Product-FAQ | replace: "%%FAQ%%", FAQ %}
 {{ Product-FAQ }}
   
-  
+{% if settings.yotpoappkey != nil %}
+<div class="row">
+  <div class="column large-12">
+    <div class="yotpo yotpo-main-widget" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}"></div>
+  </div>
+</div>  
+{% endif %}  
 {% comment %}{% section 'Yotpo' %}{% endcomment %}  
   
 {% section 'Also-Like' %}
