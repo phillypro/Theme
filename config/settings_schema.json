@@ -1,5 +1,5 @@
 [
-    {
+  {
     "settings": [
       {
         "content": "SEO Information",
@@ -35,20 +35,58 @@
         "type": "image_picker"
       },
       {
-       "id": "app_theme_color",
-       "type": "color",
-       "label": "Theme Color",
+        "id": "app_theme_color",
+        "type": "color",
+        "label": "Theme Color",
         "info": "this colors the address bar to match the overall color of your website, try matching this with header color"
-       },
-       {
-       "id": "app_background_color",
-       "type": "color",
-       "label": "Loading Background Color",
+      },
+      {
+        "id": "app_background_color",
+        "type": "color",
+        "label": "Loading Background Color",
         "info": "this is the background color of the page while loading the app"
-       }
-      
+      }
     ],
     "name": "Google SEO"
+  },
+  {
+    "settings": [
+      {
+        "type": "header",
+        "content": "Style Options"
+      },
+      {
+        "type": "header",
+        "content": "Product Style"
+      },
+      {
+        "type": "radio",
+        "id": "product_image_size",
+        "label": "Product Image Size",
+        "options": [
+          {
+            "value": "portrait",
+            "label": "Portrait"
+          },
+          {
+            "value": "square",
+            "label": "Square"
+          },
+          {
+            "value": "none",
+            "label": "No Sizing"
+          }
+        ],
+        "default": "portrait"
+      },
+      {
+        "id": "product_title_bold",
+        "default": true,
+        "label": "Enable Bold Font Product Title",
+        "type": "checkbox"
+      }
+    ],
+    "name": "Advanced Style Options"
   },
   {
     "settings": [
@@ -97,7 +135,7 @@
         "id": "sezzlemerchantid",
         "placeholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx",
         "label": "Sezzle Merchant ID",
-         "type": "text"
+        "type": "text"
       }
     ],
     "name": "Payment Gateways"
