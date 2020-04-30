@@ -374,7 +374,10 @@ document.body.append(checkoutbar);
 <div class="quadpay" style="min-height:20px;">
   <quadpay-widget amount={{ cart.total_price | divided_by: 100.00 }} alignment="right"></quadpay-widget>
 </div>        
-{% endif %}        
+{% endif %}   
+        
+        
+     
         
         
         {% unless section.settings.reserve == 'off' %}
@@ -383,6 +386,38 @@ document.body.append(checkoutbar);
           <div class="time-wrap">Your order is reserved for <span time-left="{{ section.settings.reserve }}" id="reserve-cart-timer"></span> minutes!</div>
         </div>
         {% endunless %}
+        
+        {% if section.settings.terms %}      
+<div class="agbwrap">
+  <label class="ag" for="agree-agb">
+    <a class="agburl" data-fancybox data-src="#hidden-content" href="javascript:;">By clicking this box I accept the {{ shop.terms_of_service.title }}.</a>
+    <input type="checkbox" id="agree-agb" />
+  </label>
+  <span id="notchecked">Please read and accept the {% assign policy = shop.terms_of_service %}{{ policy.title }} to proceed with your order.</span>
+</div>        
+<script>
+setTimeout(function() {
+var checkbox = document.querySelector('#agree-agb');
+var checkoutForm = document.querySelector('form[action="/cart"]');
+  
+checkoutForm.addEventListener('submit', checkTerms);
+
+
+function checkTerms(e) {
+  var errorHTML = document.querySelector('#notchecked');  
+  if(checkbox.checked == true) {    
+    errorHTML.style.display = 'none';
+    var checkoutButton = this.querySelector('[name="checkout"]');
+    checkoutButton.click();
+  }else{
+    e.preventDefault();
+    errorHTML.style.display = 'block';
+  }
+}   
+},300);
+</script>               
+{% endif %}    
+        
       </ul>
       <div>
       <input id="checkoutnow" type="submit" name="checkout" value="Continue" />   
@@ -540,6 +575,13 @@ deferCart(function () {
      { "value": "5", "label": "5 mins" }
    ],
    "default":   "off"
+},
+{
+  "id": "terms",
+  "default": false,
+  "label": "Enable Terms of Service Checkbox",
+   "info": "Adds a required checkbox before checkout, [click here to add Terms of Service](/admin/settings/legal)",
+   "type": "checkbox"
 },
 {
 "type":"header",
@@ -1127,6 +1169,7 @@ transition:  transform 0.2s linear;
   }
 & .cart-reserve {
 text-align:right;
+margin: 0 0 25px 0;
   & > div:nth-child(1) {
       font-size: 15px;
   }
@@ -1141,6 +1184,93 @@ text-align:right;
     margin-top: 5px;
   }
 }
+& .agbwrap {
+      text-align:right;
+    margin: 0 0 25px;
+          @include bp(mobile) {
+              text-align: center;
+          }
+        & label {
+      align-items: center;
+    display: flex;
+	line-height: 40px;
+	& input {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		-ms-appearance: none;
+		-o-appearance: none;
+		appearance: none;
+		position: relative;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		height: 40px;
+		width: 40px;
+		transition: all 0.15s ease-out 0s;
+		background: #cbd1d8;
+		border: none;
+		color: #fff;
+		cursor: pointer;
+		display: inline-block;
+		    margin: 0 0 0 0;
+		outline: none;
+		position: relative;
+		z-index: 1000;
+      @include bp(mobile) {
+            margin: 0 0 0 0;
+                  -webkit-animation: pulse2 2s ease-out 0s infinite;    
+             animation: pulse2 2s ease-out 0s infinite;   
+      }
+		&:hover {
+			background: #9faab7;
+		}
+		&:checked {
+			background: #40e0d0;
+                @include bp(mobile) {
+                  -webkit-animation: none; 
+            -webkit-animation: none; 
+      }
+			&::before {
+				height: 40px;
+				width: 40px;
+				position: absolute;
+                font-family:'FontAwesome';
+				content: '\f00c';
+				display: inline-block;
+				font-size: 26.66667px;
+				text-align: center;
+				line-height: 40px;
+			}
+			&::after {
+				-webkit-animation: click-wave 0.65s;
+				-moz-animation: click-wave 0.65s;
+				animation: click-wave 0.65s;
+				background: #40e0d0;
+				content: '';
+				display: block;
+				position: relative;
+				z-index: 100;
+			}
+		}
+	}
+}   
+& #notchecked {
+    margin-top: 20px;
+    display: none;
+    color: red;
+    text-align: right;
+}
+        & .agburl {
+    font-size: 15px;
+    display: inline;
+    line-height: 1.2;
+    text-align: right;
+    margin-right: 20px;
+          flex: 1;
+     
+     }
+    }
   & > div {
     margin-top: 20px;
     text-align:right;
@@ -1559,5 +1689,5 @@ border:none;
 
 {% javascript %}    
 
-{% endjavascript %}                                  
+{% endjavascript %}                                          
  
