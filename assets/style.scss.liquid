@@ -1748,7 +1748,10 @@ padding: 8px 15px;
 }
 /* Tooltips */
 
-
+.swatch-group {
+  display:flex;
+-ms-flex-flow: row wrap;
+    flex-flow: row wrap;  
 .swatch-element {
   &.color {
   & label {
@@ -1775,6 +1778,7 @@ padding: 8px 15px;
  & .tooltip {
      left: 0%; 
   }
+}
 }
 /* CSS triangle */
 
