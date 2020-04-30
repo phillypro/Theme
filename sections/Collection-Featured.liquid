@@ -182,7 +182,9 @@ padding-top:25px;
          
             
        <div class="image">
+         <div class="inner">
          {% if product.featured_image %}<img class="hvr-grow" src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
+         </div>
        </div>
          
          
@@ -791,10 +793,7 @@ opacity:1;
       }
       & h3 {
     font-family: 'Open Sans', sans-serif;
-    line-height: 30px;
     margin: 20px 0 5px;
-    font-size: 19px;
-    font-weight: bold;
        z-index: 2;
     position: relative;
        @include bp(mobile) {
@@ -885,4 +884,4 @@ opacity:0.2;
 
 {% javascript %}       
  
-{% endjavascript %}                            
+{% endjavascript %}                                 
