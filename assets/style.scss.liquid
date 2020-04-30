@@ -892,6 +892,11 @@ background-color: #ddd;
 {% endcase %}      
     }
   }
+  & h3 {
+    {% if settings.product_title_bold %}
+      font-weight:bold;
+    {% endif %}
+  }
 }
 
 /* Shop -------------------------------------------------------------------------------------------------------------*/
