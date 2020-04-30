@@ -1,46 +1,32 @@
-{% if settings.boldoptions %}
-{%- include 'bold-common' -%}  
-{% endif %}
-{% if cart.item_count > 0 %}
+{% if settings.boldoptions %} {%- include 'bold-common' -%} {% endif %} {% if cart.item_count > 0 %}
 <script>
-  var checkoutBar = document.getElementById('checkout-bar');
-  if(!checkoutBar) {
-// create checkoutbar 
-var checkoutbar = document.createElement('div');
-checkoutbar.id = 'checkout-bar';
-checkoutbar.classList.add('checkout-bar');
-// create button 
-var checkoutbarbutton = document.createElement('a');
-checkoutbarbutton.id = 'checkout-bar-button';
-checkoutbarbutton.setAttribute('href','#');
-// create total
-var checkoutbartotal = document.createElement('span');
-checkoutbartotal.id = 'checkout-bar-total';
-// put continue and total into button
-checkoutbarbutton.innerHTML = 'Continue';
-checkoutbarbutton.append(checkoutbartotal);
-checkoutbar.innerHTML = '<a href="#" onclick="goBack()" class="continue"> <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-arrow-left fa-w-14 fa-3x" style=" width: 10px; margin-right: 3px;"><path fill="currentColor" d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z" class=""></path></svg>Continue Shopping</a>';    
-checkoutbar.append(checkoutbarbutton);
-document.body.append(checkoutbar);
-  }
+    var checkoutBar = document.getElementById('checkout-bar');
+    if (!checkoutBar) {
+        // create checkoutbar 
+        var checkoutbar = document.createElement('div');
+        checkoutbar.id = 'checkout-bar';
+        checkoutbar.classList.add('checkout-bar');
+        // create button 
+        var checkoutbarbutton = document.createElement('a');
+        checkoutbarbutton.id = 'checkout-bar-button';
+        checkoutbarbutton.setAttribute('href', '#');
+        // create total
+        var checkoutbartotal = document.createElement('span');
+        checkoutbartotal.id = 'checkout-bar-total';
+        // put continue and total into button
+        checkoutbarbutton.innerHTML = 'Continue';
+        checkoutbarbutton.append(checkoutbartotal);
+        checkoutbar.innerHTML = '<a href="#" onclick="goBack()" class="continue"> <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-arrow-left fa-w-14 fa-3x" style=" width: 10px; margin-right: 3px;"><path fill="currentColor" d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z" class=""></path></svg>Continue Shopping</a>';
+        checkoutbar.append(checkoutbarbutton);
+        document.body.append(checkoutbar);
+    }
 </script>
-{% style %}
-  .cart-totals>div input[type=submit] {
-    background:{{ section.settings.checkoutbackground }};
-    color:{{ section.settings.checkoutcolor }};
-  }
-    #cart-total {
- color:{{ section.settings.totalcolor}};
-}
-#cart .sezzle-checkout-button-wrapper .sezzle-button-text .sezzle-payment-amount {
-  color:{{ section.settings.totalcolor}};
-}
-{% endstyle %}
+{% style %} .cart-totals>div input[type=submit] { background:{{ section.settings.checkoutbackground }}; color:{{ section.settings.checkoutcolor }}; } #cart-total { color:{{ section.settings.totalcolor}}; } #cart .sezzle-checkout-button-wrapper .sezzle-button-text .sezzle-payment-amount { color:{{ section.settings.totalcolor}}; } {% endstyle %}
 <div class="cart-header">
-  <div class="row">
-    <div class="large-12 text-center columns">
-        <!--logo-->
-        <a href="/" title="{{ shop.name }}">
+    <div class="row">
+        <div class="large-12 text-center columns">
+            <!--logo-->
+            <a href="/" title="{{ shop.name }}">
           {% if section.settings.brand_logo_svg != '' %}
             {{ section.settings.brand_logo_svg }}
           {% else %}
@@ -58,36 +44,32 @@ document.body.append(checkoutbar);
            <img alt="{{ shop.name}} logo" src="{{ section.settings.brand_logo | img_url: 'medium' }}" />
           {% endif %}
           {% endif %}
-        </a> 
-        <!--End logo-->
-    </div>
-    <div class="large-12 columns">
-      <h2>
+        </a>
+            <!--End logo-->
+        </div>
+        <div class="large-12 columns">
+            <h2>
        Your Shopping Bag
       </h2>
-      <span>
+            <span>
        {{ section.settings.message }}
       </span>
+        </div>
     </div>
-  </div>
 </div>
 
-
 <form id="cartform" action="/cart" method="post" data-ajax="false">
-<div class="row">
-<div class="large-12 columns">    
-  {% assign cartitems = cart.items %}
- {% if settings.boldoptions %}
-  {% for item in cartitems %}
-     {%- include 'bold-options-hybrid-cart-item' with item -%}   
-     <div cart-item="{{ item.id }}" class="product-cart-wrap">
-       <div class="thumbnail-wrap" style="background-image:url({{ item | img_url: 'large' }})">
-       </div>
-       <div class="quantity-display">
-         {{ item.quantity }}
-       </div>
-       <div class="product-title-wrap">
-         <a href="{{ item.url }}">
+    <div class="row">
+        <div class="large-12 columns">
+            {% assign cartitems = cart.items %} {% if settings.boldoptions %} {% for item in cartitems %} {%- include 'bold-options-hybrid-cart-item' with item -%}
+            <div cart-item="{{ item.id }}" class="product-cart-wrap">
+                <div class="thumbnail-wrap" style="background-image:url({{ item | img_url: 'large' }})">
+                </div>
+                <div class="quantity-display">
+                    {{ item.quantity }}
+                </div>
+                <div class="product-title-wrap">
+                    <a href="{{ item.url }}">
              {{ item.product.title }} 
              {% assign item_variant = item.variant %}
              {% if item_variant.option1 %}{{ item_variant.option1 }}{% endif %}
@@ -101,396 +83,300 @@ document.body.append(checkoutbar);
                       {% unless p.last == blank or first_character_in_key == '_' %}
                       {{ p.first }}:
                       {% if p.last contains '/uploads/' %}
-                      <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
-                      {% else %}
-                      {{ p.last }}
-                      {% endif %}
-                      <br/>
-                      {% endunless %}
-                      {% endfor %}
-                      {% endif %}
-                      <!-- Bold:POv2 -->
-                    </div>
-         </a>
-       </div>
-       <div class="quantity-wrap">
-         <div>
-<input type="number" name="updates[]" id="updates_{{ item.id }}" class="quantity input-number" min="0" max="99" value="{{ item.quantity }}"  />           
-         </div>
-         <a href="#" product-id="{{ item.id }}" class="remove"></a>
-       </div>
-       <div class="price-wrap">
-         <span>
+                      <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a> {% else %} {{ p.last }} {% endif %}
+                    <br/> {% endunless %} {% endfor %} {% endif %}
+                    <!-- Bold:POv2 -->
+                </div>
+                </a>
+            </div>
+            <div class="quantity-wrap">
+                <div>
+                    <input type="number" name="updates[]" id="updates_{{ item.id }}" class="quantity input-number" min="0" max="99" value="{{ item.quantity }}" />
+                </div>
+                <a href="#" product-id="{{ item.id }}" class="remove"></a>
+            </div>
+            <div class="price-wrap">
+                <span>
           <span> 
 	   <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_item_price" style="display:none !important;"></span>{% include 'price' with item.price %}
-           </span>
-           <div>       
-          </div>
-         </span>
-       </div>
-     </div>  
-  {% endfor %}
-  
-  {% else %}
-  
-  {% for item in cartitems reversed %}
-     <div cart-item="{{ item.id }}" class="product-cart-wrap">
-       <div class="thumbnail-wrap" style="background-image:url({{ item | img_url: 'large' }})">
-       </div>
-       <div class="quantity-display">
-         {{ item.quantity }}
-       </div>
-       <div class="product-title-wrap">
-         <a href="{{ item.url }}">
+                </span>
+                <div>
+                </div>
+                </span>
+            </div>
+        </div>
+        {% endfor %} {% else %} {% for item in cartitems reversed %}
+        <div cart-item="{{ item.id }}" class="product-cart-wrap">
+            <div class="thumbnail-wrap" style="background-image:url({{ item | img_url: 'large' }})">
+            </div>
+            <div class="quantity-display">
+                {{ item.quantity }}
+            </div>
+            <div class="product-title-wrap">
+                <a href="{{ item.url }}">
              {{ item.product.title }} 
              {% assign item_variant = item.variant %}
              {% if item_variant.option1 %}{{ item_variant.option1 }}{% endif %}
             {% if item_variant.option2 %}<span>{{ item_variant.option2 }}</span>{% endif %}
          </a>
-       </div>
-       <div class="quantity-wrap">
-         <div>
-<input type="number" name="updates[]" id="updates_{{ item.id }}" class="quantity input-number" min="0" max="99" value="{{ item.quantity }}"  />           
-         </div>
-         <a href="#" product-id="{{ item.id }}" class="remove"></a>
-       </div>
-       <div class="price-wrap">
-         <span>
+            </div>
+            <div class="quantity-wrap">
+                <div>
+                    <input type="number" name="updates[]" id="updates_{{ item.id }}" class="quantity input-number" min="0" max="99" value="{{ item.quantity }}" />
+                </div>
+                <a href="#" product-id="{{ item.id }}" class="remove"></a>
+            </div>
+            <div class="price-wrap">
+                <span>
           <span> 
            {% assign price = item.price | money | split: '.' %}{{ price.first }}
            </span>
-           <div>       
-          </div>
-         </span>
-       </div>
-     </div>  
-  {% endfor %}
-  
-  {% endif %}
-  
-  
-  </div>
-</div>
-  <div class="row align-justify">
-    <div class="large-6 small-12">
-      
-      
-      
-      
-      
-   <!-- get all cart items into an array -->
- {% for item in cart.items %}
-  {% if settings.boldoptions %}
-  {%- comment -%}Bold:PO 2.0 - Hybrid Input{%- endcomment -%}
-{%- if item.properties._boldBuilderId  and item.properties._boldVariantIds == null -%}
-<input type="hidden" name="updates[]" id="updates_{{- item.key -}}" class="bold_hidden_input cart__product-qty" value="{{- item.quantity -}}" min="0" data-id="{{- item.key -}}">
-{%- continue -%}
-{%- endif -%}
-  {% endif %}
-   {% if forloop.last == true %}
-    {% assign cartitems = cartitems | append: item.product.handle %}
-   {% else %}
-    {% assign cartitems = cartitems | append: item.product.handle | append: ',' %}
-   {% endif %}
+                <div>
+                </div>
+                </span>
+            </div>
+        </div>
+        {% endfor %} {% endif %}
 
- {% endfor %}
-{% assign cartitems = cartitems | split: ',' %}
+    </div>
+    </div>
+    <div class="row align-justify">
+        <div class="large-6 small-12">
 
+            <!-- get all cart items into an array -->
+            {% for item in cart.items %} {% if settings.boldoptions %} {%- comment -%}Bold:PO 2.0 - Hybrid Input{%- endcomment -%} {%- if item.properties._boldBuilderId and item.properties._boldVariantIds == null -%}
+            <input type="hidden" name="updates[]" id="updates_{{- item.key -}}" class="bold_hidden_input cart__product-qty" value="{{- item.quantity -}}" min="0" data-id="{{- item.key -}}"> {%- continue -%} {%- endif -%} {% endif %} {% if forloop.last == true %} {% assign cartitems = cartitems | append: item.product.handle %} {% else %} {% assign cartitems = cartitems | append: item.product.handle | append: ',' %} {% endif %} {% endfor %} {% assign cartitems = cartitems | split: ',' %}
 
-
-<!-- see if anythings available -->
-{% assign available = '' %}
-{% for block in section.blocks %}
-    {% case block.type %}
-        {% when 'Upsell' %} 
-          {% assign compare = all_products[block.settings.upsell_info] %}  
-          {% if cartitems contains compare.handle %} 
-             {% else %}  
-             {% assign available = available | append: compare.handle %}
-         {% endif %}
-    {% endcase %}         
-{% endfor %}
-
-
-     
-
-{% if available != '' %}
-<div class="frequently-bought-wrap">
-<h2>{{ section.settings.frequently-bought-title }}
+            <!-- see if anythings available -->
+            {% assign available = '' %} {% for block in section.blocks %} {% case block.type %} {% when 'Upsell' %} {% assign compare = all_products[block.settings.upsell_info] %} {% if cartitems contains compare.handle %} {% else %} {% assign available = available | append: compare.handle %} {% endif %} {% endcase %} {% endfor %} {% if available != '' %}
+            <div class="frequently-bought-wrap">
+                <h2>{{ section.settings.frequently-bought-title }}
 </h2>
-  
-  
-<div class="swiper-container frequently-swiper">
-      <!-- Additional required wrapper -->
-          <div class="swiper-wrapper"> 
-  {% assign i = 0 %}
-{% for block in section.blocks %}
-    {% case block.type %}
-        {% when 'Upsell' %}
 
-{% assign upsell = all_products[block.settings.upsell_info] %}  
-{% if cartitems contains upsell.handle %}  
-{% else %}  
- 
- <div class="swiper-slide"> 
-<div class="row">  
- <div class="columns"> 
- <a href="#{{ upsell.handle }}{{ i }}" data-rel="popup"  data-transition="slideup" data-position-to="window" class="frequently-bought">
-   <div>
-     <div class="flex-video">
-       <div>
-     <img src="{{ upsell.featured_image | product_img_url: 'medium' }}" />
-       </div>
-     </div>
-   </div>
-   <div>
-     <h2>{{ upsell.title }}</h2>
-     <span>{% assign price = upsell.price | money | split: '.' %}{{ price.first }}</span>
-   </div>
-   <span>view</span>
+                <div class="swiper-container frequently-swiper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        {% assign i = 0 %} {% for block in section.blocks %} {% case block.type %} {% when 'Upsell' %} {% assign upsell = all_products[block.settings.upsell_info] %} {% if cartitems contains upsell.handle %} {% else %}
 
- </a>
-</div>
-</div>
-</div>   
-           
-{% endif %}
-{% assign i = i | plus: 1 %} 
- 
-{% endcase %}         
-{% endfor %}
-  </div> 
-</div>   
-</div>    
-      
-      
-      
-<div id="frequently-bought-popups">
-{% assign i = 0 %}
-{% for block in section.blocks %}
-{% case block.type %}
-{% when 'Upsell' %}
-{% assign upsell = all_products[block.settings.upsell_info] %}  
-  
-     
-  
-{% if cartitems contains upsell.handle %}  
-{% else %}  
-   <div class="popupwrap" data-role="popup" id="{{ upsell.handle }}{{ i }}" data-dismissible="false">
-      <a class="close" href="#" data-rel="back">
-        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 34 364 420"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" class=""></path></svg>
-     </a>
-      <div class="featured-image">
-       <img src="{{ upsell.featured_image | product_img_url: 'large' }}" />
-      </div>
-      <div>
-      <div>
-        <h2>{{ upsell.title }}</h2>
-        <span>{{ upsell.price | money }}</span>
-      </div>
-      <div>
-        {{ block.settings.upsell_details }}
-      </div>
-      <div class="quantity-wrap">
-            <div class="input-group">
-             <span class="input-group-button">
+                        <div class="swiper-slide">
+                            <div class="row">
+                                <div class="columns">
+                                    <a href="#{{ upsell.handle }}{{ i }}" data-rel="popup" data-transition="slideup" data-position-to="window" class="frequently-bought">
+                                        <div>
+                                            <div class="flex-video">
+                                                <div>
+                                                    <img src="{{ upsell.featured_image | product_img_url: 'medium' }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h2>{{ upsell.title }}</h2>
+                                            <span>{% assign price = upsell.price | money | split: '.' %}{{ price.first }}</span>
+                                        </div>
+                                        <span>view</span>
+
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endif %} {% assign i = i | plus: 1 %} {% endcase %} {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div id="frequently-bought-popups">
+                {% assign i = 0 %} {% for block in section.blocks %} {% case block.type %} {% when 'Upsell' %} {% assign upsell = all_products[block.settings.upsell_info] %} {% if cartitems contains upsell.handle %} {% else %}
+                <div class="popupwrap" data-role="popup" id="{{ upsell.handle }}{{ i }}" data-dismissible="false">
+                    <a class="close" href="#" data-rel="back">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 34 364 420">
+                            <path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" class=""></path>
+                        </svg>
+                    </a>
+                    <div class="featured-image">
+                        <img src="{{ upsell.featured_image | product_img_url: 'large' }}" />
+                    </div>
+                    <div>
+                        <div>
+                            <h2>{{ upsell.title }}</h2>
+                            <span>{{ upsell.price | money }}</span>
+                        </div>
+                        <div>
+                            {{ block.settings.upsell_details }}
+                        </div>
+                        <div class="quantity-wrap">
+                            <div class="input-group">
+                                <span class="input-group-button">
               <button type="button" class="btn btn-danger btn-number"  data-type="minus">
                 <span class="glyphicon glyphicon-minus">-</span>
-              </button>
-             </span>
-             <input type="number" name="quantity" class="quantity input-number input-group-field" value="1" min="1" max="10" />
-             <span class="input-group-button">
+                                </button>
+                                </span>
+                                <input type="number" name="quantity" class="quantity input-number input-group-field" value="1" min="1" max="10" />
+                                <span class="input-group-button">
               <button type="button" class="btn btn-success btn-number" data-type="plus">
                   <span class="glyphicon glyphicon-plus">+</span>
-              </button>
-            </span>
+                                </button>
+                                </span>
+                            </div>
+                            <a data-rel="back" href="#" variant-id="{{ upsell.variants[0].id }}" class="frequently-add" id="frequently-bought-button">ADD<span id="frequently-bought-total" price="{{ upsell.price | money }}">{% capture newprice %}{{ upsell.price | money  }}{% endcapture %}{{ newprice | strip }}</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                {% endif %} {% assign i = i | plus: 1 %} {% endcase %} {% endfor %}
             </div>
-        <a data-rel="back" href="#" variant-id="{{ upsell.variants[0].id }}" class="frequently-add" id="frequently-bought-button">ADD<span id="frequently-bought-total" price="{{ upsell.price | money }}">{% capture newprice %}{{ upsell.price | money  }}{% endcapture %}{{ newprice | strip }}</span></a>    
-     </div>
-     </div>
-   </div>
-  
-{% endif %}
-{% assign i = i | plus: 1 %}  
-{% endcase %}         
-{% endfor %}      
-</div>     
-{% endif %}
+            {% endif %}
 
+            <input autocomplete="off" type="hidden" name="discount" />
 
-
-      
-      
-      
-      
-      
-      
-      
-      
-          <input autocomplete="off" type="hidden" name="discount" /> 
- 
-    </div>
-  	<div class="large-5 small-12 columns cart-totals">
-      <ul>
-{% if section.settings.advanced_klaviyo_list != '' and section.settings.advanced-discount != '' %}
-<li class="top">
-<h2>Promo</h2>
-<a href="#advanced-abandoned-cart" data-rel="popup" data-transition="pop" onclick="triggerklaviyo();">Get discount</a>
-<div id="advanced-abandoned-cart" class="advanced-popup-wrap" data-role="popup">
-  <div class="advanced-popup" style="background-color:{{ section.settings.advanced_background_color }};">
-    <h4>
+        </div>
+        <div class="large-5 small-12 columns cart-totals">
+            <ul>
+                {% if section.settings.advanced_klaviyo_list != '' and section.settings.advanced-discount != '' %}
+                <li class="top">
+                    <h2>Promo</h2>
+                    <a href="#advanced-abandoned-cart" data-rel="popup" data-transition="pop" onclick="triggerklaviyo();">Get discount</a>
+                    <div id="advanced-abandoned-cart" class="advanced-popup-wrap" data-role="popup">
+                        <div class="advanced-popup" style="background-color:{{ section.settings.advanced_background_color }};">
+                            <h4>
       {{ section.settings.advanced-header }}
     </h4>
-    <div>
-     <form></form>
-     <form id="email_signup" class="klaviyoform" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
-      <input type="hidden" name="g" value="{{ section.settings.advanced_klaviyo_list }}">
-      <input type="hidden" name="code" value="{{ section.settings.advanced-discount }}">
-      <input type="email" value="" name="email" id="k_id_email" placeholder="Your@email.com">
-      <button type="submit" class="klaviyo_submit_button">Unlock</button>
-     </form>
-      <div>
-         will apply at checkout
-      </div>
-    </div>
-  </div>
-</div>   
-</li>
-{% endif %}
-        <li>
-          <h2>Shipping for U.S</h2>
-          <span>
+                            <div>
+                                <form></form>
+                                <form id="email_signup" class="klaviyoform" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+                                    <input type="hidden" name="g" value="{{ section.settings.advanced_klaviyo_list }}">
+                                    <input type="hidden" name="code" value="{{ section.settings.advanced-discount }}">
+                                    <input type="email" value="" name="email" id="k_id_email" placeholder="Your@email.com">
+                                    <button type="submit" class="klaviyo_submit_button">Unlock</button>
+                                </form>
+                                <div>
+                                    will apply at checkout
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% endif %}
+                <li>
+                    <h2>Shipping for U.S</h2>
+                    <span>
             <span>$12</span> {{ section.settings.shipping }}
-          </span>
-        </li>
-        <li>
-          <h2>Total</h2>
-          <span id="cart-total">{% assign price = cart.total_price | money | split: '.' %}{{ price.first }}</span>
-        </li>
-        
-        
-{% if settings.quadpay %}        
-{% comment %} <!-- Insert QuadPay Widget --> {% endcomment %}
-<div class="quadpay" style="min-height:20px;">
-  <quadpay-widget amount={{ cart.total_price | divided_by: 100.00 }} alignment="right"></quadpay-widget>
-</div>        
-{% endif %}   
-        
-        
-     
-        
-        
-        {% unless section.settings.reserve == 'off' %}
-        <div class="cart-reserve">
-          <div>🔥 Items in your cart are in high demand. But we have reserved your order.</div>
-          <div class="time-wrap">Your order is reserved for <span time-left="{{ section.settings.reserve }}" id="reserve-cart-timer"></span> minutes!</div>
+                    </span>
+                </li>
+                <li>
+                    <h2>Total</h2>
+                    <span id="cart-total">{% assign price = cart.total_price | money | split: '.' %}{{ price.first }}</span>
+                </li>
+
+                {% if settings.quadpay %} {% comment %}
+                <!-- Insert QuadPay Widget -->{% endcomment %}
+                <div class="quadpay" style="min-height:20px;">
+                    <quadpay-widget amount={{ cart.total_price | divided_by: 100.00 }} alignment="right"></quadpay-widget>
+                </div>
+                {% endif %} {% unless section.settings.reserve == 'off' %}
+                <div class="cart-reserve">
+                    <div>🔥 Items in your cart are in high demand. But we have reserved your order.</div>
+                    <div class="time-wrap">Your order is reserved for <span time-left="{{ section.settings.reserve }}" id="reserve-cart-timer"></span> minutes!</div>
+                </div>
+                {% endunless %} {% if section.settings.terms %} {% style %} .cart-totals .agbwrap label input:checked { background:{{ section.settings.checkoutbackground }}; } .cart-totals .agbwrap label input { color:{{ section.settings.checkoutcolor }}; } .cart-totals .agbwrap label input:checked::after { background:{{ section.settings.checkoutbackground }}; } {% endstyle %}
+                <div class="agbwrap">
+                    <label class="ag" for="agree-agb">
+                        <a class="agburl" data-fancybox data-src="#hidden-content" href="javascript:;">By clicking this box I accept the {{ shop.terms_of_service.title }}.</a>
+                        <input type="checkbox" id="agree-agb" />
+                    </label>
+                    <span id="notchecked">Please read and accept the {% assign policy = shop.terms_of_service %}{{ policy.title }} to proceed with your order.</span>
+                </div>
+                <script>
+                    setTimeout(function() {
+                        var checkbox = document.querySelector('#agree-agb');
+                        var checkoutForm = document.querySelector('form[action="/cart"]');
+
+                        checkoutForm.addEventListener('submit', checkTerms);
+
+                        function checkTerms(e) {
+                            var errorHTML = document.querySelector('#notchecked');
+                            if (checkbox.checked == true) {
+                                errorHTML.style.display = 'none';
+                                var checkoutButton = this.querySelector('[name="checkout"]');
+                                checkoutButton.click();
+                            } else {
+                                e.preventDefault();
+                                errorHTML.style.display = 'block';
+                            }
+                        }
+                    }, 300);
+                </script>
+                {% endif %}
+
+            </ul>
+            <div>
+                <input id="checkoutnow" type="submit" name="checkout" value="Continue" />
+            </div>
         </div>
-        {% endunless %}
-        
-        {% if section.settings.terms %}      
-<div class="agbwrap">
-  <label class="ag" for="agree-agb">
-    <a class="agburl" data-fancybox data-src="#hidden-content" href="javascript:;">By clicking this box I accept the {{ shop.terms_of_service.title }}.</a>
-    <input type="checkbox" id="agree-agb" />
-  </label>
-  <span id="notchecked">Please read and accept the {% assign policy = shop.terms_of_service %}{{ policy.title }} to proceed with your order.</span>
-</div>        
-<script>
-setTimeout(function() {
-var checkbox = document.querySelector('#agree-agb');
-var checkoutForm = document.querySelector('form[action="/cart"]');
-  
-checkoutForm.addEventListener('submit', checkTerms);
-
-
-function checkTerms(e) {
-  var errorHTML = document.querySelector('#notchecked');  
-  if(checkbox.checked == true) {    
-    errorHTML.style.display = 'none';
-    var checkoutButton = this.querySelector('[name="checkout"]');
-    checkoutButton.click();
-  }else{
-    e.preventDefault();
-    errorHTML.style.display = 'block';
-  }
-}   
-},300);
-</script>               
-{% endif %}    
-        
-      </ul>
-      <div>
-      <input id="checkoutnow" type="submit" name="checkout" value="Continue" />   
-      </div>
     </div>
-  </div>
-  
-  
-  
+
 </form>
-  
+
 <script>
-var callbackCart = function(){
-  // Handler when the DOM is fully loaded
-  if(!window.Swiper) {
-    // add script
-    var script = document.createElement("script");
-    script.type = "text/javascript";   
-    script.src = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/js/swiper.min.js';
-    document.getElementsByTagName("head")[0].appendChild(script);
-    // add style
-    var style = document.createElement("link");
-    style.type = "text/css";  
-    style.rel = "stylesheet";
-    style.href = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/css/swiper.min.css';
-    document.getElementsByTagName("head")[0].appendChild(style);
-  }
-  if(!window.Hammer) {
-   // add script
-    var script = document.createElement("script");
-    script.type = "text/javascript";   
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js';
-    document.getElementsByTagName("head")[0].appendChild(script);   
-  }
-};
+    var callbackCart = function() {
+        // Handler when the DOM is fully loaded
+        if (!window.Swiper) {
+            // add script
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/js/swiper.min.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+            // add style
+            var style = document.createElement("link");
+            style.type = "text/css";
+            style.rel = "stylesheet";
+            style.href = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/css/swiper.min.css';
+            document.getElementsByTagName("head")[0].appendChild(style);
+        }
+        if (!window.Hammer) {
+            // add script
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js';
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+    };
 
-if (
-    document.readyState === "complete" ||
-    (document.readyState !== "loading" && !document.documentElement.doScroll)
-) {
-  callbackCart();
-} else {
-  document.addEventListener("DOMContentLoaded", callbackCart);
-}
-  
-function deferCart(methodCart) {
-    if (window.Swiper && window.jQuery && window.Hammer) {
-        methodCart();
+    if (
+        document.readyState === "complete" ||
+        (document.readyState !== "loading" && !document.documentElement.doScroll)
+    ) {
+        callbackCart();
     } else {
-        setTimeout(function() { deferCart(methodCart) }, 50);
+        document.addEventListener("DOMContentLoaded", callbackCart);
     }
-}
-deferCart(function () {  
-  
-  
-  
-});
+
+    function deferCart(methodCart) {
+        if (window.Swiper && window.jQuery && window.Hammer) {
+            methodCart();
+        } else {
+            setTimeout(function() {
+                deferCart(methodCart)
+            }, 50);
+        }
+    }
+    deferCart(function() {
+
+    });
 </script>
-
-
 
 {% else %}
 <div class="row align-center">
-  <div class="large-3 medium-4 small-6 column text-center">
-     <div class="mascot">
-      </div>
-  </div>
+    <div class="large-3 medium-4 small-6 column text-center">
+        <div class="mascot">
+        </div>
+    </div>
 </div>
 <div class="row">
-  <div class="large-12 text-center column page-title"> 
-  <h1 class="gamma">Your Cart is empty</h1>
-    <h3 class="delta"><div>What are you waiting for?</div> <a href="/">Get started here</a></h3>
-  </div>
+    <div class="large-12 text-center column page-title">
+        <h1 class="gamma">Your Cart is empty</h1>
+        <h3 class="delta"><div>What are you waiting for?</div> <a href="/">Get started here</a></h3>
+    </div>
 </div>
 {% endif %}
 
@@ -1210,7 +1096,6 @@ margin: 0 0 25px 0;
 		transition: all 0.15s ease-out 0s;
 		background: #cbd1d8;
 		border: none;
-		color: #fff;
 		cursor: pointer;
 		display: inline-block;
 		    margin: 0 0 0 0;
@@ -1226,7 +1111,6 @@ margin: 0 0 25px 0;
 			background: #9faab7;
 		}
 		&:checked {
-			background: #40e0d0;
                 @include bp(mobile) {
                   -webkit-animation: none; 
             -webkit-animation: none; 
@@ -1246,7 +1130,6 @@ margin: 0 0 25px 0;
 				-webkit-animation: click-wave 0.65s;
 				-moz-animation: click-wave 0.65s;
 				animation: click-wave 0.65s;
-				background: #40e0d0;
 				content: '';
 				display: block;
 				position: relative;
