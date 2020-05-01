@@ -57,7 +57,7 @@
       },
       {
         "type": "header",
-        "content": "Product Style"
+        "content": "Product Image"
       },
       {
         "type": "radio",
@@ -80,13 +80,139 @@
         "default": "portrait"
       },
       {
-        "id": "product_title_bold",
+        "id": "imagehover",
         "default": true,
-        "label": "Enable Bold Font Product Title",
+        "label": "Enable Image Switch on hover",
         "type": "checkbox"
+      },
+      {
+        "type": "header",
+        "content": "Product Title"
+      },
+      {
+        "type": "font_picker",
+        "id": "product_title_font",
+        "label": "Font",
+        "default": "lato_n4"
+      },
+      {
+        "type": "range",
+        "id": "product_title_fontsize",
+        "min": 12,
+        "max": 75,
+        "step": 1,
+        "unit": "px",
+        "label": "Title Font Size",
+        "default": 17
+      },
+      {
+       "id": "product_title_color",
+       "type": "color",
+       "label": "Product Title Color",
+       "default": "#000000"
+},
+      {
+        "type": "header",
+        "content": "Price Font"
+      },
+      {
+        "type": "font_picker",
+        "id": "product_price_font",
+        "label": "Font",
+        "default": "lato_n7"
+      },
+      {
+        "type": "range",
+        "id": "product_price_fontsize",
+        "min": 12,
+        "max": 75,
+        "step": 1,
+        "unit": "px",
+        "label": "Price Font Size",
+        "default": 21
+      },
+      {
+       "id": "product_price_color",
+       "type": "color",
+       "label": "Product Price Color",
+       "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Product Short Description"
+      },      
+      {
+        "type": "font_picker",
+        "id": "product_desc_font",
+        "label": "Font",
+        "default": "lato_n4"
+      },
+      {
+        "type": "range",
+        "id": "product_desc_fontsize",
+        "min": 12,
+        "max": 75,
+        "step": 1,
+        "unit": "px",
+        "label": "Product Description Font Size",
+        "default": 16
+      },
+      {
+       "id": "product_desc_color",
+       "type": "color",
+       "label": "Product Description Color",
+       "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Buy Now Button"
+      },
+      {
+        "type": "radio",
+        "id": "buy_now_button",
+        "label": "Buy Now Button",
+        "options": [
+          {
+            "value": "hide",
+            "label": "Do not display"
+          },
+          {
+            "value": "button",
+            "label": "Display as button"
+          },
+          {
+            "value": "link",
+            "label": "Display as link"
+          }
+        ],
+        "default": "button"
+      },
+      {
+        "type": "font_picker",
+        "id": "buynow_font",
+        "label": "Font",
+        "default": "lato_n4"
+      },
+      {
+        "id": "buynowtext",
+        "type": "text",
+        "label": "Button Text",
+        "default": "Buy Now"
+      },
+      {
+        "id": "buynowcolor",
+        "type": "color",
+        "label": "Button Font Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "id": "buynowbackground",
+        "type": "color",
+        "label": "Button Background Color",
+        "default": "#000000"
       }
     ],
-    "name": "Advanced Style Options"
+    "name": "Product Preview Style"
   },
   {
     "settings": [
