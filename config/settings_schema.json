@@ -106,11 +106,11 @@
         "default": 17
       },
       {
-       "id": "product_title_color",
-       "type": "color",
-       "label": "Product Title Color",
-       "default": "#000000"
-},
+        "id": "product_title_color",
+        "type": "color",
+        "label": "Product Title Color",
+        "default": "#000000"
+      },
       {
         "type": "header",
         "content": "Price Font"
@@ -132,15 +132,15 @@
         "default": 21
       },
       {
-       "id": "product_price_color",
-       "type": "color",
-       "label": "Product Price Color",
-       "default": "#000000"
+        "id": "product_price_color",
+        "type": "color",
+        "label": "Product Price Color",
+        "default": "#000000"
       },
       {
         "type": "header",
         "content": "Product Short Description"
-      },      
+      },
       {
         "type": "font_picker",
         "id": "product_desc_font",
@@ -158,10 +158,10 @@
         "default": 16
       },
       {
-       "id": "product_desc_color",
-       "type": "color",
-       "label": "Product Description Color",
-       "default": "#000000"
+        "id": "product_desc_color",
+        "type": "color",
+        "label": "Product Description Color",
+        "default": "#000000"
       },
       {
         "type": "header",
