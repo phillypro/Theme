@@ -220,11 +220,16 @@ padding-top:25px;
        <a href="{{ product.url | within: collection }}">
 
          
-            
-       <div class="image">
+      
+       <div class="image {% if settings.imagehover and product.images.size > 1  %}imgswitch{% endif %}">
          <div class="inner">
-         {% if product.featured_image %}<img class="hvr-grow" src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
+         {% if product.featured_image %}<img class="{% unless settings.imagehover and product.images.size > 1  %}hvr-grow{% endunless %}" src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
          </div>
+         {% if settings.imagehover and product.images.size > 1  %}
+         <div class="inner">
+            <img src="{{ product.images[1] | product_img_url: 'large' }}" />
+         </div>
+         {% endif %}
        </div>
          
          
