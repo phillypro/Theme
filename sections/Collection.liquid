@@ -1,8 +1,5 @@
 {% style %}
-#shopify-section-{{ section.id }} li.product .buynow {
-background:{{ section.settings.buynowbackground }};
-color:{{ section.settings.buynowcolor }};
-}
+
 {% if section.settings.css != nil %}
 {{ section.settings.css | replace: '&gt;', '>' }}
 {% endif %}
@@ -85,8 +82,18 @@ color:{{ section.settings.buynowcolor }};
 {% endif %}
 <li itemscope itemtype="http://schema.org/Product" data-id="{{ product.id }}" class="text-center columns {{ sizes }} small-6 product {% if product.type contains 'book' %}book{% endif %} {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
    <a href="{{ product.url | within: collection }}">
-      <div class="image">
-         {% if product.featured_image %}<img src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
+      <div class="image {% if settings.imagehover and product.images.size > 1  %}imgswitch{% endif %}">
+         
+        {% if product.featured_image %}
+         <div class="inner">
+          <img class="{% unless settings.imagehover and product.images.size > 1  %}hvr-grow{% endunless %}" src="{{ product.featured_image | img_url: '1024x1024' }}" />
+        </div>
+        {% endif %}
+         {% if settings.imagehover and product.images.size > 1  %}
+         <div class="inner">
+            <img src="{{ product.images[1] | product_img_url: 'large' }}" />
+         </div>
+         {% endif %}
       </div>
       <h3>{{ product.title }}</h3>
       <p class="h1 medium-down--left">
@@ -114,7 +121,7 @@ color:{{ section.settings.buynowcolor }};
          </div>
          {% endif %}
   
-   <a href="{{ product.url }}" class="buynow add-product">{{ section.settings.buynowtext }}</a>
+   <a href="{{ product.url }}" class="buynow add-product">{{ settings.buynowtext }}</a>
 </li>
    
   
@@ -306,28 +313,6 @@ jQuery('.sort-by')
 "label": "Show Shortened Product Description",
 "default": false
 }, 
-{
- "type": "header",
- "content": "Buy Now Button"
-},
-{
-       "id": "buynowtext",
-       "type": "text",
-       "label": "Button Text",
-       "default": "Buy Now"
-},
-{
-       "id": "buynowbackground",
-       "type": "color",
-       "label": "Background Color",
-       "default": "#000000"
-},
-{
-       "id": "buynowcolor",
-       "type": "color",
-       "label": "Font Color",
-       "default": "#FFFFFF"
-},
 {
  "type": "header",
  "content": "Additional Custom CSS"
