@@ -28,20 +28,26 @@ $(document).one("pagecontainershow", function (event,ui) {
 
 $(document).one("pagecontainerchange", function(event, ui) {
     changelinks(event, ui);
-   // mobilepanelbind(); 
 });
 $(document).on("pagecontainerbeforetransition", function(event, ui) {
-    changelinks(event, ui); 
+    //changelinks(event, ui); 
 });
 
 function changelinks(event, ui) {
-    //console.log($(ui.toPage[0]).attr("data-url"));
-    var current = $(ui.toPage[0]).jqmData("title");
+
+  if(ui.toPage[0]) {
+    var toPageEl = ui.toPage[0];
+  }else{
+    var toPageEl = ui.toPage;
+  }
+     
+
+    var current = $(toPageEl).jqmData("title");
     if (!current) {
-      if($(ui.toPage[0]).attr("data-url").includes("collections")) {
-        var current = $(ui.toPage[0]).attr("data-url");
+      if($(toPageEl).attr("data-url").includes("collections")) {
+        var current = $(toPageEl).attr("data-url");
       }else{
-        var current = $(ui.toPage[0]).attr("data-title");
+        var current = $(toPageEl).attr("data-title");
       }
     }
     if (current.includes("–")) {
@@ -171,10 +177,23 @@ $(document).on("pageremove", ".ui-page", function(event) {
 
 
 
+/*
+/////////////////////////////////////////////          Index Variable Fix
+*/
 
+$(document).on("pagecontainerbeforeload", function(event,data) {
+  var index = document.querySelector('#index.ui-page');
+  var newPage = data.dataUrl;
+  if(index && newPage == "/") {
+   event.preventDefault(); 
+   data.deferred.reject(); 
+   $( ":mobile-pagecontainer" ).pagecontainer( "change", $("#index")); 
+  }
+});
 
-
-
+$(document).on("pagecontainerloadfailed", function(event,ui) {
+  console.log('failure');
+});
 
 /*
 /////////////////////////////////////////////          Fix Page jump on Transition 
