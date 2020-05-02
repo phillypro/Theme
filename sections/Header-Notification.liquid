@@ -9,6 +9,10 @@
   {% endif %}                                        
 color:{{ section.settings.text_color }};
 }
+{% if section.settings.css != nil %}
+{% assign css = section.settings.css | replace: '&gt;','>' %}
+{{ css }}
+{% endif %}
 {% endstyle %}
 
 {% if section.settings.notification != blank %}
@@ -59,7 +63,16 @@ color:{{ section.settings.text_color }};
         "type": "color",
         "label": "Notification Color",
         "default": "#FFFFFF"
-      }]
+      },
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS"
+}]
   }
 {% endschema %}
 
