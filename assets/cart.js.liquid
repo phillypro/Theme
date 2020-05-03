@@ -255,6 +255,18 @@ function updatequantity() {
         // reload cart page
         jQuery(this).closest('.product-cart-wrap').fadeOut(400, function() {
            $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart", {  showLoadMsg: true, reload: true, transition: "none", changeHash: "false" });
+            jQuery.ajax({
+                type: 'GET',
+                url: '/cart.js',
+                async: false,
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                   cartcall(data);
+                   var value = $('.cart-count').html() || '0';
+                   $('.cart-count').html(value.replace(/[0-9]+/,data.item_count)).removeClass('hidden-count');
+                }
+            });
         });
       }else{
          $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart", {  showLoadMsg: true, reload: true, transition: "none", changeHash: "false" });
