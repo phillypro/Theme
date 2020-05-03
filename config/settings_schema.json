@@ -235,6 +235,13 @@
         "label": "Enable Bold Options",
         "info": "This Option Replaces Theme Installation for Bold Options App",
         "type": "checkbox"
+      },
+      {	
+        "id": "tipobooking",	
+        "default": false,	
+        "label": "Enable Tipo Booking",	
+        "info": "This Option Replaces Theme Installation for Tipo Booking",	
+        "type": "checkbox"	
       }
     ],
     "name": "Apps and Services"
