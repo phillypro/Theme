@@ -111,8 +111,12 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
      <a class="hvr-grow" href="{{ block.settings.url }}" >{{ block.settings.text }}</a>
    </div>  
     {% when 'Text' %}
-   <div class="block-{{ block.id }}">
+   <div class="block-{{ block.id }} text-block">
        {{ block.settings.text }}
+   </div>  
+   {% when 'HTML' %}
+   <div class="block-{{ block.id }} html-block">
+       {{ block.settings.html }}
    </div>  
    {% when 'Mailing-List' %}
       <div class="mailing-list-wrap mail-{{ block.id }} block-{{ block.id }}">
@@ -724,6 +728,36 @@ deferImageWithContent(function () {
     "unit":      "px",
     "label":     "Position from Bottom",
     "default":   30
+     }]
+},
+ {
+     "type": "HTML",
+     "name": "HTML (Advanced)",
+     "settings" : [
+{
+       "id": "html",
+       "type": "html",
+       "label": "HTML"
+},
+      {
+    "type":   "range",
+    "id":     "topposition",
+    "min":       0,
+    "max":       60,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Position from Top",
+    "default":   15
+     },
+     {
+    "type":   "range",
+    "id":     "bottomposition",
+    "min":       0,
+    "max":       60,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Position from Bottom",
+    "default":   15
      }]
 }
 ],
