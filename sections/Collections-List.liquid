@@ -227,7 +227,7 @@ padding: 40px 0;
 {% endif %}
 
 <div class="collection-list">
-{% if section.settings.title %}
+{% if section.settings.title.size > 1 %}
 <div class="row title">
   <div class="column">
     <h2><span>{{ section.settings.title }}</span></h2>
