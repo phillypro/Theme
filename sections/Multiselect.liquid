@@ -1201,6 +1201,11 @@ padding: 5px 11px;
     padding-bottom: 100%;
     overflow: hidden;
     display: block;
+& img {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
           }
         }
         &.active {
@@ -1265,5 +1270,5 @@ padding: 5px 11px;
 
 {% endstylesheet %} 
 {% javascript %}            
-{% endjavascript %}                                         
+{% endjavascript %}                                            
  
