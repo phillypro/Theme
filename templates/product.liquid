@@ -342,21 +342,21 @@ var selectCallback = function(variant, selector) {
     if (selectedVariant !== null) {
      selectedVariant.innerHTML = '{{ product.title | json }}{% unless hide_default_title %} + ' - ' + variant.title{% endunless %}';
     }
-    if (backorderEl !== null) {
+    if (backorderEl !== null && backorderEl !== undefined) {
      backorderEl.classList.remove('hidden');
     }
    } else {
-    if (backorderEl !== null) {
+    if (backorderEl !== null && backorderEl !== undefined) {
      backorderEl.classList.add('hidden');
     }
    }
 
   } else {
    // Variant is sold out.
-   if (backorderEl !== null) {
+   if (backorderEl !== null && backorderEl !== undefined) {
     backorderEl.classList.add('hidden');
    }
-   if (addToCartButton !== null) {
+   if (addToCartButton !== null && addToCartButton !== undefined) {
     addToCartButton.value = '{{ sold_out | json }}';
     addToCartButton.classList.add('disabled');
     addToCartButton.disabled = true;
