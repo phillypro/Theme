@@ -308,7 +308,7 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
   
       <div class="cart-wrap">
             <a class="cart-target {% if cart.item_count > 0 %}hasitem{% endif %}" href="/cart" title="View your shopping cart" style="color:{{ section.settings.cart_icon_color }};" data-transition="ngslide">               
-               <div class="cart-count-wrap"><span class="cart-count hidden-count">{{ cart.item_count }}</span></div>  
+               <div class="cart-count-wrap"><span class="cart-count {% unless cart.item_count > 0 %}hidden-count{% endunless %}">{{ cart.item_count }}</span></div>  
 <svg width="52pt" height="52pt" viewBox="0 0 52 52" version="1.1" xmlns="http://www.w3.org/2000/svg">
 <g class="circle">
 <path fill="rgba(105, 105, 105, 0.4)" opacity="1.00" d=" M 24.26 0.00 L 27.30 0.00 C 40.22 0.47 51.44 11.64 52.00 24.55 L 52.00 27.09 C 51.69 33.10 49.31 38.94 45.31 43.44 C 44.38 36.32 44.00 29.12 42.82 22.03 C 42.57 19.12 39.19 19.32 37.05 19.30 C 29.39 19.47 21.71 19.11 14.05 19.46 C 11.60 19.32 10.99 22.02 10.82 23.92 C 9.99 31.03 9.31 38.15 8.49 45.26 C 3.54 40.66 0.43 34.20 0.00 27.45 L 0.00 24.42 C 0.63 11.70 11.56 0.75 24.26 0.00 Z"></path>
