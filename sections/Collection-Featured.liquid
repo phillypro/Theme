@@ -63,6 +63,7 @@ color:{{ section.settings.productdesccolor }};
     font-weight:{{ section.settings.font.weight }}; 
     font-style:{{ section.settings.font.style }};    
       font-size:{{ section.settings.fontsize }}px;   
+     color:{{ section.settings.title_color }};
         line-height: 1;
  }
 {% if section.settings.fullwidth %}
@@ -96,42 +97,15 @@ color:{{ section.settings.productdesccolor }};
    }
 {% endif %}
 
-#shopify-section-{{ section.id }} .swiper-wrapper {
-margin-left:0;
-margin-right:0;
-}
+
 #shopify-section-{{ section.id }} .collection-featured .carousel {
-display: flex;
-align-items: center;
-    margin: 0 auto;
 {% unless section.settings.fullwidth %}max-width: 78.5rem;{% endunless %}
 }  
-#shopify-section-{{ section.id }} .collection-featured .swiper-button-next,   #shopify-section-{{ section.id }} .collection-featured .swiper-button-prev {
-position: relative;
-width: auto;
-}
-#shopify-section-{{ section.id }} .collection-featured .swiper-button-next {
-right:auto;
-}
-#shopify-section-{{ section.id }} .collection-featured .swiper-button-prev {
-left:auto;
-}
-#shopify-section-{{ section.id }} .collection-featured .swiper-button-next:after,   #shopify-section-{{ section.id }} .collection-featured .swiper-button-prev:after {
-    padding: 0 30px;
-    display: block;
-}
-#shopify-section-{{ section.id }} .collection-featured .swiper-button-next:focus,   #shopify-section-{{ section.id }} .collection-featured .swiper-button-prev:focus {
-   outline: none;
-}
-:root{--swiper-theme-color:#7d7d7d}
-@media (max-width: 1022px) { 
 
-#shopify-section-{{ section.id }} .collection-featured .swiper-button-next:after,   #shopify-section-{{ section.id }} .collection-featured .swiper-button-prev:after {
-  font-size:25px;  
-  padding: 0 10px;
-  display: block;
-}
-}
+
+
+:root{--swiper-theme-color:#7d7d7d}
+
 
 
 
@@ -427,7 +401,7 @@ function SliderFeatured{{ section.id }}() {
         slidesPerGroup: 1,
       loop: true,
     {% if products_per == 3 %}    
-        centeredSlides: true,  
+     //   centeredSlides: true,  
      {% endif %}      
       direction: 'horizontal',
       navigation: {
@@ -438,28 +412,30 @@ function SliderFeatured{{ section.id }}() {
     1022: {
   {% if products_per == 2 %}
       slidesPerView: 2,
+      slidesPerGroup: 2,
   {% elsif products_per == 3 %}      
       slidesPerView: 3, 
+        slidesPerGroup: 3,                                   
   {% elsif products_per >= 4 %}      
       slidesPerView: 4,  
-     
+     slidesPerGroup: 4,
   {% endif %}
       spaceBetween: 15,
-      slidesPerGroup: 1,
+      
     },
     720: {
-      slidesPerView: 2,
+      slidesPerView: 3,
       spaceBetween: 2,
-      slidesPerGroup: 2,
+      slidesPerGroup: 3,
     },
     480: {
       slidesPerView: 2,
-      spaceBetween: 2,
+      spaceBetween: 15,
       slidesPerGroup: 2,
     },
     320: {
       slidesPerView: 2,
-      spaceBetween: 2,
+      spaceBetween: 15,
       slidesPerGroup: 2,
     },
   }
@@ -564,6 +540,12 @@ showmorebutton.addEventListener("click", showmore);
     "label":     "Title Font Size",
     "default":   40
      },
+{
+       "id": "title_color",
+       "type": "color",
+       "label": "Title Font Color",
+       "default": "#000000"
+},
 {
 "type": "checkbox",
 "id": "linethrough",
@@ -936,6 +918,45 @@ padding: 15px 20px;
 opacity:0.2;
 }
 }
+
+& .carousel {
+display: flex;
+align-items: center;
+    margin: 0 auto;
+   & .swiper-wrapper {
+margin-left:0;
+margin-right:0;
+& li.product {
+margin-bottom:0px;
+}
+}
+   & .swiper-button-next {
+    right:auto;
+   }
+   & .swiper-button-prev {
+     left:auto;
+   }
+   & .swiper-button-next, & .swiper-button-prev {
+   position: relative;
+   width: auto;
+   @include bp(phablet) {
+        align-self: start;
+    margin-top: 15%;
+   }
+   }
+   & .swiper-button-next:after, & .swiper-button-prev:after {
+    font-weight: bold;
+    padding: 0 30px;
+    font-size: 20px;
+     @include bp(phablet) {
+  font-size:16px;  
+  padding: 0 10px;
+     }  
+   }
+   & .swiper-button-next:focus, & .swiper-button-prev:focus {
+  outline: none;
+   }
+}
 } 
 }
 
@@ -955,4 +976,4 @@ opacity:0.2;
 
 {% javascript %}       
  
-{% endjavascript %}                                        
+{% endjavascript %}        
