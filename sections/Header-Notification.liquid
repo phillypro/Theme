@@ -1,5 +1,5 @@
 {% style %}
-#shopify-section-Header-Notification .header-notification {
+#shopify-section-{{ section.id }} .header-notification {
 {% if section.settings.background_color_2 contains 'transparent' %}
       background-color:{{ section.settings.background_color }};                            
   {% else %}     
@@ -9,6 +9,9 @@
   {% endif %}                                        
 color:{{ section.settings.text_color }};
 }
+#shopify-section-{{ section.id }} .header-notification .close path { 
+fill:{{ section.settings.text_color }};
+}
 {% if section.settings.css != nil %}
 {% assign css = section.settings.css | replace: '&gt;','>' %}
 {{ css }}
@@ -17,6 +20,11 @@ color:{{ section.settings.text_color }};
 
 {% if section.settings.notification != blank %}
 <div class="header-notification">
+    {% if section.settings.dismissable %}
+    <a class="close" href="#">
+    <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-times fa-w-10 fa-3x"><path fill="currentColor" d="M207.6 256l107.72-107.72c6.23-6.23 6.23-16.34 0-22.58l-25.03-25.03c-6.23-6.23-16.34-6.23-22.58 0L160 208.4 52.28 100.68c-6.23-6.23-16.34-6.23-22.58 0L4.68 125.7c-6.23 6.23-6.23 16.34 0 22.58L112.4 256 4.68 363.72c-6.23 6.23-6.23 16.34 0 22.58l25.03 25.03c6.23 6.23 16.34 6.23 22.58 0L160 303.6l107.72 107.72c6.23 6.23 16.34 6.23 22.58 0l25.03-25.03c6.23-6.23 6.23-16.34 0-22.58L207.6 256z" class=""></path></svg>
+    </a>
+    {% endif %}
     <div class="row align-middle align-center">
       {% if section.settings.notification != '' %}
       <div class="large-12 columns text-center">
@@ -33,7 +41,18 @@ color:{{ section.settings.text_color }};
 </div>  
 {% endif %}
 
+<script>
+ var closeButton = document.querySelector("#shopify-section-{{ section.id }} .header-notification .close");
+ closeButton.addEventListener('click', closeNotif);
+ 
+ function closeNotif(event) {
+  var headerNotifEl = event.currentTarget.closest('.header-notification');
+  var headerEl = event.currentTarget.closest('header');
+  headerNotifEl.remove();
+  $(headerEl).toolbar( "updatePagePadding" );
 
+ }
+</script>
 {% schema %}
   {
     "name": "Notification Bar",
@@ -63,6 +82,12 @@ color:{{ section.settings.text_color }};
         "type": "color",
         "label": "Notification Color",
         "default": "#FFFFFF"
+      },
+      {
+        "id": "dismissable",
+        "default": true,
+        "label": "Enable Dismissable",
+        "type": "checkbox"
       },
 {
  "type": "header",
@@ -127,7 +152,7 @@ color:{{ section.settings.text_color }};
 	}
 }
 .header-notification {
-    background: #ffdc67;
+   position:relative;
    & .columns {
    color:#fff;
    text-align:center;
@@ -148,6 +173,37 @@ color:{{ section.settings.text_color }};
 }
     }
    }
+  & .close {  
+    z-index:3;
+color: #fff;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 19px;
+    line-height: 1.2;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    -moz-transition: box-shadow 0.3s ease;
+    -o-transition: box-shadow 0.3s ease;
+    -ms-transition: box-shadow 0.3s ease;
+    -webkit-transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    & svg {
+    width: 10px;
+    height: auto;
+    position: relative;
+    }
+     &:focus {
+     outline:none;
+     border:none;
+   }
+}
 }
 {% endstylesheet %}
 
@@ -158,4 +214,4 @@ color:{{ section.settings.text_color }};
         $('body').removeClass('editnotification').trigger( "updatelayout" );
      });   
 });               
-{% endjavascript %}
+{% endjavascript %}       
