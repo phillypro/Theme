@@ -128,7 +128,7 @@ margin-left: 10px;
 
 
 {% if section.settings.css != nil %}
-{{ section.settings.css }}
+{{ section.settings.css | replace: '&gt;', '>' }}
 {% endif %}
 
 {% endstyle %}
