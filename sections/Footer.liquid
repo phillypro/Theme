@@ -852,15 +852,15 @@ deferFooter(function () {
     border-radius: unset;
     outline: none;
     text-align: center;
-    height: 4.9375rem;
-    font-size: 26px;
+    height: 3.9375rem;
+    font-size: 19px;
     line-height: normal;
      color:#fff;
     }
     & button {
     display: inline-block;
     padding: 0 30px;
-    font-size: 23px;
+    font-size: 17px;
      min-width: 185px; 
       cursor:pointer;
       @include bp(mobile) {
@@ -871,10 +871,10 @@ deferFooter(function () {
   }
 }
     & .nav {
-        list-style: none;
-        margin:0;
-        margin-top: 30px;
-        text-align:center;
+    list-style: none;
+    margin: 30px auto 0;
+    max-width: 76.5rem;
+    text-align: center;
       	& li {
         	 display: inline-block;
              @include bp(phablet) {
@@ -968,4 +968,4 @@ max-width: 60px;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}                 
+{% endjavascript %}                    
