@@ -175,6 +175,13 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
   .cart-wrap .circle path {
     fill:{{ section.settings.cart_circle_color }};
   }
+
+
+header .inner-header>.row>div:nth-child(4) .cart-target .cart-count-wrap .cart-count {
+color: {{ section.settings.cart_count_color }};
+background:{{ section.settings.cart_count_background }};
+}
+
   
 {% if section.settings.css != nil %}
 {% assign css = section.settings.css | replace: '&gt;','>' %}
@@ -474,6 +481,18 @@ function runsearchinner() {
        "default": "#F5F5F5"
 },
 {
+       "id": "cart_count_color",
+       "type": "color",
+       "label": "Cart Count Color",
+       "default": "#000000"
+},
+{
+       "id": "cart_count_background",
+       "type": "color",
+       "label": "Cart Background Color",
+       "default": "#ffffff"
+},
+{
    "type":      "header",
    "content":   "Brand Name / Brand Logo"
 },      
@@ -553,7 +572,7 @@ function runsearchinner() {
   {
     "type":   "range",
     "id":     "menu_fontsize",
-    "min":       12,
+    "min":       10,
     "max":       26,
     "step":     1,
     "unit":      "px",
@@ -636,6 +655,13 @@ function runsearchinner() {
     -moz-transition: $attribute $duration ease;
     transition: $attribute $duration ease;
 }
+
+
+
+.editheader header .inner-header>.row>div:nth-child(4) .cart-target .cart-count-wrap .cart-count.hidden-count {
+display:inline-block;
+}
+
 
 header {
 
@@ -850,12 +876,10 @@ padding-top: 8px;
     padding: 3px 7px;
     min-width: 20px;
     display: inline-block;
-    color: #000;
     font-family: 'Open Sans', sans-serif;
     font-weight: bold;
     border-radius: 360px;
     -webkit-border-radius: 360px;
-    background: #bfb7ff;
         @include bp(phablet) {
             font-size: 12px;
     padding: 2px 2px;
@@ -1138,5 +1162,15 @@ padding: 10px 15px;
 $(document).on("shopify:section:load",'#shopify-section-Header',function(e){
  $( "[data-role = 'navbar']" ).navbar();
  $( "#searchPopup" ).enhanceWithin().popup();
-});                 
-{% endjavascript %}   
+});            
+
+$(document).on("shopify:section:select",'#shopify-section-Header',function(e){
+$('body').addClass('editing editheader');
+$(document).one("shopify:section:deselect",function(e){
+$('body').removeClass('editheader');
+})
+
+});   
+
+
+{% endjavascript %}                  
