@@ -29,15 +29,16 @@
                        <div class="product-details">
                                         {% section 'Product-Title' %} 
                          
-                      
+                      {% if settings.stamped %}   
+                      <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" data-product-sku="{{ product.handle }}" data-product-type="{{product.type}}" data-product-title="{{product.title}}"  style="display: inline-block;">{{ product.metafields.stamped.badge }}</span>
+                      {% endif %}
                      
                       
                      
 
                     
                      
-   {% if product.tags contains 'bold' %}{% else %}{% assign ajax = 'ajax' %}{% endif %}
-  {% form 'product', product, data-ajax: 'false', class: ajax %}        
+  {% form 'product', product, data-ajax: 'false', class: 'ajax product_form' %}        
                      
                      
                      
@@ -166,6 +167,21 @@ deferYotpo(function () {
 </script>
 {% endif %}
 {% comment %}{% section 'Yotpo' %}{% endcomment %}  
+  
+{% if settings.stamped %}  
+<div id="stamped-main-widget" 
+data-widget-style="standard"
+data-product-id="{{ product.id }}" 
+data-name="{{ product.title | escape }}" 
+data-url="{{ shop.url }}{{ product.url }}" 
+data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" 
+data-description="{{ product.description | escape }}" 
+data-product-sku="{{product.handle}}"
+data-product-type="{{product.type}}"> 
+{{ product.metafields.stamped.reviews }} 
+</div>
+{% endif %}  
+  
   
 {% section 'Also-Like' %}
   
