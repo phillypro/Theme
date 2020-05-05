@@ -32,7 +32,8 @@
       {
         "id": "app_image",
         "label": "App Home Screen Image",
-        "type": "image_picker"
+        "type": "image_picker",
+        "info": "must be 512px by 512px"
       },
       {
         "id": "app_theme_color",
@@ -243,12 +244,12 @@
         "info": "This Option Replaces Theme Installation for Bold Options App",
         "type": "checkbox"
       },
-      {	
-        "id": "tipobooking",	
-        "default": false,	
-        "label": "Enable Tipo Booking",	
-        "info": "This Option Replaces Theme Installation for Tipo Booking",	
-        "type": "checkbox"	
+      {
+        "id": "tipobooking",
+        "default": false,
+        "label": "Enable Tipo Booking",
+        "info": "This Option Replaces Theme Installation for Tipo Booking",
+        "type": "checkbox"
       }
     ],
     "name": "Apps and Services"
