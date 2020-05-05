@@ -57,6 +57,11 @@
 #shopify-section-{{ section.id }} .articles-wrap .article-wrap .article-inner .bottom-content .bottom-inner {
     text-align: left;
 }
+@media (max-width: 600px) {
+#shopify-section-{{ section.id }} .articles-wrap .article-wrap .article-inner {
+    flex-direction: column;
+}
+}
 {% endif %}
 
 
@@ -76,12 +81,44 @@ color:{{ section.settings.learnmore_color}};
      display: inline-block;
      margin: 20px 0 0 0; 
 }
+
+    {% endcase %}
+
+
+
+ {% case section.settings.showmore_button %}
+    {% when 'hide' %}
+#shopify-section-{{ section.id }} .showmore   {
+     display:none;
+}
+    {% when 'button' %}
+#shopify-section-{{ section.id }} .showmore a   {
+color:{{ section.settings.showmore_color}};
+     background:{{ section.settings.showmore_background }};
+     border-radius: 48px;
+     padding: 11px 35px;
+     display: inline-block;
+     margin: 20px 0 0 0; 
+}
      @media (max-width: 600px) {
-#shopify-section-{{ section.id }} .bottom-inner .btn  {
+#shopify-section-{{ section.id }} .showmore a  {
        padding:0px;
 }
      }
+{% when 'link' %}
+#shopify-section-{{ section.id }} .showmore a   {
+     display: inline-block;
+     margin: 11px 0 0 0;
+     padding:0px;
+}
+#shopify-section-{{ section.id }} .showmore a:after   {
+     display: inline-block;
+     font-family:FontAwesome;
+     content:'\f178';
+margin-left: 10px;
+}
     {% endcase %}
+
 
 
 
@@ -247,7 +284,9 @@ color:{{ section.settings.learnmore_color}};
              {% endunless %}
 
 </div>
-
+  <div class="showmore">
+    <a href="#">{{ section.settings.showmore_text }}</a>
+  </div>
 </div>
 {% endunless %}
 </div>
@@ -397,9 +436,46 @@ color:{{ section.settings.learnmore_color}};
 },
 {
  "type": "header",
- "content": "Show More Articles"
+ "content": "Show More Articles Button"
 },
-
+{
+        "type": "radio",
+        "id": "showmore_button",
+        "label": "Learn More Button",
+        "options": [
+          {
+            "value": "hide",
+            "label": "Do not display"
+          },
+          {
+            "value": "link",
+            "label": "Display as link"
+          },
+          {
+            "value": "button",
+            "label": "Display as button"
+          }
+        ],
+        "default": "button"
+      },
+{
+       "id": "showmore_text",
+       "type": "text",
+       "label": "Show More Text",
+       "default": "See More Articles"
+},
+{
+       "id": "showmore_background",
+       "type": "color",
+       "label": "Background Color",
+       "default": "#000000"
+},
+{
+       "id": "showmore_color",
+       "type": "color",
+       "label": "Font Color",
+       "default": "#FFFFFF"
+},
 {
  "type": "header",
  "content": "Additional Custom CSS"
@@ -556,6 +632,7 @@ color:{{ section.settings.learnmore_color}};
 & .page-header {
     margin-bottom: 20px;
  & h2 {
+    display: inline-block;
   & span {
    @include bp(mobile) {
     font-size: 80%;
@@ -609,11 +686,17 @@ text-align: center;
     		display: block;
   		    font-size: 100%;
             margin-bottom: 10px;
+           @include bp(mobile) {
+                 font-size: 80%;
+           }
         }
 & .excerpt {
     font-size: 55%;
 margin-top: 15px;
     line-height: 1.4;
+   @include bp(mobile) {
+    font-size: 48%;
+  }
 }
 & tags {
 font-size: 80%;
@@ -647,6 +730,11 @@ font-size: 16px;
     }
   }
  }
+& .showmore {
+ text-align:center;
+padding:0px 20px 25px;
+margin:0 auto;
+}
 }
 & .pagination {
 text-align: center;
@@ -662,4 +750,4 @@ background: #efefef;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}                                                       
+{% endjavascript %}                                                                    
