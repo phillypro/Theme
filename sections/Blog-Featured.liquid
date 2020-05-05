@@ -196,7 +196,9 @@ margin-left: 10px;
   {% assign i = i | plus: 1 %}
 {% endfor %}
 </div>
-
+  <div class="showmore">
+    <a href="{{ blog.url }}">{{ section.settings.showmore_text }}</a>
+  </div>
 </div>
 {% else %}
 
@@ -238,6 +240,11 @@ margin-left: 10px;
                   <div class="bottom-content">
                     <div class="bottom-inner">
                       <title>3 Reasons why you should choose {{ shop.name }}</title>
+                      {% if section.settings.excerpt %}
+                      <div class="excerpt">
+                      It’s pretty simple, we’re the best in the industry because we care about quality. When you have standards it’s pretty easy to make a name for yourself .
+                      </div>    
+                      {% endif %}
                       <tags>
                       
                       </tags>
@@ -257,6 +264,11 @@ margin-left: 10px;
                   <div class="bottom-content">
                     <div class="bottom-inner">
                       <title>The difference between {{ shop.name }} and the alternatives. </title>
+                     {% if section.settings.excerpt %}
+                      <div class="excerpt">
+                      It’s pretty simple, we’re the best in the industry because we care about quality. When you have standards it’s pretty easy to make a name for yourself .
+                      </div>    
+                      {% endif %}
                       <tags>
                       
                       </tags>
@@ -276,6 +288,11 @@ margin-left: 10px;
                   <div class="bottom-content">
                     <div class="bottom-inner">
                       <title>No one else will tell you about this helpful tip but we will </title>
+                      {% if section.settings.excerpt %}
+                      <div class="excerpt">
+                      It’s pretty simple, we’re the best in the industry because we care about quality. When you have standards it’s pretty easy to make a name for yourself .
+                      </div>    
+                      {% endif %}
                       <tags>
                       
                       </tags>
