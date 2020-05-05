@@ -7,24 +7,84 @@
 {% endif %}   
 {% assign loadedfonts = loadedfonts | append: section.settings.font_title.family | append: section.settings.font_title.weight | append: section.settings.font_title.style | append: '|' %}
 
-  .shopify-section-Blog-featured .page-header h2 {
+{% assign familyandweight = section.settings.article_title.family | append: section.settings.article_title.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ section.settings.article_title | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: section.settings.article_title.family | append: section.settings.article_title.weight | append: section.settings.article_title.style | append: '|' %}
+
+
+
+
+  #shopify-section-{{ section.id }}  .page-header h2 {
     font-family: {{ section.settings.font_title.family }}; 
     font-weight:{{ section.settings.font_title.weight }}; 
     font-style:{{ section.settings.font_title.style }};
     font-size:{{ section.settings.fontsize_title }}px;
+    color:{{ section.settings.color_title }};
     line-height:1;
   }
 
-  #shopify-section-Blog .searchwrap .form button {
+ #shopify-section-{{ section.id }}  .searchwrap .form button {
   color:{{ section.settings.searchbuttoncolor }};
   background:{{ section.settings.searchbuttonbackground }};
   }
 
-.shopify-section-Blog-featured .articles-wrap .article-wrap .article-inner {
-{% if section.settings.border %}
-     border: 1px solid #ddd; 
-{% endif %}
+
+#shopify-section-{{ section.id }}  .articles-wrap .article-wrap .article-inner .bottom-content {
+    font-family: {{ section.settings.article_title.family }}; 
+    font-weight:{{ section.settings.article_title.weight }}; 
+    font-style:{{ section.settings.article_title.style }};
+    font-size:{{ section.settings.fontsize_article }}px;
 }
+
+
+{% if section.settings.border %}
+#shopify-section-{{ section.id }}  .articles-wrap .article-wrap .article-inner {
+     border: 1px solid #ddd; 
+}
+{% endif %}
+
+{% if section.settings.article_alignment == 'horizontal' %}
+#shopify-section-{{ section.id }} .articles-wrap .article-wrap .article-inner {
+    display: flex;
+}
+#shopify-section-{{ section.id }} .articles-wrap .article-wrap .article-inner .top-image {
+    width: 100%;
+    padding-bottom: 31.7%;
+}
+#shopify-section-{{ section.id }} .articles-wrap .article-wrap .article-inner .bottom-content .bottom-inner {
+    text-align: left;
+}
+{% endif %}
+
+
+
+ {% case section.settings.learnmore_button %}
+    {% when 'hide' %}
+#shopify-section-{{ section.id }} .bottom-inner .btn  {
+color:{{ section.settings.learnmore_color}};
+     display:none;
+}
+    {% when 'button' %}
+#shopify-section-{{ section.id }} .bottom-inner .btn  {
+color:{{ section.settings.learnmore_color}};
+     background:{{ section.settings.learnmore_background }};
+     border-radius: 48px;
+     padding: 11px 35px;
+     display: inline-block;
+     margin: 20px 0 0 0; 
+}
+     @media (max-width: 600px) {
+#shopify-section-{{ section.id }} .bottom-inner .btn  {
+       padding:0px;
+}
+     }
+    {% endcase %}
+
+
+
 
 
 {% if section.settings.css != nil %}
@@ -38,15 +98,16 @@
 {% assign theblog = 'news' %}
 {% endif %}
 {% assign blogs_per = section.settings.blogs_per | plus: 0 %}  
-{% if blogs_per == 2 %}
-  {% assign sizes = 'large-6 medium-6' %}
-  {% elsif blogs_per == 3 %}
+{% case blogs_per %}
+  {% when 4 %}
+ {% assign sizes = 'large-3 medium-6' %}
+   {% when 3 %}
   {% assign sizes = 'large-4 medium-4' %}
-  {% elsif blogs_per == 4 %}
-  {% assign sizes = 'large-3 medium-6' %}
-  {% else %}
-  {% assign sizes = 'large-3 medium-4' %}
-{% endif %}
+  {% when 2 %}
+  {% assign sizes = 'large-6 medium-6' %}
+    {% when 1 %}
+  {% assign sizes = 'large-10 medium-12' %}
+{% endcase %}
 
 
 
@@ -63,11 +124,11 @@
 {% endunless %}
 {% unless blogs[theblog].articles.size == 0 %}
 <div class="articles-wrap"> 
-<div class="row align-stretch align-left">
+<div class="row align-stretch align-center">
 {% assign blog = blogs[theblog] %} 
 
   {% assign i = 0 %}
-{% for article in blog.articles limit: section.settings.blogs_per %}
+{% for article in blog.articles limit: blogs_per %}
             
              <a href="{{ article.url }}" class="{{ sizes }} small-12 columns article-wrap">
                 <div class="article-inner">
@@ -77,11 +138,17 @@
                   <div class="bottom-content">
                     <div class="bottom-inner">
                       <title>{{ article.title }}</title>
+                       {% if section.settings.excerpt %}
+                      <div class="excerpt">
+                       {{ article.excerpt_or_content | truncate: 300, ", ..." }}
+                      </div>    
+                      {% endif %}
                       <tags>
                       {% for tag in article.tags %}
                         <span>{{ tag }}</span>
                       {% endfor %}
                       </tags>
+                      <span class="btn">{{ section.settings.learnmore_text }}</span>
                     </div>
                   </div>
                 </div>
@@ -95,10 +162,10 @@
 
 
 <div class="articles-wrap"> 
-<div class="row align-stretch align-left">
+<div class="row align-stretch align-center">
   
 
-            
+             {% unless blogs_per < 1 %}
              <a href="#" class="{{ sizes }} small-12 columns article-wrap">
                 <div class="article-inner">
                   <div class="top-image flex-content">
@@ -107,16 +174,22 @@
                   <div class="bottom-content">
                     <div class="bottom-inner">
                       <title>Everything you need to know about  {{ shop.name }} and why we're the best</title>
+                      {% if section.settings.excerpt %}
+                      <div class="excerpt">
+                      It’s pretty simple, we’re the best in the industry because we care about quality. When you have standards it’s pretty easy to make a name for yourself .
+                      </div>    
+                      {% endif %}
                       <tags>
                       
                       </tags>
+                      <span class="btn">{{ section.settings.learnmore_text }}</span>
                     </div>
                   </div>
                 </div>
              </a>
-  
+   {% endunless %}
 
-            
+             {% unless blogs_per < 2 %}
              <a href="#" class="{{ sizes }} small-12 columns article-wrap">
                 <div class="article-inner">
                   <div class="top-image flex-content">
@@ -128,13 +201,14 @@
                       <tags>
                       
                       </tags>
+                      <span class="btn">{{ section.settings.learnmore_text }}</span>
                     </div>
                   </div>
                 </div>
              </a>
-  
+   {% endunless %}
 
-            
+            {% unless blogs_per < 3 %}
              <a href="#" class="{{ sizes }} small-12 columns article-wrap">
                 <div class="article-inner">
                   <div class="top-image flex-content">
@@ -146,11 +220,12 @@
                       <tags>
                       
                       </tags>
+                      <span class="btn">{{ section.settings.learnmore_text }}</span>
                     </div>
                   </div>
                 </div>
              </a>
-  
+            {% endunless %}
   
             {% unless blogs_per <= 3 %}
              <a href="#" class="{{ sizes }} small-12 columns article-wrap">
@@ -164,6 +239,7 @@
                       <tags>
                       
                       </tags>
+                      <span class="btn">{{ section.settings.learnmore_text }}</span>
                     </div>
                   </div>
                 </div>
@@ -191,6 +267,8 @@
    "type": "select",
    "id": "blogs_per",
    "options": [
+      { "value": "1", "label": "1 Articles"},
+      { "value": "2", "label": "2 Articles"},
       { "value": "3", "label": "3 Articles"},
       { "value": "4", "label": "4 Articles"}
    ],
@@ -237,16 +315,91 @@
 },
 {
 "type": "checkbox",
+"id": "fullwidth",
+"label": "Full Width",
+"default": false
+},
+{
+ "type": "header",
+ "content": "Article Display Style"
+},
+{
+   "type":      "radio",
+   "id":        "article_alignment",
+   "label":     "Article Alignment",
+   "options": [
+     { "value": "vertical", "label": "vertical" },
+     { "value": "horizontal", "label": "horizontal" }
+   ],
+   "default":   "vertical"
+},
+{
+"type": "checkbox",
 "id": "border",
 "label": "Border",
 "default": true
 },
 {
+    "type": "font_picker",
+     "id": "article_title",
+     "label": "Article Font",
+     "default": "work_sans_n6"
+},
+{
+    "type":   "range",
+    "id":     "fontsize_article",
+    "min":       14,
+    "max":       75,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Article Font Size",
+    "default":   20
+},
+{
 "type": "checkbox",
-"id": "fullwidth",
-"label": "Full Width",
+"id": "excerpt",
+"label": "Show Article Intro",
 "default": false
 },
+{
+        "type": "radio",
+        "id": "learnmore_button",
+        "label": "Learn More Button",
+        "options": [
+          {
+            "value": "hide",
+            "label": "Do not display"
+          },
+          {
+            "value": "button",
+            "label": "Display as button"
+          }
+        ],
+        "default": "button"
+      },
+{
+       "id": "learnmore_text",
+       "type": "text",
+       "label": "Button Text",
+       "default": "Learn More"
+},
+{
+       "id": "learnmore_background",
+       "type": "color",
+       "label": "Background Color",
+       "default": "#000000"
+},
+{
+       "id": "learnmore_color",
+       "type": "color",
+       "label": "Font Color",
+       "default": "#FFFFFF"
+},
+{
+ "type": "header",
+ "content": "Show More Articles"
+},
+
 {
  "type": "header",
  "content": "Additional Custom CSS"
@@ -401,6 +554,7 @@
  }
 }
 & .page-header {
+    margin-bottom: 20px;
  & h2 {
   & span {
    @include bp(mobile) {
@@ -442,11 +596,10 @@
       }
     }
     & .bottom-content {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: bold;
     padding: 30px 20px;
     display: flex;
     align-items: center;
+       width: 100%;
       & .bottom-inner {
           width: 100%;
 text-align: center;
@@ -454,12 +607,22 @@ text-align: center;
 
             color: #000;
     		display: block;
-  		    font-size: 18px;
+  		    font-size: 100%;
             margin-bottom: 10px;
         }
+& .excerpt {
+    font-size: 55%;
+margin-top: 15px;
+    line-height: 1.4;
+}
 & tags {
 font-size: 80%;
     opacity: 0.5;
+}
+& .btn {
+font-family: 'Open Sans', sans-serif;
+font-size: 16px;
+    border-radius: 6px;
 }
       }
     }
@@ -499,4 +662,4 @@ background: #efefef;
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}                                           
+{% endjavascript %}                                                       
