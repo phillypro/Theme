@@ -226,6 +226,13 @@
         "label": "Yotpo App key"
       },
       {
+        "id": "stamped",
+        "default": false,
+        "label": "Enable Stamped.io reviews",
+        "info": "This Option Replaces Theme Installation for Stamped.io",
+        "type": "checkbox"
+      },
+      {
         "type": "header",
         "content": "App Helpers"
       },
