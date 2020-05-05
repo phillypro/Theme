@@ -264,7 +264,11 @@ function updatequantity() {
                 success: function(data) {
                    cartcall(data);
                    var value = $('.cart-count').html() || '0';
+                  if(data.item_count == 0) {
+                    $('.cart-count').html(value.replace(/[0-9]+/,data.item_count)).addClass('hidden-count'); 
+                  }else{
                    $('.cart-count').html(value.replace(/[0-9]+/,data.item_count)).removeClass('hidden-count');
+                  }
                 }
             });
         });
