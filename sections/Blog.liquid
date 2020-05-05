@@ -20,6 +20,9 @@
   background:{{ section.settings.searchbuttonbackground }};
   }
 
+{% if section.settings.css != nil %}
+{{ section.settings.css | replace: '&gt;', '>' }}
+{% endif %}
 {% endstyle %}
 {% if section.settings.blog != nil %}
 {% assign theblog = section.settings.blog %}
@@ -287,6 +290,12 @@ function loadBlogs() {
     "default":   40
      },
 {
+       "id": "color_title",
+       "type": "color",
+       "label": "Title Color",
+       "default": "#000000"
+},
+{
        "id": "subtitle",
        "type": "text",
        "label": "Sub Title"
@@ -306,6 +315,16 @@ function loadBlogs() {
        "type": "color",
        "label": "Search Button Color",
        "default": "#ffffff"
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS",
+	"info": "Use [Font 2 Web](http://www.font2web.com/) to convert fonts"
 }
 ]
   }
