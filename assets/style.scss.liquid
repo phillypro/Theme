@@ -909,6 +909,7 @@ background-color: #ddd;
           
         }
       } 
+      @include bp(mobileup) {
       &:hover {
        & .inner {
           -webkit-transform: translate3d(0, 100%, 0);
@@ -922,6 +923,7 @@ background-color: #ddd;
            opacity:1;
         }
        }
+      }
       }
     }
     & .inner {
