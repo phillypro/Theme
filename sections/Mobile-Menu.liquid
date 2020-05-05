@@ -74,7 +74,7 @@ font-size:{{ section.settings.link_size }}%;
        
 
        
-       <ul style="font-weight:{% if section.settings.link_bold == true %}bold{% else %}inherit{% endif %};text-transform:{% if section.settings.link_uppercase == true %}uppercase{% else %}none{% endif %};">
+       <ul style="text-transform:{% if section.settings.link_uppercase == true %}uppercase{% else %}none{% endif %};">
          
          
          
@@ -239,12 +239,6 @@ document.documentElement.style.height = vpH.toString() + "px";
     "step":      1,
     "label":     "Link Spacing",
     "default":   3
-},
-{
-  "type": "checkbox",
-  "id": "link_bold",
-  "label": "Bold",
-  "default": true
 },
 {
   "type": "checkbox",
