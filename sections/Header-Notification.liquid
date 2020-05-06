@@ -39,7 +39,7 @@ fill:{{ section.settings.text_color }};
       {% endif %}
     </div>
 </div>  
-{% endif %}
+
 
 <script>
  var closeButton = document.querySelector("#shopify-section-{{ section.id }} .header-notification .close");
@@ -53,6 +53,7 @@ fill:{{ section.settings.text_color }};
 
  }
 </script>
+{% endif %}
 {% schema %}
   {
     "name": "Notification Bar",
