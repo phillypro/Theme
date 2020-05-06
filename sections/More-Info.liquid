@@ -1,4 +1,5 @@
-    <div class="Additional-details-wrap">
+  {% unless section.settings.headline_1.size == 0 and  section.settings.description_1.size == 0 and section.settings.headline_2.size == 0 and section.settings.headline_2.size == 0 %}
+  <div class="Additional-details-wrap">
       <div class="row align-justify">
         
         <div class="large-5 small-12 columns">
@@ -13,7 +14,7 @@
         </div>
       </div>  
     </div>
-
+{% endunless %}
 {% schema %}
   {
     "name": "Product Info",
