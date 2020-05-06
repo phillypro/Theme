@@ -933,10 +933,11 @@ background-color: #ddd;
 {% when 'none' %}
  {% else %} 
 position: absolute;     
-{% endcase %}      
     height: 100%;
     width: 100%;
-    display: flex;  
+    display: flex;        
+{% endcase %}      
+
 {% case settings.product_image_size %}
 {% when 'portrait' %}      
     align-items: center;
