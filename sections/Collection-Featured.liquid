@@ -209,15 +209,13 @@ padding-top:25px;
          
          <h3><span>{{ product.title }}</span></h3>
        
-         <p class="h1 medium-down--left">
+        <p class="h1 medium-down--left">
           {% if product.price_max > product.price %}
-        {% include 'price' with product.price_min %} 
+           <span class="currPrice">{% include 'price' with product.price_min %}</span> {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }} </span>{% endif %}
         {% else %}
-        {% include 'price' with product.price %}  
+           <span class="currPrice">{% include 'price' with product.price %}</span>   {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }}</span> {% endif %}
         {% endif %}
-            
-           
-            </p>
+       </p>
 
           {% if on_sale %}
           <div class="salew">
