@@ -286,7 +286,10 @@ window.password = MD5(window.Shopify.shop);
 {% if settings.yotpoappkey != '' %}
 <script type="text/javascript">(function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/{{ settings.yotpoappkey }}/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();</script>
 {% endif %}  
-  
+ 
+{% if settings.loox %}    
+{{ shop.metafields.loox["global_html_head"] }}
+{% endif %} 
   
 <style>  
 html  {
@@ -510,6 +513,10 @@ function removeJS(filename){
  }
 }   
 </script>  
+{% endif %}
+
+{% if settings.loox %}  
+{{ shop.metafields.loox["global_html_body"] }}
 {% endif %}
 
 {% if settings.stamped %}  
