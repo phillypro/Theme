@@ -1,5 +1,5 @@
 [
-    {
+  {
     "name": "Site Authorization Key",
     "settings": [
       {
@@ -258,6 +258,16 @@
         "default": false,
         "label": "Enable Tipo Booking",
         "info": "This Option Replaces Theme Installation for Tipo Booking",
+        "type": "checkbox"
+      },
+      {
+        "type": "header",
+        "content": "More Options"
+      },
+      {
+        "id": "slim_branding",
+        "default": false,
+        "label": "Enable Slim Branding",
         "type": "checkbox"
       }
     ],
