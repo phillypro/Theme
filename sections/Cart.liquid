@@ -21,7 +21,12 @@
         document.body.append(checkoutbar);
     }
 </script>
-{% style %} .cart-totals>div input[type=submit] { background:{{ section.settings.checkoutbackground }}; color:{{ section.settings.checkoutcolor }}; } #cart-total { color:{{ section.settings.totalcolor}}; } #cart .sezzle-checkout-button-wrapper .sezzle-button-text .sezzle-payment-amount { color:{{ section.settings.totalcolor}}; } {% endstyle %}
+{% style %} .cart-totals>div input[type=submit] { background:{{ section.settings.checkoutbackground }}; color:{{ section.settings.checkoutcolor }}; } #cart-total { color:{{ section.settings.totalcolor}}; } #cart .sezzle-checkout-button-wrapper .sezzle-button-text .sezzle-payment-amount { color:{{ section.settings.totalcolor}}; } 
+{% if section.settings.css != nil %}
+{% assign css = section.settings.css | replace: '&gt;','>' %}
+{{ css }}
+{% endif %}
+{% endstyle %}
 <div class="cart-header">
     <div class="row">
         <div class="large-12 text-center columns">
@@ -531,7 +536,16 @@
         "id": "advanced-discount",
         "type": "text",
         "label": "Discount Code"
-      }], 
+      },
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS"
+}], 
   "blocks": [
     {
      "type": "Upsell",
@@ -1594,4 +1608,3 @@ border:none;
 {% javascript %}    
 
 {% endjavascript %}                                          
- 
