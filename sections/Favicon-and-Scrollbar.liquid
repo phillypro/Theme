@@ -31,7 +31,10 @@ body::-webkit-scrollbar-track {
  }
 {% endif %}    
   
-
+{% if section.settings.css != nil %}
+{% assign css = section.settings.css | replace: '&gt;','>' %}
+{{ css }}
+{% endif %}
 </style>
 <link rel="icon" type="image/png" href="{{ section.settings.favicon | img_url: 'pico' }}">
 
@@ -77,6 +80,19 @@ body::-webkit-scrollbar-track {
        "type": "color",
        "label": "Loader Color #2 (Optional Gradient)",
        "default": "rgba(0,0,0,0)"
+},
+{
+ "type": "header",
+ "content": "Universal Custom CSS"
+},
+{
+ "type": "paragraph",
+ "content": "This CSS will apply to every page just like style.scss"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS"
 }]
   }
 {% endschema %}
