@@ -881,14 +881,15 @@ color: #ba5485;
 
 li.product {
   & .image {
-background-color: #ddd;    
 {% case settings.product_image_size %}
 {% when 'portrait' %}
+    background-color: #ddd;    
     position: relative;
     height: 0;
     padding-bottom: 125%;
     overflow: hidden;    
 {% when 'square' %}
+    background-color: #ddd;
     position: relative;
     height: 0;
     padding-bottom: 100%;
