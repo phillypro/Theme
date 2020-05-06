@@ -1,4 +1,13 @@
 [
+    {
+    "name": "Site Authorization Key",
+    "settings": [
+      {
+        "type": "text",
+        "id": "password"
+      }
+    ]
+  },
   {
     "settings": [
       {
