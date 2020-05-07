@@ -68,7 +68,7 @@ It is important to show a search form on that page if search.performed is false.
          
         
       
-       <a href="{{ product.url | within: collection }}">
+       <a href="{{ product.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>
          
          
               {% if product.type contains 'book' %}
