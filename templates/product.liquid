@@ -5,12 +5,8 @@
 {%- include 'bold-common' -%}
 {%- include 'bold-product' with product, hide_action: 'break', output: 'none' -%}
 {% endif %}
-{% if settings.boldsubscriptions %}
-<script>
-var DOMContentLoaded_event = document.createEvent("Event")
-DOMContentLoaded_event.initEvent("DOMContentLoaded", true, true)
-window.document.dispatchEvent(DOMContentLoaded_event)
-</script>
+{% if settings.boldsubscriptions %}  
+{%- include 'bold-ro-init' -%}
 {% endif %}
 
 {% assign add_to_cart = 'Add to cart' %}
@@ -311,7 +307,7 @@ var roWrapper = page.querySelector('div.ro_widget');
 // Options for the observer (which mutations to observe)
 
 // Callback function to execute when mutations are observed
-const handleRO = function(mutationsList, observer) {
+var handleRO = function(mutationsList, observer) {
     // Use traditional 'for loops' for IE 11
     for(let mutation of mutationsList) {
         if (mutation.type === 'childList') {
@@ -331,10 +327,10 @@ function triggerAjaxify(e) {
     }
 };
 // Create an observer instance linked to the callback function
-const roObserver = new MutationObserver(handleRO);
+var roObserver = new MutationObserver(handleRO);
 // Start observing the target node for configured mutations
 roObserver.observe(roWrapper, { attributes: true, childList: true, subtree: true });
-{% endif %}  
+{% endif %} 
 
 
 
