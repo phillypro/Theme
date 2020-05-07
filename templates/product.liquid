@@ -302,6 +302,19 @@ deferBoldForm(function() {
 
 
 
+{% if settings.boldsubscriptions %}
+var page = document.querySelector('#product-{{ product.id }}');
+var roWrapper = page.querySelector('div.ro_widget');  
+  roWrapper.addEventListener('click', triggerAjaxify); 
+function triggerAjaxify(e) {
+  e.stopPropagation();
+  var pForm = e.currentTarget.closest('form');
+  if(pForm.action.includes('cart/add') && e.target.type == 'radio') {
+ Shopify.AjaxifyCart.init();
+    }  
+}
+{% endif %}  
+
 
 
 
