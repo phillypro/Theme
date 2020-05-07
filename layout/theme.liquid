@@ -335,7 +335,16 @@ visibility:visible;
 <body id="{{ page_title | handle }}"  class="{% if customer %}customer-logged-in {% endif %} {% if cart.item_count > 0 %}hasitem{% endif %}">
 {% render 'Favicon-and-Scrollbar' %}
     
- {% comment %}{% section 'Loader' %}{% endcomment %}
+{% comment %}
+ {% unless settings.disableproductajax or settings.disablesiteajax  %}
+ {% section 'Loader' %}
+ {% else %}
+  {% if template == 'index' %}
+   {% section 'Loader' %}
+  {% endif %}
+{% endunless %}
+{% endcomment %}
+ 
  {% section 'Mobile-Menu' %} 
 
    <header id="header" data-role="toolbar" data-type="header" data-position="fixed">   
