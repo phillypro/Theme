@@ -71,6 +71,11 @@
                          
         {% section 'Multiselect' %}                 
                          
+         {% if settings.boldsubscriptions %}                    
+       <div class="ro_widget"></div>      
+      {% endif %}
+  
+  
   
       <div class="product-price-wrap" id="product-price-{{ product.id }}" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
         <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
