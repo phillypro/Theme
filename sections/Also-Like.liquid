@@ -56,8 +56,7 @@ color:{{ section.settings.buynowcolor}};
 
 <ul class="row align-center align-top">
 {% assign count = 0 %}
-  {% assign products_per = section.settings.products_per | plus: 0 %}  
-   {% assign limited = section.settings.products_per | plus: 1 %}  
+  {% assign products_per = section.settings.products_per | plus: 0 %}   
 {% if products_per == 2 %}
   {% assign sizes = 'large-6 medium-6' %}
   {% elsif products_per == 3 %}
@@ -65,7 +64,7 @@ color:{{ section.settings.buynowcolor}};
   {% elsif products_per == 4 %}
   {% assign sizes = 'large-3 medium-6' %}
 {% endif %}  
-  {% for product2 in collections[group].products limit:limited %}
+  {% for product2 in collections[group].products %}
   
   {% if product2.id != product.id %}
 {% if product2.type == "OPTIONS_HIDDEN_PRODUCT" %}{% continue %}{% endif %}
@@ -107,7 +106,7 @@ color:{{ section.settings.buynowcolor}};
    <a href="{{ product2.url }}" class="buynow add-product">{{ section.settings.buynowtext }}</a>
 </li>
   {% assign count = count | plus: 1 %}
-    {% if count == 4 %}
+    {% if count == products_per %}
       {% break %}
     {% endif %}
    {% endif %}
