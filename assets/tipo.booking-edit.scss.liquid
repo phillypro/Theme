@@ -1602,16 +1602,26 @@ font-size: 1.2em;
 }
 }
 
+
+.VariantBooking .product-variants, .VariantBooking .product-price-wrap {
+ display:none;
+}
+
 /* hide all step 1 options */
-[data-role="page"] .tpb-booking-form .tpb-box .content .step1 {
-  & h5, & .tpb-form-control.product, & .tpb-form-control.price {
+[data-role="page"]:not(.VariantBooking) .tpb-booking-form .tpb-box .content .step1 {
+ & .tpb-form-control.price {
    display:none !important;
   }
 }
+
+[data-role="page"] .tpb-booking-form .tpb-box .content .step1 { 
+  & h5, & .tpb-form-control.product {
+      display:none !important;
+  }
+}
+
 form.booking-loaded {
   & .product-add {
    display:none;
   }
 }
-
-
