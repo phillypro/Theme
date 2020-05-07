@@ -1,5 +1,6 @@
-
+{{ 'https://ro.boldapps.net/v2_ui/js/ro.js' | script_tag }}
 <script>
+$(document).one("pagecontainershow", function (event,ui) {  
   var BOLD = BOLD || {};
   BOLD.recurring_orders = BOLD.recurring_orders || {};
   if(typeof BOLD.recurring_orders.setSettings !== 'undefined') {
@@ -35,5 +36,28 @@
   {% if recurring_list.length > 1 or recurring_list[0] != blank %}
     {% assign is_mixed_cart = true %}
   {% endif %}
-  window.mixed_cart = {{ is_mixed_cart | json }};
+  window.mixed_cart = {{ is_mixed_cart | json }}; 
+  
+function deferRo{{ product.id }}(methodRo{{ product.id }}) {
+    if (window.BOLD.recurring_orders) {
+        methodRo{{ product.id }}();
+    } else {
+        setTimeout(function() { deferRo{{ product.id }}(methodRo{{ product.id }}) }, 50);
+    }
+}
+deferRo{{ product.id }}(function () { 
+console.log(window.BOLD.recurring_orders);  
+var DOMContentLoaded_event = document.createEvent("Event")
+DOMContentLoaded_event.initEvent("DOMContentLoaded", true, true)
+window.document.dispatchEvent(DOMContentLoaded_event);
+});
+});
+  
+function removeRo(){
+ var tags = document.getElementsByTagName('script');
+ for (var i = tags.length; i >= 0; i--){ //search backwards within nodelist for matching elements to remove
+  if (tags[i] && tags[i].getAttribute('src') != null && tags[i].getAttribute('src').indexOf('https://ro.boldapps.net/v2_ui/js/ro.js') != -1)
+   tags[i].parentNode.removeChild(tags[i]); //remove element by calling parentNode.removeChild()
+ }
+}    
 </script>
