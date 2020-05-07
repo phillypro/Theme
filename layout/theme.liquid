@@ -239,9 +239,17 @@ window.password = MD5(window.Shopify.shop);
 {% if settings.tipobooking %}    
 {% include 'tipo.booking.script' %}  
 {% endif %} 
+
 {% if settings.boldoptions %}  
 {%- include 'bold-options-hybrid' -%}
-{%- include 'bold-common' -%}  
+{% endif %}    
+{% if settings.boldoptions or settings.boldsubscriptions %}    
+ {%- include 'bold-common' -%}  
+{% endif %}
+{% if settings.boldsubscriptions %}  
+{% include 'bold-ro-init' %}    
+{% endif %}    
+{% if settings.boldoptions %}  
 {%- include 'bold-product' with product, hide_action: 'header' -%}
 {% if template == 'product' and product.metafields.inventory.ShappifyHidden or product.type contains '_HIDDEN_' %}<meta name='robots' content='noindex'>{% endif %}
 {% endif %}
