@@ -21,7 +21,10 @@
         
         <div id="customer_sidebar">
   <div id="customer_detail" class="group">
-    <h5 class="name">{{ customer.name }}</h5>
+    <h5 class="name">{{ customer.name }}</h5>    
+    {% if settings.boldsubscriptions %}
+    <p><a href="/tools/checkout/api/manage/subscription/app" class="text-link">Manage Subscription</a></p>
+    {% endif %}
     <p class="email note">{{ customer.email }}</p>
     <div class="address note">
       {% if customer.default_address != nil %}
