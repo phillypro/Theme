@@ -5,6 +5,13 @@
 {%- include 'bold-common' -%}
 {%- include 'bold-product' with product, hide_action: 'break', output: 'none' -%}
 {% endif %}
+{% if settings.boldsubscriptions %}
+<script>
+var DOMContentLoaded_event = document.createEvent("Event")
+DOMContentLoaded_event.initEvent("DOMContentLoaded", true, true)
+window.document.dispatchEvent(DOMContentLoaded_event)
+</script>
+{% endif %}
 
 {% assign add_to_cart = 'Add to cart' %}
 {% assign sold_out = 'Sold Out' %}
