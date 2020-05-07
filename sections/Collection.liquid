@@ -81,7 +81,7 @@
 {% assign on_sale = true %}
 {% endif %}
 <li itemscope itemtype="http://schema.org/Product" data-id="{{ product.id }}" class="text-center columns {{ sizes }} small-6 product {% if product.type contains 'book' %}book{% endif %} {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
-   <a href="{{ product.url | within: collection }}">
+   <a href="{{ product.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>
              <div class="image {% if settings.imagehover and settings.product_image_size != 'none' and product.images.size > 1  %}imgswitch{% endif %}">
          <div class="inner">
          {% if product.featured_image %}<img class="{% unless settings.imagehover and settings.product_image_size != 'none' and product.images.size > 1  %}hvr-grow{% endunless %}" src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
@@ -123,7 +123,7 @@
          </div>
          {% endif %}
   
-   <a href="{{ product.url }}" class="buynow add-product">{{ settings.buynowtext }}</a>
+   <a href="{{ product.url }}" class="buynow add-product" {% if settings.disableproductajax %}rel="external"{% endif %}>{{ settings.buynowtext }}</a>
 </li>
    
   
