@@ -191,7 +191,7 @@ padding-top:25px;
          
       
       
-       <a href="{{ product.url | within: collection }}">
+       <a href="{{ product.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>
 
          
       
@@ -240,7 +240,7 @@ padding-top:25px;
    
         
         
-        <a href="{{ product.url }}" class="buynow">{{ buynowtext }}</a>
+        <a href="{{ product.url }}" class="buynow" {% if settings.disableproductajax %}rel="external"{% endif %}>{{ buynowtext }}</a>
      </li>
   
   
