@@ -94,11 +94,15 @@ It is important to show a search form on that page if search.performed is false.
                       {% else %}
          
          
-       <div class="image">
-         {% for tag in product.tags %}
-         <span class="tag">{{ tag }}</span>
-           {% endfor %}
-         {% if product.featured_image %}<img src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
+           <div class="image {% if settings.imagehover and settings.product_image_size != 'none' and product.images.size > 1  %}imgswitch{% endif %}">
+         <div class="inner">
+         {% if product.featured_image %}<img class="{% unless settings.imagehover and settings.product_image_size != 'none' and product.images.size > 1  %}hvr-grow{% endunless %}" src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
+         </div>
+         {% if settings.imagehover and settings.product_image_size != 'none' and product.images.size > 1  %}
+         <div class="inner">
+            <img src="{{ product.images[1] | product_img_url: 'large' }}" />
+         </div>
+         {% endif %}
        </div>
          
          {% endif %}
