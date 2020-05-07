@@ -2126,6 +2126,8 @@ var tpBooking = function($) {
                         product.title = product.title.replace(/"/g, "&quot;");
                         return product;
                     });
+                  
+
                     tpbProductsApi = data.productsApi;
                     tpbProducts = products;
                     tpbTimeZoneServer = data.timeZoneServer;
@@ -2141,9 +2143,11 @@ var tpBooking = function($) {
                     var is_enable = false;
                     var isProductPage = true;
                     var currentProducts;
-
+                  
                     if (products.length) {
                         for (var i = 0; i < products.length; i++) {
+                            console.log(products[i].id);
+                            console.log(tpbProduct.id);
                             if (products[i].id == tpbProduct.id) {
                                 is_enable = true;
                                 currentProducts = products[i];
@@ -2158,6 +2162,7 @@ var tpBooking = function($) {
                                 settings: tpbSettings,
                                 isProductPage: isProductPage
                             }).then(function(bookingFormHTML) {
+                                    
                                 $(form).after($('<div class="tpb-booking-form product"></div>').html(bookingFormHTML));
                                 var bookingformEl = form.parent().find('.tpb-booking-form.product')[0];
                                 bindEvent(true, bookingformEl);
@@ -2214,14 +2219,22 @@ var tpBooking = function($) {
 
                         var currentPage = $(form).closest('[data-role="page"]');
                         var priceWrap = currentPage.find('.product-price');
+                        var variantwrap = currentPage.find('.product-variants ');
+                        var priceWrapper = currentPage.find('.product-price-wrap');
                         if (!priceWrap.hasClass('booking-duration')) {
                             // get duration and unit
                             window.tpbProducts.forEach(function(item, key) {
                                 if (item.id == window.tpbProductId) {
+                              
+                                  if(item.capacity.type == 'variant') {
+                                   currentPage.addClass('VariantBooking');
+                                    console.log(this);
+                                  }else{
                                     var pduration = item.duration.rule;
-
                                     var punit = item.capacity.rule == 1 ? 'min' : 'hr';
                                     priceWrap.addClass('booking-duration').prepend(pduration + ' ' + punit + ' | ');
+                                  }
+                                    
 
                                 }
                             });
@@ -3369,9 +3382,11 @@ deferProductList(function() {
         if (product.length) {
             product.each(function() {
                 if (!$(this).hasClass('booking')) {
+                  if(item.capacity.type !== 'variant') {
                     var pduration = item.duration.rule;
                     var punit = item.capacity.rule == 1 ? 'min' : 'hr';
                     $(this).addClass('booking').find('.h1').prepend(pduration + ' ' + punit + ' | ');
+                  }
                 }
             })
         }
