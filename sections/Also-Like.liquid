@@ -35,6 +35,9 @@ color:{{ section.settings.buynowcolor}};
    max-width: 100%; 
    }
 {% endif %}  
+{% if section.settings.css != nil %}
+{{ section.settings.css | replace: '&gt;', '>' }}
+{% endif %}
 {% endstyle %}
 {% for collection in product.collections %}
    {% if collection.title != 'All' %}
@@ -54,6 +57,7 @@ color:{{ section.settings.buynowcolor}};
 <ul class="row align-center align-top">
 {% assign count = 0 %}
   {% assign products_per = section.settings.products_per | plus: 0 %}  
+   {% assign limited = section.settings.products_per | plus: 1 %}  
 {% if products_per == 2 %}
   {% assign sizes = 'large-6 medium-6' %}
   {% elsif products_per == 3 %}
@@ -61,10 +65,9 @@ color:{{ section.settings.buynowcolor}};
   {% elsif products_per == 4 %}
   {% assign sizes = 'large-3 medium-6' %}
 {% endif %}  
-  {% for product2 in collections[group].products %}
+  {% for product2 in collections[group].products limit:limited %}
   
   {% if product2.id != product.id %}
-  
 {% if product2.type == "OPTIONS_HIDDEN_PRODUCT" %}{% continue %}{% endif %}
 {% comment %}Is this product on sale?{% endcomment %}
 {% assign product2_on_sale = false %}
@@ -73,9 +76,16 @@ color:{{ section.settings.buynowcolor}};
 {% endif %}
 <li itemscope itemtype="http://schema.org/Product" data-id="{{ product2.id }}" class="text-center columns {{ sizes }} small-6 product {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
    <a href="{{ product2.url | within: collection }}">
-      <div class="image">
-         {% if product2.featured_image %}<img src="{{ product2.featured_image | img_url: '1024x1024' }}" />{% endif %}
-      </div>
+       <div class="image {% if settings.imagehover and product.images.size > 1  %}imgswitch{% endif %}">
+         <div class="inner">
+         {% if product2.featured_image %}<img class="{% unless settings.imagehover and product2.images.size > 1  %}hvr-grow{% endunless %}" src="{{ product2.featured_image | img_url: '1024x1024' }}" />{% endif %}
+         </div>
+         {% if settings.imagehover and product2.images.size > 1  %}
+         <div class="inner">
+            <img src="{{ product2.images[1] | product_img_url: 'large' }}" />
+         </div>
+         {% endif %}
+       </div>
       <h3>{{ product2.title }}</h3>
        <p class="h1 medium-down--left">
           {% if product2.price_max > product2.price %}
@@ -194,6 +204,16 @@ color:{{ section.settings.buynowcolor}};
        "type": "color",
        "label": "Font Color",
        "default": "#FFFFFF"
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS",
+	"info": "Use [Font 2 Web](http://www.font2web.com/) to convert fonts"
 }]
   }
 {% endschema %}
