@@ -302,10 +302,23 @@ deferBoldForm(function() {
 
 
 
+
 {% if settings.boldsubscriptions %}
 var page = document.querySelector('#product-{{ product.id }}');
 var roWrapper = page.querySelector('div.ro_widget');  
-  roWrapper.addEventListener('click', triggerAjaxify); 
+// if form action changes  
+// Select the node that will be observed for mutations
+// Options for the observer (which mutations to observe)
+
+// Callback function to execute when mutations are observed
+const handleRO = function(mutationsList, observer) {
+    // Use traditional 'for loops' for IE 11
+    for(let mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+            console.log('A child node has been added or removed.');
+var shopifyButtons = page.querySelector('.shopify-payment-button');          
+shopifyButtons.remove();   
+roWrapper.addEventListener('click', triggerAjaxify); 
 function triggerAjaxify(e) {
   e.stopPropagation();
   var pForm = e.currentTarget.closest('form');
@@ -313,6 +326,14 @@ function triggerAjaxify(e) {
  Shopify.AjaxifyCart.init();
     }  
 }
+            roObserver.disconnect();
+        }
+    }
+};
+// Create an observer instance linked to the callback function
+const roObserver = new MutationObserver(handleRO);
+// Start observing the target node for configured mutations
+roObserver.observe(roWrapper, { attributes: true, childList: true, subtree: true });
 {% endif %}  
 
 
