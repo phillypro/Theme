@@ -66,7 +66,7 @@
 <form id="cartform" action="/cart" method="post" data-ajax="false">
     <div class="row">
         <div class="large-12 columns">
-            {% assign cartitems = cart.items %} {% if settings.boldoptions %} {% for item in cartitems %} {%- include 'bold-options-hybrid-cart-item' with item -%}
+            {% assign cartitems = cart.items %} {% if settings.boldoptions or settings.boldsubscriptions %} {% for item in cartitems %} {%- include 'bold-options-hybrid-cart-item' with item -%}
             <div cart-item="{{ item.id }}" class="product-cart-wrap">
                 <div class="thumbnail-wrap" style="background-image:url({{ item | img_url: 'large' }})">
                 </div>
@@ -79,7 +79,8 @@
              {% assign item_variant = item.variant %}
              {% if item_variant.option1 %}{{ item_variant.option1 }}{% endif %}
             {% if item_variant.option2 %}<span>{{ item_variant.option2 }}</span>{% endif %}
-	              <div class="attributes">
+	            <div class="attributes">
+                    {% unless settings.boldsubscriptions %}
                       {% assign propertySize = item.properties | size %}
                       {% if propertySize > 0 %}
                       {% for p in item.properties %}
@@ -91,6 +92,10 @@
                       <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a> {% else %} {{ p.last }} {% endif %}
                     <br/> {% endunless %} {% endfor %} {% endif %}
                     <!-- Bold:POv2 -->
+                    {% else %}
+                    <span class="bold_ro_desc" data-product-id="{{item.id}}-{{ forloop.index0 }}"></span>
+                    <span class="bold_load_cart_item_properties"></span>
+                    {% endunless %}
                 </div>
                 </a>
             </div>
@@ -103,7 +108,7 @@
             <div class="price-wrap">
                 <span>
           <span> 
-	   <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_item_price" style="display:none !important;"></span>{% include 'price' with item.price %}
+	   <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_item_price" style="display:none !important;"></span>{% unless settings.boldsubscriptions %}{% include 'price' with item.price %}{% else %}{% include 'price' with item.final_price %}{% endunless %}
                 </span>
                 <div>
                 </div>
