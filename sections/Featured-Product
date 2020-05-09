@@ -1,0 +1,223 @@
+{% if section.settings.product != '' %}
+{% assign product = all_products[section.settings.product] %}
+<script>
+  window.featuredproduct =  {{ product | json }};
+</script>
+<div class="row">
+   <div class="large-12 columns text-center">
+      {% assign titlearray = section.settings.section_title | split: ' ' %}
+      {% capture titlesize %}{{ titlearray | size  }}{% endcapture %}
+      {% assign titlesize = titlesize | minus: 1 %}
+      {% for word in titlearray %}
+      {% if word == titlearray[titlesize] %}
+      <span class="last-word letter-wrap">{% endif %}{% if forloop.last == true %}{{ word }}</span>{% else %}{{ word }}{% endif %}
+      {% endfor %}
+   </div>
+</div>
+
+
+<div id="frontpage-product-{{ product.id }}" class="frontpage-product {{ product.handle }}" itemscope itemtype="http://schema.org/Product">
+   <div class="inner-product">
+      {% assign add_to_cart = 'Add to cart' %}
+      {% assign sold_out = 'Sold Out' %}
+      {% assign unavailable = 'Unavailable' %}
+      <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+      <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
+   
+         <!-- Product thumb -->
+
+            <div class="row rowsmall align-center">
+               <div class="large-7 medium-7 small-12 column slide-inner">
+                  <div id="productslider" class="swiper-container">
+                     <div class="swiper-wrapper">
+                        {% for image in product.images %}
+                        <div class="swiper-slide"> 
+                           <img src="{{ image | product_img_url: '1024x1024' }}" />
+                        </div>
+                        {% endfor %}
+                     </div>
+                     <div class="swiper-pagination"></div>
+                  </div>
+
+               </div>
+               <div class="large-5 medium-5 small-12 columns">
+                   <div class="product-details">
+                     {% comment %}
+                     <!-- Yotpo Reviews Summary code -->   
+                     {% assign yotpoappkey = settings.yotpo_reviews | split: 'yotpo.com/' %}                 
+                     {% assign yotpoappkey = yotpoappkey.last | split: '/widget' %}              
+                     <div class="yotpo bottomLine yotpoextra"
+                        data-appkey="{{ yotpoappkey.first }}"
+                        data-domain="{{ shop.permanent_domain | escape }}"
+                        data-product-id="{{ product.id }}"
+                        data-product-models="{{ product.id }}"
+                        data-name="{{ product.title | escape }}"
+                        data-url="{{ shop.url }}{{ product.url }}"
+                        data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}"
+                        data-description="{{ product.description | escape }}"
+                        data-bread-crumbs="{% for tag in product.tags %}{{ tag | escape }};{% endfor %}">
+                     </div>
+                     <!-- END Yotpo Reviews Summary code -->  
+                     {% endcomment %}
+                     <h2>{{ product.title }}</h2>
+                     <p>
+                     {{ section.settings.product_desc }}
+                     </p>
+                     
+                     
+                 {% form 'product', product %}  
+      {% assign hide_default_title = false %}
+      {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+        {% assign hide_default_title = true %}
+      {% endif %}       
+
+    {% if settings.boldoptions %}
+      <div class="bold_options" data-product-id="{{ product.id }}"></div>
+    {% endif %}           
+                     
+    
+    
+     <div id="product-variants-{{ product.id }}" class="product-variants {% if hide_default_title %}  hidden{% endif %}">
+              <select id="product-select-{{ product.id }}" name="id"> 
+                {% for variant in product.variants %}  
+                <option{% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}">     
+                  {{ variant.title }} - {{ variant.price | money }}    
+                </option>  
+                {% endfor %} 
+              </select>
+            {% if product.variants.size >= 1 %}
+            {% for option in product.options %}
+            {% include 'swatch' with option %}
+            {% endfor %}
+            {% endif %}
+            </div>  
+                         
+                         
+                  
+                         
+         {% if settings.boldsubscriptions %}                    
+       <div class="ro_widget"></div>      
+      {% endif %}
+  
+  
+  
+      <div class="product-price-wrap" id="product-price-{{ product.id }}" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+        {% if product.available %}
+        <link itemprop="availability" href="http://schema.org/InStock" />
+        {% else %}
+        <link itemprop="availability" href="http://schema.org/OutOfStock" />
+        {% endif %}
+          {% assign variant = product.selected_or_first_available_variant %}
+          {% if product.compare_at_price > product.price %}
+          <span class="product-price on-sale" itemprop="price">{{ variant.price | money }}</span>
+          <s class="product-compare-price">{{ variant.compare_at_price | money }}</s>
+          {% else %}
+          <span class="product-price" itemprop="price">{{ variant.price | money }}</span>
+          {% endif %}
+      </div>
+                      
+{% if settings.quadpay %}    
+{% comment %} <!-- Insert QuadPay Widget --> {% endcomment %}
+<div style="margin: 0 0 10px 0; min-height: 20px;">
+  <quadpay-widget amount={{ variant.price | divided_by: 100.00 }}   breakpointAlignment="1022 center"></quadpay-widget>
+</div>       
+{% endif %}                     
+    
+                     
+      <div class="product-add">
+        <button id="add-{{ product.id }}" class="button shopify-payment-button__button add {% if settings.boldsubscriptions %}addtocart{% endif %}" type="submit">{{ add_to_cart | escape }}</button>
+        {{ form | payment_button }}
+      </div>
+              {% endform %}           
+                     
+                  </div>
+              </div>
+            </div>
+
+         <!-- END Product thumb -->
+     
+   </div>
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Featured Product",
+    "settings": [{
+       "id": "section_title",
+       "type": "text",
+       "label": "Section Title"
+      },
+      {
+        "id": "product",
+        "type": "product",
+        "label": "Product"
+      },
+      {
+        "id": "product_desc",
+        "type": "textarea",
+        "label": "Small Description"
+      }],
+  "presets": [
+    {
+      "name": "Featured Product",
+      "category": "Product"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet 'scss' %}
+@mixin bp($point) {
+  
+  $bp-small: "(max-width: 350px)";
+  $bp-mobile: "(max-width: 600px)";
+  $bp-mobileup: "(min-width: 600px)";
+  $bp-phablet: "(max-width: 1022px)";
+  $bp-phabletup: "(min-width: 1022px)";
+  $bp-tablet: "(max-width: 1280px)";
+  $bp-tabletup: "(min-width: 1280px)";
+  $bp-laptop: "(max-width: 1600px)";
+  $bp-desktop: "(min-width: 1600px)";
+  @if $point == desktop {
+    @media #{$bp-desktop}  { @content; }
+  }  
+  @else if $point == laptop {
+    @media #{$bp-laptop} { @content; }
+  }
+  @else if $point == tablet {
+    @media #{$bp-tablet} { @content; }
+  }
+  @else if $point == tabletup {
+    @media #{$bp-tabletup} { @content; }
+  }
+  @else if $point == phablet {
+    @media #{$bp-phablet} { @content; }
+  }
+  @else if $point == phabletup {
+    @media #{$bp-phabletup} { @content; }
+  }
+  @else if $point == mobile {
+    @media #{$bp-mobile}  { @content; }
+  }
+  @else if $point == mobileup {
+    @media #{$bp-mobileup} { @content; }
+  }
+  @else if $point == small {
+    @media #{$bp-small}  { @content; }
+  }
+
+}
+
+//color transition
+@mixin transition($attribute, $duration) {
+    -webkit-transition: $attribute $duration ease;
+    -moz-transition: $attribute $duration ease;
+    transition: $attribute $duration ease;
+}
+
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
