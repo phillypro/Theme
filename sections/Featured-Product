@@ -3,6 +3,32 @@
 <script>
   window.featuredproduct =  {{ product | json }};
 </script>
+{% style %}
+
+
+#shopify-section-{{ section.id}} .product-details .product-add .add {
+  background: {{ section.settings.add_background_color }};
+  color: {{ section.settings.add_font_color }};
+}
+#shopify-section-{{ section.id}} .swatch .swatch-element input:checked+label {
+    border-color: {{ section.settings.options_border_color }};
+}
+#shopify-section-{{ section.id}} .product-details .product-add .ajaxified-cart-feedback, .product-wrap .product-top .product-details .product-add .ajaxified-cart-feedback.success {
+    color: #000000;
+}
+#shopify-section-{{ section.id}} .product-details .product-add .ajaxified-cart-feedback a {
+  color: {{ section.settings.add_background_color }};
+}
+
+
+
+
+
+{% if section.settings.css != nil %}
+{{ section.settings.css | replace: '&gt;', '>' }}
+{% endif %}
+{% endstyle %}
+<div class="frontpage-product-wrap">
 <div class="row">
    <div class="large-12 columns text-center">
       {% assign titlearray = section.settings.section_title | split: ' ' %}
@@ -26,7 +52,7 @@
    
          <!-- Product thumb -->
 
-            <div class="row rowsmall align-center">
+            <div class="row rowsmall align-center align-middle">
                <div class="large-7 medium-7 small-12 column slide-inner">
                   <div id="productslider" class="swiper-container">
                      <div class="swiper-wrapper">
@@ -139,6 +165,7 @@
      
    </div>
 </div>
+</div>  
 {% endif %}
 
 {% schema %}
@@ -158,7 +185,40 @@
         "id": "product_desc",
         "type": "textarea",
         "label": "Small Description"
-      }],
+      },
+{ "type":"header",
+"content": "Product Options Style"
+},
+{
+       "id": "options_border_color",
+       "type": "color",
+       "label": "Product Options Border Color",
+       "default": "#d85089"
+},
+{ "type":"header",
+"content": "Add to Cart Style"
+},
+{
+       "id": "add_background_color",
+       "type": "color",
+       "label": "Add to Cart Background Color",
+       "default": "#d85089"
+},{
+       "id": "add_font_color",
+       "type": "color",
+       "label": "Add to Cart Font Color",
+       "default": "#FFFFFF"
+},
+{
+ "type": "header",
+ "content": "Additional Custom CSS"
+},
+{
+        "id": "css",
+        "type": "html",
+        "label": "Custom CSS",
+	"info": "Use [Font 2 Web](http://www.font2web.com/) to convert fonts"
+}],
   "presets": [
     {
       "name": "Featured Product",
@@ -217,7 +277,182 @@
     transition: $attribute $duration ease;
 }
 
+
+.frontpage-product-wrap {
+  padding: 0px 0 60px 0; 
+  @include bp(mobile) {
+    padding: 0px 0 60px 0;
+  }
+    & .row {
+     max-width: 85em;
+    }
+    & .slide-inner {
+      @include bp(phablet) {
+      margin-bottom: 20px;
+      }
+      & .swiper-slide {
+         & img {
+    width: 100%;
+       }
+     }
+    }
+    & .product_form {
+    margin-top: 15px;
+    }
+    & .stamped-product-reviews-badge {
+    @include bp(phablet) {
+    display: block !Important;
+    text-align: center;
+    }
+    }
+ & .product-details {
+    & h2 {
+    font-family: 'Open Sans', sans-serif;
+    /* text-transform: uppercase; */
+    letter-spacing: 0px;
+    font-size: 41px;
+    line-height: 41px;
+    font-weight: bold;
+     @include bp(mobile) {
+            font-size: 26px;
+           line-height: 30px;
+          font-weight:normal;
+           text-align: center;
+      }
+     }
+   & .product-price-wrap {
+       @include bp(phablet) {
+   text-align: center;
+       }
+   }
+   & .product-price {
+       color: #000000;
+    letter-spacing: 0px;
+    -webkit-font-smoothing: antialiased;
+    font-size: 33px;
+    display: inline-block;
+    margin-bottom: 0px;
+     @include bp(phablet) {
+    font-size: 22px;
+    text-align: center;
+     }
+   }
+   
+   & .bold_option_title {
+       margin-bottom: 10px;
+       display: block;
+   }
+   & .bold_option_element {
+     & select {
+     background-color: transparent;
+    padding: 15px 30px 15px 20px;
+     }
+   }
+   & .bold_option_total span {
+    color: #ea75a5;
+   }
+   
+   
+    & .jdgm-widget {
+     & a {
+      color:#ff4da2;
+     }
+    }
+    & #product-price {
+    color: #A3A3A3;
+    letter-spacing: 0px;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Gotham';
+    font-size: 22px; 
+     @include bp(mobile) {
+          text-align: center; 
+     }
+    }
+    & .yotpo {
+      margin: 20px 0;
+      @include bp(mobile) {
+           margin: 10px 0 15px; 
+      }
+      & a {
+       color: #000000 !important;
+      }
+      & .yotpo-stars {
+       display: inline-block;
+    margin-right: 10px;
+    vertical-align: bottom; 
+      }
+     & .yotpo .yotpo-bottomline .yotpo-icon-empty-star {
+       color: #f2b85e;
+     }
+      & .pull-left {
+       @include bp(mobile) {
+        text-align:center; 
+         float:none;
+       }
+      }
+    }
+    & .details {
+    text-shadow: none;
+    margin: 20px 0;
+          font-size: 18.45px;
+font-family: 'Open Sans', sans-serif;
+    letter-spacing: 0.025em;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeSpeed;
+       & ul {
+             padding-left: 18px;
+       & li {
+            margin-bottom: 8px; 
+        }
+       }
+    }
+    & .product-variants {
+         margin: 20px 0;
+     & label  {
+          font-weight: bold; 
+           text-transform: capitalize;
+     }
+      &.hidden {
+       display:none;
+      }
+    }
+    & .bold_options {
+     & .bold_option_title {
+       font-weight: bold;
+           text-transform: capitalize;
+     }
+    }  
+
+    & .product-add {
+    margin-top: 20px;
+     & a {
+          color: #9e3a8e; 
+     }
+     & .ajaxified-cart-feedback.success {
+         color: #ea75a5;
+     }
+& .shopify-payment-button__button--unbranded {
+      background-color: #000000;
+  }
+  & [type=button].shopify-payment-button__button--hidden {
+      display:none;
+  }
+  & .add {
+    background: #d85089;
+    color:#fff;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+    & button {
+       width:100%;
+  }
+    }
+   } 
+}
+
 {% endstylesheet %}
 
 {% javascript %}
-{% endjavascript %}
+{% endjavascript %}          
