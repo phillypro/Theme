@@ -268,12 +268,6 @@
                 </li>
                 {% endif %}
                 <li>
-                    <h2>Shipping for U.S</h2>
-                    <span>
-            <span>$12</span> {{ section.settings.shipping }}
-                    </span>
-                </li>
-                <li>
                     <h2>Total</h2>
                     <span id="cart-total">{% assign price = cart.total_price | money | split: '.' %}{{ price.first }}</span>
                 </li>
@@ -474,12 +468,6 @@
 "id": "message",
 "label": "Welcome Message",
 "default": "Your day is about to get better"
-},
-{
-"type": "text",
-"id": "shipping",
-"label": "Shipping for U.S preview price",
-"default": "Discounted"
 },
 {
    "type":      "radio",
