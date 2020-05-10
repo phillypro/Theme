@@ -8,57 +8,56 @@
    {% endfor %}
 </div>
 {% else %}
-
 {% unless section.settings.rev == '' %}
-{% assign link_structure = section.settings.rev | split: '"http' %}  
-{% assign link_structure = link_structure[1] | split: '"' %} 
+
+{% assign urls = section.settings.rev | split: '"http' %} 
+
+{% for url in urls %}
+{% assign link = url %} 
+{% assign link = url | split: '"' %} 
+{% assign link = link[0] %} 
+
+<!-- check for google and declare google_font_link -->
+{% if link contains 'google' %}
+{% assign google_font_link = link | prepend: 'https' %}
+{% endif %} 
+
+<!-- check for transparent png and declare admin_assets_images_link -->
+{% if link contains '/plugins/revslider/admin/assets/images/' %}
+{% assign link_parts = link | split: '/' %}
+{% capture admin_assets_images_link %}{% for link_part in link_parts %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
+{% assign admin_assets_images_link = admin_assets_images_link | prepend: 'http' %}
+{% endif %} 
 
 
-{% if link_structure[0] contains 'google' %}
-{% assign google_font = link_structure[0] | prepend: 'https' %}
-{% assign link_structure = section.settings.rev | split: '"http' %}  
-{% assign link_structure = link_structure[3] | split: '"' %} 
-{% endif %}
+<!-- check for svg and declare admin_assets_svg_link -->
+{% if link contains '/svg/' %}
+{% assign link_parts = link | split: '/' %}
+{% capture admin_assets_svg_link %}{% for link_part in link_parts %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
+{% assign admin_assets_svg_link = admin_assets_svg_link | prepend: 'http' %}
+{% endif %} 
 
+<!-- check for svg and declare admin_assets_svg_link -->
+{% if link contains '/wp-content/uploads/' %}
+{% assign link_parts = link | split: '/' %}
+{% capture image_link %}{% for link_part in link_parts %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
+{% assign image_link = image_link | prepend: 'http' %}
+{% endif %} 
 
+{% endfor %}
 
-{% unless link_structure contains '/wp-content/uploads/' %}
-{% assign admin_link = link_structure[0] | split: '/' %}
-{% capture admin_link %}{% for link_part in admin_link %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
-{% assign admin_link_structure = admin_link | prepend: 'http' %}
-{% assign link_structure = section.settings.rev | split: '"http' %}  
+<!-- get file structure and declare file_structure -->
+{% capture file_structure %}{{ '' | file_url }}{% endcapture %}
+{% assign file_structure = file_structure | split: '?' %} 
+{% assign file_structure = file_structure[0] %} 
 
-{% assign link_structure = link_structure[2] | split: '"' %} 
+<!-- get theme asset structure and declare asset_structure -->
 {% capture theme_file_structure %}{{ 'transparent.png' | asset_url }}{% endcapture %}
 {% assign theme_file_structure = theme_file_structure | split: '?' %} 
 {% assign theme_file_structure = theme_file_structure[0] %} 
 {% assign theme_file_structure = theme_file_structure | split: 'transparent.png' %} 
-{% assign theme_file_structure = theme_file_structure[0] %} 
-{% endunless %}
+{% assign assets_structure = theme_file_structure[0] %} 
 
-
-
-<!-- if it has a svg -->
-{% if section.settings.rev contains 'data-svg_src' %}
-{% assign svg_link_structure = section.settings.rev | split: 'data-svg_src="http' %}  
-{% assign svg_link_structure = svg_link_structure[1] | split: '"' %} 
-{% assign svg_link_structure = svg_link_structure[0] | prepend: 'http' %} 
-{% assign svg_link_structure = svg_link_structure | split: '/' %}
-{% capture original_svg_link_structure %}{% for svg_link_part in svg_link_structure %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ svg_link_part }}{% endunless %}{% endfor %}{% endcapture %}
-{% endif %}
-
-
-
-{% assign link_structure = link_structure[0] | prepend: 'http' %} 
-{% assign link_structure = link_structure | split: '/' %}
-{% capture original_link_structure %}{% for link_part in link_structure %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
-
-
-
-
-{% capture file_structure %}{{ '' | file_url }}{% endcapture %}
-{% assign file_structure = file_structure | split: '?' %} 
-{% assign new_link_structure = file_structure[0] %} 
 
 
 <!-- see if it has close tag -->
@@ -69,8 +68,6 @@
 {% else %} 
   {% assign fromBody = false %}
 {% endif %}
-
-
 
 
 
@@ -86,17 +83,23 @@
 {% assign slider_html = slider_html_with_script[0] | append: '</div>' %}
 {% assign slider_html = slider_html | prepend: slider_additional_css %}
 {% endif %}
-{% if svg_link_structure %}
-{% assign slider_html =  slider_html | replace: original_svg_link_structure, new_link_structure %}
+
+
+<!-- replace all links -->
+{% if admin_assets_svg_link %}
+{% assign slider_html =  slider_html | replace: admin_assets_svg_link, file_structure %}
 {% endif %}
-{% assign slider_html =  slider_html | replace: original_link_structure, new_link_structure %}
-{% if admin_link_structure %}
-{% assign slider_html =  slider_html | replace: admin_link_structure, theme_file_structure %}
+{% if image_link %}
+{% assign slider_html =  slider_html | replace: image_link, file_structure %}
 {% endif %}
-{% if google_font %}
+{% if admin_assets_images_link %}
+{% assign slider_html =  slider_html | replace: admin_assets_images_link, assets_structure %}
+{% endif %}
+{% if google_font_link %}
 {% assign slider_html = slider_html | split: 'type="text/css" media="all">' %}
 {% assign slider_html = slider_html[1] %}
 {% endif %}
+
 
 <!-- get all the duplicates out -->
 {% for i in (1..30) %}
@@ -292,7 +295,8 @@ function setREVStartSize(e) {
  </span>
 </div>
 {% endunless %}
-{% endif %}  
+{% endif %} 
+
 {% schema %}
   {
     "name": "Slider",
