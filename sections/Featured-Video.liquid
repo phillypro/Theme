@@ -126,7 +126,7 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
     // add script
     var script = document.createElement("script");
     script.type = "text/javascript";   
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js';
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/{{ settings.fancybox3version }}/jquery.fancybox.min.js';
     document.getElementsByTagName("head")[0].appendChild(script);  
     setTimeout(function() {
  
@@ -135,7 +135,7 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
     var style = document.createElement("link");
     style.type = "text/css";  
     style.rel = "stylesheet";
-    style.href = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css';
+    style.href = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/{{ settings.fancybox3version }}/jquery.fancybox.min.css';
     document.getElementsByTagName("head")[0].appendChild(style); 
   }
  };   
