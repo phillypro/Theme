@@ -243,6 +243,13 @@
         "type": "checkbox"
       },
       {
+        "id": "loox",
+        "default": false,
+        "label": "Enable Loox reviews",
+        "info": "This Option Replaces Theme Installation for Loox reviews",
+        "type": "checkbox"
+      },
+      {
         "type": "header",
         "content": "App Helpers"
       },
