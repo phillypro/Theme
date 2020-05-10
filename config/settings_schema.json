@@ -424,5 +424,29 @@
       }
     ],
     "name": "Money options"
+  },
+      {
+    "settings": [
+ 
+      {
+        "id": "swiperjsversion",
+        "label": "Swiper JS",
+        "type": "text",
+        "default":"5.3.8"
+      },
+      {
+        "id": "hammerjsversion",
+        "label": "Hammer JS",
+        "type": "text",
+        "default":"2.0.8"
+      },
+      {
+        "id": "fancybox3version",
+        "label": "Fancybox 3",
+        "type": "text",
+        "default":"3.5.7"
+      }
+    ],
+    "name": "Version Information"
   }
 ]
