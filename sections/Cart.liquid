@@ -335,34 +335,34 @@
             // add script
             var script = document.createElement("script");
             script.type = "text/javascript";
-            script.src = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/js/swiper.min.js';
+            script.src = 'https://cdn.jsdelivr.net/npm/swiper@{{ settings.swiperjsversion }}/js/swiper.min.js';
             document.getElementsByTagName("head")[0].appendChild(script);
             // add style
             var style = document.createElement("link");
             style.type = "text/css";
             style.rel = "stylesheet";
-            style.href = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/css/swiper.min.css';
+            style.href = 'https://cdn.jsdelivr.net/npm/swiper@{{ settings.swiperjsversion }}/css/swiper.min.css';
             document.getElementsByTagName("head")[0].appendChild(style);
         }
         if (!window.Hammer) {
             // add script
             var script = document.createElement("script");
             script.type = "text/javascript";
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js';
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/{{ settings.hammerjsversion }}/hammer.min.js';
             document.getElementsByTagName("head")[0].appendChild(script);
         }
       if(!window.jQuery.fancybox) {
     // add script
     var script = document.createElement("script");
     script.type = "text/javascript";   
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js';
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/{{ settings.fancybox3version }}/jquery.fancybox.min.js';
     document.getElementsByTagName("head")[0].appendChild(script);  
 
     // add style
     var style = document.createElement("link");
     style.type = "text/css";  
     style.rel = "stylesheet";
-    style.href = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css';
+    style.href = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/{{ settings.fancybox3version }}/jquery.fancybox.min.css';
     document.getElementsByTagName("head")[0].appendChild(style); 
   }
     };
