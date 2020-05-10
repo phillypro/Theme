@@ -156,16 +156,16 @@
   
 <script>
   
-  {% if google_font %}
+  {% if google_font_link %}
   var styleArray = Array.prototype.slice.call(document.styleSheets);
   var callbackSliderFont{{section.id}} = function(){
   // Handler when the DOM is fully loaded
-    if(!styleArray.includes("{{ google_font }}")) {
+    if(!styleArray.includes("{{ google_font_link }}")) {
     // add style
     var style = document.createElement("link");
     style.type = "text/css";  
     style.rel = "stylesheet";
-    style.href = '{{ google_font }}';
+    style.href = '{{ google_font_link }}';
     document.getElementsByTagName("head")[0].appendChild(style);
   }
 };
