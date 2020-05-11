@@ -904,8 +904,11 @@ li.product {
 
 {% endcase %}
     &.imgswitch {
-      & .inner {
+       & .inner {
         overflow: hidden;
+      } 
+      &.scroll {
+      & .inner {
         @include transition(all,0.7s);
          -webkit-transform: translate3d(0, 0%, 0);
          -ms-transform: translate3d(0, 0%, 0);
@@ -931,6 +934,26 @@ li.product {
            opacity:1;
         }
        }
+      }
+      }
+      }
+      &.fade {
+      & .inner {
+        @include transition(all,0.3s);
+         opacity:1;
+        &:nth-child(2) {
+         opacity:0;
+        }
+      } 
+      @include bp(mobileup) {
+      &:hover {
+       & .inner {
+         opacity:0;
+        &:nth-child(2) {
+           opacity:1;
+        }
+       }
+      }
       }
       }
     }
