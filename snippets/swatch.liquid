@@ -60,7 +60,7 @@
       {% assign values = values | split: ',' %}
       <div data-value="{{ value | escape }}" class="swatch-element {{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
 
-        <input id="{% if template == 'index' %}frontpage-{% endif %}{{ product.id }}-swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} />
+        <input image="{% unless variant.image.src %}{{ product.featured_image | product_img_url: '1024x1024' }}{% else %}{{ variant.image.src | product_img_url: '1024x1024' }}{% endunless %}" id="{% if template == 'index' %}frontpage-{% endif %}{{ product.id }}-swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} />
         {% if is_color %}
         <label for="{% if template == 'index' %}frontpage-{% endif %}{{ product.id }}-swatch-{{ option_index }}-{{ value | handle }}">
           {{ value }}
