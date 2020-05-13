@@ -179,7 +179,6 @@ padding-top:25px;
   
   
 {% assign on_sale = false %}
-{% assign available = product.available %}  
 {% if product.compare_at_price > product.price %}
 {% assign on_sale = true %}
 {% endif %}
@@ -216,7 +215,7 @@ padding-top:25px;
         {% else %}
            <span class="currPrice">{% include 'price' with product.price %}</span>   {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }}</span> {% endif %}
         {% endif %}
-        {% unless available %}
+        {% unless product.available %}
           <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
         {% endunless %}  
        </p>
@@ -978,4 +977,4 @@ margin-bottom:0px;
 
 {% javascript %}       
  
-{% endjavascript %}        
+{% endjavascript %}
