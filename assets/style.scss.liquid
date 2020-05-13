@@ -703,7 +703,11 @@ display:none !important;
      @include bp(mobile) {
           margin-bottom: 30px; 
      }
-
+     &.sold-out {
+       & .image {
+        opacity:0.3;
+       } 
+      }
       & .image {
            z-index: 1;
     position: relative; 
