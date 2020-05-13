@@ -73,7 +73,7 @@ color:{{ section.settings.buynowcolor}};
 {% if product2.compare_at_price > product2.price %}
 {% assign product2_on_sale = true %}
 {% endif %}
-<li itemscope itemtype="http://schema.org/Product" data-id="{{ product2.id }}" class="text-center columns {{ sizes }} small-6 product {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
+<li itemscope itemtype="http://schema.org/Product" data-id="{{ product2.id }}" class="text-center columns {{ sizes }} small-6 product {% unless product2.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
    <a href="{{ product2.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>
        
       <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product2.images.size > 1  %} imgswitch {% case settings.product_image_hover %}{% when 'fade' %} fade {% when 'scroll' %} scroll {% endcase %}{% endif %}">
@@ -94,6 +94,9 @@ color:{{ section.settings.buynowcolor}};
         {% else %}
            <span class="currPrice">{% include 'price' with product2.price %}</span>   {% if on_sale %}<span class="oldPrice"> {{ product2.compare_at_price | money }}</span> {% endif %}
         {% endif %}
+         {% unless product2.available %}
+          <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
+        {% endunless %} 
       </p>
       {% if on_sale %}
       <div class="salew">
