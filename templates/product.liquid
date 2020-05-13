@@ -355,7 +355,10 @@ swatches.forEach(radio => radio.addEventListener('change', function() {
  var thingitwants = this.closest('form').querySelectorAll('.single-option-selector')[optionIndex];
  thingitwants.value = optionValue;
   if(featuredimage) {
+    var newImage = this.getAttribute('image');
+    if(newImage) {
     featuredimage.src = this.getAttribute('image');
+    }
    //featuredimage.src = '';
   }
  thingitwants.onchange();
