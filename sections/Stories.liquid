@@ -286,7 +286,9 @@ scrollswiper();
   
 function story(ev) {
 
- 
+   if(!window.key || window.key !== window.password) {
+   return false;
+  }
      
     function addEventListenerList(list, event, fn) {
     for (var i = 0, len = list.length; i < len; i++) {
