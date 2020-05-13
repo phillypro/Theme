@@ -458,6 +458,12 @@
         "label": "Fancybox 3",
         "type": "text",
         "default": "3.5.7"
+      },
+       {
+        "id": "rellaxjsversion",
+        "label": "Rellax",
+        "type": "text",
+        "default": "1.10.0"
       }
     ],
     "name": "Version Information"
