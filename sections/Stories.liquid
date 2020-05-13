@@ -373,7 +373,7 @@ function story(ev) {
         // create slides
 		var slides = '';
 		mediaArray.forEach(function (value, index) {
-         slides += '<div class="swiper-slide'+ (value.swipe ? ' swipe' : '') +'">'+ (isvideo ? '<video id="media-'+ index +'" preload="auto" playsinline=""><source src="' : '<img id="media-'+ index +'" src="') + value.media + (isvideo ? '" type="video/mp4"></video>' : '" />') + '</div>';
+         slides += '<div class="swiper-slide'+ (value.swipe ? ' swipe' : '') +'" '+ (value.swipe ? ' swipe="'+ value.swipe +'"' : '') +'>'+ (isvideo ? '<video id="media-'+ index +'" preload="auto" playsinline=""><source src="' : '<img id="media-'+ index +'" src="') + value.media + (isvideo ? '" type="video/mp4"></video>' : '" />') + '</div>';
 		});
 
     	// create progress bars
