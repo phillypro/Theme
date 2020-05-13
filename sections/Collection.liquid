@@ -104,6 +104,9 @@
         {% else %}
            <span class="currPrice">{% include 'price' with product.price %}</span>   {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }}</span> {% endif %}
         {% endif %}
+         {% unless product.available %}
+          <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
+        {% endunless %}  
          </p>
       {% if on_sale %}
       <div class="salew">
@@ -419,4 +422,4 @@ background: #efefef;
 {% endstylesheet %} 
 
 {% javascript %}
-{% endjavascript %}        
+{% endjavascript %}
