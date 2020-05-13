@@ -348,11 +348,16 @@ roObserver.observe(roWrapper, { attributes: true, childList: true, subtree: true
 // activate swatch  
 var page = document.querySelector('#product-{{ product.id }}');
 var swatches = page.querySelectorAll('.swatch input[type=radio]');
+var featuredimage = page.querySelector('.Product-Video-Gallery-main img');
 swatches.forEach(radio => radio.addEventListener('change', function() {
  var optionIndex = this.closest('.swatch').getAttribute('data-option-index');
  var optionValue = this.value;
  var thingitwants = this.closest('form').querySelectorAll('.single-option-selector')[optionIndex];
  thingitwants.value = optionValue;
+  if(featuredimage) {
+    featuredimage.src = this.getAttribute('image');
+   //featuredimage.src = '';
+  }
  thingitwants.onchange();
 }));
 
