@@ -193,9 +193,9 @@ function deferSlider{{section.id}}(methodSlider{{section.id}}) {
 }
 deferSlider{{section.id}}(function () {  
    
-$(document).one("pagecreate", '#index', function (event, ui) {
+$(document).one("pagecreate", function (event, ui) {
 	$(document).one("pagecontainerbeforeshow", function (event, ui) {
-		if (ui.toPage[0].id == 'index') {
+		//if (ui.toPage[0].id == 'index') {
 			var page = ui.toPage[0];
             window.dataPrev{{ section.id }} = ui.prevPage[0];
 			window.scrollTo(0, 0);
@@ -226,7 +226,7 @@ $(document).one("pagecreate", '#index', function (event, ui) {
           
 
 
-		}
+		//}
 	});
 });
   
