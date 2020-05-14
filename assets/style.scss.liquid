@@ -2929,3 +2929,7 @@ font-weight: bold;
     }
   }
 }
+
+{% if settings.extraStyle != nil %}
+{{ settings.extraStyle | replace: '&gt;', '>' }}
+{% endif %}
