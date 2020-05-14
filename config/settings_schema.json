@@ -467,5 +467,15 @@
       }
     ],
     "name": "Version Information"
+  },
+  {
+    "settings": [
+      {
+        "id": "extraStyle",
+        "label": "Additional Style SCSS",
+        "type": "textarea"
+      }
+    ],
+    "name": "Additional SCSS"
   }
 ]
