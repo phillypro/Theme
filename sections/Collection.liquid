@@ -174,7 +174,7 @@ function deferCollection(methodCollection) {
 deferCollection(function() {  
 
     
-loadCollection();
+loadCollection{{randomNumber}}();
   
    var currentPage = document.querySelector('.collection-{{ randomNumber }}').closest('[data-role="page"]');
 
@@ -215,7 +215,7 @@ function loadCollectionTrigger{{randomNumber}} (event, ui) {
    if(collection) { 
    var page = document.querySelector('.collection-{{ randomNumber }}').closest('[data-role="page"]');
     if(ui.toPage[0].id == page.id) {
-       loadCollection();
+       loadCollection{{randomNumber}}();
     }
    }
 }  
@@ -234,7 +234,7 @@ function removeEvents{{randomNumber}}(event)  {
 }
   
   
-function loadCollection() {
+function loadCollection{{randomNumber}}() {
 
   var page = document.querySelector('.collection-{{ randomNumber }}').closest('[data-role="page"]');
                                     if(document.querySelector('#' + page.id + ' .next a')) {                        
