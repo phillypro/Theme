@@ -318,7 +318,10 @@
                     }, 300);
                 </script>
                 {% endif %}
-
+  {% if section.settings.notes %}
+                 <label for="CartNote">Special instructions</label>
+                   <textarea name="note" id="CartNote">{{ cart.note }}</textarea>
+               {% endif %}
             </ul>
             <div>
                 <input id="checkoutnow" type="submit" name="checkout" value="Continue" />
@@ -486,6 +489,13 @@
   "default": false,
   "label": "Enable Terms of Service Checkbox",
    "info": "Adds a required checkbox before checkout, [click here to add Terms of Service](/admin/settings/legal)",
+   "type": "checkbox"
+},
+{
+  "id": "notes",
+  "default": false,
+  "label": "Enable Order Notes",
+   "info": "Adds an area for customers to leave special instructions",
    "type": "checkbox"
 },
 {
@@ -1182,6 +1192,9 @@ margin: 0 0 25px 0;
      
      }
     }
+   & label[for="CartNote"] {
+    text-align:right;
+  }
   & > div {
     margin-top: 20px;
     text-align:right;
