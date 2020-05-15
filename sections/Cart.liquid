@@ -269,7 +269,7 @@
                 {% endif %}
                 <li>
                     <h2>Total</h2>
-                    <span id="cart-total">{% assign price = cart.total_price | money | split: '.' %}{{ price.first }}</span>
+                    <span id="cart-total">{% if settings.boldsubscriptions or boldoptions %}<span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_total" style="display:none !important;"></span>{% endif %}{% assign price = cart.total_price | money | split: '.' %}{{ price.first }}</span>
                 </li>
 
                 {% if settings.quadpay %} {% comment %}
