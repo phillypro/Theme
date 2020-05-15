@@ -325,7 +325,9 @@ roWrapper.addEventListener('click', triggerAjaxify);
 function triggerAjaxify(e) {
   e.stopPropagation();
   var pForm = e.currentTarget.closest('form');
+  pForm.classList.add('bold');
   if(pForm.action.includes('cart/add') && e.target.type == 'radio') {
+ pForm.classList.remove('bold');   
  Shopify.AjaxifyCart.init();
     }  
 }
