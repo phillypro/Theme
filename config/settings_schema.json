@@ -464,7 +464,7 @@
         "label": "Rellax",
         "type": "text",
         "default": "1.10.0"
-      }
+      },
       {
         "id": "stickykitjsversion",
         "label": "Rellax",
