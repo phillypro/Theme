@@ -38,7 +38,7 @@ var _0xf00c=['\x64\x47\x39\x4d\x62\x33\x64\x6c\x63\x6b\x4e\x68\x63\x77\x3d\x3d',
 </script> 
 
 
-{% if settings.tipobooking %}    
+{% if settings.tipobooking and template != 'product' %}    
 {% include 'tipo.booking.script' %}  
 {% endif %} 
 
