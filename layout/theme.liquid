@@ -139,7 +139,7 @@ visibility:visible;
     
 {% comment %}
 {% assign page_title_handle = page_title | handle %}
- {% unless settings.disableproductajax or settings.disablesiteajax or page_title_handle == 'challenge'  %}
+ {% unless settings.disableproductajax or settings.disablesiteajax or page_title_handle == 'challenge' or template == 'customers/account'  %}
  {% section 'Loader' %}
  {% else %}
   {% if template == 'index' %}
