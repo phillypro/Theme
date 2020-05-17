@@ -258,7 +258,7 @@
                   {% unless section.settings.button_swap %}
                   <div class="desktopv account-links">
                      {% if customer  %}
-                     <a href="/account">Your Account</a>
+                     <a target="_parent" href="/account">Your Account</a>
                      {% else %}
                      {{ 'Sign in' | customer_login_link }}
                      or <a target="_parent" href="/account/register">Create an Account</a>
