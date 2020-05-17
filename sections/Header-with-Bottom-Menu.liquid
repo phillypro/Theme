@@ -258,10 +258,10 @@
                   {% unless section.settings.button_swap %}
                   <div class="desktopv account-links">
                      {% if customer  %}
-                     <a target="_parent" href="/account">Your Account</a>
+                     <a href="/account">Your Account</a>
                      {% else %}
                      {{ 'Sign in' | customer_login_link }}
-                     or <a target="_parent" href="/account/register">Create an Account</a>
+                     or <a href="/account/register">Create an Account</a>
                      {% endif %}
                   </div>
                    {% unless section.settings.text_cart %}
