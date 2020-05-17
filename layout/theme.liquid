@@ -138,7 +138,8 @@ visibility:visible;
 {% render 'Favicon-and-Scrollbar' %}
     
 {% comment %}
- {% unless settings.disableproductajax or settings.disablesiteajax  %}
+{% assign page_title_handle = page_title | handle %}
+ {% unless settings.disableproductajax or settings.disablesiteajax or page_title_handle == 'challenge'  %}
  {% section 'Loader' %}
  {% else %}
   {% if template == 'index' %}
