@@ -46,7 +46,7 @@ background-color:{{ section.settings.button_background_color }};
       {% endif %}  
       <div class="action_bottom">
         <input class="btn" type="submit" value="Sign In" />
-        <span class="note">or {{ 'Create an account' | customer_register_link }}</span>
+        <span class="note">or <a id="customer_register_link" target="_parent" href="/account/register">Create an Account</a></span>
       </div>
         
         <div id="forgot_password">
