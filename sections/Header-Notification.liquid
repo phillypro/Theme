@@ -43,8 +43,9 @@ fill:{{ section.settings.text_color }};
 
 <script>
  var closeButton = document.querySelector("#shopify-section-{{ section.id }} .header-notification .close");
+ if(closeButton)   {   
  closeButton.addEventListener('click', closeNotif);
- 
+ }
  function closeNotif(event) {
   var headerNotifEl = event.currentTarget.closest('.header-notification');
   var headerEl = event.currentTarget.closest('header');
