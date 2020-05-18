@@ -9,7 +9,27 @@
 
     {% form 'activate_customer_password', data-ajax: 'false' %}
 
-      {% include 'form-errors-custom' %}
+         {% if form.errors %}
+  <div class="note form-error">
+    <ul class="disc">
+      {% assign message = 'contact.form.message' | t %}
+      {% for field in form.errors %}
+
+        {% if field == 'form' %}
+          <li>
+            {{ form.errors.messages[field] }}
+          </li>
+        {% else %}
+          <li>
+            {% assign field_name = field | replace: 'body', message %}
+            {{ 'general.forms.post_field_error_html' | t: field: field_name, error: form.errors.messages[field] }}
+          </li>
+        {% endif %}
+
+      {% endfor %}
+     </ul>
+  </div>
+{% endif %}
 
       <label for="customer_password">{{ 'customer.activate_account.password' | t }}</label>
       <input type="password" value="" name="customer[password]" id="customer_password">
