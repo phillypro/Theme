@@ -56,6 +56,9 @@
 
   <div class="column large-4 small-12">
     <h2 class="h4">{{ 'customer.account.details' | t }}</h2>
+    {% if settings.boldsubscriptions %}
+    <p><a href="/tools/checkout/api/manage/subscription/app" class="text-link">Manage Subscription</a></p>
+    {% endif %}
 
     {{ customer.default_address | format_address }}
 
