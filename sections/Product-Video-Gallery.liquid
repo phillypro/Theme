@@ -313,7 +313,15 @@ function startSlider() {
       direction: 'horizontal',
      // freeMode: true,
       loopedSlides: 5, //looped slides should be the same
-      cssMode: true
+      cssMode: true,
+      breakpoints: {
+      0: {
+      spaceBetween: 10
+    },
+    900: {
+      spaceBetween: 0,
+    }
+  }
       });   
 } 
   

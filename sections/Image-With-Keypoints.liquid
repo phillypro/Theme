@@ -15,6 +15,9 @@
     color:{{ section.settings.color_title }};
 }
 
+#shopify-section-{{ section.id }} .image-with-keypoints-wrap>.row:nth-child(1) p {
+color:{{ section.settings.color_subtitle }};
+}
 
 
 #shopify-section-{{ section.id }} {
@@ -234,6 +237,12 @@ if (
        "type": "text",
        "label": "Sub Title",
        "default": "REAL TRANSFORMATION WITH OUR PREMIUM VIRGIN HAIR"
+},
+{
+       "id": "color_subtitle",
+       "type": "color",
+       "label": "Subtitle Color",
+       "default": "#333333"
 },
 { "type":"header",
 "content": "Background Colors or Image"
