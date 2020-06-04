@@ -50,7 +50,7 @@
 {% if option != 'Title' %}
 <div class="swatch clearfix" data-option-index="{{ option_index }}">
   <div class="header">Choose Your {{ swatch }}</div>
-  <div class="swatch-group align-middle">
+  <div class="swatch-group swatch-group-{{ swatch |  handleize }} align-middle">
   {% assign values = '' %}
   {% for variant in product.variants %}
     {% assign value = variant.options[option_index] %}
