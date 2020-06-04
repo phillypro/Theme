@@ -238,6 +238,59 @@
     ],
     "name": "Product Preview Style"
   },
+    {
+    "settings": [
+      {
+        "content": "Heading",
+        "type": "header"
+      },
+      {
+        "type": "font_picker",
+        "id": "page_title_font",
+        "label": "Font",
+        "default": "lato_n7"
+      },
+      {
+        "type": "range",
+        "id": "page_title_fontsize",
+        "min": 20,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Size",
+        "default": 33
+      },
+      {
+        "id": "page_heading_color",
+        "type": "color",
+        "label": "Page Heading Font Color",
+        "default": "#ffffff"
+      },
+      {
+        "id": "page_heading_background",
+        "type": "color",
+        "label": "Page Heading Background",
+        "default": "#000000"
+      },
+      {
+        "content": "Body",
+        "type": "header"
+      },
+      {
+        "id": "page_body_color",
+        "type": "color",
+        "label": "Page Body Font Color",
+        "default": "#000000"
+      },
+      {
+        "id": "page_body_background",
+        "type": "color",
+        "label": "Page Body Background",
+        "default": "#ffffff"
+      }
+    ],
+    "name": "Page Style"
+  },
   {
     "settings": [
       {
