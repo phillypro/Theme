@@ -1,5 +1,5 @@
 {% if section.settings.activate_slider != false %}  
-<div id="slider-home-basic">
+<div id="slick-{{ section.id }}">
   {% for block in section.blocks %}
     {% case block.type %}
       {% when 'Slider' %}
@@ -7,6 +7,49 @@
        {% endcase %}
    {% endfor %}
 </div>
+
+<script>
+ var callback{{ section.id }} = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.$.fn.slick) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/{{ settings.slickjsversion }}/slick.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);
+    // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+    style.href = 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/{{ settings.slickjsversion }}/slick.min.css';
+    document.getElementsByTagName("head")[0].appendChild(style);
+ 
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callback{{ section.id }}();
+} else {
+  document.addEventListener("DOMContentLoaded", callback{{ section.id }});
+}   
+  
+function defer{{section.id}}(method{{section.id}}) {
+    if (window.$.fn.slick) {
+        method{{section.id}}();
+    } else {
+        setTimeout(function() { defer{{section.id}}(method{{section.id}}) }, 10);
+    }
+}
+defer{{section.id}}(function () {  
+  console.log('got it');
+  
+$('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adaptiveHeight:true,autoplay:true,autoplaySpeed:5000,arrows: false});
+  
+});
+</script>
 {% else %}
 {% unless section.settings.rev == '' %}
 
@@ -206,6 +249,7 @@
     style.rel = "stylesheet";
     style.href = '{{'rs6.css' | asset_url }}';
     document.getElementsByTagName("head")[0].appendChild(style);
+ 
   }
 };
 
@@ -222,33 +266,47 @@ if (
   
   
   
-function defer{{ section.id }}(method{{ section.id }}) {
-    if (window.RSANYID) {
-        method{{ section.id }}();
+function defer{{section.id}}(method{{section.id}}) {
+    if (window.jQuery) {
+      if (window.jQuery.mobile) {
+
+
+        method{{section.id}}();
+      }else{
+        setTimeout(function() { defer{{section.id}}(method{{section.id}}) }, 10);
+      }
     } else {
-        setTimeout(function() { defer{{ section.id }}(method{{ section.id }}) }, 25);
+        setTimeout(function() { defer{{section.id}}(method{{section.id}}) }, 10);
     }
 }
-defer{{ section.id }}(function () {  
+defer{{section.id}}(function () {  
+ 
+  
+
   
   
+ 
 $(document).one("pagecreate", function (event, ui) {
 	$(document).one("pagecontainerbeforeshow", function (event, ui) {
-		//if (ui.toPage[0].id == 'index') {
 			var page = ui.toPage[0];
             window.dataPrev{{ section.id }} = ui.prevPage[0];
 			window.scrollTo(0, 0);
-			var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
-                   
-                // start slider                                        
-                {{slider_js }} 
-                   
-                function logLoaded{{section.id}}() {
-                      var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
-                      slider.revstart();
-                }
-				(function listen{{section.id}}() {
-							if (window.loaded && window.RSANYID) {
+			var slider = jQuery(page).find('#shopify-section-{{ section.id }} rs-module');
+                                           
+            // lets wait for RSANYID then load slider js
+            (function listenRS{{section.id}}() {  
+               if (window.RSANYID) {
+                 logLoadedRS{{ section.id }}();
+               }else{
+                 window.setTimeout(listenRS{{section.id}}, 50);
+               }
+            })();
+            function logLoadedRS{{section.id}}() {
+
+               // start slider                                        
+               {{slider_js }} 
+               (function listen{{section.id}}() {
+					  if (window.loaded && window.RSANYID) {
                       if(document.getElementById("shopify-section-Loader") == null) {
 						logLoaded{{section.id}}();
                       }else if(window.loaded && typeof window.dataPrev{{ section.id }} != 'undefined') {
@@ -262,23 +320,21 @@ $(document).one("pagecreate", function (event, ui) {
 						window.setTimeout(listen{{section.id}}, 50);
 					}
 				})();
-          
-
-
-		//}
+                function logLoaded{{section.id}}() {
+                  setTimeout(function() {
+                      var slider = jQuery(page).find('#shopify-section-{{ section.id }} rs-module');
+                      slider.revstart();
+                  },100);
+                }
+              
+              
+            }                               
 	});
-});
   
-$(document).one( "pageremove", '#index', function( event, ui ) {
-  var sliders = this.querySelectorAll('.rev_slider');
-  if(sliders ) {
-    sliders.forEach(function(slider) {
-  	$(slider).revkill();
-    });
-  }
-});
-$(document).one( "pagehide", '#index', function( event, ui ) {
-  var sliders = this.querySelectorAll('.rev_slider');
+  
+
+$(document).one( "pagehide", this, function( event, ui ) {
+  var sliders = this.querySelectorAll('rs-module');
   if(sliders ) {
     sliders.forEach(function(slider) {
   	var video = slider.querySelector('video');
@@ -291,49 +347,13 @@ $(document).one( "pagehide", '#index', function( event, ui ) {
   
   
   
+});
+
+
   
   
-	setREVStartSize({c: 'rev_slider_1_1',rl:[1920,1440,778,480],el:[986,600,399,300],gw:[1920,1440,778,480],gh:[986,600,399,300],type:'standard',justify:'',layout:'fullwidth',mh:"0"});
-					var	revapi1,
-						tpj;
-					jQuery(function() {
-						tpj = jQuery;
-						revapi1 = tpj("#rev_slider_1_1")
-						if(revapi1==undefined || revapi1.revolution == undefined){
-							revslider_showDoubleJqueryError("rev_slider_1_1");
-						}else{
-							revapi1.revolution({
-								visibilityLevels:"1920,1440,778,480",
-								gridwidth:"1920,1440,778,480",
-								gridheight:"986,600,399,300",
-								spinner:"spinner9",
-								perspective:600,
-								perspectiveType:"global",
-								editorheight:"986,600,399,300",
-								responsiveLevels:"1920,1440,778,480",
-								progressBar:{disableProgressBar:true},
-								navigation: {
-									onHoverStop:false
-								},
-								parallax: {
-									levels:[5,10,15,20,25,30,35,40,45,46,47,48,49,50,51,30],
-									type:"scroll",
-									origo:"slidercenter",
-									speed:0
-								},
-								scrolleffect: {
-									set:true,
-									multiplicator:1.3,
-									multiplicator_layers:1.3
-								},
-								fallbacks: {
-									disableFocusListener:true,
-									allowHTML5AutoPlayOnAndroid:true
-								},
-							});
-						}
-						
-					});  
+  
+	
   
   
   

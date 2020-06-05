@@ -104,7 +104,7 @@
     
     
      <div id="product-variants-{{ product.id }}" class="product-variants {% if hide_default_title %}  hidden{% endif %}">
-              <select id="product-select-{{ product.id }}" name="id"> 
+              <select id="product-select-{{ section.id }}" name="id"> 
                 {% for variant in product.variants %}  
                 <option{% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}">     
                   {{ variant.title }} - {{ variant.price | money }}    
@@ -166,6 +166,344 @@
    </div>
 </div>
 </div>  
+
+
+
+<script>
+// activate Ajax Cart
+  function defer{{ section.id }}AjaxifyCart(method{{ section.id }}AjaxifyCart) {
+ if (window.Shopify.AjaxifyCart) {
+  method{{ section.id }}AjaxifyCart();
+ } else {
+  setTimeout(function() {
+   defer{{ section.id }}AjaxifyCart(method{{ section.id }}AjaxifyCart)
+  }, 50);
+ }
+}
+defer{{ section.id }}AjaxifyCart(function() {
+ Shopify.AjaxifyCart.init();
+});
+  
+// activate shopify payment buttons
+function defer{{ section.id }}ShopifyPaymentButtons(method{{ section.id }}ShopifyPaymentButtons) {
+ if (window.Shopify.PaymentButton) {
+  {% if settings.boldoptions %}
+  var page = document.querySelector('#shopify-section-{{ section.id }}');
+  var boldWrapper = page.querySelector('.bold_options');
+  function defer{{ section.id }}BoldButtons(method{{ section.id }}BoldButtons) {
+   if (boldWrapper.classList.contains("bold_options_loaded")) {
+    setTimeout(function() {
+     if (boldWrapper.innerHTML.trim().length > 0) {
+      // remove dynamic buttons
+      var existingButtons = page.querySelector('.shopify-payment-button');
+      existingButtons.remove();
+     } else {
+      method{{ section.id }}BoldButtons();
+     }
+    }, 50);
+   } else {
+    setTimeout(function() {
+     defer{{ section.id }}BoldButtons(method{{ section.id }}BoldButtons)
+    }, 50);
+   }
+  }
+  defer{{ section.id }}BoldButtons(function() {
+   Shopify.PaymentButton.init();
+  }); 
+  {% else %}
+  method{{ section.id }}ShopifyPaymentButtons(); 
+  {% endif %}
+ } else {
+  setTimeout(function() {
+   defer{{ section.id }}ShopifyPaymentButtons(method{{ section.id }}ShopifyPaymentButtons)
+  }, 50);
+ }
+}
+defer{{ section.id }}ShopifyPaymentButtons(function() {
+ Shopify.PaymentButton.init();
+});   
+  
+  
+// activate bold on product form  
+{% if settings.boldoptions %}
+var page = document.querySelector('#shopify-section-{{ section.id }}');
+var boldWrapper = page.querySelector('.bold_options');
+function defer{{ section.id }}BoldForm(methodBoldForm) {
+ if (boldWrapper.classList.contains("bold_options_loaded")) {
+  setTimeout(function() {
+   if (boldWrapper.innerHTML.trim().length > 0) {
+    method{{ section.id }}BoldForm();
+   }
+  }, 900);
+ } else {
+  setTimeout(function() {
+   defer{{ section.id }}BoldForm(method{{ section.id }}BoldForm)
+  }, 50);
+ }
+}
+defer{{ section.id }}BoldForm(function() {
+ var form = page.querySelector('form');
+ form.classList.add('bold');
+}); 
+{% endif %}  
+  
+  
+{% if settings.boldsubscriptions %}
+var page = document.querySelector('#shopify-section-{{ section.id }}');
+var roWrapper = page.querySelector('div.ro_widget');  
+// if form action changes  
+// Select the node that will be observed for mutations
+// Options for the observer (which mutations to observe)
+// Callback function to execute when mutations are observed
+var handleRO = function(mutationsList, observer) {
+    // Use traditional 'for loops' for IE 11
+    for(let mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+            console.log('A child node has been added or removed.');
+var shopifyButtons = page.querySelector('.shopify-payment-button');          
+shopifyButtons.remove();   
+roWrapper.addEventListener('click', triggerAjaxify); 
+function triggerAjaxify(e) {
+  e.stopPropagation();
+  var pForm = e.currentTarget.closest('form');
+  if(pForm.action.includes('cart/add') && e.target.type == 'radio') {
+ Shopify.AjaxifyCart.init();
+    }  
+}
+            roObserver.disconnect();
+        }
+    }
+};
+// Create an observer instance linked to the callback function
+var roObserver = new MutationObserver(handleRO);
+// Start observing the target node for configured mutations
+roObserver.observe(roWrapper, { attributes: true, childList: true, subtree: true });
+{% endif %}   
+  
+// activate swatch  
+var page = document.querySelector('#shopify-section-{{ section.id }}');
+var swatches = page.querySelectorAll('.swatch input[type=radio]');
+var featuredimage = page.querySelector('.Product-Video-Gallery-main img');
+swatches.forEach(radio => radio.addEventListener('change', function() {
+ var optionIndex = this.closest('.swatch').getAttribute('data-option-index');
+ var optionValue = this.value;
+ var thingitwants = this.closest('form').querySelectorAll('.single-option-selector')[optionIndex];
+ thingitwants.value = optionValue;
+  if(featuredimage) {
+    var newImage = this.getAttribute('image');
+    if(newImage) {
+    featuredimage.src = this.getAttribute('image');
+    }
+   //featuredimage.src = '';
+  }
+ thingitwants.onchange();
+}));
+  
+  
+  
+{% unless videourl == blank %}
+  var videowrap = document.querySelector('#shopify-section-{{ section.id }} .Product-Video-Gallery-main');
+  videowrap.addEventListener('click', clickMute{{ section.id }})  
+  
+  function clickMute{{ section.id }}() {
+ 
+    if(!this.classList.contains('unmute')){
+     this.classList.add('unmute');
+     this.querySelector('video').muted = false;
+    }else{
+     this.classList.remove('unmute');
+     this.querySelector('video').muted = true;    
+    }
+  }                        
+  
+  
+  // resume playback after window loses focus
+  window.addEventListener('focus', resumevideo{{ section.id }}, false);
+  
+  function resumevideo{{ section.id }}() {
+    videowrap.querySelector('video').play();
+  }
+  
+  // if jqm on this page hide remove event listener
+   var jqmpage = videowrap.closest('[data-role=page]');
+    $(document).on("pagebeforehide", jqmpage, function(event) {
+     window.removeEventListener('focus', resumevideo{{ section.id }}, false);         
+     videowrap.classList.remove('unmute');
+     videowrap.querySelector('video').muted = true;    
+    });
+     
+    
+  
+{% endunless %}  
+  
+  
+  
+  
+  
+var selectCallback = function(variant, selector) {
+ if (variant) {
+  var formEl = document.querySelector('#' + selector.domIdPrefix).closest('form');
+  for (var i = 0, length = variant.options.length; i < length; i++) {
+   var radioButton = formEl.querySelector('.swatch[data-option-index="' + i + '"] input[value="' + encodeURI(variant.options[i]) + '"]');
+   if (radioButton !== null) {
+    radioButton.checked = true;
+   }
+  }
+  // Selected a valid variant that is available.
+  if (variant.available) {
+   // Enabling add to cart button.
+   var addToCartButton = formEl.querySelector('#add-{{ product.id }}');
+   if (addToCartButton !== null) {
+    addToCartButton.classList.remove('disabled');
+    addToCartButton.disabled = false;
+    addToCartButton.value = '{{ add_to_cart | json }}';
+   }
+   var backorderEl = formEl.querySelector('#backorder-{{ product.id }}');
+   // If item is backordered yet can still be ordered, we'll show special message.
+   if (variant.inventory_management && variant.inventory_quantity <= 0) {
+    var selectedVariant = formEl.querySelector('#selected-variant-{{ product.id }}');
+    if (selectedVariant !== null) {
+     selectedVariant.innerHTML = '{{ product.title | json }}{% unless hide_default_title %} + ' - ' + variant.title{% endunless %}';
+    }
+    if (backorderEl !== null && backorderEl !== undefined) {
+     backorderEl.classList.remove('hidden');
+    }
+   } else {
+    if (backorderEl !== null && backorderEl !== undefined) {
+     backorderEl.classList.add('hidden');
+    }
+   }
+  } else {
+   // Variant is sold out.
+   if (backorderEl !== null && backorderEl !== undefined) {
+    backorderEl.classList.add('hidden');
+   }
+   if (addToCartButton !== null && addToCartButton !== undefined) {
+    addToCartButton.value = '{{ sold_out | json }}';
+    addToCartButton.classList.add('disabled');
+    addToCartButton.disabled = true;
+   }
+  }
+  var pricewrapEl = formEl.parentElement.querySelector('#product-price-{{ product.id }}');
+  var priceEl = pricewrapEl.querySelector('.product-price');
+  // Whether the variant is in stock or not, we can update the price and compare at price.
+  if (variant.compare_at_price > variant.price) {
+   priceEl.innerHTML = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");
+   var compareEl = pricewrapEl.querySelector('.product-compare-price');
+   if (compareEl == null) {
+    var compareEl = document.createElement("s");
+    compareEl.classList.add('product-compare-price');
+    pricewrapEl.append(compareEl);
+   }
+   compareEl.innerHTML = Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}");
+  } else {
+   priceEl.innerHTML = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");
+  }
+  {% if settings.quadpay %} 
+  {% assign new_money_format = shop.money_format | remove: '$' %}
+  var quadpayWidget = formEl.querySelector('quadpay-widget');
+  quadpayWidget.setAttribute('amount', Shopify.formatMoney(variant.price, "{{ new_money_format }}")); 
+  {% endif %}
+ } else {
+  // variant doesn't exist.
+  priceEl.innerHTML = '';
+  if (compareEl != null) {
+   compareEl.innerHTML = '';
+  }
+  if (backorderEl !== null) {
+   backorderEl.classList.add('hidden');
+  }
+  if (addToCartButton !== null) {
+   addToCartButton.value = '{{ unavailable | json }}';
+   addToCartButton.classList.add('disabled');
+   addToCartButton.disabled = true;
+  }
+ }
+}; 
+new Shopify.OptionSelectors('product-select-{{ section.id }}', {
+ product:  {% if settings.boldoptions %}{%- include 'bold-product', output: 'json' -%}{% else %}{{ product | json }}{% endif %},
+ onVariantSelected: selectCallback,
+ enableHistoryState: false
+}); 
+// Add label if only one product option and it isn't 'Title'.
+{% if product.options.size == 1 and product.options.first != 'Title' %}
+$('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>'); 
+{% endif %}  
+                                     
+                                     
+var callback{{ section.id }}Product_Video_Gallery = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.Swiper) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdn.jsdelivr.net/npm/swiper@{{ settings.swiperjsversion }}/js/swiper.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);
+    // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+    style.href = 'https://cdn.jsdelivr.net/npm/swiper@{{ settings.swiperjsversion }}/css/swiper.min.css';
+    document.getElementsByTagName("head")[0].appendChild(style);
+  }
+  if(!window.jQuery.fancybox) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/{{ settings.fancybox3version }}/jquery.fancybox.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);  
+    setTimeout(function() {
+ 
+    })
+    // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+    style.href = 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/{{ settings.fancybox3version }}/jquery.fancybox.min.css';
+    document.getElementsByTagName("head")[0].appendChild(style); 
+  }
+  
+};
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callback{{ section.id }}Product_Video_Gallery();
+} else {
+  document.addEventListener("DOMContentLoaded", callback{{ section.id }}Product_Video_Gallery);
+}
+      
+function defer{{ section.id }}Product_Video_gallery(method{{ section.id }}Product_Video_gallery) {
+    if (window.jQuery && window.Swiper && window.jQuery.fancybox) {
+        method{{ section.id }}Product_Video_gallery();
+    } else {
+        setTimeout(function() { defer{{ section.id }}Product_Video_gallery(method{{ section.id }}Product_Video_gallery) }, 50);
+    }
+}
+defer{{ section.id }}Product_Video_gallery(function () {    
+   
+     startSlider{{ section.id }}();  
+function startSlider{{ section.id }}() {
+   
+      var container = document.querySelector('#shopify-section-{{ section.id }} .gallery-thumbs');
+  
+      var swiper = new Swiper((container), {         
+      spaceBetween: 10,
+      slidesPerView: 'auto',
+      loop: false,
+      direction: 'horizontal',
+      loopedSlides: 5, //looped slides should be the same
+      cssMode: true
+      });   
+} 
+    
+  
+});
+</script>        
+
+
+
+
 {% endif %}
 
 {% schema %}

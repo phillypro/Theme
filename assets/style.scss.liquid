@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap');
 
 // responsive sizes
 @mixin bp($point) {
@@ -1501,7 +1502,7 @@ max-width:100%;
 
 
 .swatch { 
-  margin:1em 0; 
+margin: 0 0 1em;
 }
 
 /* header */
@@ -1815,7 +1816,7 @@ border-bottom-color:#F2B85E;
 
 .swatch {
   & .header {
-    margin: 0.9em 0;
+    margin: 0 0 0.9em;
     display: inline-block;
   }
   & .swatch-element {
@@ -2285,7 +2286,52 @@ div.template-article {
 
 
 
+/* Page ----------------------------------------------------------------------------------------------------------*/
 
+{% assign familyandweight = settings.page_title_font.family | append: settings.page_title_font.weight %}
+{% if loadedfonts contains familyandweight %}
+{% else %}
+  {{ settings.page_title_font | font_face }}  
+{% endif %}   
+{% assign loadedfonts = loadedfonts | append: settings.page_title_font.family | append: settings.page_title_font.weight | append: settings.page_title_font.style | append: '|' %}
+
+
+.page-width-padding, .shopify-policy__container {
+  
+  font-family: Helvetica Neue,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif!important;
+  line-height: 1.6;
+  padding:0;
+  background-color:{{ settings.page_body_background }};
+  color:{{ settings.page_body_color }};
+  max-width:none;
+  .heading, .shopify-policy__title {
+  padding: 60px 20px;
+  margin-bottom: 30px;    
+  text-align: center;    
+    background-color:{{ settings.page_heading_background }};
+    h1 {
+    color:{{ settings.page_heading_color }};
+    font-family: {{ settings.page_title_font.family }}; 
+    font-weight:{{ settings.page_title_font.weight }}; 
+    font-style:{{ settings.page_title_font.style }}; 
+      font-size:{{ settings.page_title_fontsize }}px;
+      & span {
+           font-size:100%;
+       @include bp(mobile) {
+         font-size:80%;
+       }
+      }
+      @include bp(mobile) {
+          line-height: 1;
+      }
+    }
+  }
+  .page-content, .shopify-policy__body {
+padding: 60px 20px 60px;
+    max-width: 55.5rem;
+    margin: 0 auto;
+  }
+}
 
 
 
