@@ -21,6 +21,21 @@
            </a>
          </li>
          {% when 'Video' %}
+          {% unless block.settings.position == 0 %}
+          {% style %}
+           @media (min-width: 1022px) {
+            .block-{{ block.id }}.two div {
+                  position: relative;
+                  height: 100%;
+                  overflow: hidden;
+                }
+            .media-list ul .block-{{ block.id }}.two video {
+                position:absolute;
+                top:-{{ block.settings.position }}%;
+              }
+             }
+          {% endstyle %}
+          {% endunless %}
          <li class="media-wrap columns {{ section.settings.mediaPerRow }} block-{{ block.id }} video">
            <div>
            <a data-fancybox href="{{ block.settings.youtube_url }}">
@@ -147,6 +162,16 @@ if (
        "id": "mp4_url",
        "type": "url",
        "label": "mp4 preview"
+},
+{
+    "type":   "range",
+    "id":     "position",
+    "min":       0,
+    "max":       200,
+    "step":      10,
+    "unit":      "%",
+    "label":     "mp4 Position",
+    "default":   0
 },
 {
 "id": "youtube_url",
