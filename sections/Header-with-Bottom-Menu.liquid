@@ -227,7 +227,7 @@
  <input type="hidden" name="type" value="product" />
   <div class="inner-addon right-addon">
     <input id="productsearch" type="text" name="q" placeholder="Search..." value="{{ search.terms }}"  data-role="none" autocomplete="off" />
-    <i class="glyphicon glyphicon-search"></i>
+    <button type="submit"><i class="glyphicon glyphicon-search"></i></button>
   </div>
 </form>
             </div>
@@ -753,10 +753,12 @@ header {
 									color: inherit;
 								}
 							}
-							& .glyphicon {
-							    top: 20%;
+							& button {
+                                top: 20%;
 								right: 0px;
 								position: absolute;
+                              & .glyphicon {
+                                position:relative;
 								padding: 2px;
 								pointer-events: none;
 								display: inline-block;
@@ -773,6 +775,7 @@ header {
 									text-shadow: none;
 								}
 							}
+                          }
 						}
 					}
 				}
@@ -975,4 +978,4 @@ $(document).on("shopify:section:load",'#shopify-section-Header',function(e){
 $( "[data-role = 'navbar']" ).navbar();
 $( "#searchPopup" ).enhanceWithin().popup();
 });                   
-{% endjavascript %}          
+{% endjavascript %}                
