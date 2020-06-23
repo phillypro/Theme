@@ -5,12 +5,7 @@
    {% if loadedfonts contains familyandweight %}
    {% else %}
 
-   @font-face {
-    font-family: {{ section.settings.menu_font.family }}_{{ section.settings.menu_font.weight }};
-    font-style: {{ section.settings.menu_font.style }};
-    src: url("{{ section.settings.menu_font | font_url: 'woff2' }}") format("woff2"),
-         url("{{ section.settings.menu_font | font_url: 'woff' }}") format("woff");
-   }
+    {{ section.settings.menu_font | font_face }}  
    {% endif %} 
    {% assign loadedfonts = loadedfonts | append: section.settings.menu_font.family | append: section.settings.menu_font.weight | append: section.settings.menu_font.style | append: '|' %}
   
@@ -20,14 +15,10 @@
    {% assign familyandweight2 = section.settings.font.family | append: section.settings.font.weight %}
    {% if loadedfonts contains familyandweight2 %}
    {% else %}
-   @font-face {
-    font-family: {{ section.settings.font.family }}_{{ section.settings.font.weight }};
-    font-style: {{ section.settings.font.style }};
-    src: url("{{ section.settings.font | font_url: 'woff2' }}") format("woff2"),
-         url("{{ section.settings.font | font_url: 'woff' }}") format("woff");
-   }
+   {{ section.settings.font | font_face }}  
    {% endif %}   
    {% assign loadedfonts = loadedfonts | append: section.settings.font.family | append: section.settings.font.weight | append: section.settings.font.style | append: '|' %}  
+   
 {% endif %}
 
 
@@ -175,7 +166,7 @@
    
    header .inner-header .bottom-header > .row nav ul li a {
    color: {{ section.settings.menu_color }};
-   font-family: {{ section.settings.menu_font.family }}_{{ section.settings.menu_font.weight }}; 
+   font-family: {{ section.settings.menu_font.family }}; 
    font-weight:{{ section.settings.menu_font.weight }}; 
    font-style:{{ section.settings.menu_font.style }};
    font-size:{{ section.settings.menu_fontsize }}px;
