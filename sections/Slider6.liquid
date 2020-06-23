@@ -66,7 +66,9 @@ $('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adapt
 {% if link contains '/plugins/revslider/admin/assets/images/' %}
 {% assign link_parts = link | split: '/' %}
 {% capture admin_assets_images_link %}{% for link_part in link_parts %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
-{% assign admin_assets_images_link = admin_assets_images_link | prepend: 'http' %}
+{% unless admin_assets_images_link contains '//' %}
+{% assign admin_assets_images_link = admin_assets_images_link | prepend: '//' %}
+{% endunless %}
 {% endif %} 
 
 
@@ -74,15 +76,18 @@ $('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adapt
 {% if link contains '/svg/' %}
 {% assign link_parts = link | split: '/' %}
 {% capture admin_assets_svg_link %}{% for link_part in link_parts %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
-{% assign admin_assets_svg_link = admin_assets_svg_link | prepend: 'http' %}
+{% assign admin_assets_svg_link = admin_assets_svg_link | prepend: '//' %}
+{% unless admin_assets_svg_link contains '//' %}
+{% endunless %}
 {% endif %} 
 
 <!-- check for svg and declare admin_assets_svg_link -->
 {% if link contains '/wp-content/uploads/' %}
 {% assign link_parts = link | split: '/' %}
 {% capture image_link %}{% for link_part in link_parts %}{% unless forloop.first == true %}/{% endunless %}{% unless forloop.last == true %}{{ link_part }}{% endunless %}{% endfor %}{% endcapture %}
-{% assign image_link = image_link %}
-
+{% unless image_link contains '//' %}
+{% assign image_link = image_link | prepend: '//' %}
+{% endunless %}
 {% endif %} 
 
 {% endfor %}
@@ -142,10 +147,8 @@ $('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adapt
 {% assign slider_html =  slider_html | remove: 'target="_self"' %}
 
 
-{% capture slider_js %}{% for script_part in slider_html_with_script %}{% unless forloop.first == true %}{{ script_part | remove: '<script type="text/javascript">' | remove: '</script>' | remove: '</rs-module-wrap>' | remove: '<!-- END REVOLUTION SLIDER -->' }}{% endunless %}{% endfor %}{% endcapture %}
+{% capture slider_js %}{% for script_part in slider_html_with_script %}{% unless forloop.first == true %}{{ script_part | remove: '<script type="text/javascript">' | remove: '</script>' |  remove: '<script>' | remove: '</rs-module-wrap>' | remove: '<!-- END REVOLUTION SLIDER -->' }}{% endunless %}{% endfor %}{% endcapture %}
 {% unless fromBody %}
-{% assign slider_js = slider_js | split: '<style' %}
-{% assign slider_js = slider_js.first %}
 {% endunless %}
 {% assign slider_js_edit = slider_js | split: 'jsFileLocation:"' %}
 {% assign slider_js_edit = slider_js_edit[1] | split: '"' %}
@@ -153,20 +156,7 @@ $('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adapt
 {% assign slider_js = slider_js | remove: slider_js_edit %}
 
 
-<!-- if has syle tag at the end lets capture it -->
-{% if section.settings.rev contains 'type="text/css"' %}
-{% assign slider_css = section.settings.rev | split: '<style' %}  
-{% assign slider_css_part_1 = slider_css[2] | split: '</style>' %}  
-{% assign slider_css_part_1 = slider_css_part_1[0] %}  
-{% assign slider_css_part_1 = slider_css_part_1 | prepend: '<style ' | append: '</style>'  %}  
-{{ slider_css_part_1 }}
-{% if slider_css[3] contains 'type="text/css"' %}
-{% assign slider_css_part_2 = slider_css[3] | split: '</style>' %}  
-{% assign slider_css_part_2 = slider_css_part_2[0] %}  
-{% assign slider_css_part_2 = slider_css_part_2 | prepend: '<style ' | append: '</style>'  %}  
-{{ slider_css_part_2 }}
-{% endif %}
-{% endif %}
+
 
 
 
