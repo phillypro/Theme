@@ -4,19 +4,33 @@
    {% assign familyandweight = section.settings.menu_font.family | append: section.settings.menu_font.weight %}
    {% if loadedfonts contains familyandweight %}
    {% else %}
-   {{ section.settings.menu_font | font_face }}  
+
+   @font-face {
+    font-family: {{ section.settings.menu_font.family }}_{{ section.settings.menu_font.weight }};
+    font-style: {{ section.settings.menu_font.style }};
+    src: url("{{ section.settings.menu_font | font_url: 'woff2' }}") format("woff2"),
+         url("{{ section.settings.menu_font | font_url: 'woff' }}") format("woff");
+   }
    {% endif %} 
-  
-  
-  
    {% assign loadedfonts = loadedfonts | append: section.settings.menu_font.family | append: section.settings.menu_font.weight | append: section.settings.menu_font.style | append: '|' %}
+  
+
+   {% capture logo %}{{ section.settings.brand_logo | img_url: 'compact' }}{% endcapture %}
+  {% if section.settings.brand_logo_svg != '' and logo contains 'no-image'  %}             
    {% assign familyandweight2 = section.settings.font.family | append: section.settings.font.weight %}
    {% if loadedfonts contains familyandweight2 %}
    {% else %}
-   {{ section.settings.font | font_face }}  
+   @font-face {
+    font-family: {{ section.settings.font.family }}_{{ section.settings.font.weight }};
+    font-style: {{ section.settings.font.style }};
+    src: url("{{ section.settings.font | font_url: 'woff2' }}") format("woff2"),
+         url("{{ section.settings.font | font_url: 'woff' }}") format("woff");
+   }
    {% endif %}   
    {% assign loadedfonts = loadedfonts | append: section.settings.font.family | append: section.settings.font.weight | append: section.settings.font.style | append: '|' %}  
-   
+{% endif %}
+
+
   {% unless shop.customer_accounts_enabled %} 
   header .account-links {
   visibility: hidden;
@@ -161,7 +175,7 @@
    
    header .inner-header .bottom-header > .row nav ul li a {
    color: {{ section.settings.menu_color }};
-   font-family: {{ section.settings.menu_font.family }}; 
+   font-family: {{ section.settings.menu_font.family }}_{{ section.settings.menu_font.weight }}; 
    font-weight:{{ section.settings.menu_font.weight }}; 
    font-style:{{ section.settings.menu_font.style }};
    font-size:{{ section.settings.menu_fontsize }}px;
@@ -237,7 +251,6 @@
                {% if section.settings.brand_logo_svg != '' %}
                {{ section.settings.brand_logo_svg }}
                {% else %}
-               {% capture logo %}{{ section.settings.brand_logo | img_url: 'compact' }}{% endcapture %}
                {% if logo contains 'no-image' %} 
                <span>
                {% if section.settings.brandname != '' %}
@@ -710,17 +723,17 @@ header {
 					&>a {
 						display: none;
 						position: relative;
-						width: 35px;
+						width: 25px;
 						@include bp(phablet) {
 							display: block;
 						}
 						& i {
 							background: rgba(255, 255, 255, 0.51);
-							width: 100%;
-							height: 5px;
-							display: block;
-							margin: 5px 0;
-							border-radius: 5px;
+width: 100%;
+    height: 2px;
+    display: block;
+    margin: 5px 0;
+    border-radius: 5px;
 							&:nth-child(3) {
 								width: 80%;
 							}
@@ -978,4 +991,4 @@ $(document).on("shopify:section:load",'#shopify-section-Header',function(e){
 $( "[data-role = 'navbar']" ).navbar();
 $( "#searchPopup" ).enhanceWithin().popup();
 });                   
-{% endjavascript %}                
+{% endjavascript %}                    
