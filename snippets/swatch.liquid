@@ -76,8 +76,23 @@
     {% endunless %}
     {% if variant.available %}
     <script>
-      jQuery('#frontpage-{{ product.id }} .swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}').removeClass('soldout').addClass('available').find(':radio').removeAttr('disabled');
-      jQuery('#{{ product.id }} .swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}').removeClass('soldout').addClass('available').find(':radio').removeAttr('disabled');
+
+                                                  
+      var frontpageProduct{{ product.id }} = document.querySelector('#frontpage-{{ product.id }} .swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}');   
+       if(frontpageProduct{{ product.id }}) {                                                                                                 
+      frontpageProduct{{ product.id }}.classList.remove('soldout');       
+      frontpageProduct{{ product.id }}.classList.add('available');  
+      var frontpageProduct{{ product.id }}radio = frontpageProduct{{ product.id }}.querySelector(':radio');
+      frontpageProduct{{ product.id }}radio.removeAttribute('disabled');  
+        }
+                                                  
+      var Product{{ product.id }} = document.querySelector('#frontpage-{{ product.id }} .swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}');     
+         if(Product{{ product.id }}) {                                                                                                 
+      Product{{ product.id }}.classList.remove('soldout');       
+      Product{{ product.id }}.classList.add('available');  
+      var Product{{ product.id }}radio = frontpageProduct{{ product.id }}.querySelector(':radio');
+      Product{{ product.id }}radio.removeAttribute('disabled');        
+         }
     </script>
     {% endif %}
   {% endfor %}
