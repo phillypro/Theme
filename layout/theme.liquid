@@ -63,10 +63,9 @@ var _0xf00c=['\x64\x47\x39\x4d\x62\x33\x64\x6c\x63\x6b\x4e\x68\x63\x77\x3d\x3d',
   
   
  
-{{ 'font-awesome.css'  | asset_url  | stylesheet_tag }}   
 {{ 'style.scss.css' | asset_url | stylesheet_tag }}
   
-{{ 'jquery-3.3.1.min.js' | asset_url | script_tag }}  
+{{ 'jquery-3.5.1.min.js' | asset_url | script_tag }}  
 {{ 'option_selection.js' | shopify_asset_url | script_tag }}  
     <!--[if lt IE 9]>
   {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
@@ -196,7 +195,6 @@ visibility:visible;
 
 
 
-
     
     
 
@@ -208,7 +206,7 @@ visibility:visible;
 
 
     
-{{ 'hoverANDanimate.scss'  | asset_url  | stylesheet_tag }}       
+    
     
     
    
@@ -238,5 +236,6 @@ visibility:visible;
 <script async type="text/javascript" data-api-key="" id="stamped-script-widget" src="https://cdn-stamped-io.azureedge.net/files/widget.min.js"></script>  
 {% endif %}  
 
+{{ 'hoverANDanimate.scss'  | asset_url  | stylesheet_tag }}   
 </body>
 </html>
