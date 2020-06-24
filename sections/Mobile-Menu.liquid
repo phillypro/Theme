@@ -133,17 +133,16 @@ font-size:{{ section.settings.link_size }}%;
 </div>
 <script>
 function deferMobileMenu(methodMobileMenu) {
-    if (window.jQuery) {
+    if (window.jQuery && window.jQuery.mobile) {
         methodMobileMenu();
     } else {
-        setTimeout(function() { deferMobileMenu(methodMobileMenu) }, 50);
+        setTimeout(function() { deferMobileMenu(methodMobileMenu) }, 4);
     }
 }
 deferMobileMenu(function () {
 
   $('#shopify-section-Mobile-Menu').addClass('panel position-fixed').attr({'data-role':'panel','data-position':'left','data-position-fixed':'true', 'data-display':'overlay', 'data-theme': 'a'})
   
-jQuery(document).on('mobileinit',function(){  
   $(function(){
         $("#shopify-section-Mobile-Menu").panel({
       close: function(event, ui) {
@@ -160,7 +159,7 @@ document.documentElement.style.height = vpH.toString() + "px";
     });
     $('.sub-collapse').collapsible();
    });
-     });
+
 });
 </script> 
 {% schema %}
