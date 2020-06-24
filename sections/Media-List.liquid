@@ -62,20 +62,7 @@
           </video>
            </div>
          </li>    
-         {% when 'HTML' %}
-         <li class="media-wrap columns {{ section.settings.mediaPerRow }} block-{{ block.id }} html">
-           {{ block.settings.html }}
-         </li>
-       {% endcase %}
-     {% endfor %}
-  </ul>
-</div>
-
-
-<script>
-
-  
-   
+  <script>
   var callbacksection{{ section.id }} = function(){
   // Handler when the DOM is fully loaded
   if(!window.jQuery.fancybox) {
@@ -104,7 +91,18 @@ if (
   document.addEventListener("DOMContentLoaded", callbacksection{{ section.id }});
 }
       
-</script>
+</script>  
+         {% when 'HTML' %}
+         <li class="media-wrap columns {{ section.settings.mediaPerRow }} block-{{ block.id }} html">
+           {{ block.settings.html }}
+         </li>
+       {% endcase %}
+     {% endfor %}
+  </ul>
+</div>
+
+
+
 
 {% schema %}
   {
@@ -354,4 +352,4 @@ margin-bottom: 15px;
 {% endstylesheet %}
 
 {% javascript %}
-{% endjavascript %}                             
+{% endjavascript %}                               
