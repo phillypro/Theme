@@ -58,7 +58,7 @@
       {% assign values = values | join: ',' %}
       {% assign values = values | append: ',' | append: value %} 
       {% assign values = values | split: ',' %}
-      <div data-value="{{ value | escape }}" class="swatch-element {{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
+      <div data-value="{{ value | escape }}" class="swatch-element s-{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
 
         <input image="{% unless variant.image.src %}{{ product.featured_image | product_img_url: '1024x1024' }}{% else %}{{ variant.image.src | product_img_url: '1024x1024' }}{% endunless %}" id="{% if template == 'index' %}frontpage-{% endif %}{{ product.id }}-swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} />
         {% if is_color %}
@@ -78,7 +78,7 @@
     <script>
 
                                                   
-      var frontpageProduct{{ product.id }} = document.querySelector('#frontpage-{{ product.id }} .swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}');   
+      var frontpageProduct{{ product.id }} = document.querySelector('#frontpage-{{ product.id }} .swatch[data-option-index="{{ option_index }}"] .s-{{ value | handle }}');   
        if(frontpageProduct{{ product.id }}) {                                                                                                 
       frontpageProduct{{ product.id }}.classList.remove('soldout');       
       frontpageProduct{{ product.id }}.classList.add('available');  
@@ -86,7 +86,7 @@
       frontpageProduct{{ product.id }}radio.removeAttribute('disabled');  
         }
                                                   
-      var Product{{ product.id }} = document.querySelector('#frontpage-{{ product.id }} .swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}');     
+      var Product{{ product.id }} = document.querySelector('#frontpage-{{ product.id }} .swatch[data-option-index="{{ option_index }}"] .s-{{ value | handle }}');     
          if(Product{{ product.id }}) {                                                                                                 
       Product{{ product.id }}.classList.remove('soldout');       
       Product{{ product.id }}.classList.add('available');  
