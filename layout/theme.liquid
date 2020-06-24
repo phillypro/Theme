@@ -232,5 +232,8 @@ visibility:visible;
 {{ 'jquery.mobile.custom.structure.min.css'  | asset_url  | stylesheet_tag }}    
 {{ 'hoverANDanimate.scss'  | asset_url  | stylesheet_tag }}  
 {{ 'style.scss.css' | asset_url | stylesheet_tag }}    
+{% if settings.extraHeader != nil %}
+{{ settings.extraHeader | replace: '&gt;', '>' }}
+{% endif %}  
 </body>
 </html>
