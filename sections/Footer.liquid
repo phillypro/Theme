@@ -421,7 +421,7 @@ font-size:{{ block.settings.fontsize }}px;
 
 <script>
 {% unless mailchimpform %}  
-var callbackFooter = function(){
+var callback{{ section.id }}= function(){
   // Handler when the DOM is fully loaded
   if(!window.KlaviyoSubscribe) {
     // add script
@@ -436,20 +436,20 @@ if (
     document.readyState === "complete" ||
     (document.readyState !== "loading" && !document.documentElement.doScroll)
 ) {
-  callbackFooter();
+  callback{{ section.id }}();
 } else {
-  document.addEventListener("DOMContentLoaded", callbackFooter);
+  document.addEventListener("DOMContentLoaded", callback{{ section.id }});
 }    
 {% endunless %}  
   
-function deferFooter(methodFooter) {
+  function defer{{ section.id }}(method{{ section.id }}) {
     if (window.jQuery) {
-        methodFooter();
+        method{{ section.id }}();
     } else {
-        setTimeout(function() { defer(methodFooter) }, 50);
+        setTimeout(function() { defer{{ section.id }}(method{{ section.id }}) }, 50);
     }
 }
-deferFooter(function () {
+defer{{ section.id }}(function () {
   
   
     var callbackFooter = {
