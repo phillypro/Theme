@@ -132,14 +132,14 @@ font-size:{{ section.settings.link_size }}%;
   </div>
 </div>
 <script>
-function deferMobileMenu(methodMobileMenu) {
+function defer{{ section.id | replace: '-', '_' }}(method{{ section.id | replace: '-', '_' }}){
     if (window.jQuery && window.jQuery.mobile) {
-        methodMobileMenu();
+        method{{ section.id | replace: '-', '_' }}();
     } else {
-        setTimeout(function() { deferMobileMenu(methodMobileMenu) }, 4);
+        setTimeout(function() { defer{{ section.id | replace: '-', '_' }}(method{{ section.id | replace: '-', '_' }}) }, 4);
     }
 }
-deferMobileMenu(function () {
+defer{{ section.id | replace: '-', '_' }}(function () {
 
   $('#shopify-section-Mobile-Menu').addClass('panel position-fixed').attr({'data-role':'panel','data-position':'left','data-position-fixed':'true', 'data-display':'overlay', 'data-theme': 'a'})
   
