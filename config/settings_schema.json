@@ -545,8 +545,14 @@
         "id": "extraStyle",
         "label": "Additional Style SCSS",
         "type": "textarea"
+      },
+      {
+        "id": "extraHeader",
+        "label": "Additional in Header",
+        "type": "textarea",
+        "default": "<link href='https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap' rel='stylesheet'>"
       }
     ],
-    "name": "Additional SCSS"
+    "name": "Additional SCSS & Files"
   }
 ]
