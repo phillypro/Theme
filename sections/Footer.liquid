@@ -444,9 +444,9 @@ if (
   
   function defer{{ section.id }}(method{{ section.id }}) {
   {% unless mailchimpform %} 
-    if (window.jQuery) {
+    if (window.jQuery && window.KlaviyoSubscribe) {
     {% else %}
-     if (window.jQuery && window.KlaviyoSubscribe) {
+     if (window.jQuery) {
    {% endunless %}  
         method{{ section.id }}();
     } else {
