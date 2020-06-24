@@ -443,7 +443,11 @@ if (
 {% endunless %}  
   
   function defer{{ section.id }}(method{{ section.id }}) {
+  {% unless mailchimpform %} 
     if (window.jQuery) {
+    {% else %}
+     if (window.jQuery && window.KlaviyoSubscribe) {
+   {% endunless %}  
         method{{ section.id }}();
     } else {
         setTimeout(function() { defer{{ section.id }}(method{{ section.id }}) }, 4);
