@@ -485,6 +485,40 @@ var selectCallback = function(variant, selector) {
  }
 
 }; 
+  
+  
+  
+// run defer for option selector  
+  
+  var callbackProduct{{ product.id }} = function(){
+  // Handler when the DOM is fully loaded
+  if(!Shopify.OptionSelectors) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = '{{ 'option_selection.js' | shopify_asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackProduct{{ product.id }}();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackProduct{{ product.id }});
+}
+    
+function deferProduct{{ product.id }}(methodProduct{{ product.id }}) {
+    if (Shopify.OptionSelectors) {
+        methodProduct{{ product.id }}();
+    } else {
+        setTimeout(function() { deferProduct{{ product.id }}(methodProduct{{ product.id }}) }, 4);
+    }
+}
+deferProduct{{ product.id }}(function () {    
+  
 {% if settings.boldoptions %}
 new Shopify.OptionSelectors('product-select-{{ product.id }}', {
  product: {%- include 'bold-product', output: 'json' -%},
@@ -498,6 +532,11 @@ new Shopify.OptionSelectors('product-select-{{ product.id }}', {
  enableHistoryState: false
 }); 
 {% endif %}
+  
+}); 
+  
+  
+  
 
 // Add label if only one product option and it isn't 'Title'.
 {% if product.options.size == 1 and product.options.first != 'Title' %}
