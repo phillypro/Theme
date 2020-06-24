@@ -335,16 +335,22 @@ padding-top:25px;
 
 
 <script>
- $(document).on("shopify:section:select",'#shopify-section-{{ section.id }}',function(e){
-                $('body').addClass('editing edit-{{ section.id }}');
-$(document).one("shopify:section:deselect",function(e){
-$('body').removeClass('edit-{{ section.id }}');
-})
-});         
+ document.addEventListener("shopify:section:select", function (e) { 
+  var target = e.target;
+   if(target.id == 'shopify-section-{{ section.id }}') {
+      document.body.classList.add('editing','edit-{{ section.id }}');
+   
+      document.addEventListener("shopify:section:deselect", function (e) { 
+        document.body.classList.remove('edit-{{ section.id }}');
+        document.removeEventListener("shopify:section:deselect");                               
+      })
+      
+   }
+ }); 
 </script>   
 {% unless section.settings.carousel == false %}
 <script>
-  var callbackCollections_Featured{{ section.id }} = function(){
+  var callback{{ section.id | replace: '-', '_' }} = function(){
   // Handler when the DOM is fully loaded
   if(!window.Swiper) {
     // add script
@@ -365,24 +371,24 @@ if (
     document.readyState === "complete" ||
     (document.readyState !== "loading" && !document.documentElement.doScroll)
 ) {
-  callbackCollections_Featured{{ section.id }}();
+  callback{{ section.id | replace: '-', '_' }}();
 } else {
-  document.addEventListener("DOMContentLoaded", callbackCollections_Featured{{ section.id }});
+  document.addEventListener("DOMContentLoaded", callback{{ section.id | replace: '-', '_' }});
 }
     
-function deferCollections_Featured{{ section.id }}(methodCollections_Featured{{ section.id }}) {
+function defer{{ section.id | replace: '-', '_' }}(method{{ section.id | replace: '-', '_' }}) {
     if (window.jQuery && window.Swiper) {
-        methodCollections_Featured{{ section.id }}();
+        method{{ section.id | replace: '-', '_' }}();
     } else {
-        setTimeout(function() { deferCollections_Featured{{ section.id }}(methodCollections_Featured{{ section.id }}) }, 50);
+        setTimeout(function() { defer{{ section.id | replace: '-', '_' }}(method{{ section.id | replace: '-', '_' }}) }, 4);
     }
 }
-deferCollections_Featured{{ section.id }}(function () {  
+defer{{ section.id | replace: '-', '_' }}(function () {  
   
   
-SliderFeatured{{ section.id }}();  
+SliderFeatured{{ section.id | replace: '-', '_' }}();  
   
-function SliderFeatured{{ section.id }}() {
+function SliderFeatured{{ section.id | replace: '-', '_' }}() {
   
       var container = document.getElementById('shopify-section-{{ section.id }}').querySelector('.swiper-container');
       var swiper = new Swiper((container), {         
