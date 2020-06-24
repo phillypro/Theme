@@ -44,7 +44,6 @@ function defer{{section.id}}(method{{section.id}}) {
     }
 }
 defer{{section.id}}(function () {  
-  console.log('got it');
   
 $('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adaptiveHeight:true,autoplay:true,autoplaySpeed:5000,arrows: false});
   
@@ -199,7 +198,7 @@ $('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adapt
   
 <script>
   
-  {% if google_font_link %}
+{% if google_font_link %}
   var styleArray = Array.prototype.slice.call(document.styleSheets);
   var callbackSliderFont{{section.id}} = function(){
   // Handler when the DOM is fully loaded
@@ -211,8 +210,10 @@ $('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adapt
     style.href = '{{ google_font_link }}';
     document.getElementsByTagName("head")[0].appendChild(style);
   }
+ 
 };
 
+  
 if (
     document.readyState === "complete" ||
     (document.readyState !== "loading" && !document.documentElement.doScroll)
@@ -221,9 +222,52 @@ if (
 } else {
   document.addEventListener("DOMContentLoaded", callbackSliderFont{{section.id}});
 }  
-  {% endif %}
+{% endif %} 
+  
+  
+var callback{{ section.id }} = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.revSliderLib) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = '{{ 'jquery.themepunch.revolution.min.js' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(script);
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = '{{ 'jquery.themepunch.tools.min.js' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(script);
+    // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+    style.href = '{{ 'revolution.settings.css' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(style);
+    // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+    style.href = '{{ 'revolution.captions-original.css' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(style);
+
+ 
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callback{{ section.id }}();
+} else {
+  document.addEventListener("DOMContentLoaded", callback{{ section.id }});
+}  
+  
+  
   
 function deferSlider{{section.id}}(methodSlider{{section.id}}) {
+   
     if (window.jQuery) {
       if (window.jQuery.mobile) {
         methodSlider{{section.id}}();
@@ -244,14 +288,21 @@ $(document).one("pagecreate", function (event, ui) {
 			window.scrollTo(0, 0);
 			var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
                    
-                // start slider                                        
-                {{slider_js }} 
+                                                    
+            // lets wait for RSANYID then load slider js
+            (function listenRS{{section.id}}() {  
+               if (window.revSliderLib) {
+                 logLoadedRS{{ section.id }}();
+               }else{
+                 window.setTimeout(listenRS{{section.id}}, 50);
+               }
+            })();                            
+            function logLoadedRS{{section.id}}() {
                    
-                function logLoaded{{section.id}}() {
-                      var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
-                      slider.revstart();
-                }
-				(function listen{{section.id}}() {
+               // start slider                                        
+               {{slider_js }} 
+              
+               (function listen{{section.id}}() {
 							if (window.loaded && window.revSlider) {
                       if(document.getElementById("shopify-section-Loader") == null) {
 						logLoaded{{section.id}}();
@@ -266,11 +317,15 @@ $(document).one("pagecreate", function (event, ui) {
 						window.setTimeout(listen{{section.id}}, 50);
 					}
 				})();
-          
-
-
-		//}
+                function logLoaded{{section.id}}() {
+                     setTimeout(function() {
+                      var slider = jQuery(page).find('#shopify-section-{{ section.id }} .rev_slider');
+                      slider.revstart();
+                      },100);   
+                }
+           }
 	});
+      
 });
   
 $(document).one( "pageremove", '#index', function( event, ui ) {
