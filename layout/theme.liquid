@@ -68,7 +68,7 @@ html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}h1{font-size:2
  
 {{ 'style.scss.css' | asset_url | stylesheet_tag }}
   
-{{ 'jquery-3.5.1.min.js' | asset_url | script_tag }}  
+
     <!--[if lt IE 9]>
   {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
   <![endif]-->
@@ -182,7 +182,7 @@ visibility:visible;
   {% section 'Popup' %}
   {% endcomment %}
   
-
+  {{ 'jquery-3.5.1.min.js' | asset_url | script_tag }}  
   {{ 'jquery-start.js' | asset_url | script_tag }}
   {{ 'jquery.mobile.custom.min.js' | asset_url | script_tag }}
   {{ 'jquery.mobile.patches.js' | asset_url | script_tag }} 
