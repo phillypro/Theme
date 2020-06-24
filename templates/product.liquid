@@ -540,12 +540,13 @@ new Shopify.OptionSelectors('product-select-{{ product.id }}', {
 
 // Add label if only one product option and it isn't 'Title'.
 {% if product.options.size == 1 and product.options.first != 'Title' %}
-$('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>'); 
+var label = document.createElement("label");    
+label.innerHTML = '{{ product.options.first }}';
+var selectorwrapper = page.querySelectorAll('.selector-wrapper')[0];
+if(selectorwrapper) {
+selectorwrapper.prepend(label);
+}
 {% endif %}
-
-
-Shopify.Image.preload({{ product.images | json }}, 'grande');
-Shopify.Image.preload({{ product.images | json }}, '1024x1024');
 </script> 
 
 {% if settings.afterpay %}  
