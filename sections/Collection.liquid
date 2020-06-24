@@ -143,8 +143,13 @@
   {% endif %}
 </div>  
   
+
+
+
+
+
 <script> 
-var callbackCollection = function(){
+var callbackCollection{{ collection.id }} = function(){
   // Handler when the DOM is fully loaded
   if(!window.InfiniteScroll) {
    // add script
@@ -153,27 +158,42 @@ var callbackCollection = function(){
     script.src = 'https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js';
     document.getElementsByTagName("head")[0].appendChild(script);   
   }
+  if(!Shopify.queryParams) {
+       // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = '{{ 'shopify_common.js'  | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(script);   
+  }
 };
 
 if (
     document.readyState === "complete" ||
     (document.readyState !== "loading" && !document.documentElement.doScroll)
 ) {
-  callbackCollection();
+  callbackCollection{{ collection.id }}();
 } else {
-  document.addEventListener("DOMContentLoaded", callbackCollection);
+  document.addEventListener("DOMContentLoaded", callbackCollection{{ collection.id }});
 }
   
-function deferCollection(methodCollection) {
-    if (window.InfiniteScroll) {
-        methodCollection();
+function deferCollection{{ collection.id }}(methodCollection{{ collection.id }}) {
+    if (window.InfiniteScroll && Shopify.queryParams) {
+        methodCollection{{ collection.id }}();
     } else {
-        setTimeout(function() { deferCollection(methodCollection) }, 50);
+        setTimeout(function() { deferCollection{{ collection.id }}(methodCollection{{ collection.id }}) }, 50);
     }
 }
-deferCollection(function() {  
+deferCollection{{ collection.id }}(function() {  
 
-    
+/*
+we dont sort....yet!
+jQuery('.sort-by')
+  .val('{{ collection.sort_by | default: collection.default_sort_by }}')
+  .on('change', function() {
+    Shopify.queryParams.sort_by = jQuery(this).val();
+    location.search = jQuery.param(Shopify.queryParams).replace(/\+/g, '%20');
+  });  
+*/    
 loadCollection{{randomNumber}}();
   
    var currentPage = document.querySelector('.collection-{{ randomNumber }}').closest('[data-role="page"]');
@@ -260,14 +280,7 @@ function loadCollection{{randomNumber}}() {
 {% comment %}
   JavaScript for collection sorting.
 {% endcomment %}
-<script>
-jQuery('.sort-by')
-  .val('{{ collection.sort_by | default: collection.default_sort_by }}')
-  .on('change', function() {
-    Shopify.queryParams.sort_by = jQuery(this).val();
-    location.search = jQuery.param(Shopify.queryParams).replace(/\+/g, '%20');
-  });
-</script>
+
 
 {% schema %}
   {
