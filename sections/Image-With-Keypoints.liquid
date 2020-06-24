@@ -123,12 +123,18 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
 
 <script> 
 
- $(document).on("shopify:section:select",'#shopify-section-{{ section.id }}',function(e){
-                $('body').addClass('editing edit-{{ section.id }}');
-$(document).one("shopify:section:deselect",function(e){
-$('body').removeClass('edit-{{ section.id }}');
-})
-});         
+ document.addEventListener("shopify:section:select", function (e) { 
+  var target = e.target;
+   if(target.id == 'shopify-section-{{ section.id }}') {
+      document.body.classList.add('editing','edit-{{ section.id }}');
+   
+      document.addEventListener("shopify:section:deselect", function (e) { 
+        document.body.classList.remove('edit-{{ section.id }}');
+        document.removeEventListener("shopify:section:deselect");                               
+      })
+      
+   }
+ }); 
   
 {% if section.settings.animate %}  
 // get the element to animate
