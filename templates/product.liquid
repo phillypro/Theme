@@ -222,9 +222,33 @@ data-product-type="{{product.type}}">
 {% endcomment %}
 
 <script>
+  
 // activate Ajax Cart
+
+  
+var callbackAjaxifyCartProduct{{ product.id }} = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.Shopify.AjaxifyCart) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = '{{ 'ajaxify-cart.js' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackAjaxifyCartProduct{{ product.id }}();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackAjaxifyCartProduct{{ product.id }});
+} 
+  
+  
 function deferAjaxifyCart(methodAjaxifyCart) {
- if (window.Shopify.AjaxifyCart) {
+ if (window.jQuery && window.Shopify.AjaxifyCart) {
   methodAjaxifyCart();
  } else {
   setTimeout(function() {
