@@ -5,10 +5,9 @@
 <!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->  
 <head itemscope itemtype="http://schema.org/WebSite">
-<meta name="google-site-verification" content="qTQvCYGlvpFEP0hmZf7ml0iCWKHIR4h8VklBlJTsXiE" />
+
   <meta charset="utf-8" />
   <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' /><![endif]-->
-<meta name="google-site-verification" content="zUfiaZ0m4G_s4yyerq8UlvFkbfbtqDpVqTiYX7upayI" />
 
   <title itemprop='name'>
   {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
@@ -18,11 +17,6 @@
   <meta name="description" content="{{ page_description | escape }}" />
   {% endif %}
   
-  
-  
-  
-
-
 {% include 'web-app' %}  
 
 <link rel="canonical" href="{{ canonical_url }}" />
@@ -57,8 +51,7 @@ var _0xf00c=['\x64\x47\x39\x4d\x62\x33\x64\x6c\x63\x6b\x4e\x68\x63\x77\x3d\x3d',
 {% endif %}
 
 
-{{ 'revolution.settings.css'  | asset_url  | stylesheet_tag }}    
-{{ 'revolution.captions-original.css'  | asset_url  | stylesheet_tag }}    
+
 {{ 'foundation.min.css'  | asset_url  | stylesheet_tag }}     
 {{ 'jquery.mobile.custom.theme.min.css'  | asset_url  | stylesheet_tag }}   
 {{ 'jquery.mobile.custom.structure.min.css'  | asset_url  | stylesheet_tag }}    
@@ -69,10 +62,8 @@ var _0xf00c=['\x64\x47\x39\x4d\x62\x33\x64\x6c\x63\x6b\x4e\x68\x63\x77\x3d\x3d',
   
   
   
-{{ 'hover.css'  | asset_url  | stylesheet_tag }}  
-{{ 'animate.css'  | asset_url  | stylesheet_tag }}  
+ 
 {{ 'font-awesome.css'  | asset_url  | stylesheet_tag }}   
-{{ "https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" | stylesheet_tag }}
 {{ 'style.scss.css' | asset_url | stylesheet_tag }}
   
 {{ 'jquery-3.3.1.min.js' | asset_url | script_tag }}  
@@ -215,24 +206,17 @@ visibility:visible;
 
    
 
-  <!-- Revolution Slider -->
-  {{ 'jquery.themepunch.revolution.min.js' | asset_url | script_tag }}
-  {{ 'jquery.themepunch.tools.min.js' | asset_url | script_tag }}
-  <!-- END Revolution Slider -->
-   
+
     
-      
+{{ 'hoverANDanimate.scss'  | asset_url  | stylesheet_tag }}       
     
     
    
-  <!-- Foundation 6 -->   
-  {{ 'what-input.js' | asset_url | script_tag }}   
-  {{ 'foundation.min.js' | asset_url | script_tag }}
-  {{ 'app.js' | asset_url | script_tag }}
-  <!-- END Foundation 6 -->
+
     
    
-   {{ 'setup.js' | asset_url | script_tag }}
+
+  
 {% if settings.quadpay %}  
 <!-- {% comment %} QuadPay: Older Browsers {% endcomment %} -->
 <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.2.4/webcomponents-loader.js" type="application/javascript"></script>
@@ -242,103 +226,8 @@ visibility:visible;
 {% endif %}
   
   
-{% if settings.sezzlemerchantid != nil %}
-<style>
-li.product .salew {
-  display:none;
-}
-.sezzle-checkout-button-wrapper {
-    padding: 0 0 0px;  
-}
-.sezzle-product-page-widget, .sezzle-shopify-info-button {
-      overflow: hidden;
-}
-.sezzle-button-text {
-max-width:100% !important;  
-}
-.sezzle-payment-amount {
-      font-size: 120% !important;
-  font-weight: 700 !important;
-}  
-@media (max-width: 600px) {  
-.sezzle-product-preview-widget .sezzle-button-text {  
-font-size: 10px !important;  
-}
-.product-details .sezzle-button-text.sezzle-left  {
-text-align:center;
-}
-}
-</style>
-<script type="text/javascript">
-document.sezzleConfig = {
-	"configGroups": [
-		{
-			"targetXPath": ".product-price",
-            "widgetType": "product-page",
-            "marginTop": 10,
-			"fontWeight": 400,
-              "fontSize": 15
-		},
-      	{
-		 	"targetXPath": ".product/.h1/.currPrice",
-            "widgetType": "product-preview",
-			"fontWeight": 400,
-            "fontSize": 15
-		},
-		{
-			"targetXPath": "#cart-total",
-            "widgetType": "cart",
-            "marginBottom": 15,
-			"alignment": "right",
-            "fontSize": 15
-		}
-	],
-	"supportedCountryCodes": [
-		"US",
-		"IN",
-		"CA"
-	]
-}
-</script>
-<script src="https://widget.sezzle.com/v1/javascript/price-widget?uuid={{ settings.sezzlemerchantid }}"></script>
-<script>
-  setTimeout(function() {  
-$(document).on("pagebeforecreate", function(e, data) {
-  var pageClasses = Array.from(e.target.classList);
-  var classes = ['template-index','collection-page', 'template-product', 'template-cart'];
-  if(diff(pageClasses, classes)) {
-removeJS('widget.sezzle.com');
-var szl = document.querySelector('iframe[name="szl"]');
-if(szl) {
-szl.remove();   
-}           
-}
-});
-}, 800);
-
-var diff = function(arr, arr2) {
-    var ret = [];
-    for(var i in arr) {   
-        if(arr2.indexOf(arr[i]) > -1){
-            ret.push(arr[i]);
-        }
-    }
-  if(ret.length == 0) {
-    return false;
-  }else{
-   return true
-  }
-};  
-  
-
-function removeJS(filename){
- var tags = document.getElementsByTagName('script');
- for (var i = tags.length; i >= 0; i--){ //search backwards within nodelist for matching elements to remove
-  if (tags[i] && tags[i].getAttribute('src') != null && tags[i].getAttribute('src').indexOf(filename) != -1)
-   tags[i].parentNode.removeChild(tags[i]); //remove element by calling parentNode.removeChild()
- }
-}   
-</script>  
+{% if settings.sezzlemerchantid != blank %}
+{% include 'Sezzle_lib'%} 
 {% endif %}
 
 {% if settings.loox %}  
