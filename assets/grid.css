@@ -1636,13 +1636,16 @@ nav.ui-navbar ul li a.ui-button {
     cursor: pointer;
     user-select: none;
 }
+.header-notification {
+    z-index: 10;
+}
 /* slider */
 .rs-p-wp-fix {
 display:none;
 }
 rs-module-wrap {
 display:block;
-visibility: hidden !important;  
+visibility: visible !important;  
 }
 rs-slides {
 width:100% !important;
