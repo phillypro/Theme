@@ -160,7 +160,7 @@ function goBack() {
 // pause existing slider
 $(document).on("pagebeforehide", ".ui-page", function(event) {
   var slider = jQuery(this).find('.rev_slider');
-  if(slider.hasClass('revslider-initialised')) {
+  if(slider.length && slider.hasClass('revslider-initialised')) {
   	slider.revpause();
   }
 });
@@ -169,7 +169,7 @@ $(document).on("pagebeforehide", ".ui-page", function(event) {
 // kill existing slider if page is being removed
 $(document).on("pageremove", ".ui-page", function(event) {
   var slider = jQuery(this).find('.rev_slider');
-  if(slider) {
+  if(slider.length) {
   	slider.revkill();
   }
 });
