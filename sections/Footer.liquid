@@ -111,9 +111,31 @@ background-image:url({{ section.settings.top_background_image | img_url: '1024x1
        </div>
     </div>
     {% assign ajax = block.settings.ajax %}
-  
-  
-  
+ 
+  {% unless mailchimpform %}   
+  <script>
+var callback{{ section.id }}= function(){
+  // Handler when the DOM is fully loaded
+  if(!window.KlaviyoSubscribe) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js';
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callback{{ section.id }}();
+} else {
+  document.addEventListener("DOMContentLoaded", callback{{ section.id }});
+}   
+</script> 
+{% endunless %}  
+ 
   
    {% when 'Social-Icons' %}
   {% style %}
@@ -420,27 +442,7 @@ font-size:{{ block.settings.fontsize }}px;
 
 
 <script>
-{% unless mailchimpform %}  
-var callback{{ section.id }}= function(){
-  // Handler when the DOM is fully loaded
-  if(!window.KlaviyoSubscribe) {
-    // add script
-    var script = document.createElement("script");
-    script.type = "text/javascript";   
-    script.src = 'https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js';
-    document.getElementsByTagName("head")[0].appendChild(script);
-  }
-};
 
-if (
-    document.readyState === "complete" ||
-    (document.readyState !== "loading" && !document.documentElement.doScroll)
-) {
-  callback{{ section.id }}();
-} else {
-  document.addEventListener("DOMContentLoaded", callback{{ section.id }});
-}    
-{% endunless %}  
   
   function defer{{ section.id }}(method{{ section.id }}) {
   {% unless mailchimpform %} 
