@@ -197,11 +197,11 @@ padding-top:25px;
       
        <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %} imgswitch {% case settings.product_image_hover %}{% when 'fade' %}fade{% when 'scroll' %}scroll{% endcase %}{% endif %}">
          <div class="inner">
-         {% if product.featured_image %}<img class="{% unless settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}hvr-grow{% endunless %}" src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
+         {% if product.featured_image %}<img class="{% unless settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}hvr-grow{% endunless %} {% unless settings.product_image_size == 'none' %}lazyload" data-sizes="auto" data-{% endunless %}src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
          </div>
          {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}
          <div class="inner">
-            <img src="{{ product.images[1] | product_img_url: 'large' }}" />
+            <img {% unless settings.product_image_size == 'none' %} class="lazyload" data-sizes="auto" data-{% endunless %}src="{{ product.images[1] | product_img_url: 'large' }}" />
          </div>
          {% endif %}
        </div>
