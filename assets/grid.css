@@ -1654,12 +1654,6 @@ width:100% !important;
     margin: 0;
     height: auto !important;
 }
-.ui-mobile .ui-page-active {
-    visibility: visible;
-    overflow: visible;
-    overflow-x: hidden;
-    overflow-y: hidden;
-}
 .ui-mobile [data-role=dialog], .ui-mobile [data-role=page], .ui-mobile [data-ui-role=dialog], .ui-mobile [data-ui-role=page], .ui-page {
     top: 0;
     left: 0;
@@ -1668,6 +1662,12 @@ width:100% !important;
     position: absolute;
     visibility: hidden;
     border: 0;
+}
+.ui-mobile .ui-page-active {
+    visibility: visible;
+    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 .ui-content, .ui-page .ui-content {
     border-width: 0;
