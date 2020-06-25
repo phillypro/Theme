@@ -76,16 +76,23 @@ color:{{ section.settings.buynowcolor}};
 <li itemscope itemtype="http://schema.org/Product" data-id="{{ product2.id }}" class="text-center columns {{ sizes }} small-6 product {% unless product2.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
    <a href="{{ product2.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>
        
-      <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product2.images.size > 1  %} imgswitch {% case settings.product_image_hover %}{% when 'fade' %} fade {% when 'scroll' %} scroll {% endcase %}{% endif %}">
+     
+     
+     
+
+     
+        <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product2.images.size > 1  %} imgswitch {% case settings.product_image_hover %}{% when 'fade' %}fade{% when 'scroll' %}scroll{% endcase %}{% endif %}">
          <div class="inner">
-         {% if product2.featured_image %}<img class="{% unless settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product2.images.size > 1  %}hvr-grow{% endunless %}" src="{{ product2.featured_image | img_url: '1024x1024' }}" />{% endif %}
+         {% if product2.featured_image %}<img class="{% unless settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product2.images.size > 1  %}hvr-grow{% endunless %} {% unless settings.product_image_size == 'none' %}lazyload" data-sizes="auto" data-{% endunless %}src="{{ product2.featured_image | img_url: '1024x1024' }}" />{% endif %}
          </div>
          {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product2.images.size > 1  %}
          <div class="inner">
-            <img src="{{ product2.images[1] | product_img_url: 'large' }}" />
+            <img {% unless settings.product_image_size == 'none' %} class="lazyload" data-sizes="auto" data-{% endunless %}src="{{ product2.images[1] | product_img_url: 'large' }}" />
          </div>
          {% endif %}
        </div>
+     
+     
      
       <h3>{{ product2.title }}</h3>
        <p class="h1 medium-down--left">
