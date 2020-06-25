@@ -36,6 +36,10 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
 padding: 40px 0;  
 {% endunless %}
 }  
+
+#shopify-section-{{ section.id }} .collection-list .inner {
+   padding-bottom:{{  section.settings.aspectratio }}%; 
+}
   
 {% unless section.settings.background_color contains 'transparent' and section.settings.background_color_2 contains 'transparent' and backgroundimage contains 'no-image' %}
   @media (max-width: 1022px) { 
@@ -370,6 +374,20 @@ padding: 40px 0;
 }, 
 {
  "type": "header",
+ "content": "Collection Size"
+},
+  {
+    "type":   "range",
+    "id":     "aspectratio",
+    "min":       0,
+    "max":       200,
+    "step":     5,
+    "unit":      "%",
+    "label":     "Collection Box Aspect Ratio",
+    "default":   100
+     },
+{
+ "type": "header",
  "content": "Collection Title"
 },
  {
@@ -531,10 +549,11 @@ padding: 40px 0;
 
 
 .collection-list {
-  & ul {
+  ul {
     margin-bottom:0;
     padding: 0;
-    & li {
+    }
+    li {
       list-style:none;
       &.two {
         -ms-flex: 0 0 50%;
@@ -560,14 +579,14 @@ padding: 40px 0;
 
         }
       }
-      & a {
+      a {
     position: relative;
     z-index: 1000;
     display: block;  
-        & img {
+        img {
         width:100%;
         }
-        & .info {
+        .info {
     top: 0px;
     width: 100%;
     padding: 10px 10px;
@@ -577,7 +596,7 @@ padding: 40px 0;
     display: flex;
     justify-content: center;
     align-items: center;
-          & h3 {
+          h3 {
           padding: 10px 25px;
           margin: 8% 0 0;   
           margin: 0;
@@ -587,24 +606,30 @@ padding: 40px 0;
                padding: 10px 10px;
   			  font-size: 58%;
 			}	
-            & span {
+            span {
                  display: block;
            }
           }
         }
       }
+     .inner {
+    position: relative;
+    height: 0;
+    padding-bottom: 100%;
+    overflow: hidden;
+     }
     }
   &.tworows {
-    & li {
+    li {
      @include bp(phabletup) {
     	margin-bottom:20px;
 	}
 	}
    } 
-  }
+  
 }
 
 {% endstylesheet %}
 
 {% javascript %}          
-{% endjavascript %}                                               
+{% endjavascript %}                                                  
