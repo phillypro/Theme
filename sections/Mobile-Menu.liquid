@@ -3,7 +3,7 @@
 {% assign familyandweight = section.settings.font.family | append: section.settings.font.weight %}
 {% if loadedfonts contains familyandweight %}
 {% else %}
-  {{ section.settings.font | font_face }}  
+  {{ section.settings.font | font_face: font_display: 'swap'  }}  
 {% endif %}   
 {% assign loadedfonts = loadedfonts | append: section.settings.font.family | append: section.settings.font.weight | append: section.settings.font.style | append: '|' %}
 
