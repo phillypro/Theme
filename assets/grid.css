@@ -1684,3 +1684,14 @@ width:100% !important;
 }
 }
 /* Footer */
+
+@media only screen and (min-width: 64.063em) {
+ .mobilev {
+  display:none; 
+ }
+}
+@media only screen and (max-width: 64.063em) {
+body .desktopv {
+ display:none; 
+}
+}
