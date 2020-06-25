@@ -5,7 +5,7 @@
    {% if loadedfonts contains familyandweight %}
    {% else %}
 
-    {{ section.settings.menu_font | font_face }}  
+    {{ section.settings.menu_font | font_face: font_display: 'swap'  }}  
    {% endif %} 
    {% assign loadedfonts = loadedfonts | append: section.settings.menu_font.family | append: section.settings.menu_font.weight | append: section.settings.menu_font.style | append: '|' %}
   
@@ -15,7 +15,7 @@
    {% assign familyandweight2 = section.settings.font.family | append: section.settings.font.weight %}
    {% if loadedfonts contains familyandweight2 %}
    {% else %}
-   {{ section.settings.font | font_face }}  
+   {{ section.settings.font | font_face: font_display: 'swap'  }}  
    {% endif %}   
    {% assign loadedfonts = loadedfonts | append: section.settings.font.family | append: section.settings.font.weight | append: section.settings.font.style | append: '|' %}  
    
