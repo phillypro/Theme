@@ -167,6 +167,13 @@ $('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adapt
 {% endunless %}
 {% endif %}
 
+{% comment %} separate setREVstartSize {% endcomment %}
+{% assign slider_js_split = slider_js | split: 'setREVStartSize' %} 
+{% assign setREVStartSize = slider_js_split[1] %}
+{% assign setREVStartSize = setREVStartSize | split: ';' %}
+{% assign setREVStartSize = setREVStartSize[0] | prepend: 'setREVStartSize' | append: ';' %}
+{% assign slider_js = slider_js | replace: setREVStartSize, '' %}
+
 
 {{ slider_html }}
 
@@ -217,7 +224,7 @@ $('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adapt
 				}					   
 			//});
 		  };  
-  
+ {{ setREVStartSize }} 
   
   
   var callback{{ section.id }} = function(){
