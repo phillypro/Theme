@@ -1650,7 +1650,8 @@ display:none;
 }
 rs-module-wrap {
 display:block;
-visibility: visible !important;  
+visibility: visible !important;
+overflow: hidden;
 }
 rs-slides {
 width:100% !important;
