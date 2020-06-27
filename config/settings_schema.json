@@ -238,7 +238,7 @@
     ],
     "name": "Product Preview Style"
   },
-    {
+  {
     "settings": [
       {
         "content": "Heading",
@@ -410,29 +410,48 @@
         "type": "checkbox"
       },
       {
-        "content": "Default Additional Details",
+        "content": "Product Title",
         "type": "header"
       },
       {
-        "id": "details_title",
-        "label": "Details title",
-        "type": "text"
-      },
-      {
-        "id": "details_text",
-        "label": "Details text",
-        "type": "textarea"
-      },
-      {
-        "id": "shipping_title",
-        "label": "Shipping title",
-        "type": "text"
-      },
-      {
-        "id": "shipping_text",
-        "label": "Shippin text",
-        "type": "textarea"
-      }
+     "type": "font_picker",
+     "id": "product_page_title_font",
+     "label": "Font",
+     "default": "open_sans_n8"
+   },
+  {
+    "type":   "range",
+    "id":     "product_page_title_fontsize",
+    "min":       12,
+    "max":       75,
+    "step":     1,
+    "unit":      "px",
+    "label":     "Font Size",
+    "default":   41
+     },
+      { "type":"header",
+"content": "Product Options"
+},
+{
+       "id": "options_border_color",
+       "type": "color",
+       "label": "Product Options Border Color",
+       "default": "#d85089"
+},
+{ "type":"header",
+"content": "Add to Cart Style"
+},
+{
+       "id": "add_background_color",
+       "type": "color",
+       "label": "Button Background Color",
+       "default": "#d85089"
+},{
+       "id": "add_font_color",
+       "type": "color",
+       "label": "Button Font Color",
+       "default": "#FFFFFF"
+}
     ],
     "name": "Product Page"
   },
@@ -550,7 +569,7 @@
         "id": "extraHeader",
         "label": "Additional in Header",
         "type": "textarea",
-        "default": "<link href='https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap' rel='stylesheet'>"
+        "default": "<link href='https:\/\/fonts.googleapis.com\/css2?family=Open+Sans:wght@400;700&display=swap' rel='stylesheet'>"
       }
     ],
     "name": "Additional SCSS & Files"
