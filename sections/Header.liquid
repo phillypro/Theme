@@ -909,6 +909,13 @@ padding-top: 8px;
 
 /* Search Popup -------------------------------------------------------------------------------------------------------------------------*/
 
+header {
+#search-popup {
+ & > .search-popupwrap {
+   display:none;
+}
+}
+}
 
 #searchPopup-popup, #searchPopup-popup .ui-popup.search-popupwrap {
   width:100%;
@@ -1173,4 +1180,4 @@ $('body').removeClass('editheader');
 });   
 
 
-{% endjavascript %}                     
+{% endjavascript %}                         
