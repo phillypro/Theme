@@ -114,11 +114,9 @@ color:{{ section.settings.showmore_color}};
      margin: 11px 0 0 0;
      padding:0px;
 }
-#shopify-section-{{ section.id }} .showmore a:after   {
-     display: inline-block;
-     font-family:FontAwesome;
-     content:'\f178';
-margin-left: 10px;
+#shopify-section-{{ section.id }} .showmore svg  {
+vertical-align: middle;
+    margin-left: 5px;
 }
     {% endcase %}
 
@@ -197,7 +195,11 @@ margin-left: 10px;
 {% endfor %}
 </div>
   <div class="showmore">
-    <a href="{{ blog.url }}">{{ section.settings.showmore_text }}</a>
+    <a href="{{ blog.url }}">{{ section.settings.showmore_text }}
+    {% if section.settings.showmore_button == 'link' %}
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1.35em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1728 1280"><g transform="translate(1728 0) scale(-1 1)"><path d="M1728 544v192q0 14-9 23t-23 9H448v224q0 21-19 29t-35-5L10 666Q0 656 0 643q0-14 10-24l384-354q16-14 35-6q19 9 19 29v224h1248q14 0 23 9t9 23z" fill="#626262"/></g></svg>
+    {% endif %}
+    </a>
   </div>
 </div>
 {% else %}
