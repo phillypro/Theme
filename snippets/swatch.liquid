@@ -30,6 +30,9 @@
       #product-{{ product.id }} .selector-wrapper:nth-child({{ option_index | plus: 1 }}) {
        display:none;
       }
+      #product-variants-5247086002329 [name="id"] {
+       display:none;
+      }
     </style>
     {% assign downcased_option = swatch | downcase %}
     {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
@@ -64,12 +67,12 @@
         {% if is_color %}
         <label for="{% if template == 'index' %}frontpage-{% endif %}{{ product.id }}-swatch-{{ option_index }}-{{ value | handle }}">
           {{ value }}
-          <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+         
         </label>
         {% else %}
         <label for="{% if template == 'index' %}frontpage-{% endif %}{{ product.id }}-swatch-{{ option_index }}-{{ value | handle }}">
           {{ value }}
-          <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+
         </label>
         {% endif %}
       </div>
