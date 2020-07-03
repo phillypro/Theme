@@ -414,44 +414,47 @@
         "type": "header"
       },
       {
-     "type": "font_picker",
-     "id": "product_page_title_font",
-     "label": "Font",
-     "default": "open_sans_n8"
-   },
-  {
-    "type":   "range",
-    "id":     "product_page_title_fontsize",
-    "min":       12,
-    "max":       75,
-    "step":     1,
-    "unit":      "px",
-    "label":     "Font Size",
-    "default":   41
-     },
-      { "type":"header",
-"content": "Product Options"
-},
-{
-       "id": "options_border_color",
-       "type": "color",
-       "label": "Product Options Border Color",
-       "default": "#d85089"
-},
-{ "type":"header",
-"content": "Add to Cart Style"
-},
-{
-       "id": "add_background_color",
-       "type": "color",
-       "label": "Button Background Color",
-       "default": "#d85089"
-},{
-       "id": "add_font_color",
-       "type": "color",
-       "label": "Button Font Color",
-       "default": "#FFFFFF"
-}
+        "type": "font_picker",
+        "id": "product_page_title_font",
+        "label": "Font",
+        "default": "open_sans_n8"
+      },
+      {
+        "type": "range",
+        "id": "product_page_title_fontsize",
+        "min": 12,
+        "max": 75,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Size",
+        "default": 41
+      },
+      {
+        "type": "header",
+        "content": "Product Options"
+      },
+      {
+        "id": "options_border_color",
+        "type": "color",
+        "label": "Product Options Border Color",
+        "default": "#d85089"
+      },
+      {
+        "type": "header",
+        "content": "Add to Cart Style"
+      },
+      {
+        "id": "add_background_color",
+        "type": "color",
+        "label": "Button Background Color",
+        "default": "#d85089"
+      },
+      {
+        "id": "add_font_color",
+        "type": "color",
+        "label": "Button Font Color",
+        "default": "#FFFFFF"
+      }
     ],
     "name": "Product Page"
   },
