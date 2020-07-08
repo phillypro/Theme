@@ -59,7 +59,7 @@
     ],
     "name": "Google SEO"
   },
-    {
+  {
     "settings": [
       {
         "type": "radio",
@@ -424,6 +424,22 @@
   },
   {
     "settings": [
+     {
+        "type": "radio",
+        "id": "product_page_layout",
+        "label": "Product Page Layout",
+        "options": [
+          {
+            "value": "original_scroll",
+            "label": "Original Scroll Down"
+          },
+          {
+            "value": "advanced_full",
+            "label": "Advanced with Full Slider"
+          }
+        ],
+        "default": "original_scroll"
+      },
       {
         "id": "gotocart",
         "default": true,
