@@ -1,5 +1,11 @@
 {% if section.settings.activate %}
 {% style %}
+html  {
+ overflow:hidden; 
+}
+html.loaded {
+    overflow-y: auto
+}
 #shopify-section-Loader {
     position: fixed;
     left: 0;
