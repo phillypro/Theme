@@ -1,4 +1,4 @@
-<style>
+{% style %}
 li.product .salew {
   display:none;
 }
@@ -22,8 +22,19 @@ font-size: 10px !important;
 .product-details .sezzle-button-text.sezzle-left  {
 text-align:center;
 }
+#cartform .sezzle-button-text {
+    font-size: 10px !important;
+    letter-spacing: 0.5px;
 }
-</style>
+#cartform .szl-light-image {
+    height: 15px!important;
+}
+.sezzle-cart-page-widget {
+margin:0 !important;
+}
+}
+
+{% endstyle %}
 <script type="text/javascript">
 document.sezzleConfig = {
 	"configGroups": [
