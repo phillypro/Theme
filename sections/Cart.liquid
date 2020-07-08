@@ -316,7 +316,7 @@ if (window.Shopify && Shopify.StorefrontExpressButtons) {
   
   
 var cartCount = document.querySelector('.cart-count');  
-cartCount.innerHTML == '{{ cart.item_count }}';  
+cartCount.innerHTML = '{{ cart.item_count }}';  
 {% if cart.item_count < 1 %}
  cartCount.classList.add('hidden-count'); 
 {% else %}
@@ -411,17 +411,6 @@ var removeButtons = document.querySelectorAll('.remove-from-cart');
 
 removeButton.addEventListener('click', (event) => {
   
-  
-$(document).one("pagecontainershow", function(event, ui) {  
-// cartcall the minicart on page load  
-var quantities = document.querySelectorAll('#cart-wrap input.quantity');   
-  cartCount =  new Array();
-  [].forEach.call(quantities, function(qty) {
-   cartCount.push(qty.value);
-  });
-cartCountSum =  Math.round(cartCount.reduce(function(a, b){return a + b;}, 0));
-document.querySelector('#header .cart-count').innerHTML = cartCountSum;  
-});  
 
  $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart/change?line=" + event.currentTarget.closest('.item').getAttribute('line') + "&quantity=0", {  showLoadMsg: true, reload: true, transition: "none", changeHash: "false", dataUrl: '/cart' });
 
