@@ -561,7 +561,21 @@ defer{{ section.id }}Sharing(function () {
 
   setTimeout(function() {
     fancyboxSettings = {
-       touch: false,
+         touch: false,
+       // hideOnContentClick: !0,
+       // titleShow: !0,
+       // padding: 0,
+      //  margin: [40, 10, 40, 10],
+       // nextEffect: "fade",
+       // prevEffect: "fade",
+      //  closeEffect: "fade",
+       // autoCenter: !0,
+      //  helpers: {
+       //     overlay: {
+      //          speedOut: 500,
+      //          locked: !0
+      //      }
+      //  },
         afterLoad: function() {
             $("html").addClass("fancybox-lock")
         },
@@ -944,6 +958,7 @@ align-items: center;
     font-size: 17px;
     line-height: 0px;
     position: relative;
+    cursor:pointer;
     &:focus {
      outline:none;
     }
@@ -1255,4 +1270,4 @@ margin: 10px 0 0 auto;
 
 {% javascript %}    
 
-{% endjavascript %}                                                                         
+{% endjavascript %}                                                                             
