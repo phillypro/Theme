@@ -1,6 +1,7 @@
 <!--start-->
 <style>
 body::-webkit-scrollbar-thumb {
+      border-radius: 10px;
     {% if section.settings.scrollbar_color_2 contains 'rgba(0,0,0,0)' %}
      {% if section.settings.scrollbar_color contains 'transparent' %}
      {% else %}
@@ -11,8 +12,26 @@ body::-webkit-scrollbar-thumb {
   {% endif %}  
 }
 
+
+
+
+
+
+body::-webkit-scrollbar {
+      width: 10px;
+}
+@media (max-width:600px) {
+body::-webkit-scrollbar {
+      display:none;
+}  
+}   
+
+  
+  
 body::-webkit-scrollbar-track {
     background-color: #F5F5F5;
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+    border-radius: 10px;
 }  
   
 {% if section.settings.loader_color_2 contains 'rgba(0,0,0,0)' %}
