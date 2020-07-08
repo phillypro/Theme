@@ -59,6 +59,27 @@
     ],
     "name": "Google SEO"
   },
+    {
+    "settings": [
+      {
+        "type": "radio",
+        "id": "header_section_style",
+        "label": "Header Section Style",
+        "options": [
+          {
+            "value": "header_bottom",
+            "label": "Header with Bottom Menu"
+          },
+          {
+            "value": "header_side",
+            "label": "Header with Side Menu"
+          }
+        ],
+        "default": "header_bottom"
+      }
+    ],
+    "name": "Header Section Style"
+  },
   {
     "settings": [
       {
