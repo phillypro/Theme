@@ -145,7 +145,12 @@ visibility:visible;
   
    <header id="header" data-role="toolbar" data-type="header" data-position="fixed" class="ui-toolbar-header ui-bar-inherit ui-toolbar-header-fixed">   
          {% section 'Header-Notification' %}
-         {% section 'Header-with-Bottom-Menu' %}
+         {% case settings.header_section_style %}
+            {% when 'header_bottom' %}
+              {% section 'Header-with-Bottom-Menu' %}
+            {% when 'header_side' %}
+               {% section 'Header' %}
+         {% endcase %}
    </header>  
 
   
