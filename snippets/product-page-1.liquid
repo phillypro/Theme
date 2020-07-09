@@ -449,7 +449,7 @@ var selectCallback = function(variant, selector) {
    if (variant.inventory_management && variant.inventory_quantity <= 0) {
     var selectedVariant = formEl.querySelector('#selected-variant-{{ product.id }}');
     if (selectedVariant !== null) {
-     selectedVariant.innerHTML = '{{ product.title | json }}{% unless hide_default_title %} + ' - ' + variant.title{% endunless %}';
+     selectedVariant.innerHTML = '{{ product.title | escape | json }}{% unless hide_default_title %} + ' - ' + variant.title{% endunless %}';
     }
     if (backorderEl !== null && backorderEl !== undefined) {
      backorderEl.classList.remove('hidden');
