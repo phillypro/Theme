@@ -123,10 +123,10 @@ Shopify.AjaxifyCart = (function($) {
                 success: function(data) {
                    if (data.item_count < 1) {
                      $('body').removeClass('hasitem');
-                     $('.cart-count').html(value.replace(/[0-9]+/,data.item_count)).addClass('hidden-count');  
+                     $('.cart-count').html(data.item_count).addClass('hidden-count');  
                    } else {
                       $('body').addClass('hasitem');
-                      $('.cart-count').html(value.replace(/[0-9]+/,data.item_count)).removeClass('hidden-count');
+                      $('.cart-count').html(data.item_count).removeClass('hidden-count');
                    }
                 }
             });
