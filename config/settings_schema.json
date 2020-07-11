@@ -424,7 +424,7 @@
   },
   {
     "settings": [
-     {
+      {
         "type": "radio",
         "id": "product_page_layout",
         "label": "Product Page Layout",
@@ -475,6 +475,12 @@
         "type": "color",
         "label": "Product Options Border Color",
         "default": "#d85089"
+      },
+      {
+        "id": "show_swatches",
+        "default": false,
+        "label": "Show Color Swatches",
+        "type": "checkbox"
       },
       {
         "type": "header",
