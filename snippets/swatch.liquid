@@ -1,5 +1,5 @@
-{% capture cssColors %}AliceBlue, AntiqueWhite, Aqua, Aquamarine, Azure, Beige, Bisque, Black, BlanchedAlmond, Blue, BlueViolet, Brown, BurlyWood, CadetBlue, Chartreuse, Chocolate, Coral, CornflowerBlue, Cornsilk, Crimson, Cyan, DarkBlue, DarkCyan, DarkGoldenRod, DarkGray, DarkGrey, DarkGreen, DarkKhaki, DarkMagenta, DarkOliveGreen, DarkOrange, DarkOrchid, DarkRed, DarkSalmon, DarkSeaGreen, DarkSlateBlue, DarkSlateGray, DarkSlateGrey, DarkTurquoise, DarkViolet, DeepPink, DeepSkyBlue, DimGray, DimGrey, DodgerBlue, FireBrick, FloralWhite, ForestGreen, Fuchsia, Gainsboro, GhostWhite, Gold, GoldenRod, Gray, Grey, Green, GreenYellow, HoneyDew, HotPink, IndianRed, Indigo, Ivory, Khaki, Lavender, LavenderBlush, LawnGreen, LemonChiffon, LightBlue, LightCoral, LightCyan, LightGoldenRodYellow, LightGray, LightGrey, LightGreen, LightPink, LightSalmon, LightSeaGreen, LightSkyBlue, LightSlateGray, LightSlateGrey, LightSteelBlue, LightYellow, Lime, LimeGreen, Linen, Magenta, Maroon, MediumAquaMarine, MediumBlue, MediumOrchid, MediumPurple, MediumSeaGreen, MediumSlateBlue, MediumSpringGreen, MediumTurquoise, MediumVioletRed, MidnightBlue, MintCream, MistyRose, Moccasin, NavajoWhite, Navy, OldLace, Olive, OliveDrab, Orange, OrangeRed, Orchid, PaleGoldenRod, PaleGreen, PaleTurquoise, PaleVioletRed, PapayaWhip, PeachPuff, Peru, Pink, Plum, PowderBlue, Purple, RebeccaPurple, Red, RosyBrown, RoyalBlue, SaddleBrown, Salmon, SandyBrown, SeaGreen, SeaShell, Sienna, Silver, SkyBlue, SlateBlue, SlateGray, SlateGrey, Snow, SpringGreen, SteelBlue, Tan, Teal, Thistle, Tomato, Turquoise, Violet, Wheat, White, WhiteSmoke, Yellow, YellowGreen,{% endcapture %}
-{% assign cssColors = cssColors | split: ","  %}
+{% capture cssColors %}AliceBlue,AntiqueWhite,Aqua,Aquamarine,Azure,Beige,Bisque,Black,BlanchedAlmond,Blue,BlueViolet,Brown,BurlyWood,CadetBlue,Chartreuse,Chocolate,Coral,CornflowerBlue,Cornsilk,Crimson,Cyan,DarkBlue,DarkCyan,DarkGoldenRod,DarkGray,DarkGrey,DarkGreen,DarkKhaki,DarkMagenta,DarkOliveGreen,DarkOrange,DarkOrchid,DarkRed,DarkSalmon,DarkSeaGreen,DarkSlateBlue,DarkSlateGray,DarkSlateGrey,DarkTurquoise,DarkViolet,DeepPink,DeepSkyBlue,DimGray,DimGrey,DodgerBlue,FireBrick,FloralWhite,ForestGreen,Fuchsia,Gainsboro,GhostWhite,Gold,GoldenRod,Gray,Grey,Green,GreenYellow,HoneyDew,HotPink,IndianRed,Indigo,Ivory,Khaki,Lavender,LavenderBlush,LawnGreen,LemonChiffon,LightBlue,LightCoral,LightCyan,LightGoldenRodYellow,LightGray,LightGrey,LightGreen,LightPink,LightSalmon,LightSeaGreen,LightSkyBlue,LightSlateGray,LightSlateGrey,LightSteelBlue,LightYellow,Lime,LimeGreen,Linen,Magenta,Maroon,MediumAquaMarine,MediumBlue,MediumOrchid,MediumPurple,MediumSeaGreen,MediumSlateBlue,MediumSpringGreen,MediumTurquoise,MediumVioletRed,MidnightBlue,MintCream,MistyRose,Moccasin,NavajoWhite,Navy,OldLace,Olive,OliveDrab,Orange,OrangeRed,Orchid,PaleGoldenRod,PaleGreen,PaleTurquoise,PaleVioletRed,PapayaWhip,PeachPuff,Peru,Pink,Plum,PowderBlue,Purple,RebeccaPurple,Red,RosyBrown,RoyalBlue,SaddleBrown,Salmon,SandyBrown,SeaGreen,SeaShell,Sienna,Silver,SkyBlue,SlateBlue,SlateGray,SlateGrey,Snow,SpringGreen,SteelBlue,Tan,Teal,Thistle,Tomato,Turquoise,Violet,Wheat,White,WhiteSmoke,Yellow,YellowGreen{% endcapture %}
+{% assign cssColors = cssColors | downcase | split: ","  %}
 
 {% if product.variants.size >= 1 %}
 <div id="swatches_{{ product.id }}" class="swatches_wrap ">
@@ -58,8 +58,7 @@
          {% assign currentColor = variant.option1 | handle %}
          {% if cssColors contains currentColor %}{% assign is_cssColor = true %}{% else %}{% assign is_cssColor = false %}{% endif %}
         {% endif %}
-       
-      <div id="{{ product.handle }}-{{ value | remove: ' ' }}" data-value="{{ value | handle }}" class="swatch-element {% if is_color and is_cssColor or is_image %}color image {% endif %} value-{{ value | handle }} {% if variant.available %}available{% else %} {% if option_index == lastoption %}soldout{% endif %} {% endif %} {% if forloop.first %}{% unless option_index == lastoption %}active{% endunless %}{% endif %} ">
+      <div id="{{ product.handle }}-{{ value | remove: ' ' }}" data-value="{{ value | handle }}" class="swatch-element {% if settings.show_swatches and is_color and is_cssColor or is_image %}color image {% endif %} value-{{ value | handle }} {% if variant.available %}available{% else %} {% if option_index == lastoption %}soldout{% endif %} {% endif %} {% if forloop.first %}active{% endif %} ">
          <!-- if product options only 1 lets give em all the options...if more lets make another wrapper -->
 
          <input id="swatch-{{ option_index }}-{{ value | handle }}" data-value="{{ value | handle }}" type="radio" class="radio" name="id-{{ option_index }}" value="{{ variant.option1 }}" {% if forloop.first %} checked{% endif %}>
@@ -68,8 +67,8 @@
      
         
         
-         <label class="{% if is_color and is_cssColor or is_image  %}color{% endif %}" for="swatch-{{ option_index }}-{{ value | handle }}">
-           {% if is_color and is_cssColor or is_image  %} 
+         <label class="{% if settings.show_swatches and is_color and is_cssColor or is_image  %}color{% endif %}" for="swatch-{{ option_index }}-{{ value | handle }}">
+           {% if settings.show_swatches and is_color and is_cssColor or is_image  %} 
            <span class="image" {% if is_image == false %}style="background-color:{{ variant.option1 | handle }};"{% endif %}>
              <span>
               {% if is_image %}<img src="{{ value | handle | append: '.jpg' |  img_url: 'medium' }}" />{% endif %}
@@ -167,12 +166,12 @@
          {% if cssColors contains currentColor %}{% assign is_cssColor = true %}{% else %}{% assign is_cssColor = false %}{% endif %}
         {% endif %}
    
-         <div id="element-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}" data-value="{{ value | handle }}-{{ value1 | handle }}" class="swatch-element {% if is_color and is_cssColor or is_image  %}color image{% endif %} value-{{ value | handle }}-{{ value1 | handle }} {% if variant1.available %}available{% else %}{% if option_index == lastoption %}soldout{% endif %}{% endif %} {% if optionloop == 0 %}{% unless option_index == lastoption %}active{% endunless %}{% endif %}">
+         <div id="element-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}" data-value="{{ value | handle }}-{{ value1 | handle }}" class="swatch-element {% if settings.show_swatches and is_color and is_cssColor or is_image  %}color image{% endif %} value-{{ value | handle }}-{{ value1 | handle }} {% if variant1.available %}available{% else %}{% if option_index == lastoption %}soldout{% endif %}{% endif %} {% if optionloop == 0 %}{% unless option_index == lastoption %}active{% endunless %}{% endif %}">
       
             <input id="swatch-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}" data-value="{{ value | handle }}-{{ value1 | handle }}" type="radio" class="checkbox" name="id-{{ option_index }}" value="{{ variant1.option2 }}" variant-price="{{ variant1.price }}">
            
-         <label class="{% if is_color and is_cssColor or is_image  %}color{% endif %}"  for="swatch-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}">
-           {% if is_color and is_cssColor or is_image  %}
+         <label class="{% if settings.show_swatches and is_color and is_cssColor or is_image  %}color{% endif %}"  for="swatch-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}">
+           {% if settings.show_swatches and is_color and is_cssColor or is_image  %}
            <span class="image" {% if is_image == false %}style="background-color:{{ variant1.option2 | handle }};"{% endif %}>
              <span>
               {% if is_image %}<img src="{{ value1 | handle | append: '.jpg'  |  img_url: 'medium' }}" />{% endif %}
@@ -306,11 +305,11 @@
          {% if cssColors contains currentColor %}{% assign is_cssColor = true %}{% else %}{% assign is_cssColor = false %}{% endif %}
         {% endif %}  
 
-   <div id="element-{{ product.handle }}-{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}" class="swatch-element  {% if is_color and is_cssColor or is_image  %}color image {% endif %} value-{{ value | handle }}-{{ value1 | handle }} {% if variant1.available %}available{% else %}soldout{% endif %}">
+   <div id="element-{{ product.handle }}-{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}" class="swatch-element  {% if settings.show_swatches and is_color and is_cssColor or is_image  %}color image {% endif %} value-{{ value | handle }}-{{ value1 | handle }} {% if variant1.available %}available{% else %}soldout{% endif %}">
 
       <input id="swatch-{{ product.handle }}-{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}" data-value="{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}" type="radio" class="checkbox" name="id-{{ option_index }}" value="{{ variant4.option3 }}" variant-price="{{ variant4.price }}">
-           <label class=" {% if is_color and is_cssColor or is_image  %}color{% endif %}" for="swatch-{{ product.handle }}-{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}">
-          {% if is_color and is_cssColor or is_image  %}
+           <label class=" {% if settings.show_swatches and is_color and is_cssColor or is_image  %}color{% endif %}" for="swatch-{{ product.handle }}-{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}">
+          {% if settings.show_swatches and is_color and is_cssColor or is_image  %}
            <span class="image" {% if is_image == false %}style="background:{{ variant4.option3 | handle }};{% endif %}">
              <span>
               {% if is_image %}<img src="{{ value4 | handle | append: '.jpg'  |  file_img_url: 'medium' }}" />{% endif %}
