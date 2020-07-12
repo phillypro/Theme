@@ -252,8 +252,10 @@ scrollIt(document.querySelector('.agbwrap'),600,'easeOutQuad');
       {% endif %}
   
   {% if section.settings.notes %}
-                 <label for="CartNote">Special instructions</label>
-                   <textarea name="note" id="CartNote">{{ cart.note }}</textarea>
+       <div class="cartNote">
+        <label for="CartNote">Special instructions</label>
+        <textarea name="note" id="CartNote">{{ cart.note }}</textarea>
+       </div>   
   {% endif %}
   
   
@@ -1164,6 +1166,9 @@ background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='f
   }
  }
 }
+
+.cartNote {
+margin: 10px 0 0 0;
 label[for="CartNote"] {
     text-align:right;
   @include bp(mobile) {
@@ -1173,6 +1178,7 @@ label[for="CartNote"] {
 #CartNote {
 max-width: 470px;
 margin: 10px 0 0 auto;
+}
 }
 
 
@@ -1259,4 +1265,4 @@ margin: 10px 0 0 auto;
 
 {% javascript %}    
 
-{% endjavascript %}                                                                             
+{% endjavascript %}                                                                                     
