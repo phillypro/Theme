@@ -216,16 +216,9 @@ visibility:visible;
 <script async type="text/javascript" data-api-key="" id="stamped-script-widget" src="https://cdn-stamped-io.azureedge.net/files/widget.min.js"></script>  
 {% endif %}  
 
- 
-<link rel="preload" href="{{ 'jquery.mobile.custom.structure.min.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{ 'jquery.mobile.custom.structure.min.css' | asset_url }}"></noscript>  
-  
-  
-<link rel="preload" href="{{ 'hoverANDanimate.scss' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{ 'hoverANDanimate.scss' | asset_url }}"></noscript>  
-  
-<link rel="preload" href="{{ 'style.scss.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{ 'style.scss' | asset_url }}"></noscript>  
+<link rel="stylesheet" href="{{ 'jquery.mobile.custom.structure.min.css' | asset_url }}" media="print" onload="this.media='all'">    
+<link rel="stylesheet" href="{{ 'hoverANDanimate.scss' | asset_url }}" media="print" onload="this.media='all'">  
+<link rel="stylesheet" href="{{ 'style.scss' | asset_url }}" media="print" onload="this.media='all'">
   
 
 {% if settings.extraHeader != nil %}
