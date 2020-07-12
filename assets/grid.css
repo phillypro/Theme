@@ -236,6 +236,9 @@ textarea {
 .is-hidden {
     display: none !important;
 }
+ul.row {
+padding:0;
+}
 .row {
     max-width: 78.5rem;
     margin-right: auto;
