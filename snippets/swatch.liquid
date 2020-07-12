@@ -38,7 +38,7 @@
    {% endif %}
    {% endif %}
    {% if option_index == 0 %}
-   <div class="swatch swatch-group-{{ option |  handleize }} clearfix {% if option_index == lastoption %}last_swatch{% endif %}" data-option-index="{{ option_index }}">
+   <div class="swatch clearfix {% if option_index == lastoption %}last_swatch{% endif %}" data-option-index="{{ option_index }}">
      <div class="option-wrap first">
        <div class="header">Choose your {{ option }}</div>
       {% assign values = '' %}
@@ -61,7 +61,7 @@
       <div id="{{ product.handle }}-{{ value | remove: ' ' }}" data-value="{{ value | handle }}" class="swatch-element {% if settings.show_swatches and is_color and is_cssColor or is_image %}color image {% endif %} value-{{ value | handle }} {% if variant.available %}available{% else %} {% if option_index == lastoption %}soldout{% endif %} {% endif %} {% if forloop.first %}active{% endif %} ">
          <!-- if product options only 1 lets give em all the options...if more lets make another wrapper -->
 
-         <input id="swatch-{{ option_index }}-{{ value | handle }}" data-value="{{ value | handle }}" type="radio" class="radio" name="id-{{ option_index }}" value="{{ variant.option1 }}" {% if forloop.first %} checked{% endif %}>
+         <input id="swatch-{{ option_index }}-{{ value | handle }}" data-value="{{ value | handle }}" type="radio" class="radio" name="id-{{ option_index }}" value="{{ variant.option1 }}" {% if forloop.first %} checked{% endif %} image="{% unless variant.image.src %}{{ product.featured_image | product_img_url: '1024x1024' }}{% else %}{{ variant.image.src | product_img_url: '1024x1024' }}{% endunless %}">
         
         
      
@@ -139,7 +139,7 @@
    {% endif %}
    {% if product.options.size > 1 %} 
    {% if option_index == 1 %}
-   <div class="swatch swatch-group-{{ option |  handleize }} clearfix {% if option_index == lastoption %}last_swatch{% endif %}" data-option-index="{{ option_index }}">
+   <div class="swatch clearfix {% if option_index == lastoption %}last_swatch{% endif %}" data-option-index="{{ option_index }}">
       {% assign values = '' %}
       {% assign value = variant.options[option_index] %}
       {% for variant in product.variants %}
@@ -165,10 +165,10 @@
          {% assign currentColor = variant.option1 | handle %}
          {% if cssColors contains currentColor %}{% assign is_cssColor = true %}{% else %}{% assign is_cssColor = false %}{% endif %}
         {% endif %}
-       
+   
          <div id="element-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}" data-value="{{ value | handle }}-{{ value1 | handle }}" class="swatch-element {% if settings.show_swatches and is_color and is_cssColor or is_image  %}color image{% endif %} value-{{ value | handle }}-{{ value1 | handle }} {% if variant1.available %}available{% else %}{% if option_index == lastoption %}soldout{% endif %}{% endif %} {% if optionloop == 0 %}{% unless option_index == lastoption %}active{% endunless %}{% endif %}">
       
-            <input id="swatch-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}" data-value="{{ value | handle }}-{{ value1 | handle }}" type="radio" class="checkbox" name="id-{{ option_index }}" value="{{ variant1.option2 }}" variant-price="{{ variant1.price }}" {% if product.selected_or_first_available_variant.option2 == variant1.option2 %}checked{% endif %}>
+            <input id="swatch-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}" data-value="{{ value | handle }}-{{ value1 | handle }}" type="radio" class="checkbox" name="id-{{ option_index }}" value="{{ variant1.option2 }}" variant-price="{{ variant1.price }}" {% if product.selected_or_first_available_variant.option2 == value %} checked  {% endif %} image="{% unless variant1.image.src %}{{ product.featured_image | product_img_url: '1024x1024' }}{% else %}{{ variant1.image.src | product_img_url: '1024x1024' }}{% endunless %}">
            
          <label class="{% if settings.show_swatches and is_color and is_cssColor or is_image  %}color{% endif %}"  for="swatch-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}">
            {% if settings.show_swatches and is_color and is_cssColor or is_image  %}
@@ -270,7 +270,7 @@
 </div>
 {% endif %}
 {% if option_index == 2 %}
-<div class="swatch swatch-group-{{ option |  handleize }} clearfix {% if option_index == lastoption %}last_swatch{% endif %}" data-option-index="{{ option_index }}">
+<div class="swatch clearfix {% if option_index == lastoption %}last_swatch{% endif %}" data-option-index="{{ option_index }}">
    <!-- loop out the first option and wrap -->
    {% assign values2 = '' %}  
    {% for variant2 in product.variants %}
@@ -307,7 +307,7 @@
 
    <div id="element-{{ product.handle }}-{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}" class="swatch-element  {% if settings.show_swatches and is_color and is_cssColor or is_image  %}color image {% endif %} value-{{ value | handle }}-{{ value1 | handle }} {% if variant1.available %}available{% else %}soldout{% endif %}">
 
-      <input id="swatch-{{ product.handle }}-{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}" data-value="{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}" type="radio" class="checkbox" name="id-{{ option_index }}" value="{{ variant4.option3 }}" variant-price="{{ variant4.price }}" {% if product.selected_or_first_available_variant.option3 == variant4.option3 %}checked{% endif %}>
+      <input id="swatch-{{ product.handle }}-{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}" data-value="{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}" type="radio" class="checkbox" name="id-{{ option_index }}" value="{{ variant4.option3 }}" variant-price="{{ variant4.price }}" {% if product.selected_or_first_available_variant4.option3 %} checked {% endif %}  image="{% unless variant4.image.src %}{{ product.featured_image | product_img_url: '1024x1024' }}{% else %}{{ variant4.image.src | product_img_url: '1024x1024' }}{% endunless %}">
            <label class=" {% if settings.show_swatches and is_color and is_cssColor or is_image  %}color{% endif %}" for="swatch-{{ product.handle }}-{{ value2 | handle }}-{{ value3 | handle }}-{{ value4 | handle }}">
           {% if settings.show_swatches and is_color and is_cssColor or is_image  %}
            <span class="image" {% if is_image == false %}style="background:{{ variant4.option3 | handle }};{% endif %}">
