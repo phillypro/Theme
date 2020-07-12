@@ -165,13 +165,13 @@ var callbackGoogle_Reviews = function(){
     // add script
     var script = document.createElement("script");
     script.type = "text/javascript";   
-    script.src = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/js/swiper.min.js';
+    script.src = 'https://cdn.jsdelivr.net/npm/swiper@{{ settings.swiperjsversion }}/js/swiper.min.js';
     document.getElementsByTagName("head")[0].appendChild(script);
     // add style
     var style = document.createElement("link");
     style.type = "text/css";  
     style.rel = "stylesheet";
-    style.href = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/css/swiper.min.css';
+    style.href = 'https://cdn.jsdelivr.net/npm/swiper@{{ settings.swiperjsversion }}/css/swiper.min.css';
     document.getElementsByTagName("head")[0].appendChild(style);
   }
 };
