@@ -419,7 +419,12 @@ removeButton.addEventListener('click', (event) => {
 }, true);    
 }) 
 
+document.body.addEventListener("pagecontainerbeforeshow", function(event,ui) {
+  console.log('go');
+})
+
 $(document).one("pagecontainerbeforeshow", function(event, ui) {
+console.log('test');
 var currCartPage = ui.toPage[0];
 // handle quantity
 var quantityButtons = currCartPage.querySelectorAll('.quantity input[type="button"]');  
@@ -553,20 +558,6 @@ defer{{ section.id }}Sharing(function () {
   setTimeout(function() {
     fancyboxSettings = {
          touch: false,
-       // hideOnContentClick: !0,
-       // titleShow: !0,
-       // padding: 0,
-      //  margin: [40, 10, 40, 10],
-       // nextEffect: "fade",
-       // prevEffect: "fade",
-      //  closeEffect: "fade",
-       // autoCenter: !0,
-      //  helpers: {
-       //     overlay: {
-      //          speedOut: 500,
-      //          locked: !0
-      //      }
-      //  },
         afterLoad: function() {
             $("html").addClass("fancybox-lock")
         },
@@ -635,6 +626,194 @@ function openShare(e) {
 {% endif %}
     
 
+{% if section.settings.collection %}
+{% assign products_per = section.settings.products_per | plus: 0 %}  
+<div class="carousel">  
+  <h2 class="text-center">{{ section.settings.collection_title }}</h2> 
+<div class="swiper-button-prev"></div>   
+<div class="swiper-container">
+ <ul class="swiper-wrapper">
+   {% for product in collections[section.settings.collection].products %}
+   <li itemscope itemtype="http://schema.org/Product" data-id="{{ product.id }}" class="text-center product swiper-slide {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale {% endif %}">
+     <a href="{{ product.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>
+       
+        <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %} imgswitch {% case settings.product_image_hover %}{% when 'fade' %}fade{% when 'scroll' %}scroll{% endcase %}{% endif %}">
+         <div class="inner">
+         {% if product.featured_image %}<img class="{% unless settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}hvr-grow{% endunless %} lazyload" data-sizes="auto" data-src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
+         </div>
+         {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}
+         <div class="inner">
+            <img class="lazyload" data-sizes="auto" data-src="{{ product.images[1] | product_img_url: 'large' }}" />
+         </div>
+         {% endif %}
+       </div>
+       
+        <h3><span>{{ product.title }}</span></h3>
+
+        <p class="h1 medium-down--left">
+          {% if product.price_max > product.price %}
+           <span class="currPrice">{% include 'price' with product.price_min %}</span> {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }} </span>{% endif %}
+        {% else %}
+           <span class="currPrice">{% include 'price' with product.price %}</span>   {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }}</span> {% endif %}
+        {% endif %}
+        {% unless product.available %}
+          <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
+        {% endunless %}  
+       </p>
+       
+          {% if on_sale %}
+          <div class="salew">
+            <span class="sale-tag medium-down--right{% if settings.product_reviews_enable %} has-reviews{% endif %}">
+              {% assign compare_price = product.compare_at_price %}
+              {% assign product_price = product.price %}
+              {% include 'price-sale' %}
+            </span>
+         </div>
+          {% endif %}
+         
+        {% if section.settings.desc %}
+         <div class="desc">
+           {{ product.description | truncate: 300, ", ..." }}
+         </div>
+         {% endif %}       
+       
+     </a>
+      <a href="{{ product.url }}" class="buynow" {% if settings.disableproductajax %}rel="external"{% endif %}>{{ buynowtext }}</a>
+   </li>
+   {% endfor %}
+ </ul>
+</div>
+<div class="swiper-button-next"></div>   
+</div>
+
+<script>
+  var callback{{ section.id | replace: '-', '_' }}Upsell = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.Swiper) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/js/swiper.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);
+    // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+    style.href = 'https://cdn.jsdelivr.net/npm/swiper@5.2.1/css/swiper.min.css';
+    document.getElementsByTagName("head")[0].appendChild(style);
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callback{{ section.id | replace: '-', '_' }}Upsell();
+} else {
+  document.addEventListener("DOMContentLoaded", callback{{ section.id | replace: '-', '_' }}Upsell);
+}
+
+  
+function defer{{ section.id }}(method{{ section.id }}) {
+    if (window.jQuery && $.mobile) {
+        method{{ section.id }}();
+    } else {
+        setTimeout(function() { defer{{ section.id }}(method{{ section.id }}) }, 4);
+    }
+}
+defer{{ section.id }}(function () {    
+  $(document).one("pagecontainerbeforeshow", function(event, ui) {
+  
+  
+  var currCartPage = ui.toPage[0];
+
+function defer{{ section.id | replace: '-', '_' }}Upsell(method{{ section.id | replace: '-', '_' }}Upsell) {
+    if (window.Swiper) {
+        method{{ section.id | replace: '-', '_' }}Upsell();
+    } else {
+        setTimeout(function() { defer{{ section.id | replace: '-', '_' }}Upsell(method{{ section.id | replace: '-', '_' }}Upsell) }, 4);
+    }
+}
+defer{{ section.id | replace: '-', '_' }}Upsell(function () {  
+  
+
+
+   
+      var container = currCartPage.querySelector('.swiper-container');        
+                                                                                
+                                              
+      var swiper = new Swiper((container), {         
+      effect: 'slide',  
+      speed: 1200,
+  {% if products_per == 2 %}
+      slidesPerView: 2,
+  {% elsif products_per == 3 %}      
+      slidesPerView: 3, 
+  {% elsif products_per == 4 %}      
+      slidesPerView: 4, 
+    {% elsif products_per >= 5 %}      
+      slidesPerView: 5,  
+  {% endif %}
+      spaceBetween: 10,
+      loop: true,    
+      direction: 'horizontal',
+      navigation: {
+        nextEl: document.getElementById('shopify-section-{{ section.id }}').querySelector('.swiper-button-next'),
+        prevEl: document.getElementById('shopify-section-{{ section.id }}').querySelector('.swiper-button-prev'),
+      },
+  breakpoints: {
+    1301: {
+  {% if products_per == 2 %}
+      slidesPerView: 2,
+  {% elsif products_per == 3 %}      
+      slidesPerView: 3, 
+  {% elsif products_per == 4 %}      
+      slidesPerView: 4, 
+    {% elsif products_per >= 5 %}      
+      slidesPerView: 5,  
+  {% endif %}
+    },    
+    1300: {                                      
+  {% if products_per == 2 %}
+      slidesPerView: 2,
+  {% elsif products_per == 3 %}      
+      slidesPerView: 2, 
+  {% elsif products_per == 4 %}      
+      slidesPerView: 3, 
+    {% elsif products_per >= 5 %}      
+      slidesPerView: 4,  
+  {% endif %}                                        
+     
+    },                                        
+    1100: {
+  {% if products_per == 2 %}
+      slidesPerView: 2,
+  {% elsif products_per == 3 %}      
+      slidesPerView: 2, 
+  {% elsif products_per == 4 %}      
+      slidesPerView: 3, 
+    {% elsif products_per >= 5 %}      
+      slidesPerView: 3,  
+  {% endif %}         
+      spaceBetween: 2,
+    },
+    480: {
+      slidesPerView: 2,
+    },
+    320: {
+      slidesPerView: 2,
+    },
+  }
+      });   
+
+});     
+      
+    });
+});      
+</script>
+{% endif %}
+
+
 {% schema %}
   {
     "name": "Cart",
@@ -657,6 +836,33 @@ function openShare(e) {
   "label": "Enable Order Notes",
    "info": "Adds an area for customers to leave special instructions",
    "type": "checkbox"
+},
+{
+   "type":      "header",
+   "content":   "Upsell"
+},
+{
+       "id": "collection_title",
+       "type": "text",
+       "label": "Collection Title",
+       "default": "Suggested Add-ons"
+},
+{
+       "id": "collection",
+       "type": "collection",
+       "label": "Collection"
+},
+{
+   "type": "select",
+   "id": "products_per",
+   "options": [
+      { "value": "2", "label": "2 Products"},
+      { "value": "3", "label": "3 Products"},
+      { "value": "4", "label": "4 Products"},
+      { "value": "5", "label": "5 Products"}
+   ],
+   "default": "4",
+   "label": "Show how many at a time?"
 }], 
   "blocks": []
   }
@@ -1302,8 +1508,38 @@ font-weight:normal;
     display: inline-block;
 }
 
+#shopify-section-Cart {
+.carousel {
+position: relative;
+padding:0 25px;
+    margin-bottom: 30px;
+h2 {
+    font-family: 'Proxima Nova', sans-serif;
+    font-weight: normal;
+    @include bp(mobile) {
+    font-size: 19px;
+    }
+}
+ul {
+margin:0;
+padding:0;
+}
+& .swiper-button-next, & .swiper-button-prev {
+color:#000;
+}
+& .swiper-button-next:after, & .swiper-button-prev:after {
+@include bp(laptop) {
+  font-size: 24px;
+}
+@include bp(mobile) {
+    font-size: 19px;
+}
+}
+}
+}
+
 {% endstylesheet %}
 
-{% javascript %}    
+{% javascript %}      
 
-{% endjavascript %}                                                                                           
+{% endjavascript %}                                                                                                                  
