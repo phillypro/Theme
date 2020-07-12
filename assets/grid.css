@@ -238,6 +238,7 @@ textarea {
 }
 ul.row {
 padding:0;
+list-style:none;
 }
 .row {
     max-width: 78.5rem;
