@@ -181,17 +181,18 @@
   </div>
 </div>  
 <script>
-// activate shopify payment buttons
   function deferYotpo(methodYotpo) {
     if (window.yotpo) {
         methodYotpo();
     } else {
-        setTimeout(function() { deferYotpo(methodYotpo) }, 50);
+        setTimeout(function() { deferYotpo(methodYotpo) }, 4);
     }
 }
 deferYotpo(function () {
-    yotpo.initWidgets();
-
+  setTimeout(function() {
+   var api = new Yotpo.API(yotpo);
+   api.refreshWidgets();
+  },4);
 });    
 </script>
 {% endif %}
