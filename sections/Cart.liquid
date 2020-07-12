@@ -414,7 +414,7 @@ var removeButtons = document.querySelectorAll('.remove-from-cart');
 removeButton.addEventListener('click', (event) => {
   
 
- $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart/change?line=" + event.currentTarget.closest('.item').getAttribute('line') + "&quantity=0", {  showLoadMsg: true, reload: true, transition: "none", changeHash: "false", dataUrl: '/cart' });
+ $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart/change?line=" + event.currentTarget.closest('.item').getAttribute('line') + "&quantity=0", {  showLoadMsg: true, reload: true, transition: "fade", changeHash: "false", dataUrl: '/cart' });
 
 }, true);    
 }) 
@@ -445,7 +445,7 @@ function updateQuantity(e) {
       } else if (type == 'plus') {
             input.value = currentVal + 1;
       }
-       $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart/change?line=" + line + "&quantity=" + input.value, {  showLoadMsg: true, reload: true, transition: "none", changeHash: "false", dataUrl: '/cart' });
+       $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart/change?line=" + line + "&quantity=" + input.value, {  showLoadMsg: true, reload: true, transition: "fade", changeHash: "false", dataUrl: '/cart' });
   
 }
   
@@ -497,7 +497,7 @@ function updateVariant(e) {
                 dataType: 'json',
                 success: function() {
                    // create a url string for update 
-                 $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart/update" + updateString, {  showLoadMsg: true, reload: true, transition: "none", changeHash: "false", dataUrl: '/cart' });
+                 $( ":mobile-pagecontainer" ).pagecontainer( "change", "/cart/update" + updateString, {  showLoadMsg: true, reload: true, transition: "fade", changeHash: "false", dataUrl: '/cart' });
                 }
    });  
 
