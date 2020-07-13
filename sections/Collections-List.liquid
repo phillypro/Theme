@@ -246,7 +246,7 @@ padding: 40px 0;
              
   <li class="collection-wrap columns {{ section.settings.collectionsPerRow }} block-{{ block.id }}">
        <a href="{{ block.settings.url }}">  
-             <div class="info" data-title="{{ block.settings.title }}">
+            <div class="info" data-title="{{ block.settings.title | escape }}">
               
                {% style %}
                 #shopify-section-{{ section.id }} .block-{{ block.id }} h3 {
