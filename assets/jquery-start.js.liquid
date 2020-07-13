@@ -23,8 +23,11 @@ $(function(){
 
 $(document).one("pagecontainershow", function (event,ui) {
    window.loaded = true; 
-   function logLoaded2() {
-   jQuery('html').addClass('loaded');
+     function logLoaded2() {
+   document.documentElement.classList.add('loaded');
+     setTimeout(function() {
+     document.documentElement.classList.add('loadedscroll');
+     },1000);
    }
 
   if ($('#shopify-section-Loader svg.trace').length) {
