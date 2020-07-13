@@ -162,14 +162,14 @@
          {% capture image %}{{ value1 | handle | append: '.jpg' |  img_url: 'medium' }}{% endcapture %}      
          {% if image contains 'no-image' %}{% assign is_image = false %}{% else %}{% assign is_image = true %}{% endif %}
          <!-- check for cssColor -->
-         {% assign currentColor = variant.option1 | handle %}
+         {% assign currentColor = variant.option2 | handle %}
          {% if cssColors contains currentColor %}{% assign is_cssColor = true %}{% else %}{% assign is_cssColor = false %}{% endif %}
         {% endif %}
-   
+      
          <div id="element-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}" data-value="{{ value | handle }}-{{ value1 | handle }}" class="swatch-element {% if settings.show_swatches and is_color and is_cssColor or is_image  %}color image{% endif %} value-{{ value | handle }}-{{ value1 | handle }} {% if variant1.available %}available{% else %}{% if option_index == lastoption %}soldout{% endif %}{% endif %} {% if optionloop == 0 %}{% unless option_index == lastoption %}active{% endunless %}{% endif %}">
       
             <input id="swatch-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}" data-value="{{ value | handle }}-{{ value1 | handle }}" type="radio" class="checkbox" name="id-{{ option_index }}" value="{{ variant1.option2 }}" variant-price="{{ variant1.price }}" {% if product.selected_or_first_available_variant.option2 == value %} checked  {% endif %} image="{% unless variant1.image.src %}{{ product.featured_image | product_img_url: '1024x1024' }}{% else %}{{ variant1.image.src | product_img_url: '1024x1024' }}{% endunless %}">
-           
+       
          <label class="{% if settings.show_swatches and is_color and is_cssColor or is_image  %}color{% endif %}"  for="swatch-{{ product.handle }}-{{ value | handle }}-{{ value1 | handle }}">
            {% if settings.show_swatches and is_color and is_cssColor or is_image  %}
            <span class="image" {% if is_image == false %}style="background-color:{{ variant1.option2 | handle }};"{% endif %}>
@@ -301,7 +301,7 @@
          {% capture image %}{{ value1 | handle | append: '.jpg' |  img_url: 'medium' }}{% endcapture %}      
          {% if image contains 'no-image' %}{% assign is_image = false %}{% else %}{% assign is_image = true %}{% endif %}
          <!-- check for cssColor -->
-         {% assign currentColor = variant.option1 | handle %}
+         {% assign currentColor = variant4.option3 | handle %}
          {% if cssColors contains currentColor %}{% assign is_cssColor = true %}{% else %}{% assign is_cssColor = false %}{% endif %}
         {% endif %}  
 
