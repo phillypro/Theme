@@ -303,7 +303,7 @@ $(document).one("pagecreate", function (event, ui) {
                // start slider                                        
                {{slider_js }} 
                (function listen{{section.id}}() {
-					  if (window.loaded && window.RSANYID && tpGS) {
+					  if (window.loaded && window.RSANYID && typeof tpGS != 'undefined') {
                       if(document.getElementById("shopify-section-Loader") == null) {
 						logLoaded{{section.id}}();
                       }else if(window.loaded && typeof window.dataPrev{{ section.id }} != 'undefined') {
