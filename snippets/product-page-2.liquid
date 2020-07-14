@@ -1,1 +1,120 @@
+{% if settings.tipobooking %} 
+{% include 'tipo.booking.script' %}
+{% endif %}
+{% if settings.boldoptions %}
+{%- include 'bold-common' -%}
+{%- include 'bold-product' with product, hide_action: 'break', output: 'none' -%}
+{% endif %}
+{% if settings.boldsubscriptions %}  
+{%- include 'bold-ro-init' -%}
+{% endif %}
 
+{% assign add_to_cart = 'Add to cart' %}
+{% assign sold_out = 'Sold Out' %}
+{% assign unavailable = 'Unavailable' %}
+
+<meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+<meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
+
+<div class="product-wrap product-page-2" itemscope itemtype="http://schema.org/Product">
+<div class="product-gallery">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+       
+      {% for media in product.media %}
+      <div class="swiper-slide">
+      {% case media.media_type %}
+      {% when 'image' %}
+        <div class="image swiper-zoom-container" data-media-id="{{ media.id }}">
+          <img class="lazyload" title="{{ product.title | escape }}" data-src="{{ media | product_img_url: '1024x1024' }}" />
+        </div>        
+      {% when 'video' %}
+        <div class="video" data-media-id="{{ media.id }}">
+          {{ media | video_tag: controls:false,autoplay:true,muted:true,loop:true }}
+        </div>
+      {% endcase %}
+      </div>
+     {% endfor %}
+        
+
+      
+    </div>
+    <!-- If we need navigation buttons -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    
+  </div>
+</div>
+</div>
+
+
+
+<script>
+  var callbackGallery_{{ product.id }} = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.Swiper) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = 'https://cdn.jsdelivr.net/npm/swiper@{{ settings.swiperjsversion }}/js/swiper.min.js';
+    document.getElementsByTagName("head")[0].appendChild(script);
+    // add style
+    var style = document.createElement("link");
+    style.type = "text/css";  
+    style.rel = "stylesheet";
+    style.href = 'https://cdn.jsdelivr.net/npm/swiper@{{ settings.swiperjsversion }}/css/swiper.min.css';
+    document.getElementsByTagName("head")[0].appendChild(style);
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackGallery_{{ product.id }}();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackGallery_{{ product.id }});
+}
+    
+function deferGallery_{{ product.id }}(methodGallery_{{ product.id }}) {
+    if (window.Swiper) {
+        methodGallery_{{ product.id }}();
+    } else {
+        setTimeout(function() { deferGallery_{{ product.id }}(methodGallery_{{ product.id }}) }, 4);
+    }
+}
+deferGallery_{{ product.id }}(function () {   
+
+var container = document.querySelector('#product-{{ product.id }} .swiper-container');
+
+
+var swiper = new Swiper((container), {
+    spaceBetween: 10,
+    slidesPerView: '4',
+    loop: false,
+    direction: 'horizontal',
+    navigation: {
+        nextEl: container.querySelector('.swiper-button-next'),
+        prevEl: container.querySelector('.swiper-button-prev'),
+    },
+    breakpoints: {
+        0: {
+            slidesPerView: '1',
+            spaceBetween: 0,
+        },    
+        480: {
+            slidesPerView: '2',
+        },  
+        767: {
+            slidesPerView: '3',
+        },
+        1600: {
+            slidesPerView: '4',
+        }
+    }
+});  
+
+  
+
+});
+</script>
