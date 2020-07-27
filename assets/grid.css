@@ -1650,6 +1650,9 @@ table td, table th {
 html:not(.loaded) .ui-toolbar-header-fixed {
     position: relative;
 }
+.ui-toolbar-header-fixed {
+ top:0px;   
+}
 .ui-toolbar-footer-fixed, .ui-toolbar-header-fixed {
     left: 0;
     right: 0;
