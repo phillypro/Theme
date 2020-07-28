@@ -683,6 +683,8 @@ margin:20px auto;
 			& svg {
 	max-width: 140px;
     height: auto;
+        margin: 0 15px 0 0;
+    padding: 0;
     &.empty {
  & path {
       fill:transparent;
@@ -691,7 +693,7 @@ margin:20px auto;
     stroke-opacity: 1;
 }
 }
-				    margin-right: 15px;
+			
 				@include bp(mobile) {
 					max-width:85px;
 				}
@@ -733,7 +735,7 @@ margin:20px auto;
     background: #6A6C77;
     padding: 6px 11px;
     align-items: center;
-    color: #fff;
+    color: #fff !important;
     font-weight: normal;
     font-size: 14px;
 				@include bp(mobile) {
