@@ -181,6 +181,7 @@ $('#slick-{{ section.id }}').slick({infinite:true,speed:800,slidesToShow:1,adapt
 {% endif %}
 {% endif %}
 
+{% assign slider_js = slider_js | replace: 'tpj(document).ready(function() {','' | replace: '});	/*ready*/', '' %}
 
 
 
