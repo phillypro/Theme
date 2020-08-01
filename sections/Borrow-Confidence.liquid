@@ -143,7 +143,7 @@ animation-timing-function:ease-out;
   {% for block in section.blocks %}
     {% case block.type %}
       {% when 'Logo' %}
-        <div>
+        <div data-title="{{ block.settings.title }}">
         
         {% if block.settings.url != '' %}<a href="{{ block.settings.url }}">{% endif %}
           
@@ -444,5 +444,5 @@ max-width: 82px;
 }
 {% endstylesheet %}
 
-{% javascript %}                  
+{% javascript %}                     
 {% endjavascript %}                         
