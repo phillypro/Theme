@@ -16,10 +16,23 @@
    {% for option in product.options %}
    {% if forloop.index0 == 0 %}
    <script>
+     
+
+     
       var multiselectwrap = document.querySelector('#Multiselect_{{ product.id }}');
       var form = multiselectwrap.closest('form');
       var shopifyAjaxAddURL = '/cart/update.js';       
       var shopifyCartURL = '/cart';
+     
+     // security
+      if(MD5('Multiselect') !== '{{ section.settings.multiselectAuthKey }}' && window.location == window.parent.location) {
+        var notAuth = multiselectwrap.closest('#shopify-section-{{ section.id }}');
+        setTimeout(function() {
+         notAuth.remove(); 
+        },300);
+     }else{
+     
+     
       
       // this might need to be changed based on theme
      // var price = document.querySelector('.price-item');
@@ -38,19 +51,18 @@
       
      setTimeout(function() {
       // add selected to total...and zero it out
-     var pricewrapEl = form.querySelector('#product-price-{{ product.id }}');
-      console.log(pricewrapEl);                                   
-      var priceEl = form.querySelector('.product-price');
+     var pricewrapEl = form.parentElement.querySelector('#product-price-{{ product.id }}');
+      var priceEl = pricewrapEl.querySelector('.product-price');
       priceEl.innerHTML = '$0.00'; 
       var totalSelect = document.createElement("SPAN");
       totalSelect.classList.add('total-select');
       totalSelect.innerHTML = 'Selected Total'; 
       pricewrapEl.prepend(totalSelect);
-       
-      var comparePrice = pricewrapEl.querySelector('.product-compare-price');
+      
+         var comparePrice = pricewrapEl.querySelector('.product-compare-price');
        if(comparePrice) {
          comparePrice.innerHTML = '';
-       }      
+       }     
      },4);
       
      
@@ -98,7 +110,7 @@
        var siblings = n => [...n.parentElement.children].filter(c=> c!=n && c.classList.contains('option-wrap'))
        var siblings2 = n => [...n.parentElement.children].filter(c=> c!=n && c.classList.contains('multi-swatch-element'))
        
-      
+       }
    </script>
   {% style %}
        #product-variants-{{ product.id }} { display: none !important; }
@@ -255,7 +267,7 @@
                     // add to total price
                     var mspriceEl = quantitywrap.nextElementSibling.querySelector('.multiselect_price');
                     var msprice = parseFloat(mspriceEl.innerHTML.replace('$',''));
-                    var totalSelectEl = form.querySelector('.product-price');
+                    var totalSelectEl = form.parentElement.querySelector('.product-price');
                     var totalSelect = parseFloat(totalSelectEl.innerHTML.replace('$',''));
                     var newTotal = (Number(msprice) + Number(totalSelect)).toFixed(2);
                     totalSelectEl.innerHTML = '$' + newTotal;
@@ -298,7 +310,7 @@
              quantitycheckbox.parentElement.classList.remove('active');
           }); 
           // clear current total
-          var totalSelectEl = form.querySelector('.product-price'); 
+          var totalSelectEl = form.parentElement.querySelector('.product-price'); 
           totalSelectEl.innerHTML = '$0.00';  
          });
          {% endif %}   
@@ -472,7 +484,7 @@
                     // add to total price
                     var mspriceEl = quantitywrap.nextElementSibling.querySelector('.multiselect_price');
                     var msprice = parseFloat(mspriceEl.innerHTML.replace('$',''));
-                    var totalSelectEl = form.querySelector('.product-price');
+                    var totalSelectEl = form.parentElement.querySelector('.product-price');
                     var totalSelect = parseFloat(totalSelectEl.innerHTML.replace('$',''));
                     var newTotal = (Number(msprice) + Number(totalSelect)).toFixed(2);
                     totalSelectEl.innerHTML = '$' + newTotal;
@@ -512,7 +524,7 @@
              quantitycheckbox.nextElementSibling.getElementsByTagName('span')[0].innerHTML = 0;
              quantitycheckbox.parentElement.classList.remove('active');
           }); 
-          var totalSelectEl = form.querySelector('.product-price'); 
+          var totalSelectEl = form.parentElement.querySelector('.product-price'); 
           totalSelectEl.innerHTML = '$0.00'; 
         });
         });
@@ -720,7 +732,7 @@
                     // add to total price
                     var mspriceEl = quantitywrap.nextElementSibling.querySelector('.multiselect_price');
                     var msprice = parseFloat(mspriceEl.innerHTML.replace('$',''));
-                    var totalSelectEl = form.querySelector('.product-price');
+                    var totalSelectEl = form.parentElement.querySelector('.product-price');
                     var totalSelect = parseFloat(totalSelectEl.innerHTML.replace('$',''));
                     var newTotal = (Number(msprice) + Number(totalSelect)).toFixed(2);
                     totalSelectEl.innerHTML = '$' + newTotal;
@@ -759,7 +771,7 @@
              quantitycheckbox.nextElementSibling.getElementsByTagName('span')[0].innerHTML = 0;
              quantitycheckbox.parentElement.classList.remove('active');
           }); 
-          var totalSelectEl = form.querySelector('.product-price'); 
+          var totalSelectEl = form.parentElement.querySelector('.product-price'); 
           totalSelectEl.innerHTML = '$0.00'; 
         });
         });
@@ -778,74 +790,19 @@
 {% endif %}
 
 
-{% if section.settings.animate %}
-<script>
-var element{{ product.id }} = document.querySelector('#Multiselect_{{ product.id }}.animate');
-var elementHeight{{ product.id }} = element{{ product.id }}.clientHeight;
-     
-// listen for scroll event and call animate function
-setTimeout(function() {                                                     
-document.removeEventListener('scroll', animate{{ product.id }});                                     
-document.addEventListener('scroll', animate{{ product.id }});
-document.dispatchEvent(new CustomEvent('scroll'));  
-}, 600);
-  
-  
-// check if element is in view
-function inView{{ product.id }}() {
 
-  // get window height
-  var windowHeight = window.innerHeight;
-  // get number of pixels that the document is scrolled
-  var scrollY = window.scrollY || window.pageYOffset;
-  
-  // get current scroll position (distance from the top of the page to the bottom of the current viewport)
-  var scrollPosition = scrollY + windowHeight;
-  // get element position (distance from the top of the page to the bottom of the element)
-  var elementPosition = element{{ product.id }}.getBoundingClientRect().top + scrollY + (elementHeight{{ product.id }} / 5);
-  
-  // is scroll position greater than element position? (is element in view?)
-  if (scrollPosition > elementPosition) {
-    return true;
-  }
-  
-  return false;
-}
-  
-// animate element when it is in view
-function animate{{ product.id }}() {
-  // is element in view?
-  if (inView{{ product.id }}()) {
-    
-    // get last animated element
-     var elementLast{{ product.id }}Array = element{{ product.id }}.querySelectorAll('.first .multi-swatch-element');
-     var elementLast{{ product.id }} = elementLast{{ product.id }}Array[elementLast{{ product.id }}Array.length-1];
-     // listen for last animation and remove animate/effect classes                                    
-      "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend".split(" ").map(name =>  elementLast{{ product.id }}.removeEventListener(name, animateEnd{{ product.id }}, false));                    
-      "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend".split(" ").map(name =>  elementLast{{ product.id }}.addEventListener(name, animateEnd{{ product.id }}, false)); 
-      // element is in view, add class to element
-      element{{ product.id }}.classList.add('effect');
-  }
-}   
-  
-function animateEnd{{ product.id }}() {
-   element{{ product.id }}.classList.remove("effect", "animate");
-} 
- 
-</script> 
-{% endif %}
 {% endif %}
 {% endcase %}
 {% endfor %}  
 {% schema %}
 {
 "name": "Multiselect",
-"settings": [{
-"id": "animate",
-"type": "checkbox",
-"label": "Animate Intro",
-"default":true,
-"info": "fade in effect for the options"
+"settings": [
+{
+        "id": "multiselectAuthKey",
+        "type": "text",
+        "label": "Auth Key",
+"info": "This Feature is a premium add-on, and is only available for preview in the theme customizer without an auth key provided by Digital Brandz. To request an Auth key text 404-800-7341"
 },
 {
 "type": "header",
@@ -1277,5 +1234,4 @@ padding: 5px 11px;
 
 {% endstylesheet %} 
 {% javascript %}            
-{% endjavascript %}                                            
- 
+{% endjavascript %}                                              
