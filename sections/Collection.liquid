@@ -102,7 +102,7 @@
          <span class=" stamped-product-reviews-badge" data-product-sku="{{ product.handle }}" data-id="{{ product.id }}" data-product-type="{{product.type}}" data-product-title="{{product.title}}"  style="display:block;">{{ product.metafields.stamped.badge }}</span>
          {% endif %}
      
-       <p class="h1 medium-down--left">
+       <div class="h1 medium-down--left">
           {% if product.price_max > product.price %}
            <span class="currPrice">{% include 'price' with product.price_min %}</span> {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }} </span>{% endif %}
         {% else %}
@@ -111,8 +111,7 @@
          {% unless product.available %}
           <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
         {% endunless %}  
-         </p>
-      {% if on_sale %}
+         {% if on_sale %}
       <div class="salew">
          <span class="sale-tag medium-down--right{% if settings.product_reviews_enable %} has-reviews{% endif %}">
          {% assign compare_price = product.compare_at_price %}
@@ -120,7 +119,9 @@
          {% include 'price-sale' %}
          </span>
       </div>
-      {% endif %}
+      {% endif %} 
+         </div>
+     
    </a>
   
   
