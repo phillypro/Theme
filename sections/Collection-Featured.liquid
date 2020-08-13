@@ -209,18 +209,13 @@ padding-top:25px;
          
          <h3><span>{{ product.title }}</span></h3>
        
-        <p class="h1 medium-down--left">
+        <div class="h1 medium-down--left">
           {% if product.price_max > product.price %}
            <span class="currPrice">{% include 'price' with product.price_min %}</span> {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }} </span>{% endif %}
         {% else %}
            <span class="currPrice">{% include 'price' with product.price %}</span>   {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }}</span> {% endif %}
         {% endif %}
-        {% unless product.available %}
-          <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
-        {% endunless %}  
-       </p>
-
-          {% if on_sale %}
+        {% if on_sale %}
           <div class="salew">
             <span class="sale-tag medium-down--right{% if settings.product_reviews_enable %} has-reviews{% endif %}">
               {% assign compare_price = product.compare_at_price %}
@@ -228,7 +223,13 @@ padding-top:25px;
               {% include 'price-sale' %}
             </span>
          </div>
-          {% endif %}
+        {% endif %}  
+        {% unless product.available %}
+          <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
+        {% endunless %} 
+       </div>
+
+
          
         {% if section.settings.desc %}
          <div class="desc">
@@ -877,7 +878,7 @@ opacity:1;
     position: relative;
       }
        & .salew {
-        margin-top:10px; 
+        display:inline;
        }
        & .h1 {
     margin-top: 0px;
