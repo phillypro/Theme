@@ -233,7 +233,7 @@ padding-top:25px;
          
         {% if section.settings.desc %}
          <div class="desc">
-           {{ product.description | truncate: 300, ", ..." }}
+           {{ product.description | strip_html | truncate: 300, ", ..." }}
          </div>
          {% endif %}
          
