@@ -21,7 +21,7 @@
     {% assign found_option = true %}
     {% assign option_index = forloop.index0 %}
     <style>
-      #product-{{ product.id }} .selector-wrapper:nth-child({{ option_index | plus: 1 }}), #product-{{ product.id }} #product-select-{{ product.id }}  {
+      #product-{{ product.id }} .selector-wrapper:nth-child({{ option_index | plus: 1 }}), #product-{{ product.id }} #product-select-{{ product.id }}-variant-{{ product.selected_or_first_available_variant.id }}  {
        display:none;
       }
     </style>
