@@ -16,7 +16,9 @@
 <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
 <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
 
-<div class="product-wrap product-page-2" itemscope itemtype="http://schema.org/Product">
+<div class="product-page-2" itemscope itemtype="http://schema.org/Product">
+  
+<div class="product-top">  
 <div class="product-gallery">
   <div class="swiper-container">
     <div class="swiper-wrapper">
@@ -25,7 +27,7 @@
       <div class="swiper-slide">
       {% case media.media_type %}
       {% when 'image' %}
-        <div class="image swiper-zoom-container" data-media-id="{{ media.id }}">
+        <div class="image" data-media-id="{{ media.id }}">
           <img class="lazyload" title="{{ product.title | escape }}" data-src="{{ media | product_img_url: '1024x1024' }}" />
         </div>        
       {% when 'video' %}
@@ -45,6 +47,57 @@
     
   </div>
 </div>
+
+  
+{% form 'product', product, data-ajax: 'false', class: 'ajax product_form' %} 
+  <div class="product-form-fixed__left small--hide">
+    <div class="product-single__title--wrap">
+       <h1 class="product-single__title">{{ product.title }}
+      </h1>
+      <div class="product-price-wrap" id="product-price-{{ product.id }}" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+        {% if product.available %}
+        <link itemprop="availability" href="http://schema.org/InStock" />
+        {% else %}
+        <link itemprop="availability" href="http://schema.org/OutOfStock" />
+        {% endif %}
+          {% assign variant = product.selected_or_first_available_variant %}
+          {% if product.compare_at_price > product.price %}
+          <span class="product-price on-sale" itemprop="price">{{ variant.price | money }}</span>
+          <s class="product-compare-price">{{ variant.compare_at_price | money }}</s>
+          {% else %}
+          <span class="product-price" itemprop="price">{{ variant.price | money }}</span>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="product-form-fixed__right">
+
+              <select id="product-select-{{ product.id }}" name="id"> 
+                {% for variant in product.variants %}  
+                <option{% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}">     
+                  {{ variant.title }} - {{ variant.price | money }}    
+                </option>  
+                {% endfor %} 
+              </select>
+            {% if product.available and product.variants.size > 1 %}
+             {% for option in product.options %}
+               {% include 'swatch2' with option %}
+             {% endfor %}
+            {% endif %}
+    
+    <div class="product-form__item--submit">
+        <button id="add-{{ product.id }}" class="button shopify-payment-button__button add {% if settings.boldsubscriptions %}addtocart{% endif %}" type="submit">{{ add_to_cart | escape }}</button>
+    </div>
+    
+  </div>
+{% endform %}  
+  
+  
+  
+  
+</div>  
+  
 </div>
 
 
@@ -85,7 +138,7 @@ function deferGallery_{{ product.id }}(methodGallery_{{ product.id }}) {
 }
 deferGallery_{{ product.id }}(function () {   
 
-var container = document.querySelector('#product-{{ product.id }} .swiper-container');
+var container = document.querySelector('#product-{{ product.id }}.variant-{{ product.selected_or_first_available_variant.id }} .swiper-container');
 
 
 var swiper = new Swiper((container), {
@@ -100,7 +153,8 @@ var swiper = new Swiper((container), {
     breakpoints: {
         0: {
             slidesPerView: '1',
-            spaceBetween: 0,
+            spaceBetween: 10,
+            speed: 500,
         },    
         480: {
             slidesPerView: '2',
@@ -113,8 +167,202 @@ var swiper = new Swiper((container), {
         }
     }
 });  
+});
 
+// start dropdown
+initProductVariantsDropDown();        
+function initProductVariantsDropDown() {
+ var swatchContainers =  document.querySelectorAll('#product-{{ product.id }} .variant-select__wrap');                                                                      
+ [].forEach.call(swatchContainers, function(container) {
+   
+        container.querySelector('.variant-select__selected').addEventListener('click', function(e) {
+          var containerParent = e.target.closest('.variant-select__wrap');
+          if(containerParent.classList.contains('is-showing')) {
+          containerParent.classList.remove('is-showing');
+          }else{
+          containerParent.classList.add('is-showing');
+          var siblings = getSiblings(containerParent);
+           [].forEach.call(siblings, function(sibling) {  
+            if(sibling.classList.contains('is-showing')) {
+             sibling.classList.remove('is-showing');
+            }
+           });
+          }
+        });
+   
+        var swatchElements = container.querySelectorAll('.variant-select__option');
+        [].forEach.call(swatchElements, function(swatchElement) {
+         swatchElement.addEventListener('click', function(e) { 
+         var container2 = e.currentTarget.closest('.variant-select__wrap');
+         container2.classList.remove('is-showing');
+         var optionIndex = swatchElement.getAttribute('data-option-index');
+         var optionValue = swatchElement.querySelector('.variant-select__option-label').getAttribute('data-value');
+         container2.querySelector('.variant-select__selected').innerHTML = optionValue;
+         var thingitwants = swatchElement.closest('form').querySelectorAll('.single-option-selector')[optionIndex];
+         thingitwants.value = optionValue;
+         thingitwants.onchange();   
+         });
+        });
+ });                                                                                                 
+}
+var getSiblings = function (elem) {
+	// Setup siblings array and get the first sibling
+	var siblings = [];
+	var sibling = elem.parentNode.firstChild;
+	// Loop through each sibling and push to the array
+	while (sibling) {
+		if (sibling.nodeType === 1 && sibling !== elem) {
+			siblings.push(sibling);
+		}
+		sibling = sibling.nextSibling
+	}
+	return siblings;
+};               
+       
+          
+var selectCallback = function(variant, selector) {
+  
+  var formEl = document.querySelector('#' + selector.domIdPrefix).closest('form');
+  var pricewrapEl = formEl.querySelector('#product-price-{{ product.id }}');
+  var priceEl = pricewrapEl.querySelector('.product-price');
+  var backorderEl = formEl.querySelector('#backorder-{{ product.id }}');  
+  var addToCartButton = formEl.querySelector('#add-{{ product.id }}');                              
+                                         
+ if (variant) {
+ 
+  for (var i = 0, length = variant.options.length; i < length; i++) {
+   var radioButton = formEl.querySelector('.swatch[data-option-index="' + i + '"] input[value="' + encodeURI(variant.options[i]) + '"]');
+   if (radioButton !== null) {
+    radioButton.checked = true;
+   }
+  }
+                           
+
+   if (addToCartButton !== null) {
+    addToCartButton.classList.remove('disabled');
+    addToCartButton.disabled = false;
+    addToCartButton.innerHTML = '{{ add_to_cart | escape }}';
+   }   
+   
+   
+  // Selected a valid variant that is available.
+  if (variant.available) {    
+
+   // If item is backordered yet can still be ordered, we'll show special message.
+   if (variant.inventory_management && variant.inventory_quantity <= 0) {
+    var selectedVariant = formEl.querySelector('#selected-variant-{{ product.id }}');
+    if (selectedVariant !== null) {
+     selectedVariant.innerHTML = '{{ product.title | escape | json }}{% unless hide_default_title %} + ' - ' + variant.title{% endunless %}';
+    }
+    if (backorderEl !== null && backorderEl !== undefined) {
+     backorderEl.classList.remove('hidden');
+    }
+   } else {
+    if (backorderEl !== null && backorderEl !== undefined) {
+     backorderEl.classList.add('hidden');
+    }
+   }
+
+  } else {
+   // Variant is sold out.
+   if (backorderEl !== null && backorderEl !== undefined) {
+    backorderEl.classList.add('hidden');
+   }
+   if (addToCartButton !== null && addToCartButton !== undefined) {
+    addToCartButton.innerHTML = '{{ sold_out | escape }}';
+    addToCartButton.classList.add('disabled');
+    addToCartButton.disabled = true;
+   }
+  }
+
+
+var multiselect = formEl.querySelector('#Multiselect_{{ product.id }}');   
+if(!multiselect) { 
+  
+  priceEl.innerHTML = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");                                   
+  var compareEl = pricewrapEl.querySelector('.product-compare-price');
+   if (variant.compare_at_price && variant.compare_at_price > variant.price) { 
+     if (compareEl == null) {
+         var compareEl = document.createElement("s");
+         compareEl.classList.add('product-compare-price');
+         pricewrapEl.append(compareEl);
+     }
+         compareEl.innerHTML = Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}");
+     }else{
+         if(compareEl) {
+            compareEl.remove();
+         }                                                 
+     }
+   
+   }
+   
+  {% if settings.quadpay %} 
+  {% assign new_money_format = shop.money_format | remove: '$' %}
+  var quadpayWidget = formEl.querySelector('quadpay-widget');
+  quadpayWidget.setAttribute('amount', Shopify.formatMoney(variant.price, "{{ new_money_format }}")); 
+  {% endif %}
+
+ } else {
+                                                        
+  // variant doesn't exist.
+  priceEl.innerHTML = '';
+  if (compareEl != null) {
+   compareEl.innerHTML = '';
+  }
+   if (backorderEl !== null && backorderEl !== undefined) {
+   backorderEl.classList.add('hidden');
+  }
+  if (addToCartButton !== null) {
+   addToCartButton.innerHTML = '{{ unavailable | escape }}';
+   addToCartButton.classList.add('disabled');
+   addToCartButton.disabled = true;
+  }
+ }
+
+}; 
+  
+Shopify.handleize = function (str) {
+    return str.toLowerCase().replace(/[^\w\u00C0-\u024f]+/g, "-").replace(/^-+|-+$/g, "");
+};  
+
+// run defer for option selector  
+  var callbackProduct{{ product.id }} = function(){
+  // Handler when the DOM is fully loaded
+  if(!Shopify.OptionSelectors) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = '{{ 'option_selection.js' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackProduct{{ product.id }}();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackProduct{{ product.id }});
+}
+    
+function deferProduct{{ product.id }}(methodProduct{{ product.id }}) {
+    if (Shopify.OptionSelectors) {
+        methodProduct{{ product.id }}();
+    } else {
+        setTimeout(function() { deferProduct{{ product.id }}(methodProduct{{ product.id }}) }, 4);
+    }
+}
+deferProduct{{ product.id }}(function () {    
   
 
-});
+new Shopify.OptionSelectors('product-select-{{ product.id }}', {
+ product: {{ product | json }},
+ onVariantSelected: selectCallback,
+ enableHistoryState: false
+}); 
+  
+});           
+          
+       
 </script>
