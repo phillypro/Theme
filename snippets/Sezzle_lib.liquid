@@ -43,13 +43,17 @@ document.sezzleConfig = {
             "widgetType": "product-page",
             "marginTop": 10,
 			"fontWeight": 400,
-              "fontSize": 15
+              "fontSize": 15,
+          {% case settings.product_page_layout %}
+            {% when 'advanced_full' %}
+             renderToPath: '../../',
+           {% endcase %}
 		},
       	{
 		 	"targetXPath": ".product/.h1/.currPrice",
             "widgetType": "product-preview",
 			"fontWeight": 400,
-            "fontSize": 15
+            "fontSize": 15,
 		},
 		{
 			"targetXPath": "#cart-subtotal",
