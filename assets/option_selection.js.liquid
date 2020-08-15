@@ -43,7 +43,7 @@ function floatToString(t, e) {
 }, Shopify.Product.prototype.optionValues = function(o) {
     if (!Shopify.isDefined(this.variants)) return null;
     var t = Shopify.map(this.variants, function(t) {
-        var e = "option" + (o + 1);
+        var e = "option" + (o + 1);       
         return t[e] == undefined ? null : t[e]
     });
     return null == t[0] ? null : Shopify.uniq(t)
@@ -52,7 +52,7 @@ function floatToString(t, e) {
     return i.length != this.options.length || Shopify.each(this.variants, function(t) {
        
         for (var e = !0, o = 0; o < i.length; o++) {
-            t["option" + (o + 1)].replace('"','').replace("'","") != i[o] && (e = !1);
+            t["option" + (o + 1)].replace('"','').replace("'","") != i[o].replace('"','').replace("'","") && (e = !1);
         }
         1 != e || (r = t);
      
