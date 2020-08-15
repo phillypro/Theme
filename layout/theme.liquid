@@ -160,6 +160,8 @@ visibility:visible;
   {% assign page_description = meta_data.description_tag %}
   {% assign page_name = collection.title %}
   {% assign page_url = collection.url %}
+  {% elsif template == 'product' %}
+  {% assign page_url = product.url | append: '?variant=' | append: product.selected_or_first_available_variant.id %}
   {% elsif template == 'blog' %}
   {% assign meta_data = blog.metafields.global %}
   {% assign page_description = meta_data.description_tag %}
