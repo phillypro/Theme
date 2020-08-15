@@ -1709,7 +1709,7 @@ label.inline, legend.inline {
 }  
 }
 
-
+@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@600&display=swap');
 
 .product-page-2 {
   .product-gallery {
@@ -1753,6 +1753,7 @@ label.inline, legend.inline {
     display: -ms-flexbox;
     display: flex;
     padding: 15px;
+   width:100%;
     max-width: 1200px;
     margin: 0px auto;
     -webkit-flex-wrap: wrap;
@@ -1768,6 +1769,9 @@ label.inline, legend.inline {
     z-index: 2;
     position: relative;
     background: white;
+   @include bp(mobile) {
+    padding:0px;
+   }
    @include bp(phabletup) {
        box-shadow: 0 20px 80px 0 rgba(0,0,0,0.26);
     -ms-transform: translateY(-25px);
@@ -1777,7 +1781,26 @@ label.inline, legend.inline {
     -moz-box-shadow: 0px -5px 10px 0px rgba(0,0,0,0.2);
     box-shadow: 0px -5px 10px 0px rgba(0,0,0,0.2);
    }
-}
+   &.product-form-fixed {
+    position: fixed;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    bottom: 20px;
+    z-index: 8;
+    box-shadow: 0 20px 80px 0 rgba(0,0,0,0.5);
+  @media only screen and (max-width: 1200px) {
+   left: 0px;
+    right: 0px;
+    width: auto;
+    bottom: 0;
+    -ms-transform: translate(0);
+    -webkit-transform: translate(0);
+    transform: translate(0);
+  }
+} 
+} 
   .product-form-fixed__left {
     width: auto;
     flex-grow: 1;
@@ -1795,6 +1818,7 @@ label.inline, legend.inline {
     -moz-flex-wrap: wrap;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    align-self:flex-start;
     .product-single__title--wrap {
     width: 100%;
     display: -webkit-flex;
@@ -1809,6 +1833,10 @@ label.inline, legend.inline {
     align-items: center;
    }
 }
+  .product-price {
+font-family: 'Spartan', sans-serif;
+    font-size:14px;
+  }
   .product-single__title {
     
     margin: 0 0 0 15px;
@@ -1820,9 +1848,12 @@ label.inline, legend.inline {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    width: 100%;
-    width: auto !important;
+    width: auto;
     margin-left: auto;
+    @include bp(mobile) {
+    margin:0;
+    width: 100%;   
+    }
   }  
  // variant style
  .variant-select__wrap {
@@ -1837,12 +1868,27 @@ cursor: pointer;
      .show-list {
       cursor: pointer;
     }
+     @include bp(mobile) {
+         min-width: 190px;
+     }
+     &.show-list {
+       .variant-select__selected { 
+         &:after {
+         	display:block;
+         }
+       }
+     }
+     .variant-select__selected { 
+       &:after {
+       	display:none;
+       }
+     }
    }
    &.size {
     max-width: 70px; 
     @include bp(phablet) {
       width: auto;
-      min-width: 60px;
+      min-width: 70px;
     }
    }
    .variant-select__selected {
@@ -1874,6 +1920,9 @@ cursor: pointer;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
    }
+     @include bp(mobile) {
+     height: 80px;
+     }
   }
   .variant-select__list {
     width: 100%;
@@ -1905,10 +1954,16 @@ cursor: pointer;
     -o-align-items: center;
     align-items: center;
     }
+    &.active {
+    display:none;
+    }
   }
    .variant-select__option-label {
     padding: 8px 10px;
     font-size: 0.875em;
+     @include bp(mobile) {
+         font-size: 0.99em;
+     }
   }
   .color-select__image {
     background-position: 50%;
@@ -1918,6 +1973,10 @@ cursor: pointer;
     overflow: hidden;
     width: 40px;
     height: 30px;
+    @include bp(mobile) {
+        width: 16px;
+    height: 15px;
+    }
    }
    &.is-showing {
     .variant-select__list {
@@ -1935,10 +1994,13 @@ cursor: pointer;
   } 
  } 
    .product-form__item--submit {
+         flex: 1;
      @include bp(phabletup) {
      min-width: 180px;
      }
      button {
+     background:{{ settings.add_background_color }};
+     color: {{ settings.add_font_color }};
      margin:0;
      max-width: 300px;  
      height: 50px; 
@@ -1950,6 +2012,16 @@ cursor: pointer;
     white-space: normal;
     margin-top: 0px;
     min-height: 44px;
+    border-radius:0px;
+    text-transform: uppercase;
+    font-weight: bold;
+    @include bp(mobile) {
+     font-size:12px;
+     height: 100%;
+     }
+       &:focus {
+       outline:none;
+       }
     }
   } 
 }
