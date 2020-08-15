@@ -9,7 +9,7 @@
 {%- include 'bold-ro-init' -%}
 {% endif %}
 
-{% assign add_to_cart = 'Add to cart' %}
+{% assign add_to_cart = 'Add to Bag' %}
 {% assign sold_out = 'Sold Out' %}
 {% assign unavailable = 'Unavailable' %}
 
@@ -49,7 +49,7 @@
 </div>
 
   
-{% form 'product', product, data-ajax: 'false', class: 'ajax product_form' %} 
+{% form 'product', product, data-ajax: 'false', class: 'ajax product_form'  %} 
   <div class="product-form-fixed__left small--hide">
     <div class="product-single__title--wrap">
        <h1 class="product-single__title">{{ product.title }}
@@ -92,9 +92,9 @@
     
   </div>
 {% endform %}  
+</div>  
   
-  
-  
+<div id="product-info">  
   
 </div>  
   
@@ -160,7 +160,7 @@ var swiper = new Swiper((container), {
             slidesPerView: '2',
         },  
         767: {
-            slidesPerView: '3',
+            slidesPerView: '4',
         },
         1600: {
             slidesPerView: '4',
@@ -168,6 +168,33 @@ var swiper = new Swiper((container), {
     }
 });  
 });
+          
+
+// on scroll event
+setTimeout(function() {          
+scrollProduct();
+window.addEventListener("scroll", scrollProduct);  
+function scrollProduct() {
+ var header = document.querySelector('#header');
+ var headerheight = header.offsetHeight;
+ var page = document.querySelector('#product-{{ product.id }}.variant-{{ product.selected_or_first_available_variant.id }}');
+ var pageHeight = page.offsetHeight;
+ var productForm = page.querySelector('form.product_form');
+ var footer = page.querySelector('#footer');
+ var footerHeight = footer.offsetHeight;  
+ if (window.innerWidth > 767) {
+  if(window.scrollY >= headerheight && window.scrollY < ((page.clientHeight - window.innerHeight) - footerHeight)) {
+   productForm.classList.add('product-form-fixed');
+  }else{
+   productForm.classList.remove('product-form-fixed');
+  }
+ }else{
+  productForm.classList.add('product-form-fixed');
+ }
+}
+},4);
+  
+          
 
 // start dropdown
 initProductVariantsDropDown();        
