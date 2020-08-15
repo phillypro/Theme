@@ -254,6 +254,9 @@ list-style:none;
     -ms-flex-flow: row wrap;
     flex-flow: row wrap;
 }
+.big.row {
+  max-width: 101.5rem;
+}
 .row .row {
     margin-right: -0.9375rem;
     margin-left: -0.9375rem;
