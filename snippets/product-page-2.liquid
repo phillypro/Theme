@@ -80,8 +80,8 @@
                 </option>  
                 {% endfor %} 
               </select>
-            {% if product.available and product.variants.size > 1 %}
-             {% for option in product.options %}
+            {% if product.variants.size > 1 %}
+             {% for option in product.options %}   
                {% include 'swatch2' with option %}
              {% endfor %}
             {% endif %}
@@ -225,10 +225,10 @@ function initProductVariantsDropDown() {
          var optionIndex = swatchElement.getAttribute('data-option-index');
          var optionValue = swatchElement.querySelector('.variant-select__option-label').getAttribute('data-value');
          if(!container2.classList.contains('color')) {
-           container2.querySelector('.variant-select__selected').innerHTML = optionValue;
-         }  
+           container2.querySelector('.variant-select__selected .variant-select__option-label').innerHTML = decodeURI(optionValue);
+         } 
          var thingitwants = swatchElement.closest('form').querySelectorAll('.single-option-selector')[optionIndex];
-         thingitwants.value = optionValue;
+         thingitwants.value = decodeURI(optionValue);
          thingitwants.onchange();   
          });
         });
@@ -256,9 +256,9 @@ var selectCallback = function(variant, selector) {
   var priceEl = pricewrapEl.querySelector('.product-price');
   var backorderEl = formEl.querySelector('#backorder-{{ product.id }}');  
   var addToCartButton = formEl.querySelector('#add-{{ product.id }}');                              
-                                         
+  console.log(variant);                                       
  if (variant) {
- 
+  
   for (var i = 0, length = variant.options.length; i < length; i++) {
    var radioButton = formEl.querySelector('.swatch[data-option-index="' + i + '"] input[value="' + encodeURI(variant.options[i]) + '"]');
    if (radioButton !== null) {
