@@ -41,12 +41,15 @@ document.sezzleConfig = {
 		{
 			"targetXPath": ".product-price",
             "widgetType": "product-page",
-            "marginTop": 10,
 			"fontWeight": 400,
-              "fontSize": 15,
           {% case settings.product_page_layout %}
+            {% when 'original_scroll' %}
+          "marginTop": 10,
+            "fontSize": 15,
             {% when 'advanced_full' %}
+          "marginTop": 7,
              renderToPath: '../../',
+             "fontSize": 13,
            {% endcase %}
 		},
       	{
