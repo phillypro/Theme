@@ -262,10 +262,10 @@ function initProductVariantsDropDown() {
          var optionIndex = swatchElement.getAttribute('data-option-index');
          var optionValue = swatchElement.querySelector('.variant-select__option-label').getAttribute('data-value');
          if(!container2.classList.contains('color')) {
-           container2.querySelector('.variant-select__selected .variant-select__option-label').innerHTML = decodeURI(optionValue);
+           container2.querySelector('.variant-select__selected .variant-select__option-label').innerHTML = decodeURI(optionValue.replace(/\+/g, ' '));
          } 
          var thingitwants = swatchElement.closest('form').querySelectorAll('.single-option-selector')[optionIndex];
-         thingitwants.value = decodeURI(optionValue);
+         thingitwants.value = decodeURI(optionValue.replace(/\+/g, ' '));
          thingitwants.onchange();   
          });
         });
@@ -292,8 +292,7 @@ var selectCallback = function(variant, selector) {
   var pricewrapEl = formEl.querySelector('#product-price-{{ product.id }}');
   var priceEl = pricewrapEl.querySelector('.product-price');
   var backorderEl = formEl.querySelector('#backorder-{{ product.id }}');  
-  var addToCartButton = formEl.querySelector('#add-{{ product.id }}');                              
-  console.log(variant);                                       
+  var addToCartButton = formEl.querySelector('#add-{{ product.id }}');                                                                    
  if (variant) {
   
   for (var i = 0, length = variant.options.length; i < length; i++) {
@@ -313,7 +312,7 @@ var selectCallback = function(variant, selector) {
    
   // Selected a valid variant that is available.
   if (variant.available) {    
-
+   console.log(variant);
    // If item is backordered yet can still be ordered, we'll show special message.
    if (variant.inventory_management && variant.inventory_quantity <= 0) {
     var selectedVariant = formEl.querySelector('#selected-variant-{{ product.id }}');
