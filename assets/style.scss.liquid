@@ -1709,7 +1709,25 @@ label.inline, legend.inline {
 }  
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@600&display=swap');
+
+{% comment %}
+@font-face {
+	font-family: 'Benton';
+	src: url("https://cdn.jsdelivr.net/gh/phillypro/Theme/fonts/BentonSans-Black.eot");
+	src: url("https://cdn.jsdelivr.net/gh/phillypro/Theme/fonts/BentonSans-Black.eot?#iefix") format("embedded-opentype"), url("https://cdn.jsdelivr.net/gh/phillypro/Theme/fonts/BentonSans-Black.woff2") format("woff2"), url("https://cdn.jsdelivr.net/gh/phillypro/Theme/fonts/BentonSans-Black.woff") format("woff"), url("https://cdn.jsdelivr.net/gh/phillypro/Theme/fonts/BentonSans-Black.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+   font-display: swap;
+}
+@font-face {
+  font-family: 'TTNorms';
+    src: url('https://cdn.jsdelivr.net/gh/phillypro/Theme/fonts/ttnorms-regular-webfont.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/phillypro/Theme/fonts/ttnorms-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 
 .product-page-2 {
       padding-bottom: 40px;
@@ -1740,9 +1758,11 @@ label.inline, legend.inline {
    .image {
    height:100%;
      img {
+  @media only screen and (min-width: 800px) {
 min-height: 100%;
 object-fit: cover;
 object-position: center;
+     }
      }
    }
  }
@@ -1754,7 +1774,7 @@ object-position: center;
   .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
    opacity:0;
   }  
- @include bp(mobile) {
+    @media only screen and (max-width: 799px) {
   .swiper-button-next {
     right: 0px;
     left: auto;
@@ -1790,11 +1810,13 @@ object-position: center;
     z-index: 2;
     position: relative;
     background: white;
-    @include transition(opacity,0.3s);
+       -ms-transition: opacity 0.3s ease-out;
+    -webkit-transition: opacity 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
   @media only screen and (max-width: 799px) {
     padding:0px;
    }
-   @include bp(phabletup) {
+    @media only screen and (min-width: 1022px) {
        box-shadow: 0 20px 80px 0 rgba(0,0,0,0.26);
     -ms-transform: translateY(-25px);
     -webkit-transform: translateY(-25px);
@@ -1860,15 +1882,19 @@ object-position: center;
    }
 }
   .product-price {
-font-family: 'Spartan', sans-serif;
+    font-family: 'TTNorms';
+    font-weight: bold;
     font-size:14px;
   }
   .product-single__title {
+    font-family: 'Benton';
+     text-transform: uppercase;
     font-size: 1.55em;
     margin: 0 15px 0 0;
     position: relative;
      @media only screen and (max-width: 799px) {
        margin:0 0 15px 0;
+       font-size: 2.4em;
      }
   }  
   hr {
@@ -1928,7 +1954,7 @@ cursor: pointer;
    }
    &.size {
     max-width: 70px; 
-    @include bp(phablet) {
+    @media only screen and (max-width: 1022px) {
       width: auto;
       min-width: 70px;
     }
@@ -2006,7 +2032,7 @@ cursor: pointer;
    .variant-select__option-label {
     padding: 8px 10px 8px 10px;
     font-size: 0.875em;
-     @include bp(mobile) {
+     @media only screen and (max-width: 799px) {
          font-size: 0.99em;
      }
   }
@@ -2043,8 +2069,8 @@ cursor: pointer;
     @media only screen and (max-width: 799px) {
          min-width: 110px;
      }
-     @include bp(phabletup) {
-     min-width: 180px;
+      @media only screen and (min-width: 1022px) {
+     min-width: 200px;
      }
      button {
      background:{{ settings.add_background_color }};
@@ -2077,10 +2103,12 @@ cursor: pointer;
   }
   .product-top {
  @media only screen and (max-width: 800px) {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
  }
   }
   .product-info {
+   font-family: 'TTNorms';
+    line-height: 1.5;
       padding-bottom: 40px;
       & .reviews-final-sale {
          margin:0;
@@ -2139,8 +2167,15 @@ cursor: pointer;
      margin:0;
     }
     & h1, h2, h3, h4, h5, h6 {
+        font-family: 'Benton';
     font-size:16px;
     text-transform:uppercase;
+    }
+    ul {
+    padding-left: 1.4em;
+    }
+    li {
+    margin-bottom: 6px;
     }
   }
   .additional {
@@ -2149,6 +2184,7 @@ cursor: pointer;
      margin:0;
     }
     & h1, h2, h3, h4, h5, h6 {
+    font-family: 'Benton';
     font-size:16px;
     text-transform:uppercase;
     }
@@ -2175,7 +2211,7 @@ display: flex;
     }
   }
 }
-
+{% endcomment %}
 
 
 
