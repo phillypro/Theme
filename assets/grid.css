@@ -1562,7 +1562,7 @@ textarea {
     display: none !important;
 }
 }
-@media only screen and (max-width: 64.063em) {
+@media only screen and (max-width: 799px) {
 .small--hide {
     display: none !important;
 }
