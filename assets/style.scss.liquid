@@ -2082,12 +2082,18 @@ cursor: pointer;
   }
   .product-info {
       padding-bottom: 40px;
-      & .reviews-final-sale > div {
-           margin: 0 0 35px 0;
+      & .reviews-final-sale {
+         margin:0;
+        & > div {
+           margin:0;
       }
+     }
     &.product-form--is-fixed {
-       & .reviews-final-sale > div {
-        margin: 35px 0;
+       & .reviews-final-sale { 
+         margin: 35px 0 0;
+         & > div {
+           margin:0;
+         }
       }
     }
   }
