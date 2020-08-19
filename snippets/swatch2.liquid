@@ -72,7 +72,7 @@
       {% assign values = values | append: ',' | append: value %} 
       {% assign values = values | split: ',' %}
   <div class="variant-select__option {% if is_color %}color-swatch {% if product.selected_or_first_available_variant.options[option_index] == value %}active{% endif %}{% endif %}" data-option-index="{{ option_index }}">
-  {% if is_color %}<a href="{{ variant.url }}">{% endif %}
+  {% if is_color %}<a href="#" data-variant-url="{{ variant.url }}" data-product-url="{{ product.url }}-{{ value | handle }}">{% endif %}
   {% if is_color %}
    {% assign currentColor = value | handle %}
    {% if cssColors contains currentColor %}{% assign is_cssColor = true %}{% else %}{% assign is_cssColor = false %}{% endif %} 
