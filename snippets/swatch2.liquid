@@ -50,7 +50,8 @@
 <div class="variant-select__selected">
    {% if is_color %}
    {% assign currentColor = product.selected_or_first_available_variant.options[option_index] | handle %}
-    <div class="color-select__image lazyfade lazyload" data-bg="{{ product.selected_or_first_available_variant.options[option_index] | handle | append: '.jpg' |  file_img_url: 'thumb' }}" style="background-color:{{ currentColor }};"></div>
+    {% if cssColors contains currentColor %}{% assign is_cssColor = true %}{% else %}{% assign is_cssColor = false %}{% endif %} 
+    <div class="color-select__image colorList-{{ currentColor }}"  {% if is_cssColor %}style="background-color:{{ currentColor }};" {% endif %}></div>
   {% endif %}
   <div class="variant-select__option-label" data-value="{{ product.selected_or_first_available_variant.options[option_index] }}">{{ product.selected_or_first_available_variant.options[option_index] }}</div>
 </div>
@@ -76,7 +77,7 @@
   {% if is_color %}
    {% assign currentColor = value | handle %}
    {% if cssColors contains currentColor %}{% assign is_cssColor = true %}{% else %}{% assign is_cssColor = false %}{% endif %} 
-   <div class="color-select__image lazyfade lazyload" data-bg="{{ value | handle | append: '.jpg' |  file_img_url: 'thumb' }}" style="background-color:{{ currentColor }};"></div>
+   <div class="color-select__image colorList-{{ currentColor }}" {% if is_cssColor %}style="background-color:{{ currentColor }};"  {% endif %}></div>
   {% endif %}
     
   <div class="variant-select__option-label" data-value="{{ value }}">{{ value }}</div>
