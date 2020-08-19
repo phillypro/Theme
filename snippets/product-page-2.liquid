@@ -27,7 +27,7 @@
       {% case media.media_type %}
       {% when 'image' %}
         <div class="image" data-media-id="{{ media.id }}">
-          <img class="lazyload" title="{{ product.title | escape }}" data-src="{{ media | product_img_url: '1024x1024' }}" />
+          <img class="{% unless forloop.first %} lazyload {% endunless %}" title="{{ product.title | escape }}" {% unless forloop.first %}data-{% endunless %}src="{{ media | product_img_url: '1024x1024' }}" />
         </div>        
       {% when 'video' %}
         <div class="video" data-media-id="{{ media.id }}">
@@ -71,7 +71,7 @@
     </div>
   </div>
   <div class="product-form-fixed__right">
-
+              {% section 'Color-List'%}
               <select id="product-select-{{ product.id }}-variant-{{ product.selected_or_first_available_variant.id }}" name="id"> 
                 {% for variant in product.variants %}  
                 <option{% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}">     
