@@ -565,6 +565,7 @@ function runsearchinner() {
    "label":     "Menu Alignment",
    "options": [
      { "value": "left", "label": "Left" },
+     { "value": "center", "label": "Center" },
      { "value": "right", "label": "Right" }
    ],
    "default":   "right"
@@ -839,7 +840,10 @@ padding-top: 8px;
       }  
       &.left {
           margin-right: auto;
-      }   
+      }  
+      &.center {
+          margin: 0 auto;
+      }  
       @include bp(tablet) {
       //max-width:243px;
       }
