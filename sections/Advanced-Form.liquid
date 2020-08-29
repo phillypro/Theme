@@ -86,6 +86,7 @@ body.{{ template | replace: '.', '' }} header .header-wrap .row .logo-wrap a:aft
   border-color:{{ section.settings.label_color }}36;
 }
 .fs-form.advancedform-confirmation .goback a:before { 
+  content:url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='arrow-left' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' class='svg-inline--fa fa-arrow-left fa-w-14 fa-3x'%3E%3Cpath fill='{{ section.settings.label_color | replace: '#', '%23' }}' d='M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z' class=''%3E%3C/path%3E%3C/svg%3E");
   color:{{ section.settings.label_color }};
 }
     
@@ -853,6 +854,7 @@ function checkSubmit() {
 	var url = new URL(window.location.href);
 	var c = url.searchParams.get("contact_posted");
 	if (c) {
+                                                         
 		document.body.classList.add("overview");
 		var form = document.querySelector('#container-{{ randomNumber }} form.fs-form');
 		var wrapper = form.closest('.advancedform-wrapper');
@@ -862,7 +864,8 @@ function checkSubmit() {
 		});
 		var confirmation = getNextSibling(wrapper, '.advancedform-confirmation');
 		$(wrapper).hide(400, function () {
-			form.closest('.container').classList.add('fs-confirmed');
+			form.closest('.container').classList.add('fs-confirmed'); 
+            confirmation.style.visibility = "visible";
 			$(confirmation).show(400);
 		});
 	}
@@ -2542,10 +2545,10 @@ border-width: 1px;
     display: inline-block;
     border-radius: 30px;
         &:before {
-         content:'\f060';
-         font-family:'FontAwesome';
          display:inline-block;
          margin-right:5px;
+    width: 17px;
+    vertical-align: sub;
         }
       }
     } 
@@ -2675,4 +2678,4 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3c03a', end
 
 
  
-{% endjavascript %}          
+{% endjavascript %}               
