@@ -661,6 +661,14 @@ position: absolute;
 {% endcase %}   
       & img, & video {
       width: 100%;
+        
+{% case settings.product_image_size %}     
+ {% when 'none' %}
+ {% else %} 
+    min-height: 100%;
+    object-fit: cover;
+ {% endcase %}         
+        
       }
     }
   }
@@ -726,6 +734,9 @@ position: absolute;
     {% endcase %}
   }
 }
+
+
+
 
 
 /* Shop -------------------------------------------------------------------------------------------------------------*/
@@ -2244,6 +2255,10 @@ display: flex;
   }
 }
 {% endcomment %}
+
+
+
+
 
 
 
