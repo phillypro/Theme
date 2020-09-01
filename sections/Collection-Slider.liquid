@@ -337,23 +337,7 @@ padding-top:25px;
   
 <script>
   
-var videoWraps = document.querySelectorAll('#shopify-section-{{ section.id }} .hasVideo');
- [].forEach.call(videoWraps, function(videoWrap) {
-  // do whatever
-  var video = videoWrap.querySelector('video');
-   if(video) {
-  var videoLi = videoWrap.closest('li');
-  video.addEventListener('canplay', (event) => {
-   videoLi.classList.add('video_loaded');
-   videoLi.addEventListener("mouseover",  (event) => {
-     video.play();
-   });
-   videoLi.addEventListener("mouseout",  (event) => {
-     video.pause();
-   }); 
-  });
-  }
-});  
+
   
   
   
@@ -399,8 +383,10 @@ defersection{{ section.id }}(function () {
 var swiper = new Swiper((container), { 
     spaceBetween: 10,
     slidesPerView: '4',
-    loop: false,
+    loop: true,
+    loopedSlides: 0,
     direction: 'horizontal',
+    
     navigation: {
         nextEl: section.querySelector('.swiper-button-next'),
         prevEl: section.querySelector('.swiper-button-prev'),
@@ -410,6 +396,14 @@ var swiper = new Swiper((container), {
       type: 'bullets',
         clickable: true
     },  
+     on: {
+        init: function(){
+           var el = this.el;
+          setTimeout(function() {
+           checkVideo(el) 
+          });
+        }
+     },
     breakpoints: {
         0: {
             slidesPerView: '{{ mobile_per }}',
@@ -426,6 +420,35 @@ var swiper = new Swiper((container), {
         }
     }
 });  
+      
+function checkVideo(swiper) {
+var videoWraps = swiper.querySelectorAll('.hasVideo');
+ [].forEach.call(videoWraps, function(videoWrap) {
+  // do whatever
+ 
+  var video = videoWrap.querySelector('video');
+   if(video) {
+  var videoLi = videoWrap.closest('li');
+  
+  video.oncanplay = (event) => {
+   videoLi.classList.add('video_loaded');
+  };
+  videoLi.addEventListener("mouseover",  (event) => {
+    if(video.readyState >= 3) {
+    videoLi.classList.add('video_loaded');
+    }
+     video.play();
+     
+   });
+  videoLi.addEventListener("mouseout",  (event) => {
+     video.pause();
+   });    
+     
+  }
+});    
+  
+}  
+      
 });
 </script>
 {% schema %}
@@ -815,7 +838,7 @@ margin-bottom:0px;
 }
 
 & .show-more {
-margin-top: 20px;
+margin: 20px auto;
 & a {
 padding: 15px 20px;
     border-radius: 10px;
