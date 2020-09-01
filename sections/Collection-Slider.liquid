@@ -1,3 +1,38 @@
+{% unless section.settings.enablebuynow %}
+{% assign buynowtext = settings.buynowtext %}
+{% else %}
+{% assign buynowtext = section.settings.buynowtext %}
+{% style %}
+#shopify-section-{{ section.id }} .collection-featured li.product a.buynow  {
+color:{{ section.settings.buynowcolor}};
+ {% case settings.buy_now_button %}
+    {% when 'hide' %}
+     display:none;
+    {% when 'button' %}
+     background:{{ section.settings.buynowbackground }};
+     border-radius: 48px;
+     padding: 11px 35px;
+     display: inline-block;
+     margin: 20px 0 0 0; 
+     @media (max-width: 600px) {
+       padding: 11px 20px;
+     }
+    {% when 'link' %}
+     display: inline-block;
+     margin: 11px 0 0 0;
+     padding:0px;
+     @media (max-width: 600px) {
+       padding:0px;
+     }
+    {% endcase %}
+}
+
+
+
+{% endstyle %}
+{% endunless %}
+
+
 <div class="collection-slider">
 <div class="row title">
   <div class="column">
@@ -9,14 +44,18 @@
 </div>
 
 
-  
+ 
 <div class="carousel">  
 <div class="swiper-button-prev"></div>   
+  
+<div class="swiper-container-wrapper">  
+<div class="swiper-pagination"></div>    
 <div class="swiper-container">
 
 <ul class=" swiper-wrapper">
   
 {% assign products_per = section.settings.products_per | plus: 0 %}    
+{% assign mobile_per = section.settings.mobile_per | plus: 0 %}  
 {% if section.settings.collection != nil %}
 {% assign thecollection = section.settings.collection %}
 {% else %}
@@ -24,23 +63,90 @@
 {% endif %}  
  
 {% if thecollection.size > 0 %}
-{% for product in collections[thecollection].products %}  
+{% assign products_limit = products_per | times: 2 %} 
+{% for product in collections[thecollection].products limit: products_limit %}  
   
- <li itemscope itemtype="http://schema.org/Product" data-id="{{ product.id }}" class="text-center product swiper-slide  {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
-       <a href="{{ product.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>
-       <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %} imgswitch {% case settings.product_image_hover %}{% when 'fade' %}fade{% when 'scroll' %}scroll{% endcase %}{% endif %}">
-         <div class="inner">
-         {% if product.featured_image %}<img class="{% unless settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}hvr-grow{% endunless %} lazyload" data-sizes="auto" data-src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
+  
+  
+{% assign hasVideo = false %}
+ {% for media in product.media %}
+  {% case media.media_type %}
+    {% when 'video' %}
+     {% capture videoTag %}{{ media | video_tag: controls:false,autoplay:false,muted:true,loop:true }}{% endcapture %}
+     {% assign hasVideo = true %}
+  {% endcase %}
+ {% endfor %}
+
+ {% for media in product.media %}
+  {% case media.media_type %}
+    {% when 'image' %}
+
+  {% endcase %}
+ {% endfor %}
+  
+
+<li data-id="{{ product.id }}" class="product swiper-slide">
+  <div itemscope itemtype="http://schema.org/Product" data-video="{{ hasVideo }}" class="text-center {% if on_sale %} on-sale{% endif %}">
+ <a href="{{ product.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>     
+   {% if hasVideo %}
+   <div class="video-preloader">
+     <svg width="30px" height="30px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-rolling" style="background: none;"><circle cx="50" cy="50" fill="none" ng-attr-stroke="" ng-attr-stroke-width="" ng-attr-r="" ng-attr-stroke-dasharray="" stroke="#000000" stroke-width="10" r="25" stroke-dasharray="117.80972450961724 41.269908169872416" transform="rotate(41.2639 50 50)"><animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;360 50 50" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animateTransform></circle></svg>
+   </div> 
+   {% endif %}
+   <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %} {% if hasVideo %} hasVideo {% endif %}  imgswitch {% case settings.product_image_hover %}{% when 'fade' %}fade{% when 'scroll' %}{% if hasVideo %} fade {% else %} scroll {% endif %}{% endcase %}{% endif %}">
+     <div class="inner">
+       {% if product.featured_image %}<img class="{% unless settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}hvr-grow{% endunless %} lazyload" data-sizes="auto" data-src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %} 
+     </div>
+     
+     {% unless hasVideo %}
+     {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}
+     <div class="inner">
+       <img class="lazyload" data-sizes="auto" data-src="{{ product.images[1] | product_img_url: 'large' }}" />
+     </div>
+     {% endif %}
+     {% else %}
+     <div class="inner">
+       {{ videoTag }}
+     </div> 
+     {% endunless %}
+   </div>
+ </a>
+    
+   <h3><span>{{ product.title }}</span></h3>
+       
+        <div class="h1 medium-down--left">
+          {% if product.price_max > product.price %}
+           <span class="currPrice">{% include 'price' with product.price_min %}</span> {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }} </span>{% endif %}
+        {% else %}
+           <span class="currPrice">{% include 'price' with product.price %}</span>   {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }}</span> {% endif %}
+        {% endif %}
+        {% if on_sale %}
+          <div class="salew">
+            <span class="sale-tag medium-down--right{% if settings.product_reviews_enable %} has-reviews{% endif %}">
+              {% assign compare_price = product.compare_at_price %}
+              {% assign product_price = product.price %}
+              {% include 'price-sale' %}
+            </span>
          </div>
-         {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}
-         <div class="inner">
-            <img class="lazyload" data-sizes="auto" data-src="{{ product.images[1] | product_img_url: 'large' }}" />
+        {% endif %}  
+        {% unless product.available %}
+          <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
+        {% endunless %} 
+       </div>
+         
+        {% if section.settings.desc %}
+         <div class="desc">
+           {{ product.description | strip_html | truncate: 300, ", ..." }}
          </div>
          {% endif %}
-       </div>
        </a> 
-       <a href="{{ product.url }}" class="buynow" {% if settings.disableproductajax %}rel="external"{% endif %}>{{ buynowtext }}</a>
-     </li>  
+        <a href="{{ product.url }}" class="buynow" {% if settings.disableproductajax %}rel="external"{% endif %}>{{ buynowtext }}</a>     
+</div>
+</li>     
+
+
+  
+  
 {% endfor %}
   
 {% else %}
@@ -122,12 +228,35 @@
  {% endif %}  
 </ul>  
   
-</div>
+</div> 
+  </div>  
 <div class="swiper-button-next"></div> 
 </div>   
+ 
 </div>
   
 <script>
+  
+var videoWraps = document.querySelectorAll('#shopify-section-{{ section.id }} .hasVideo');
+ [].forEach.call(videoWraps, function(videoWrap) {
+  // do whatever
+  var video = videoWrap.querySelector('video');
+   if(video) {
+  var videoLi = videoWrap.closest('li');
+  video.addEventListener('canplay', (event) => {
+   videoLi.classList.add('video_loaded');
+   videoLi.addEventListener("mouseover",  (event) => {
+     video.play();
+   });
+   videoLi.addEventListener("mouseout",  (event) => {
+     video.pause();
+   }); 
+  });
+  }
+});  
+  
+  
+  
   var callbacksection{{ section.id }} = function(){
   // Handler when the DOM is fully loaded
   if(!window.Swiper) {
@@ -163,6 +292,7 @@ function defersection{{ section.id }}(methodsection{{ section.id }}) {
 }
 defersection{{ section.id }}(function () {   
 
+  var section = document.querySelector('#shopify-section-{{ section.id }}');
   var container = document.querySelector('#shopify-section-{{ section.id }} .swiper-container');
 
 
@@ -172,12 +302,18 @@ var swiper = new Swiper((container), {
     loop: false,
     direction: 'horizontal',
     navigation: {
-        nextEl: container.querySelector('.swiper-button-next'),
-        prevEl: container.querySelector('.swiper-button-prev'),
+        nextEl: section.querySelector('.swiper-button-next'),
+        prevEl: section.querySelector('.swiper-button-prev'),
     },
+   pagination: {
+      el: section.querySelector('.swiper-pagination'),
+      type: 'bullets',
+        clickable: true
+    },  
     breakpoints: {
         0: {
-            slidesPerView: '2.2',
+            slidesPerView: '{{ mobile_per }}',
+              slidesPerGroup: '{{ mobile_per }}',
             spaceBetween: 10,
             speed: 500,
         },    
@@ -186,6 +322,7 @@ var swiper = new Swiper((container), {
         },
         1600: {
           slidesPerView: '{{ products_per }}',
+          slidesPerGroup: '{{ products_per }}',
         }
     }
 });  
@@ -257,10 +394,21 @@ var swiper = new Swiper((container), {
       { "value": "2", "label": "2 Products"},
       { "value": "3", "label": "3 Products"},
       { "value": "4", "label": "4 Products"},
-      { "value": "6", "label": "6 Products"}
+      { "value": "5", "label": "5 Products"}
    ],
-   "default": "4",
-   "label": "Show how many at a time?"
+   "default": "5",
+   "label": "Desktop Products Per View"
+},
+{
+   "type": "select",
+   "id": "mobile_per",
+   "options": [
+      { "value": "1", "label": "1"},
+      { "value": "1.2", "label": "1.2"},
+      { "value": "2.2", "label": "2.2"}
+   ],
+   "default": "2.2",
+   "label": "Mobile Products Per View"
 },
 {
 "type": "checkbox",
@@ -471,18 +619,66 @@ var swiper = new Swiper((container), {
   }
 
 & .carousel {
-display: flex;
-align-items: center;
+ display:flex;
     margin: 0 auto;
+align-items: center;
 @include bp(phablet) {
     margin: 0 auto 0 25px;
 }
+& .swiper-container-wrapper {
+width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    z-index: 1;
+& .swiper-pagination {
+position: relative;
+text-align: right;
+    padding: 5px 5px;
+ & .swiper-pagination-bullet {
+background: transparent;
+height: 30px;
+width: 30px;
+position:relative;
+&:before {
+content:'';
+background-color: #959595;
+    border: 2px solid transparent;
+    border-radius: 12px;
+transition: width .4s,height .4s,border-color .4s,border-width .4s,background-color .4s;
+    width: 6px;
+height: 6px;
+display: block;
+position: absolute;
+left:0;
+    right: 0;
+    top: 0;
+bottom:0;
+margin:auto;
+}
+&.swiper-pagination-bullet-active {
+&:before {
+background-color: transparent;
+    border: 2px solid #000;
+    height: 14px;
+    width: 14px;
+}
+}
+}
+}
+& .swiper-container {
+width: 100%;
    & .swiper-wrapper {
 margin-left:0;
 margin-right:0;
 padding: 0;
 & li.product {
 margin-bottom:0px;
+}
+}
 }
 }
    & .swiper-button-next {
@@ -492,6 +688,7 @@ margin-bottom:0px;
      left:auto;
    }
    & .swiper-button-next, & .swiper-button-prev {
+   color:#000;
    position: relative;
    width: auto;
    @include bp(phablet) {
@@ -533,4 +730,6 @@ opacity:0.2;
 
 {% javascript %}       
  
-{% endjavascript %}                  
+{% endjavascript %}                                      
+
+ 
