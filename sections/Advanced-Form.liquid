@@ -639,7 +639,7 @@ var submitButton = container.querySelector( '.fs-submit' );
   
   
   function sendSlack(data, webhook) {
-    return postData(webhook, 'payload=' + JSON.stringify(data))
+    return postData(webhook, decodeURIComponent(data))
     .then((data) => {
       console.log(data); 
       return true;
@@ -2678,4 +2678,4 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3c03a', end
 
 
  
-{% endjavascript %}               
+{% endjavascript %}                  
