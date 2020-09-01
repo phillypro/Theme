@@ -71,7 +71,21 @@
 {% endif %}  
   {% for product in collection.products %}
   
-  
+{% assign hasVideo = false %}
+ {% for media in product.media %}
+  {% case media.media_type %}
+    {% when 'video' %}
+     {% capture videoTag %}{{ media | video_tag: controls:false,autoplay:false,muted:true,loop:true }}{% endcapture %}
+     {% assign hasVideo = true %}
+  {% endcase %}
+ {% endfor %}
+
+ {% for media in product.media %}
+  {% case media.media_type %}
+    {% when 'image' %}
+
+  {% endcase %}
+ {% endfor %}  
   
   
 {% if product.type == "OPTIONS_HIDDEN_PRODUCT" %}{% continue %}{% endif %}
@@ -80,59 +94,78 @@
 {% if product.compare_at_price > product.price %}
 {% assign on_sale = true %}
 {% endif %}
+
+  
+  
+  
 <li itemscope itemtype="http://schema.org/Product" data-id="{{ product.id }}" class="text-center columns {{ sizes }} small-6 product {% if product.type contains 'book' %}book{% endif %} {% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}">
-   <a href="{{ product.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>
-         
+   
+  
+  <div itemscope itemtype="http://schema.org/Product" data-video="{{ hasVideo }}" class="text-center {% if on_sale %} on-sale{% endif %}">
+ <a href="{{ product.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>     
+   {% if hasVideo %}
+   <div class="video-preloader">
+     <svg width="30px" height="30px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-rolling" style="background: none;"><circle cx="50" cy="50" fill="none" ng-attr-stroke="" ng-attr-stroke-width="" ng-attr-r="" ng-attr-stroke-dasharray="" stroke="#000000" stroke-width="10" r="25" stroke-dasharray="117.80972450961724 41.269908169872416" transform="rotate(41.2639 50 50)"><animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;360 50 50" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animateTransform></circle></svg>
+   </div> 
+   {% endif %}
+   <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %} {% if hasVideo %} hasVideo {% endif %}  imgswitch {% case settings.product_image_hover %}{% when 'fade' %}fade{% when 'scroll' %}{% if hasVideo %} fade {% else %} scroll {% endif %}{% endcase %}{% endif %}">
+     <div class="inner">
+       {% if product.featured_image %}<img class="{% unless settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}hvr-grow{% endunless %} lazyload" data-sizes="auto" data-src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %} 
+     </div>
      
-       <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %} imgswitch {% case settings.product_image_hover %}{% when 'fade' %}fade{% when 'scroll' %}scroll{% endcase %}{% endif %}">
-         <div class="inner">
-         {% if product.featured_image %}<img class="{% unless settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}hvr-grow{% endunless %} lazyload" data-sizes="auto" data-src="{{ product.featured_image | img_url: '1024x1024' }}" />{% endif %}
-         </div>
-         {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}
-         <div class="inner">
-            <img class="lazyload" data-sizes="auto" data-src="{{ product.images[1] | product_img_url: 'large' }}" />
-         </div>
-         {% endif %}
-       </div>
-     
-     
-      <h3>{{ product.title }}</h3>
-     
-         {% if settings.stamped and section.settings.showrating %}
-         <span class=" stamped-product-reviews-badge" data-product-sku="{{ product.handle }}" data-id="{{ product.id }}" data-product-type="{{product.type}}" data-product-title="{{product.title}}"  style="display:block;">{{ product.metafields.stamped.badge }}</span>
-         {% endif %}
-     
-       <div class="h1 medium-down--left">
+     {% unless hasVideo %}
+     {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product.images.size > 1  %}
+     <div class="inner">
+       <img class="lazyload" data-sizes="auto" data-src="{{ product.images[1] | product_img_url: 'large' }}" />
+     </div>
+     {% endif %}
+     {% else %}
+     <div class="inner">
+       {{ videoTag }}
+     </div> 
+     {% endunless %}
+   </div>
+ </a>
+    
+   <h3><span>{{ product.title }}</span></h3>
+       
+        <div class="h1 medium-down--left">
           {% if product.price_max > product.price %}
            <span class="currPrice">{% include 'price' with product.price_min %}</span> {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }} </span>{% endif %}
         {% else %}
            <span class="currPrice">{% include 'price' with product.price %}</span>   {% if on_sale %}<span class="oldPrice"> {{ product.compare_at_price | money }}</span> {% endif %}
         {% endif %}
-         {% unless product.available %}
-          <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
-        {% endunless %}  
-         {% if on_sale %}
-      <div class="salew">
-         <span class="sale-tag medium-down--right{% if settings.product_reviews_enable %} has-reviews{% endif %}">
-         {% assign compare_price = product.compare_at_price %}
-         {% assign product_price = product.price %}
-         {% include 'price-sale' %}
-         </span>
-      </div>
-      {% endif %} 
+        {% if on_sale %}
+          <div class="salew">
+            <span class="sale-tag medium-down--right{% if settings.product_reviews_enable %} has-reviews{% endif %}">
+              {% assign compare_price = product.compare_at_price %}
+              {% assign product_price = product.price %}
+              {% include 'price-sale' %}
+            </span>
          </div>
-     
-   </a>
-  
-  
-          {% if section.settings.desc %}
+        {% endif %}  
+        {% unless product.available %}
+          <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
+        {% endunless %} 
+       </div>
+         
+        {% if section.settings.desc %}
          <div class="desc">
-           {{ product.description | truncate: 300, ", ..." }}
+           {{ product.description | strip_html | truncate: 300, ", ..." }}
          </div>
          {% endif %}
+       </a> 
+        <a href="{{ product.url }}" class="buynow" {% if settings.disableproductajax %}rel="external"{% endif %}>{{ buynowtext }}</a>     
+</div>  
   
-   <a href="{{ product.url }}" class="buynow add-product" {% if settings.disableproductajax %}rel="external"{% endif %}>{{ settings.buynowtext }}</a>
-</li>
+  
+  
+  
+  
+  
+  
+  
+  </li>
    
   
   
@@ -154,6 +187,38 @@
 
 
 <script> 
+  
+  
+
+
+var videoWraps = document.querySelectorAll('.collection-{{ randomNumber }}   .hasVideo');
+ [].forEach.call(videoWraps, function(videoWrap) {
+  // do whatever
+ 
+  var video = videoWrap.querySelector('video');
+   if(video) {
+  var videoLi = videoWrap.closest('li');
+  
+  video.oncanplay = (event) => {
+   videoLi.classList.add('video_loaded');
+  };
+  videoLi.addEventListener("mouseover",  (event) => {
+    if(video.readyState >= 3) {
+    videoLi.classList.add('video_loaded');
+    }
+     video.play();
+     
+   });
+  videoLi.addEventListener("mouseout",  (event) => {
+     video.pause();
+   });    
+     
+  }
+});    
+  
+ 
+  
+  
 var callbackCollection{{ collection.id }} = function(){
   // Handler when the DOM is fully loaded
   if(!window.InfiniteScroll) {
