@@ -13,7 +13,14 @@
    {% assign block_color_handle = block.settings.title | handleize %}
      {% if block_color_handle == current_color_handle %}
         .colorList-{{ block.settings.title | handleize }} {
+            {% capture backgroundimage %}{{ block.settings.color_image | img_url: 'thumb' }}{% endcapture %}    
+            {% if backgroundimage contains 'no-image' %}  
            background-color:{{ block.settings.color }};
+           {% else %}
+           background-color:transparent;
+           background-image:url('{{ block.settings.color_image | img_url: 'thumb'  }}');
+           background-size: cover;
+           {% endif %}
         }
      {% endif %}
     {% endcase %}
@@ -29,8 +36,15 @@
    {% case block.type %}
       {% when 'Color' %}
        {% assign block_color_handle = block.settings.title | handleize %}
-        .colorList-{{ block.settings.title | handleize }} {
+     .colorList-{{ block.settings.title | handleize }} {
+      {% capture backgroundimage %}{{ block.settings.color_image | img_url: 'thumb' }}{% endcapture %}    
+      {% if backgroundimage contains 'no-image' %}  
            background-color:{{ block.settings.color }};
+           {% else %}
+           background-color:transparent;
+           background-image:url('{{ block.settings.color_image | img_url: 'thumb'  }}');
+           background-size: cover;
+           {% endif %}
         }
     {% endcase %}
 {% endfor %}
