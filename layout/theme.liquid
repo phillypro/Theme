@@ -121,6 +121,7 @@ visibility:visible;
   
 <body id="{{ page_title | handle }}"  class="ui-pagecontainer ui-mobile-viewport ui-overlay-a {% if customer %}customer-logged-in {% endif %} {% if cart.item_count > 0 %}hasitem{% endif %} {{ template }}">
 {% render 'Favicon-and-Scrollbar' %}
+{% section 'Color-List' %}  
     
 
 {% assign page_title_handle = page_title | handle %}
