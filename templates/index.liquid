@@ -1,4 +1,2 @@
 {% comment %}{% section 'Stories' %}{% endcomment %}
-{% capture colorList %}{% section 'Color-List' %}{% endcapture %} 
-{% assign content_for_index_edit = content_for_index | replace: '%%colorList%%', colorList %}
-{{ content_for_index_edit }}
+{{ content_for_index }}
