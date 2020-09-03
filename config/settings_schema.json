@@ -73,6 +73,10 @@
           {
             "value": "header_side",
             "label": "Header with Side Menu"
+          },
+          {
+            "value": "header_middle_logo",
+            "label": "Header with Middle Logo"
           }
         ],
         "default": "header_bottom"
