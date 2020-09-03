@@ -93,7 +93,7 @@ font-size:{{ section.settings.link_size }}%;
          
          
          
-         {% for link in linklists.main-menu.links %}
+         {% for link in linklists[section.settings.menu].links %}
          {% if linklists[link.handle] == empty %}
         {% if link.title == 'Catalog' %}
          {% else %}
@@ -183,6 +183,12 @@ document.documentElement.style.height = vpH.toString() + "px";
     "settings": [{
    "type":      "header",
    "content":   "Menu Options"
+},
+{
+   "type":"link_list",
+   "id": "menu",
+   "default": "main-menu",
+   "label": "Linklist"
 },
 {
     "type": "font_picker",
