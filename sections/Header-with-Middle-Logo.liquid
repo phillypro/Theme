@@ -309,7 +309,7 @@ height: auto;
   {% if linkcount == halfCount %}
       <li class="text-center logo-wrap columns">
         <!--logo-->
-        <a href="/" title="{{ shop.name }}">
+        <a href="/" title="{{ shop.name }}" link-title="{{ shop.name }}">
           {% if section.settings.brand_logo_svg != '' %}
             {{ section.settings.brand_logo_svg }}
           {% else %}
