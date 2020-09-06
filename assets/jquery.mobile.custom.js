@@ -2584,240 +2584,579 @@ return $.widget( "mobile.loader", $.mobile.loader, $.mobile.widget.theme );
     function(t) {
         typeof define == "function" && define.amd ? define("jquery-ui/widgets/accordion", ["jquery", "../version", "../keycode", "../unique-id", "../widget"], t) : t(e)
     }(function(e) {
-        return e.widget("ui.accordion", {
-            version: "1.12.1",
-            options: {
-                active: false,
-                animate: {},
-                classes: {
-                    "ui-accordion-header": "ui-corner-top",
-                    "ui-accordion-header-collapsed": "ui-corner-all",
-                    "ui-accordion-content": "ui-corner-bottom"
-                },
-                collapsible: !1,
-                event: "click",
-                header: "> li > :first-child, > div > :not(li):even",
-                heightStyle: "auto",
-                icons: {
-                    activeHeader: "ui-icon-triangle-1-s",
-                    header: "ui-icon-triangle-1-e"
-                },
-                activate: null,
-                beforeActivate: null
-            },
-            hideProps: {
-                borderTopWidth: "hide",
-                borderBottomWidth: "hide",
-                paddingTop: "hide",
-                paddingBottom: "hide",
-                height: "hide"
-            },
-            showProps: {
-                borderTopWidth: "show",
-                borderBottomWidth: "show",
-                paddingTop: "show",
-                paddingBottom: "show",
-                height: "show"
-            },
-            _create: function() {
-                var t = this.options;
-                this.prevShow = this.prevHide = e(), this._addClass("ui-accordion", "ui-widget ui-helper-reset"), this.element.attr("role", "tablist"), !t.collapsible && (t.active === !1 || t.active == null) && (t.active = 0), this._processPanels(), t.active < 0 && (t.active += this.headers.length), this._refresh()
-            },
-            _getCreateEventData: function() {
-                return {
-                    header: this.active,
-                    panel: this.active.length ? this.active.next() : e()
-                }
-            },
-            _createIcons: function() {
-                var t, n, r = this.options.icons;
-                r && (t = e("<span>"), this._addClass(t, "ui-accordion-header-icon", "ui-icon " + r.header), t.prependTo(this.headers), n = this.active.children(".ui-accordion-header-icon"), this._removeClass(n, r.header)._addClass(n, null, r.activeHeader)._addClass(this.headers, "ui-accordion-icons"))
-            },
-            _destroyIcons: function() {
-                this._removeClass(this.headers, "ui-accordion-icons"), this.headers.children(".ui-accordion-header-icon").remove()
-            },
-            _destroy: function() {
-                var e;
-                this.element.removeAttr("role"), this.headers.removeAttr("role aria-expanded aria-selected aria-controls tabIndex").removeUniqueId(), this._destroyIcons(), e = this.headers.next().css("display", "").removeAttr("role aria-hidden aria-labelledby").removeUniqueId(), this.options.heightStyle !== "content" && e.css("height", "")
-            },
-            _setOption: function(e, t) {
-                if (e === "active") {
-                    this._activate(t);
-                    return
-                }
-                e === "event" && (this.options.event && this._off(this.headers, this.options.event), this._setupEvents(t)), this._super(e, t), e === "collapsible" && !t && this.options.active === !1 && this._activate(0), e === "icons" && (this._destroyIcons(), t && this._createIcons())
-            },
-            _setOptionDisabled: function(e) {
-                this._super(e), this.element.attr("aria-disabled", e), this._toggleClass(null, "ui-state-disabled", !!e), this._toggleClass(this.headers.add(this.headers.next()), null, "ui-state-disabled", !!e)
-            },
-            _keydown: function(t) {
-                if (t.altKey || t.ctrlKey) return;
-                var n = e.ui.keyCode,
-                    r = this.headers.length,
-                    i = this.headers.index(t.target),
-                    s = !1;
-                switch (t.keyCode) {
-                    case n.RIGHT:
-                    case n.DOWN:
-                        s = this.headers[(i + 1) % r];
-                        break;
-                    case n.LEFT:
-                    case n.UP:
-                        s = this.headers[(i - 1 + r) % r];
-                        break;
-                    case n.SPACE:
-                    case n.ENTER:
-                        this._eventHandler(t);
-                        break;
-                    case n.HOME:
-                        s = this.headers[0];
-                        break;
-                    case n.END:
-                        s = this.headers[r - 1]
-                }
-                s && (e(t.target).attr("tabIndex", -1), e(s).attr("tabIndex", 0), e(s).trigger("focus"), t.preventDefault())
-            },
-            _panelKeyDown: function(t) {
-                t.keyCode === e.ui.keyCode.UP && t.ctrlKey && e(t.currentTarget).prev().trigger("focus")
-            },
-            refresh: function() {
-                var t = this.options;
-                this._processPanels(), t.active === !1 && t.collapsible === !0 || !this.headers.length ? (t.active = !1, this.active = e()) : t.active === !1 ? this._activate(0) : this.active.length && !e.contains(this.element[0], this.active[0]) ? this.headers.length === this.headers.find(".ui-state-disabled").length ? (t.active = !1, this.active = e()) : this._activate(Math.max(0, t.active - 1)) : t.active = this.headers.index(this.active), this._destroyIcons(), this._refresh()
-            },
-            _processPanels: function() {
-                var e = this.headers,
-                    t = this.panels;
-                this.headers = this.element.find(this.options.header), this._addClass(this.headers, "ui-accordion-header ui-accordion-header-collapsed", "ui-state-default"), this.panels = this.headers.next().filter(":not(.ui-accordion-content-active)").hide(), this._addClass(this.panels, "ui-accordion-content", "ui-helper-reset ui-widget-content"), t && (this._off(e.not(this.headers)), this._off(t.not(this.panels)))
-            },
-            _refresh: function() {
-                var t, n = this.options,
-                    r = n.heightStyle,
-                    i = this.element.parent();
-                this.active = this._findActive(n.active), this._addClass(this.active, "ui-accordion-header-active", "ui-state-active")._removeClass(this.active, "ui-accordion-header-collapsed"), this._addClass(this.active.next(), "ui-accordion-content-active"), this.active.next().show(), this.headers.attr("role", "tab").each(function() {
-                    var t = e(this),
-                        n = t.uniqueId().attr("id"),
-                        r = t.next(),
-                        i = r.uniqueId().attr("id");
-                    t.attr("aria-controls", i), r.attr("aria-labelledby", n)
-                }).next().attr("role", "tabpanel"), this.headers.not(this.active).attr({
-                    "aria-selected": "false",
-                    "aria-expanded": "false",
-                    tabIndex: -1
-                }).next().attr({
-                    "aria-hidden": "true"
-                }).hide(), this.active.length ? this.active.attr({
-                    "aria-selected": "true",
-                    "aria-expanded": "true",
-                    tabIndex: 0
-                }).next().attr({
-                    "aria-hidden": "false"
-                }) : this.headers.eq(0).attr("tabIndex", 0), this._createIcons(), this._setupEvents(n.event), r === "fill" ? (t = i.height(), this.element.siblings(":visible").each(function() {
-                    var n = e(this),
-                        r = n.css("position");
-                    if (r === "absolute" || r === "fixed") return;
-                    t -= n.outerHeight(!0)
-                }), this.headers.each(function() {
-                    t -= e(this).outerHeight(!0)
-                }), this.headers.next().each(function() {
-                    e(this).height(Math.max(0, t - e(this).innerHeight() + e(this).height()))
-                }).css("overflow", "auto")) : r === "auto" && (t = 0, this.headers.next().each(function() {
-                    var n = e(this).is(":visible");
-                    n || e(this).show(), t = Math.max(t, e(this).css("height", "").height()), n || e(this).hide()
-                }).height(t))
-            },
-            _activate: function(t) {
-                var n = this._findActive(t)[0];
-                if (n === this.active[0]) return;
-                n = n || this.active[0], this._eventHandler({
-                    target: n,
-                    currentTarget: n,
-                    preventDefault: e.noop
-                })
-            },
-            _findActive: function(t) {
-                return typeof t == "number" ? this.headers.eq(t) : e()
-            },
-            _setupEvents: function(t) {
-                var n = {
-                    keydown: "_keydown"
-                };
-                t && e.each(t.split(" "), function(e, t) {
-                    n[t] = "_eventHandler"
-                }), this._off(this.headers.add(this.headers.next())), this._on(this.headers, n), this._on(this.headers.next(), {
-                    keydown: "_panelKeyDown"
-                }), this._hoverable(this.headers), this._focusable(this.headers)
-            },
-            _eventHandler: function(t) {
-                var n, r, i = this.options,
-                    s = this.active,
-                    o = e(t.currentTarget),
-                    u = o[0] === s[0],
-                    a = u && i.collapsible,
-                    f = a ? e() : o.next(),
-                    l = s.next(),
-                    c = {
-                        oldHeader: s,
-                        oldPanel: l,
-                        newHeader: a ? e() : o,
-                        newPanel: f
-                    };
-                t.preventDefault();
-                if (u && !i.collapsible || this._trigger("beforeActivate", t, c) === !1) return;
-                i.active = a ? !1 : this.headers.index(o), this.active = u ? e() : o, this._toggle(c), this._removeClass(s, "ui-accordion-header-active", "ui-state-active"), i.icons && (n = s.children(".ui-accordion-header-icon"), this._removeClass(n, null, i.icons.activeHeader)._addClass(n, null, i.icons.header)), u || (this._removeClass(o, "ui-accordion-header-collapsed")._addClass(o, "ui-accordion-header-active", "ui-state-active"), i.icons && (r = o.children(".ui-accordion-header-icon"), this._removeClass(r, null, i.icons.header)._addClass(r, null, i.icons.activeHeader)), this._addClass(o.next(), "ui-accordion-content-active"))
-            },
-            _toggle: function(t) {
-                var n = t.newPanel,
-                    r = this.prevShow.length ? this.prevShow : t.oldPanel;
-                this.prevShow.add(this.prevHide).stop(!0, !0), this.prevShow = n, this.prevHide = r, this.options.animate ? this._animate(n, r, t) : (r.hide(), n.show(), this._toggleComplete(t)), r.attr({
-                    "aria-hidden": "true"
-                }), r.prev().attr({
-                    "aria-selected": "false",
-                    "aria-expanded": "false"
-                }), n.length && r.length ? r.prev().attr({
-                    tabIndex: -1,
-                    "aria-expanded": "false"
-                }) : n.length && this.headers.filter(function() {
-                    return parseInt(e(this).attr("tabIndex"), 10) === 0
-                }).attr("tabIndex", -1), n.attr("aria-hidden", "false").prev().attr({
-                    "aria-selected": "true",
-                    "aria-expanded": "true",
-                    tabIndex: 0
-                })
-            },
-            _animate: function(e, t, n) {
-                var r, i, s, o = this,
-                    u = 0,
-                    a = e.css("box-sizing"),
-                    f = e.length && (!t.length || e.index() < t.index()),
-                    l = this.options.animate || {},
-                    c = f && l.down || l,
-                    h = function() {
-                        o._toggleComplete(n)
-                    };
-                typeof c == "number" && (s = c), typeof c == "string" && (i = c), i = i || c.easing || l.easing, s = s || c.duration || l.duration;
-                if (!t.length) return e.animate(this.showProps, s, i, h);
-                if (!e.length) return t.animate(this.hideProps, s, i, h);
-                r = e.show().outerHeight(), t.animate(this.hideProps, {
-                    duration: s,
-                    easing: i,
-                    step: function(e, t) {
-                        t.now = Math.round(e)
-                    }
-                }), e.hide().animate(this.showProps, {
-                    duration: s,
-                    easing: i,
-                    complete: h,
-                    step: function(e, n) {
-                        n.now = Math.round(e), n.prop !== "height" ? a === "content-box" && (u += n.now) : o.options.heightStyle !== "content" && (n.now = Math.round(r - t.outerHeight() - u), u = 0)
-                    }
-                })
-            },
-            _toggleComplete: function(e) {
-                var t = e.oldPanel,
-                    n = t.prev();
-                this._removeClass(t, "ui-accordion-content-active"), this._removeClass(n, "ui-accordion-header-active")._addClass(n, "ui-accordion-header-collapsed"), t.length && (t.parent()[0].className = t.parent()[0].className), this._trigger("activate", null, e)
-            }
-        })
+ return $.widget( "ui.accordion", {
+	version: "1.12.1",
+	options: {
+		active: 0,
+		animate: {},
+		classes: {
+			"ui-accordion-header": "ui-corner-top",
+			"ui-accordion-header-collapsed": "ui-corner-all",
+			"ui-accordion-content": "ui-corner-bottom"
+		},
+		collapsible: false,
+		event: "click",
+		header: "> li > :first-child, > div > :first-child",
+		heightStyle: "auto",
+		icons: {
+			activeHeader: "ui-icon-triangle-1-s",
+			header: "ui-icon-triangle-1-e"
+		},
+
+		// Callbacks
+		activate: null,
+		beforeActivate: null
+	},
+
+	hideProps: {
+		borderTopWidth: "hide",
+		borderBottomWidth: "hide",
+		paddingTop: "hide",
+		paddingBottom: "hide",
+		height: "hide"
+	},
+
+	showProps: {
+		borderTopWidth: "show",
+		borderBottomWidth: "show",
+		paddingTop: "show",
+		paddingBottom: "show",
+		height: "show"
+	},
+
+	_create: function() {
+		var options = this.options;
+
+		this.prevShow = this.prevHide = $();
+		this._addClass( "ui-accordion", "ui-widget ui-helper-reset" );
+		this.element.attr( "role", "tablist" );
+
+		// Don't allow collapsible: false and active: false / null
+		if ( !options.collapsible && ( options.active === false || options.active == null ) ) {
+			options.active = 0;
+		}
+
+		this._processPanels();
+
+		// handle negative values
+		if ( options.active < 0 ) {
+			options.active += this.headers.length;
+		}
+		this._refresh();
+	},
+
+	_getCreateEventData: function() {
+		return {
+			header: this.active,
+			panel: !this.active.length ? $() : this.active.next()
+		};
+	},
+
+	_createIcons: function() {
+		var icon, children,
+			icons = this.options.icons;
+
+		if ( icons ) {
+			icon = $( "<span>" );
+			this._addClass( icon, "ui-accordion-header-icon", "ui-icon " + icons.header );
+			icon.prependTo( this.headers );
+			children = this.active.children( ".ui-accordion-header-icon" );
+			this._removeClass( children, icons.header )
+				._addClass( children, null, icons.activeHeader )
+				._addClass( this.headers, "ui-accordion-icons" );
+		}
+	},
+
+	_destroyIcons: function() {
+		this._removeClass( this.headers, "ui-accordion-icons" );
+		this.headers.children( ".ui-accordion-header-icon" ).remove();
+	},
+
+	_destroy: function() {
+		var contents;
+
+		// Clean up main element
+		this.element.removeAttr( "role" );
+
+		// Clean up headers
+		this.headers
+			.removeAttr( "role aria-expanded aria-selected aria-controls tabIndex" )
+			.removeUniqueId();
+
+		this._destroyIcons();
+
+		// Clean up content panels
+		contents = this.headers.next()
+			.css( "display", "" )
+			.removeAttr( "role aria-hidden aria-labelledby" )
+			.removeUniqueId();
+
+		if ( this.options.heightStyle !== "content" ) {
+			contents.css( "height", "" );
+		}
+	},
+
+	_setOption: function( key, value ) {
+		if ( key === "active" ) {
+
+			// _activate() will handle invalid values and update this.options
+			this._activate( value );
+			return;
+		}
+
+		if ( key === "event" ) {
+			if ( this.options.event ) {
+				this._off( this.headers, this.options.event );
+			}
+			this._setupEvents( value );
+		}
+
+		this._super( key, value );
+
+		// Setting collapsible: false while collapsed; open first panel
+		if ( key === "collapsible" && !value && this.options.active === false ) {
+			this._activate( 0 );
+		}
+
+		if ( key === "icons" ) {
+			this._destroyIcons();
+			if ( value ) {
+				this._createIcons();
+			}
+		}
+	},
+
+	_setOptionDisabled: function( value ) {
+		this._super( value );
+
+		this.element.attr( "aria-disabled", value );
+
+		// Support: IE8 Only
+		// #5332 / #6059 - opacity doesn't cascade to positioned elements in IE
+		// so we need to add the disabled class to the headers and panels
+		this._toggleClass( null, "ui-state-disabled", !!value );
+		this._toggleClass( this.headers.add( this.headers.next() ), null, "ui-state-disabled",
+			!!value );
+	},
+
+	_keydown: function( event ) {
+		if ( event.altKey || event.ctrlKey ) {
+			return;
+		}
+
+		var keyCode = $.ui.keyCode,
+			length = this.headers.length,
+			currentIndex = this.headers.index( event.target ),
+			toFocus = false;
+
+		switch ( event.keyCode ) {
+		case keyCode.RIGHT:
+		case keyCode.DOWN:
+			toFocus = this.headers[ ( currentIndex + 1 ) % length ];
+			break;
+		case keyCode.LEFT:
+		case keyCode.UP:
+			toFocus = this.headers[ ( currentIndex - 1 + length ) % length ];
+			break;
+		case keyCode.SPACE:
+		case keyCode.ENTER:
+			this._eventHandler( event );
+			break;
+		case keyCode.HOME:
+			toFocus = this.headers[ 0 ];
+			break;
+		case keyCode.END:
+			toFocus = this.headers[ length - 1 ];
+			break;
+		}
+
+		if ( toFocus ) {
+			$( event.target ).attr( "tabIndex", -1 );
+			$( toFocus ).attr( "tabIndex", 0 );
+			$( toFocus ).trigger( "focus" );
+			event.preventDefault();
+		}
+	},
+
+	_panelKeyDown: function( event ) {
+		if ( event.keyCode === $.ui.keyCode.UP && event.ctrlKey ) {
+			$( event.currentTarget ).prev().trigger( "focus" );
+		}
+	},
+
+	refresh: function() {
+		var options = this.options;
+		this._processPanels();
+
+		// Was collapsed or no panel
+		if ( ( options.active === false && options.collapsible === true ) ||
+				!this.headers.length ) {
+			options.active = false;
+			this.active = $();
+
+		// active false only when collapsible is true
+		} else if ( options.active === false ) {
+			this._activate( 0 );
+
+		// was active, but active panel is gone
+		} else if ( this.active.length && !$.contains( this.element[ 0 ], this.active[ 0 ] ) ) {
+
+			// all remaining panel are disabled
+			if ( this.headers.length === this.headers.find( ".ui-state-disabled" ).length ) {
+				options.active = false;
+				this.active = $();
+
+			// activate previous panel
+			} else {
+				this._activate( Math.max( 0, options.active - 1 ) );
+			}
+
+		// was active, active panel still exists
+		} else {
+
+			// make sure active index is correct
+			options.active = this.headers.index( this.active );
+		}
+
+		this._destroyIcons();
+
+		this._refresh();
+	},
+
+	_processPanels: function() {
+		var prevHeaders = this.headers,
+			prevPanels = this.panels;
+
+		this.headers = this.element.find( this.options.header );
+		this._addClass( this.headers, "ui-accordion-header ui-accordion-header-collapsed",
+			"ui-state-default" );
+
+		this.panels = this.headers.next().filter( ":not(.ui-accordion-content-active)" ).hide();
+		this._addClass( this.panels, "ui-accordion-content", "ui-helper-reset ui-widget-content" );
+
+		// Avoid memory leaks (#10056)
+		if ( prevPanels ) {
+			this._off( prevHeaders.not( this.headers ) );
+			this._off( prevPanels.not( this.panels ) );
+		}
+	},
+
+	_refresh: function() {
+		var maxHeight,
+			options = this.options,
+			heightStyle = options.heightStyle,
+			parent = this.element.parent();
+
+		this.active = this._findActive( options.active );
+		this._addClass( this.active, "ui-accordion-header-active", "ui-state-active" )
+			._removeClass( this.active, "ui-accordion-header-collapsed" );
+		this._addClass( this.active.next(), "ui-accordion-content-active" );
+		this.active.next().show();
+
+		this.headers
+			.attr( "role", "tab" )
+			.each( function() {
+				var header = $( this ),
+					headerId = header.uniqueId().attr( "id" ),
+					panel = header.next(),
+					panelId = panel.uniqueId().attr( "id" );
+				header.attr( "aria-controls", panelId );
+				panel.attr( "aria-labelledby", headerId );
+			} )
+			.next()
+				.attr( "role", "tabpanel" );
+
+		this.headers
+			.not( this.active )
+				.attr( {
+					"aria-selected": "false",
+					"aria-expanded": "false",
+					tabIndex: -1
+				} )
+				.next()
+					.attr( {
+						"aria-hidden": "true"
+					} )
+					.hide();
+
+		// Make sure at least one header is in the tab order
+		if ( !this.active.length ) {
+			this.headers.eq( 0 ).attr( "tabIndex", 0 );
+		} else {
+			this.active.attr( {
+				"aria-selected": "true",
+				"aria-expanded": "true",
+				tabIndex: 0
+			} )
+				.next()
+					.attr( {
+						"aria-hidden": "false"
+					} );
+		}
+
+		this._createIcons();
+
+		this._setupEvents( options.event );
+
+		if ( heightStyle === "fill" ) {
+			maxHeight = parent.height();
+			this.element.siblings( ":visible" ).each( function() {
+				var elem = $( this ),
+					position = elem.css( "position" );
+
+				if ( position === "absolute" || position === "fixed" ) {
+					return;
+				}
+				maxHeight -= elem.outerHeight( true );
+			} );
+
+			this.headers.each( function() {
+				maxHeight -= $( this ).outerHeight( true );
+			} );
+
+			this.headers.next()
+				.each( function() {
+					$( this ).height( Math.max( 0, maxHeight -
+						$( this ).innerHeight() + $( this ).height() ) );
+				} )
+				.css( "overflow", "auto" );
+		} else if ( heightStyle === "auto" ) {
+			maxHeight = 0;
+			this.headers.next()
+				.each( function() {
+					var isVisible = $( this ).is( ":visible" );
+					if ( !isVisible ) {
+						$( this ).show();
+					}
+					maxHeight = Math.max( maxHeight, $( this ).css( "height", "" ).height() );
+					if ( !isVisible ) {
+						$( this ).hide();
+					}
+				} )
+				.height( maxHeight );
+		}
+	},
+
+	_activate: function( index ) {
+		var active = this._findActive( index )[ 0 ];
+
+		// Trying to activate the already active panel
+		if ( active === this.active[ 0 ] ) {
+			return;
+		}
+
+		// Trying to collapse, simulate a click on the currently active header
+		active = active || this.active[ 0 ];
+
+		this._eventHandler( {
+			target: active,
+			currentTarget: active,
+			preventDefault: $.noop
+		} );
+	},
+
+	_findActive: function( selector ) {
+		return typeof selector === "number" ? this.headers.eq( selector ) : $();
+	},
+
+	_setupEvents: function( event ) {
+		var events = {
+			keydown: "_keydown"
+		};
+		if ( event ) {
+			$.each( event.split( " " ), function( index, eventName ) {
+				events[ eventName ] = "_eventHandler";
+			} );
+		}
+
+		this._off( this.headers.add( this.headers.next() ) );
+		this._on( this.headers, events );
+		this._on( this.headers.next(), { keydown: "_panelKeyDown" } );
+		this._hoverable( this.headers );
+		this._focusable( this.headers );
+	},
+
+	_eventHandler: function( event ) {
+		var activeChildren, clickedChildren,
+			options = this.options,
+			active = this.active,
+			clicked = $( event.currentTarget ),
+			clickedIsActive = clicked[ 0 ] === active[ 0 ],
+			collapsing = clickedIsActive && options.collapsible,
+			toShow = collapsing ? $() : clicked.next(),
+			toHide = active.next(),
+			eventData = {
+				oldHeader: active,
+				oldPanel: toHide,
+				newHeader: collapsing ? $() : clicked,
+				newPanel: toShow
+			};
+
+		event.preventDefault();
+
+		if (
+
+				// click on active header, but not collapsible
+				( clickedIsActive && !options.collapsible ) ||
+
+				// allow canceling activation
+				( this._trigger( "beforeActivate", event, eventData ) === false ) ) {
+			return;
+		}
+
+		options.active = collapsing ? false : this.headers.index( clicked );
+
+		// When the call to ._toggle() comes after the class changes
+		// it causes a very odd bug in IE 8 (see #6720)
+		this.active = clickedIsActive ? $() : clicked;
+		this._toggle( eventData );
+
+		// Switch classes
+		// corner classes on the previously active header stay after the animation
+		this._removeClass( active, "ui-accordion-header-active", "ui-state-active" );
+		if ( options.icons ) {
+			activeChildren = active.children( ".ui-accordion-header-icon" );
+			this._removeClass( activeChildren, null, options.icons.activeHeader )
+				._addClass( activeChildren, null, options.icons.header );
+		}
+
+		if ( !clickedIsActive ) {
+			this._removeClass( clicked, "ui-accordion-header-collapsed" )
+				._addClass( clicked, "ui-accordion-header-active", "ui-state-active" );
+			if ( options.icons ) {
+				clickedChildren = clicked.children( ".ui-accordion-header-icon" );
+				this._removeClass( clickedChildren, null, options.icons.header )
+					._addClass( clickedChildren, null, options.icons.activeHeader );
+			}
+
+			this._addClass( clicked.next(), "ui-accordion-content-active" );
+		}
+	},
+
+	_toggle: function( data ) {
+		var toShow = data.newPanel,
+			toHide = this.prevShow.length ? this.prevShow : data.oldPanel;
+
+		// Handle activating a panel during the animation for another activation
+		this.prevShow.add( this.prevHide ).stop( true, true );
+		this.prevShow = toShow;
+		this.prevHide = toHide;
+
+		if ( this.options.animate ) {
+			this._animate( toShow, toHide, data );
+		} else {
+			toHide.hide();
+			toShow.show();
+			this._toggleComplete( data );
+		}
+
+		toHide.attr( {
+			"aria-hidden": "true"
+		} );
+		toHide.prev().attr( {
+			"aria-selected": "false",
+			"aria-expanded": "false"
+		} );
+
+		// if we're switching panels, remove the old header from the tab order
+		// if we're opening from collapsed state, remove the previous header from the tab order
+		// if we're collapsing, then keep the collapsing header in the tab order
+		if ( toShow.length && toHide.length ) {
+			toHide.prev().attr( {
+				"tabIndex": -1,
+				"aria-expanded": "false"
+			} );
+		} else if ( toShow.length ) {
+			this.headers.filter( function() {
+				return parseInt( $( this ).attr( "tabIndex" ), 10 ) === 0;
+			} )
+				.attr( "tabIndex", -1 );
+		}
+
+		toShow
+			.attr( "aria-hidden", "false" )
+			.prev()
+				.attr( {
+					"aria-selected": "true",
+					"aria-expanded": "true",
+					tabIndex: 0
+				} );
+	},
+
+	_animate: function( toShow, toHide, data ) {
+		var total, easing, duration,
+			that = this,
+			adjust = 0,
+			boxSizing = toShow.css( "box-sizing" ),
+			down = toShow.length &&
+				( !toHide.length || ( toShow.index() < toHide.index() ) ),
+			animate = this.options.animate || {},
+			options = down && animate.down || animate,
+			complete = function() {
+				that._toggleComplete( data );
+			};
+
+		if ( typeof options === "number" ) {
+			duration = options;
+		}
+		if ( typeof options === "string" ) {
+			easing = options;
+		}
+
+		// fall back from options to animation in case of partial down settings
+		easing = easing || options.easing || animate.easing;
+		duration = duration || options.duration || animate.duration;
+
+		if ( !toHide.length ) {
+			return toShow.animate( this.showProps, duration, easing, complete );
+		}
+		if ( !toShow.length ) {
+			return toHide.animate( this.hideProps, duration, easing, complete );
+		}
+
+		total = toShow.show().outerHeight();
+		toHide.animate( this.hideProps, {
+			duration: duration,
+			easing: easing,
+			step: function( now, fx ) {
+				fx.now = Math.round( now );
+			}
+		} );
+		toShow
+			.hide()
+			.animate( this.showProps, {
+				duration: duration,
+				easing: easing,
+				complete: complete,
+				step: function( now, fx ) {
+					fx.now = Math.round( now );
+					if ( fx.prop !== "height" ) {
+						if ( boxSizing === "content-box" ) {
+							adjust += fx.now;
+						}
+					} else if ( that.options.heightStyle !== "content" ) {
+						fx.now = Math.round( total - toHide.outerHeight() - adjust );
+						adjust = 0;
+					}
+				}
+			} );
+	},
+
+	_toggleComplete: function( data ) {
+		var toHide = data.oldPanel,
+			prev = toHide.prev();
+
+		this._removeClass( toHide, "ui-accordion-content-active" );
+		this._removeClass( prev, "ui-accordion-header-active" )
+			._addClass( prev, "ui-accordion-header-collapsed" );
+
+		// Work around for rendering bug in IE (#5421)
+		if ( toHide.length ) {
+			toHide.parent()[ 0 ].className = toHide.parent()[ 0 ].className;
+		}
+		this._trigger( "activate", null, data );
+	}
+} );
     }),
     function(t) {
         typeof define == "function" && define.amd ? define("widgets/accordion", ["jquery", "jquery-ui/widget", "jquery-ui/widgets/accordion", "./widget.theme"], t) : t(e)
@@ -2871,149 +3210,466 @@ return $.widget( "mobile.loader", $.mobile.loader, $.mobile.widget.theme );
     function(t) {
         typeof define == "function" && define.amd ? define("widgets/collapsible", ["jquery", "../core", "../widget"], t) : t(e)
     }(function(e) {
-        var t = /([A-Z])/g;
-        return e.widget("mobile.collapsible", {
-            version: "@VERSION",
-            options: {
-                enhanced: !1,
-                expandCueText: null,
-                collapseCueText: null,
-                collapsed: !0,
-                heading: "h1,h2,h3,h4,h5,h6,legend",
-                collapsedIcon: null,
-                expandedIcon: null,
-                iconpos: null,
-                theme: null,
-                contentTheme: null,
-                inset: null,
-                corners: null,
-                mini: null
-            },
-            _create: function() {
-                var t = this.element,
-                    n = {
-                        accordion: t.closest(":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')" + (e.mobile.collapsibleset ? ", :mobile-collapsibleset" : "")).addClass("ui-collapsible-set")
-                    };
-                this._ui = n, this._renderedOptions = this._getOptions(this.options), this.options.enhanced ? (n.heading = this.element.children(".ui-collapsible-heading"), n.content = n.heading.next(), n.anchor = n.heading.children(), n.status = n.anchor.children(".ui-collapsible-heading-status"), n.icon = n.anchor.children(".ui-icon")) : this._enhance(t, n), this._on(n.heading, {
-                    tap: function() {
-                        n.heading.find("a").first().addClass("ui-button-active")
-                    },
-                    click: function(e) {
-                        this._handleExpandCollapse(!n.heading.hasClass("ui-collapsible-heading-collapsed")), e.preventDefault(), e.stopPropagation()
-                    }
-                })
-            },
-            _getOptions: function(n) {
-                var r, i = this._ui.accordion,
-                    s = this._ui.accordionWidget;
-                n = e.extend({}, n), i.length && !s && (this._ui.accordionWidget = s = i.data("mobile-collapsibleset"));
-                for (r in n) n[r] = n[r] != null ? n[r] : s ? s.options[r] : i.length ? e.mobile.getAttribute(i[0], r.replace(t, "-$1").toLowerCase()) : null, null == n[r] && (n[r] = e.mobile.collapsible.defaults[r]);
-                return n
-            },
-            _themeClassFromOption: function(e, t) {
-                return t ? t === "none" ? "" : e + t : ""
-            },
-            _enhance: function(t, n) {
-                var r = this._renderedOptions,
-                    i = this._themeClassFromOption("ui-body-", r.contentTheme);
-                return t.addClass("ui-collapsible " + (r.inset ? "ui-collapsible-inset " : "") + (r.inset && r.corners ? "ui-corner-all " : "") + (i ? "ui-collapsible-themed-content " : "")), n.originalHeading = t.children(this.options.heading).first(), n.content = t.wrapInner("<div class='ui-collapsible-content " + i + "'></div>").children(".ui-collapsible-content"), n.heading = n.originalHeading, n.heading.is("legend") && (n.heading = e("<div role='heading'>" + n.heading.html() + "</div>"), n.placeholder = e("<div><!-- placeholder for legend --></div>").insertBefore(n.originalHeading), n.originalHeading.remove()), n.status = e("<span class='ui-collapsible-heading-status'></span>"), n.anchor = n.heading.detach().addClass("ui-collapsible-heading").append(n.status).wrapInner("<a href='#' class='ui-collapsible-heading-toggle'></a>").find("a").first().addClass("ui-button " + this._themeClassFromOption("ui-button-", r.theme) + " " + (r.mini ? "ui-mini " : "")), this._updateIcon(), n.heading.insertBefore(n.content), this._handleExpandCollapse(this.options.collapsed), n
-            },
-            _updateIcon: function() {
-                var t = this._ui,
-                    n = this._getOptions(this.options),
-                    r = n.collapsed ? n.collapsedIcon ? " ui-icon-" + n.collapsedIcon : "" : n.expandedIcon ? " ui-icon-" + n.expandedIcon : "",
-                    i = n.iconpos === "bottom" ? "append" : "prepend";
-                t.icon && t.icon.remove(), t.space && t.space.remove(), t.icon = e("<span class='ui-icon" + (r ? r + " " : "") + "'></span>"), n.iconpos === "left" || n.iconpos === "right" || n.iconpos === null ? (t.space = e("<span class='ui-icon-space'> </span>"), t.anchor[i](t.space)) : t.icon.addClass("ui-widget-icon-block"), t.anchor[i](t.icon), n.iconpos === "right" && t.icon.addClass("ui-collapsible-icon-right")
-            },
-            refresh: function() {
-                this._applyOptions(this.options), this._renderedOptions = this._getOptions(this.options), this._updateIcon()
-            },
-            _applyOptions: function(e) {
-                var t, n, i, s, o = this.element,
-                    u = this._renderedOptions,
-                    a = this._ui,
-                    f = a.anchor,
-                    l = a.status,
-                    c = this._getOptions(e);
-                e.collapsed !== r && this._handleExpandCollapse(e.collapsed), t = o.hasClass("ui-collapsible-collapsed"), t ? c.expandCueText !== r && l.text(c.expandCueText) : c.collapseCueText !== r && l.text(c.collapseCueText), c.theme !== r && (i = this._themeClassFromOption("ui-button-", u.theme), n = this._themeClassFromOption("ui-button-", c.theme), f.removeClass(i).addClass(n)), c.contentTheme !== r && (i = this._themeClassFromOption("ui-body-", u.contentTheme), n = this._themeClassFromOption("ui-body-", c.contentTheme), a.content.removeClass(i).addClass(n)), c.inset !== r && (o.toggleClass("ui-collapsible-inset", c.inset), s = !(!c.inset || !c.corners && !u.corners)), c.corners !== r && (s = !(!c.corners || !c.inset && !u.inset)), s !== r && o.toggleClass("ui-corner-all", s), c.mini !== r && f.toggleClass("ui-mini", c.mini)
-            },
-            _setOptions: function(e) {
-                this._applyOptions(e), this._super(e), this._renderedOptions = this._getOptions(this.options), (e.iconpos !== r || e.collapsedIcon !== r || e.expandedIcon !== r) && this._updateIcon()
-            },
-            _handleExpandCollapse: function(e) {
-                var t = this._renderedOptions,
-                    n = this._ui;
-                n.status.text(e ? t.expandCueText : t.collapseCueText), n.heading.toggleClass("ui-collapsible-heading-collapsed", e).find("a").first().removeClass("ui-button-active"), n.heading.toggleClass("ui-collapsible-heading-collapsed", e).find("a").first().removeClass("ui-button-active"), n.icon && n.icon.toggleClass("ui-icon-" + t.expandedIcon, !e).toggleClass("ui-icon-" + t.collapsedIcon, e || t.expandedIcon === t.collapsedIcon), this.element.toggleClass("ui-collapsible-collapsed", e), n.content.toggleClass("ui-collapsible-content-collapsed", e).attr("aria-hidden", e).trigger("updatelayout"), this.options.collapsed = e, this._trigger(e ? "collapse" : "expand")
-            },
-            expand: function() {
-                this._handleExpandCollapse(!1)
-            },
-            collapse: function() {
-                this._handleExpandCollapse(!0)
-            },
-            _destroy: function() {
-                var e = this._ui,
-                    t = this.options;
-                if (t.enhanced) return;
-                e.placeholder ? (e.originalHeading.insertBefore(e.placeholder), e.placeholder.remove(), e.heading.remove()) : (e.status.remove(), e.heading.removeClass("ui-collapsible-heading ui-collapsible-heading-collapsed").children().contents().unwrap()), e.icon && e.icon.remove(), e.space && e.space.remove(), e.anchor.contents().unwrap(), e.content.contents().unwrap(), this.element.removeClass("ui-collapsible ui-collapsible-collapsed ui-collapsible-themed-content ui-collapsible-inset ui-corner-all")
-            }
-        }), e.mobile.collapsible.defaults = {
-            expandCueText: " click to expand contents",
-            collapseCueText: " click to collapse contents",
-            collapsedIcon: "plus",
-            contentTheme: "inherit",
-            expandedIcon: "minus",
-            iconpos: "left",
-            inset: !0,
-            corners: !0,
-            theme: "inherit",
-            mini: !1
-        }, e.mobile.collapsible
+var rInitialLetter = /([A-Z])/g;
+
+$.widget( "mobile.collapsible", {
+	version: "@VERSION",
+
+	options: {
+		enhanced: false,
+		expandCueText: null,
+		collapseCueText: null,
+		collapsed: true,
+		heading: "h1,h2,h3,h4,h5,h6,legend",
+		collapsedIcon: null,
+		expandedIcon: null,
+		iconpos: null,
+		theme: null,
+		contentTheme: null,
+		inset: null,
+		corners: null,
+		mini: null
+	},
+
+	_create: function() {
+		var elem = this.element,
+			ui = {
+				accordion: elem
+					.closest( ":jqmData(role='collapsible-set')," +
+						":jqmData(role='collapsibleset')" +
+						( $.mobile.collapsibleset ? ", :mobile-collapsibleset" :
+							"" ) )
+						.addClass( "ui-collapsible-set" )
+			};
+
+		this._ui = ui;
+		this._renderedOptions = this._getOptions( this.options );
+
+		if ( this.options.enhanced ) {
+			ui.heading = this.element.children( ".ui-collapsible-heading" );
+			ui.content = ui.heading.next();
+			ui.anchor = ui.heading.children();
+			ui.status = ui.anchor.children( ".ui-collapsible-heading-status" );
+			ui.icon = ui.anchor.children( ".ui-icon" );
+		} else {
+			this._enhance( elem, ui );
+		}
+
+		this._on( ui.heading, {
+			"tap": function() {
+				ui.heading.find( "a" ).first().addClass( "ui-button-active" );
+			},
+
+			"click": function( event ) {
+				this._handleExpandCollapse( !ui.heading.hasClass( "ui-collapsible-heading-collapsed" ) );
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		} );
+	},
+
+	// Adjust the keys inside options for inherited values
+	_getOptions: function( options ) {
+		var key,
+			accordion = this._ui.accordion,
+			accordionWidget = this._ui.accordionWidget;
+
+		// Copy options
+		options = $.extend( {}, options );
+
+		if ( accordion.length && !accordionWidget ) {
+			this._ui.accordionWidget =
+				accordionWidget = accordion.data( "mobile-collapsibleset" );
+		}
+
+		for ( key in options ) {
+
+			// Retrieve the option value first from the options object passed in and, if
+			// null, from the parent accordion or, if that's null too, or if there's no
+			// parent accordion, then from the defaults.
+			options[ key ] =
+				( options[ key ] != null ) ? options[ key ] :
+					( accordionWidget ) ? accordionWidget.options[ key ] :
+						accordion.length ? $.mobile.getAttribute( accordion[ 0 ],
+							key.replace( rInitialLetter, "-$1" ).toLowerCase() ) :
+							null;
+
+			if ( null == options[ key ] ) {
+				options[ key ] = $.mobile.collapsible.defaults[ key ];
+			}
+		}
+
+		return options;
+	},
+
+	_themeClassFromOption: function( prefix, value ) {
+		return ( value ? ( value === "none" ? "" : prefix + value ) : "" );
+	},
+
+	_enhance: function( elem, ui ) {
+		var opts = this._renderedOptions,
+			contentThemeClass = this._themeClassFromOption( "ui-body-", opts.contentTheme );
+
+		elem.addClass( "ui-collapsible " +
+			( opts.inset ? "ui-collapsible-inset " : "" ) +
+			( opts.inset && opts.corners ? "ui-corner-all " : "" ) +
+			( contentThemeClass ? "ui-collapsible-themed-content " : "" ) );
+		ui.originalHeading = elem.children( this.options.heading ).first(),
+		ui.content = elem
+			.wrapInner( "<div " +
+				"class='ui-collapsible-content " +
+				contentThemeClass + "'></div>" )
+			.children( ".ui-collapsible-content" ),
+		ui.heading = ui.originalHeading;
+
+		// Replace collapsibleHeading if it's a legend
+		if ( ui.heading.is( "legend" ) ) {
+			ui.heading = $( "<div role='heading'>" + ui.heading.html() + "</div>" );
+			ui.placeholder = $( "<div><!-- placeholder for legend --></div>" ).insertBefore( ui.originalHeading );
+			ui.originalHeading.remove();
+		}
+
+		ui.status = $( "<span class='ui-collapsible-heading-status'></span>" );
+		ui.anchor = ui.heading
+			.detach()
+			//modify markup & attributes
+			.addClass( "ui-collapsible-heading" )
+			.append( ui.status )
+			.wrapInner( "<a href='#' class='ui-collapsible-heading-toggle'></a>" )
+			.find( "a" )
+				.first()
+					.addClass( "ui-button " +
+						this._themeClassFromOption( "ui-button-", opts.theme ) + " " +
+						( opts.mini ? "ui-mini " : "" ) );
+
+		this._updateIcon();
+
+		//drop heading in before content
+		ui.heading.insertBefore( ui.content );
+
+		this._handleExpandCollapse( this.options.collapsed );
+
+		return ui;
+	},
+
+	_updateIcon: function() {
+		var ui = this._ui,
+			opts = this._getOptions( this.options ),
+			iconclass =
+				opts.collapsed ?
+				( opts.collapsedIcon ? " ui-icon-" + opts.collapsedIcon : "" ) :
+				( opts.expandedIcon ? " ui-icon-" + opts.expandedIcon : "" ),
+			method = opts.iconpos === ( "bottom" || "right" ) ? "append" : "prepend";
+
+		if ( ui.icon ) {
+			ui.icon.remove();
+		}
+		if ( ui.space ) {
+			ui.space.remove();
+		}
+
+		ui.icon = $( "<span class='ui-icon" + ( iconclass ? iconclass + " " : "" ) + "'></span>" );
+
+		if ( opts.iconpos === "left" || opts.iconpos === "right" ||
+				opts.iconpos === null ) {
+			ui.space = $( "<span class='ui-icon-space'> </span>" );
+
+			ui.anchor[ method ]( ui.space );
+		} else {
+			ui.icon.addClass( "ui-widget-icon-block" );
+		}
+
+		ui.anchor[ method ]( ui.icon );
+
+		if ( opts.iconpos === "right" ) {
+			ui.icon.addClass( "ui-collapsible-icon-right" );
+		}
+	},
+
+	refresh: function() {
+		this._applyOptions( this.options );
+		this._renderedOptions = this._getOptions( this.options );
+		this._updateIcon();
+	},
+
+	_applyOptions: function( options ) {
+		var isCollapsed, newTheme, oldTheme, hasCorners,
+			elem = this.element,
+			currentOpts = this._renderedOptions,
+			ui = this._ui,
+			anchor = ui.anchor,
+			status = ui.status,
+			opts = this._getOptions( options );
+
+		// First and foremost we need to make sure the collapsible is in the proper
+		// state, in case somebody decided to change the collapsed option at the
+		// same time as another option
+		if ( options.collapsed !== undefined ) {
+			this._handleExpandCollapse( options.collapsed );
+		}
+
+		isCollapsed = elem.hasClass( "ui-collapsible-collapsed" );
+
+		// We only need to apply the cue text for the current state right away.
+		// The cue text for the alternate state will be stored in the options
+		// and applied the next time the collapsible's state is toggled
+		if ( isCollapsed ) {
+			if ( opts.expandCueText !== undefined ) {
+				status.text( opts.expandCueText );
+			}
+		} else {
+			if ( opts.collapseCueText !== undefined ) {
+				status.text( opts.collapseCueText );
+			}
+		}
+
+		if ( opts.theme !== undefined ) {
+			oldTheme = this._themeClassFromOption( "ui-button-", currentOpts.theme );
+			newTheme = this._themeClassFromOption( "ui-button-", opts.theme );
+			anchor.removeClass( oldTheme ).addClass( newTheme );
+		}
+
+		if ( opts.contentTheme !== undefined ) {
+			oldTheme = this._themeClassFromOption( "ui-body-",
+				currentOpts.contentTheme );
+			newTheme = this._themeClassFromOption( "ui-body-",
+				opts.contentTheme );
+			ui.content.removeClass( oldTheme ).addClass( newTheme );
+		}
+
+		if ( opts.inset !== undefined ) {
+			elem.toggleClass( "ui-collapsible-inset", opts.inset );
+			hasCorners = !!( opts.inset && ( opts.corners || currentOpts.corners ) );
+		}
+
+		if ( opts.corners !== undefined ) {
+			hasCorners = !!( opts.corners && ( opts.inset || currentOpts.inset ) );
+		}
+
+		if ( hasCorners !== undefined ) {
+			elem.toggleClass( "ui-corner-all", hasCorners );
+		}
+
+		if ( opts.mini !== undefined ) {
+			anchor.toggleClass( "ui-mini", opts.mini );
+		}
+	},
+
+	_setOptions: function( options ) {
+		this._applyOptions( options );
+		this._super( options );
+		this._renderedOptions = this._getOptions( this.options );
+
+		// If any icon-related options have changed, make sure the new icon
+		// state is reflected by first removing all icon-related classes
+		// reflecting the current state and then adding all icon-related
+		// classes for the new state
+		if ( !( options.iconpos === undefined &&
+				options.collapsedIcon === undefined &&
+				options.expandedIcon === undefined ) ) {
+
+			this._updateIcon();
+		}
+	},
+
+	_handleExpandCollapse: function( isCollapse ) {
+		var opts = this._renderedOptions,
+			ui = this._ui;
+
+		ui.status.text( isCollapse ? opts.expandCueText : opts.collapseCueText );
+		ui.heading
+			.toggleClass( "ui-collapsible-heading-collapsed", isCollapse )
+			.find( "a" ).first()
+				.removeClass( "ui-button-active" );
+		ui.heading
+			.toggleClass( "ui-collapsible-heading-collapsed", isCollapse )
+			.find( "a" ).first().removeClass( "ui-button-active" );
+
+		if ( ui.icon ) {
+			ui.icon.toggleClass( "ui-icon-" + opts.expandedIcon, !isCollapse )
+
+			// logic or cause same icon for expanded/collapsed state would remove the ui-icon-class
+			.toggleClass( "ui-icon-" + opts.collapsedIcon, ( isCollapse || opts.expandedIcon === opts.collapsedIcon ) );
+		}
+		this.element.toggleClass( "ui-collapsible-collapsed", isCollapse );
+		ui.content
+			.toggleClass( "ui-collapsible-content-collapsed", isCollapse )
+			.attr( "aria-hidden", isCollapse )
+			.trigger( "updatelayout" );
+		this.options.collapsed = isCollapse;
+		this._trigger( isCollapse ? "collapse" : "expand" );
+	},
+
+	expand: function() {
+		this._handleExpandCollapse( false );
+	},
+
+	collapse: function() {
+		this._handleExpandCollapse( true );
+	},
+
+	_destroy: function() {
+		var ui = this._ui,
+			opts = this.options;
+
+		if ( opts.enhanced ) {
+			return;
+		}
+
+		if ( ui.placeholder ) {
+			ui.originalHeading.insertBefore( ui.placeholder );
+			ui.placeholder.remove();
+			ui.heading.remove();
+		} else {
+			ui.status.remove();
+			ui.heading
+				.removeClass( "ui-collapsible-heading ui-collapsible-heading-collapsed" )
+				.children()
+					.contents()
+					.unwrap();
+		}
+
+		if ( ui.icon ) {
+			ui.icon.remove();
+		}
+		if( ui.space ) {
+			ui.space.remove();
+		}
+
+		ui.anchor.contents().unwrap();
+		ui.content.contents().unwrap();
+		this.element
+			.removeClass( "ui-collapsible ui-collapsible-collapsed " +
+				"ui-collapsible-themed-content ui-collapsible-inset ui-corner-all" );
+	}
+} );
+
+// Defaults to be used by all instances of collapsible if per-instance values
+// are unset or if nothing is specified by way of inheritance from an accordion.
+// Note that this hash does not contain options "collapsed" or "heading",
+// because those are not inheritable.
+$.mobile.collapsible.defaults = {
+	expandCueText: " click to expand contents",
+	collapseCueText: " click to collapse contents",
+	collapsedIcon: "plus",
+	contentTheme: "inherit",
+	expandedIcon: "minus",
+	iconpos: "left",
+	inset: true,
+	corners: true,
+	theme: "inherit",
+	mini: false
+};
+
+return $.mobile.collapsible;
     }),
     function(t) {
         typeof define == "function" && define.amd ? define("widgets/collapsibleSet", ["jquery", "../widget", "./collapsible", "./addFirstLastClasses"], t) : t(e)
     }(function(e) {
-        return e.widget("mobile.collapsibleset", e.extend({
-            version: "@VERSION",
-            options: e.extend({
-                enhanced: !1
-            }, e.mobile.collapsible.defaults),
-            _handleCollapsibleExpand: function(t) {
-                var n = e(t.target).closest(".ui-collapsible");
-                n.parent().is(":mobile-collapsibleset, :jqmData(role='collapsibleset')") && n.siblings(".ui-collapsible:not(.ui-collapsible-collapsed)").collapsible("collapse")
-            },
-            _create: function() {
-                var t = this.element,
-                    n = this.options;
-                e.extend(this, {
-                    _classes: ""
-                }), this.childCollapsiblesSelector = ":mobile-collapsible, " + ("[data-" + e.mobile.ns + "role='collapsible']"), n.enhanced || (t.addClass("ui-collapsible-set " + this._themeClassFromOption("ui-group-theme-", n.theme) + " " + (n.corners && n.inset ? "ui-corner-all " : "")), this.element.find(this.childCollapsiblesSelector).collapsible()), this._on(t, {
-                    collapsibleexpand: "_handleCollapsibleExpand"
-                })
-            },
-            _themeClassFromOption: function(e, t) {
-                return t ? t === "none" ? "" : e + t : ""
-            },
-            _init: function() {
-                this._refresh(!0), this.element.children(this.childCollapsiblesSelector).filter(":jqmData(collapsed='false')").collapsible("expand")
-            },
-            _setOptions: function(e) {
-                var t, n, i = this.element,
-                    s = this._themeClassFromOption("ui-group-theme-", e.theme);
-                return s && i.removeClass(this._themeClassFromOption("ui-group-theme-", this.options.theme)).addClass(s), e.inset !== r && (n = !(!e.inset || !e.corners && !this.options.corners)), e.corners !== r && (n = !(!e.corners || !e.inset && !this.options.inset)), n !== r && i.toggleClass("ui-corner-all", n), t = this._super(e), this.element.children(":mobile-collapsible").collapsible("refresh"), t
-            },
-            _destroy: function() {
-                var e = this.element;
-                this._removeFirstLastClasses(e.children(this.childCollapsiblesSelector)), e.removeClass("ui-collapsible-set ui-corner-all " + this._themeClassFromOption("ui-group-theme-", this.options.theme)).children(":mobile-collapsible").collapsible("destroy")
-            },
-            _refresh: function(e) {
-                var t = this.element.children(this.childCollapsiblesSelector);
-                this.element.find(this.childCollapsiblesSelector).not(".ui-collapsible").collapsible(), this._addFirstLastClasses(t, this._getVisibles(t, e), e)
-            },
-            refresh: function() {
-                this._refresh(!1)
-            }
-        }, e.mobile.behaviors.addFirstLastClasses))
+        return $.widget( "mobile.collapsibleset", $.extend( {
+	version: "@VERSION",
+
+	options: $.extend( {
+		enhanced: false
+	}, $.mobile.collapsible.defaults ),
+
+	_handleCollapsibleExpand: function( event ) {
+		var closestCollapsible = $( event.target ).closest( ".ui-collapsible" );
+
+		if ( closestCollapsible.parent().is( ":mobile-collapsibleset, :jqmData(role='collapsibleset')" ) ) {
+			closestCollapsible
+				.siblings( ".ui-collapsible:not(.ui-collapsible-collapsed)" )
+				.collapsible( "collapse" );
+		}
+	},
+
+	_create: function() {
+		var elem = this.element,
+			opts = this.options;
+
+		$.extend( this, {
+			_classes: ""
+		} );
+
+		this.childCollapsiblesSelector = ":mobile-collapsible, " +
+			( "[data-" + $.mobile.ns +  "role='collapsible']" );
+
+		if ( !opts.enhanced ) {
+			elem.addClass( "ui-collapsible-set " +
+				this._themeClassFromOption( "ui-group-theme-", opts.theme ) + " " +
+				( opts.corners && opts.inset ? "ui-corner-all " : "" ) );
+			this.element.find( this.childCollapsiblesSelector ).collapsible();
+		}
+
+		this._on( elem, { collapsibleexpand: "_handleCollapsibleExpand" } );
+	},
+
+	_themeClassFromOption: function( prefix, value ) {
+		return ( value ? ( value === "none" ? "" : prefix + value ) : "" );
+	},
+
+	_init: function() {
+		this._refresh( true );
+
+		// Because the corners are handled by the collapsible itself and the default state is collapsed
+		// That was causing https://github.com/jquery/jquery-mobile/issues/4116
+		this.element
+			.children( this.childCollapsiblesSelector )
+				.filter( ":jqmData(collapsed='false')" )
+					.collapsible( "expand" );
+	},
+
+	_setOptions: function( options ) {
+		var ret, hasCorners,
+			elem = this.element,
+			themeClass = this._themeClassFromOption( "ui-group-theme-", options.theme );
+
+		if ( themeClass ) {
+			elem
+				.removeClass( this._themeClassFromOption( "ui-group-theme-", this.options.theme ) )
+				.addClass( themeClass );
+		}
+
+		if ( options.inset !== undefined ) {
+			hasCorners = !!( options.inset && ( options.corners || this.options.corners ) );
+		}
+
+		if ( options.corners !== undefined ) {
+			hasCorners = !!( options.corners && ( options.inset || this.options.inset ) );
+		}
+
+		if ( hasCorners !== undefined ) {
+			elem.toggleClass( "ui-corner-all", hasCorners );
+		}
+
+		ret = this._super( options );
+		this.element.children( ":mobile-collapsible" ).collapsible( "refresh" );
+		return ret;
+	},
+
+	_destroy: function() {
+		var el = this.element;
+
+		this._removeFirstLastClasses( el.children( this.childCollapsiblesSelector ) );
+		el
+			.removeClass( "ui-collapsible-set ui-corner-all " +
+				this._themeClassFromOption( "ui-group-theme-", this.options.theme ) )
+			.children( ":mobile-collapsible" )
+				.collapsible( "destroy" );
+	},
+
+	_refresh: function( create ) {
+		var collapsiblesInSet = this.element.children( this.childCollapsiblesSelector );
+
+		this.element.find( this.childCollapsiblesSelector ).not( ".ui-collapsible" ).collapsible();
+
+		this._addFirstLastClasses( collapsiblesInSet, this._getVisibles( collapsiblesInSet, create ), create );
+	},
+
+	refresh: function() {
+		this._refresh( false );
+	}
+}, $.mobile.behaviors.addFirstLastClasses ) );
     }),
     function(t) {
         typeof define == "function" && define.amd ? define("jquery-ui/widgets/controlgroup", ["jquery", "../widget"], t) : t(e)
