@@ -134,8 +134,8 @@
   {% endform %}
            
 <div class="details">
-    {{ product.description | replace: '<iframe','<div class="flex-video widescreen youtube"><iframe' | replace: '</iframe>','</iframe></div>' }}
-</div>
+   {% section 'Product-Tabs' %}
+ </div>
 
     
                      
