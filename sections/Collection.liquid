@@ -155,7 +155,7 @@
          </div>
          {% endif %}
        </a> 
-        <a href="{{ product.url }}" class="buynow" {% if settings.disableproductajax %}rel="external"{% endif %}>{{ buynowtext }}</a>     
+        <a href="{{ product.url }}" class="buynow" {% if settings.disableproductajax or settings.boldsubscriptions %}rel="external"{% endif %}>{{ buynowtext }}</a>     
 </div>  
   
   
