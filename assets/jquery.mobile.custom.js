@@ -3081,6 +3081,7 @@ return $.widget( "mobile.loader", $.mobile.loader, $.mobile.widget.theme );
 					"aria-expanded": "true",
 					tabIndex: 0
 				} );
+
 	},
 
 	_animate: function( toShow, toHide, data ) {
@@ -3154,7 +3155,8 @@ return $.widget( "mobile.loader", $.mobile.loader, $.mobile.widget.theme );
 		if ( toHide.length ) {
 			toHide.parent()[ 0 ].className = toHide.parent()[ 0 ].className;
 		}
-		this._trigger( "activate", null, data );
+		this._trigger( "activate", null, data );  
+        this.element[0].dispatchEvent(new Event('change'));
 	}
 } );
     }),
