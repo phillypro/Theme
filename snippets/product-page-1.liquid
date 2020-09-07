@@ -361,7 +361,9 @@ var handleRO = function(mutationsList, observer) {
 var shopifyButtons = page.querySelector('.shopify-payment-button');       
 var pForm = page.querySelector('form.product_form');         
 pForm.classList.add('bold');          
+if(shopifyButtons){          
 shopifyButtons.remove();   
+}
 roWrapper.addEventListener('click', triggerAjaxify); 
 function triggerAjaxify(e) {
   e.stopPropagation();
