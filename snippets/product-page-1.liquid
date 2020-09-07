@@ -5,9 +5,6 @@
 {%- include 'bold-common' -%}
 {%- include 'bold-product' with product, hide_action: 'break', output: 'none' -%}
 {% endif %}
-{% if settings.boldsubscriptions %}  
-{%- include 'bold-ro-init' -%}
-{% endif %}
 
 {% assign add_to_cart = 'Add to cart' %}
 {% assign sold_out = 'Sold Out' %}
