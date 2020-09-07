@@ -55,7 +55,7 @@
                     <img src="{{ item | img_url: 'large' }}" />
                   </td>
                   <td class="title text-left large-8 small-12 ">
-                    <a href="{{ item.url }}">
+                    <a href="{{ item.url }}" {% if settings.disableproductajax or settings.boldsubscriptions %}rel="external"{% endif %}>
                       <p class="text">
                         {{ item.product.title }} 
                           {% assign item_variant = item.variant %}
