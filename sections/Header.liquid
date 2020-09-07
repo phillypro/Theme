@@ -314,7 +314,7 @@ background:{{ section.settings.cart_count_background }};
         
   
       <div class="cart-wrap">
-            <a class="cart-target {% if cart.item_count > 0 %}hasitem{% endif %}" href="/cart" title="View your shopping cart" style="color:{{ section.settings.cart_icon_color }};">               
+            <a class="cart-target {% if cart.item_count > 0 %}hasitem{% endif %}" href="/cart" title="View your shopping cart" style="color:{{ section.settings.cart_icon_color }};" data-transition="ngslide" {% if settings.boldsubscriptions %}rel="external"{% endif %}>               
                <div class="cart-count-wrap"><span class="cart-count {% unless cart.item_count > 0 %}hidden-count{% endunless %}">{{ cart.item_count }}</span></div>  
 <svg width="52pt" height="52pt" viewBox="0 0 52 52" version="1.1" xmlns="http://www.w3.org/2000/svg">
 <g class="circle">
