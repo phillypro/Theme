@@ -16,6 +16,7 @@
    display:flex;
   position: relative;  
     flex-wrap:nowrap; 
+    
   }
   .sticky-sidebar-container-{{ product.id }} > * {
    float:none;
@@ -24,6 +25,7 @@
   }
   .sticky-sidebar-{{ product.id }} {
   will-change: min-height;
+        max-width: 41%;
   }
   .sticky-sidebar-{{ product.id }} .sidebar_inner {
       transform: translate(0, 0);
