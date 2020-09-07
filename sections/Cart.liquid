@@ -1,6 +1,7 @@
 {% if settings.boldoptions %} 
   {%- include 'bold-common' -%} 
 {% endif %} 
+
 {% if cart.item_count > 0 %}
 
 
@@ -16,7 +17,9 @@
        </div>
        {% if additional_checkout_buttons %}
        <div id="additional-checkout-buttons" class="inactive">
+         {% unless settings.boldsubscriptions %}
         {{ content_for_additional_checkout_buttons }}
+         {% endunless %}
        </div>
        <div class="checkout-expander">
          <div class="more"><a href="#" aria-label="Expand Payment Options">More Payment Options <svg width="12" aria-hidden="true" focusable="false" role="presentation" class="icon icon--wide icon-chevron-down" viewBox="0 0 498.98 284.49"><path class="cls-1" d="M80.93 271.76A35 35 0 0 1 140.68 247l189.74 189.75L520.16 247a35 35 0 1 1 49.5 49.5L355.17 511a35 35 0 0 1-49.5 0L91.18 296.5a34.89 34.89 0 0 1-10.25-24.74z" transform="translate(-80.93 -236.76)"></path></svg></a></div>
@@ -57,6 +60,10 @@
                         {{ item.product.title }} 
                           {% assign item_variant = item.variant %}
                           {% if item_variant.option1 and item_variant.option1 != 'Default Title' %} - {{ item_variant.option1 }}{% endif %}{% if item_variant.option3 %} {{ item_variant.option2 }}{% endif %}
+                      {% if settings.boldsubscriptions %}
+                      <span class="bold_ro_desc" data-product-id="{{item.id}}-{{ forloop.index0 }}"></span>
+                      <span class="bold_load_cart_item_properties"></span>
+                      {% endif %}
                       </p>
                     </a>
                     <div class="wrap">
@@ -200,7 +207,7 @@ var afterpay_cart_integration_enabled = true;
 var afterpay_cart_static_selector = '#cartform';
 
 // Non-editable fields:
-var afterpay_footer_logo_enabled = false;
+var afterpay_footer_logo_enabled = false;  
 var afterpay_shop_currency = {{ shop.currency | json }};
 var afterpay_cart_currency = {{ cart.currency.iso_code | json }};
 var afterpay_shop_money_format = {{ shop.money_format | json }};
@@ -1126,6 +1133,12 @@ align-items: center;
       @include bp(mobile) {
       font-size: 13px;
       }
+      & .bold_ro_desc {
+        font-weight: normal;
+        font-size: 80%;
+        margin-top: 4px;
+        display: block;
+      }
     }
   }
   .total-price {
@@ -1546,4 +1559,4 @@ color:#000;
 
 {% javascript %}      
 
-{% endjavascript %}                                                                                                                  
+{% endjavascript %}                                                                                                                     
