@@ -284,7 +284,7 @@
                  </div>
                      {% else%}
                  <div class="text-cart">
-                     <a href="/cart">
+                     <a href="/cart" {% if settings.boldsubscriptions %}rel="external"{% endif %}>
                           {{ section.settings.text_cart_text }} (<span class="cart-count">{{ cart.item_count }}</span>)  
                      </a>
                  </div>
