@@ -1,5 +1,5 @@
 
-<div id="accordion-{{ product.id }}" data-role="accordion" data-collapsible="true" data-height-style="content"  data-icons="" class="product-tabs">
+<div data-role="accordion" data-collapsible="true" data-height-style="content"  data-icons="" class="product-tabs">
       
   <div>
     <h3>{{ section.settings.desc_title  }} <i></i></h3>
@@ -53,21 +53,7 @@
     </div>  
 
 
-<script>
-  function deferTabs{{ product.id }}(methodTabs{{ product.id }}) {
-    if (window.jQuery && window.jQuery.mobile && window.jQuery.fn.stick_in_parent) {
-        methodTabs{{ product.id }}();
-    } else {
-        setTimeout(function() { deferTabs{{ product.id }}(methodTabs{{ product.id }}) }, 50);
-    }
-}
-deferTabs{{ product.id }}(function () {  
-  var tabs = document.querySelector('#accordion-{{ product.id }}');
-   tabs.addEventListener('change', function() {                                  
-     $('.sticky-sidebar-{{ product.id }} .sidebar_inner').trigger("sticky_kit:recalc");
-   });
-});
-</script>
+
 
 
 {% schema %}
@@ -196,6 +182,23 @@ transform: rotate(90deg);
 & .ui-accordion-header:focus {
     outline: none;
 }
+& .flex-video {
+    position: relative;
+    height: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 75%;
+    overflow: hidden;
+ &.widescreen {
+    padding-bottom: 56.25%;
+}
+& iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+}
 }
 
 .ui-page-theme-a .product-tabs {
@@ -207,4 +210,4 @@ transform: rotate(90deg);
 {% endstylesheet %}
 
 {% javascript %}
-{% endjavascript %}                                        
+{% endjavascript %}                                                 
