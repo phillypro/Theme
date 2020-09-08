@@ -199,6 +199,11 @@ transform: rotate(90deg);
     height: 100%;
 }
 }
+.ui-accordion-content {
+ @include bp(mobile) {
+    padding: 1em 1em; 
+ }
+}
 }
 
 .ui-page-theme-a .product-tabs {
@@ -210,4 +215,4 @@ transform: rotate(90deg);
 {% endstylesheet %}
 
 {% javascript %}
-{% endjavascript %}                                                 
+{% endjavascript %}                                                    
