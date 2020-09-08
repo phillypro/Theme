@@ -142,6 +142,7 @@
 
 {% stylesheet 'scss' %}
 
+
 .product-tabs {
  > :first-child {
    border-top:none;
@@ -200,7 +201,7 @@ transform: rotate(90deg);
 }
 }
 .ui-accordion-content {
- @include bp(mobile) {
+@media (max-width: 600px) {
     padding: 1em 1em; 
  }
 }
@@ -215,4 +216,4 @@ transform: rotate(90deg);
 {% endstylesheet %}
 
 {% javascript %}
-{% endjavascript %}                                                    
+{% endjavascript %}                                                        
