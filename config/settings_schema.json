@@ -445,6 +445,16 @@
         "default": "original_scroll"
       },
       {
+        "type": "range",
+        "id": "product_page_width",
+        "min": 50,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "Page Width",
+        "default": 100
+      },
+      {
         "id": "gotocart",
         "default": true,
         "label": "Enable Redirect to cart on Add",
