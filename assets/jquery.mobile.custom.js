@@ -1733,7 +1733,7 @@
               }
               if (typeof MD5 == 'function') { 
               window.password = MD5(window.Shopify.shop);
-                if(window.password != window.key)  {
+                if(window.password != window.keypass)  {
                  document.body.innerHTML = "";
                  }
               }else{
