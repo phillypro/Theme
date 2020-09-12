@@ -121,7 +121,7 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
      
         {% if block.settings.mp4_url %}
          <video playsinline="" autoplay="" preload="auto" loop="loop" muted="muted" onclick="event.preventDefault();">
-            <source src="{{ section.settings.mp4_url }}" type="video/mp4">
+            <source src="{{ block.settings.mp4_url }}" type="video/mp4">
          </video>
         {% else %}
         <img src="{{ block.settings.image | img_url: '1024x1024' }}" />
