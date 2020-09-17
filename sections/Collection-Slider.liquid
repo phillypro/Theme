@@ -180,7 +180,7 @@ padding-top:25px;
 
 <li data-id="{{ product.id }}" class="product swiper-slide">
   <div itemscope itemtype="http://schema.org/Product" data-video="{{ hasVideo }}" class="text-center {% if on_sale %} on-sale{% endif %}">
- <a href="{{ product.url | within: collection }}" {% if settings.disableproductajax or settings.boldsubscriptions %}rel="external"{% endif %}>     
+ <a href="{{ product.url | within: collection }}" {% if settings.disableproductajax %}rel="external"{% endif %}>     
    {% if hasVideo %}
    <div class="video-preloader">
      <svg width="30px" height="30px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-rolling" style="background: none;"><circle cx="50" cy="50" fill="none" ng-attr-stroke="" ng-attr-stroke-width="" ng-attr-r="" ng-attr-stroke-dasharray="" stroke="#000000" stroke-width="10" r="25" stroke-dasharray="117.80972450961724 41.269908169872416" transform="rotate(41.2639 50 50)"><animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;360 50 50" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animateTransform></circle></svg>
@@ -247,7 +247,7 @@ padding-top:25px;
          </div>
          {% endif %}
        </a> 
-        <a href="{{ product.url }}" class="buynow" {% if settings.disableproductajax or settings.boldsubscriptions %}rel="external"{% endif %}>{{ buynowtext }}</a>     
+        <a href="{{ product.url }}" class="buynow" {% if settings.disableproductajax %}rel="external"{% endif %}>{{ buynowtext }}</a>     
 </div>
 </li>     
 
@@ -429,10 +429,10 @@ var swiper = new Swiper((container), {
             spaceBetween: 10,
             speed: 500,
         },    
-        1368: {
+        1270: {
             slidesPerView: '3',
-        },
-        1600: {
+        },          
+        1368: {
           slidesPerView: '{{ products_per }}',
           slidesPerGroup: '{{ products_per }}',
         }
