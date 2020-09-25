@@ -409,7 +409,7 @@
       
              checkbox.addEventListener( 'click', function() { 
               if(this.checked) {
-               var el = document.querySelector('#option-{{ product.handle }}-{{ product.id }}-' + this.getAttribute('data-value')); 
+               var el = document.querySelector('.multiselect_wrap #option-{{ product.handle }}-{{ product.id }}-' + this.getAttribute('data-value')); 
               // Checkbox is checked..
                el.style.display = "flex";
                                        
