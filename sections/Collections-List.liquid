@@ -216,7 +216,7 @@ padding: 40px 0;
 {% endfor %}  
 
 {% if section.settings.css != nil %}
-{{ section.settings.css }}
+{{ section.settings.css | replace: '&gt;', '>' }}
 {% endif %}
 
 
