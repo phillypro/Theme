@@ -4,6 +4,11 @@
 {{ section.settings.css | replace: '&gt;', '>' }}
 {% endif %}
 
+{% assign min = 0 %}
+{% assign max = 100000 %}
+{% assign diff = max | minus: min %}
+{% assign randomNumber = "now" | date: "%N" | modulo: diff | plus: min %}
+
 {% assign loadedfonts = '' %}    
 {% assign familyandweight = section.settings.font_title.family | append: section.settings.font_title.weight %}
 {% if loadedfonts contains familyandweight %}
@@ -11,6 +16,10 @@
   {{ section.settings.font_title | font_face }}  
 {% endif %}   
 {% assign loadedfonts = loadedfonts | append: section.settings.font_title.family | append: section.settings.font_title.weight | append: section.settings.font_title.style | append: '|' %}
+
+.collection-{{ randomNumber }} > * {
+max-width: 100.5rem;
+}
 
   .collection-page .collection-title h1 {
     font-family: {{ section.settings.font_title.family }}; 
@@ -27,10 +36,7 @@
 {% paginate collection.products by 12 %}
 
 
-{% assign min = 0 %}
-{% assign max = 100000 %}
-{% assign diff = max | minus: min %}
-{% assign randomNumber = "now" | date: "%N" | modulo: diff | plus: min %}
+
 
 <div class="collection-{{ randomNumber }}">
 <div class="row align-justify align-middle collection-title">
@@ -471,6 +477,7 @@ function loadCollection{{randomNumber}}() {
 
 .collection-page {
 
+
 & .collection-container {
 max-width: 100.5rem;
 padding: 0;
@@ -506,4 +513,4 @@ background: #efefef;
 {% endstylesheet %} 
 
 {% javascript %}
-{% endjavascript %}
+{% endjavascript %}              
