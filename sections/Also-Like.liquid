@@ -81,7 +81,7 @@ color:{{ section.settings.buynowcolor}};
      
 
      
-        <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product2.images.size > 1  %} imgswitch {% case settings.product_image_hover %}{% when 'fade' %}fade{% when 'scroll' %}scroll{% endcase %}{% endif %}">
+        <div class="image {% if settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product2.media.size > 1  %} imgswitch {% case settings.product_image_hover %}{% when 'fade' %}fade{% when 'scroll' %}scroll{% endcase %}{% endif %}">
          <div class="inner">
          {% if product2.featured_image %}<img class="{% unless settings.product_image_hover != 'none' and settings.product_image_size != 'none' and product2.images.size > 1  %}hvr-grow{% endunless %} lazyload" data-sizes="auto" data-src="{{ product2.featured_image | img_url: '1024x1024' }}" />{% endif %}
          </div>
