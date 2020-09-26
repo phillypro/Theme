@@ -47,6 +47,8 @@ background-image:url({{ section.settings.top_background_image | img_url: '1024x1
 <div class="middle-footer"> 
 {% for block in section.blocks %}
   {% case block.type %}
+    {% when 'HTML' %}
+     {{ block.settings.html }}
     {% when 'Mailing-List' %}
     {% style %}      
       
@@ -948,6 +950,17 @@ defer{{ section.id }}(function () {
      { "value": "right", "label": "Right" }
    ],
    "default":   "center"
+}
+]
+},
+{
+     "type": "HTML",
+     "name": "HTML",
+     "settings" : [
+{
+       "id": "html",
+       "type": "html",
+       "label": "HTML"
 }
 ]
 }
