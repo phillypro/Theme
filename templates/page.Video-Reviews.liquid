@@ -11,10 +11,10 @@
     if (window.yotpo) {
         methodVideoReviewYotpo();
     } else {
-        setTimeout(function() { deferYotpo(methodVideoReviewYotpo) }, 4);
+        setTimeout(function() { deferVideoReviewYotpo(methodVideoReviewYotpo) }, 4);
     }
 }
-deferVideoReviewYotpoo(function () {
+deferVideoReviewYotpo(function () {
   setTimeout(function() {
    var api = new Yotpo.API(yotpo);
    api.refreshWidgets();
