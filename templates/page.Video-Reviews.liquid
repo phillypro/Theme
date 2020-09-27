@@ -22,3 +22,10 @@ deferVideoReviewYotpo(function () {
 });    
 </script>
 {% endif %}
+{% if settings.loox %}  
+<div class="row">
+  <div class="column large-12">
+<div id="looxReviews" class="loox-reviews-default">{{ product.metafields.loox.reviews }}</div>  
+      </div>
+</div>  
+{% endif %}
