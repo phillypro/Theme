@@ -42,7 +42,7 @@ var _0xf00c=['\x64\x47\x39\x4d\x62\x33\x64\x6c\x63\x6b\x4e\x68\x63\x77\x3d\x3d',
 {% if settings.boldoptions or settings.boldsubscriptions %}    
  {%- include 'bold-common' -%}  
 {% endif %}
-{% if settings.boldsubscriptions %}  
+{% if settings.boldsubscriptions and template != 'product' %}  
 {% include 'bold-ro-init' %}    
 {% endif %}    
 {% if settings.boldoptions %}  
