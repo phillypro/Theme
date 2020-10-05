@@ -419,9 +419,9 @@
       },
       {
         "id": "affirm",
-        "default": false,
-        "label": "Enable Affirm",
-        "type": "checkbox"
+        "placeholder": "xxxxxxxxxxxxxxxx",
+        "label": "Affirm API",
+        "type": "text"
       },
       {
         "id": "sezzlemerchantid",
