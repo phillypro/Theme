@@ -124,7 +124,12 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
             <source src="{{ block.settings.mp4_url }}" type="video/mp4">
          </video>
         {% else %}
-        <img src="{{ block.settings.image | img_url: '1024x1024' }}" />
+                {% capture image %}{{ block.settings.image | img_url: '1024x1024' }}{% endcapture %}  
+                 {% unless image contains 'no-image' %}
+                <img src="{{ block.settings.image | img_url: '1024x1024' }}" /> 
+                 {% else %}
+                <img src="https://i3.ytimg.com/vi/{{ block.settings.youtube_url.id }}/maxresdefault.jpg" />
+                {% endunless %}
         {% endif %}
     </div>   
               </div>
