@@ -119,9 +119,9 @@
 </div>       
 {% endif %}                     
     
-       {% if settings.affirm != blank %}   
-       <p class="affirm-as-low-as" data-page-type="product" data-amount="{{product.price_min}}"></p>
-       {% endif %}      
+      {% if settings.affirm != blank %}   
+       <p class="affirm-as-low-as" data-page-type="product" data-amount="{{variant.price}}"></p>
+       {% endif %} 
    
              
 
@@ -596,6 +596,10 @@ if(!multiselect) {
   quadpayWidget.setAttribute('amount', Shopify.formatMoney(variant.price, "{{ new_money_format }}")); 
   {% endif %}
 
+  {% if settings.affirm != blank %}                                                            
+  formEl.querySelector('.affirm-as-low-as').setAttribute('data-amount',variant.price);
+  affirm.ui.refresh();
+  {% endif %}
 
  } else {
                                                         
