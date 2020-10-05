@@ -119,7 +119,9 @@
 </div>       
 {% endif %}                     
     
-    
+       {% if settings.affirm != blank %}   
+       <p class="affirm-as-low-as" data-page-type="product" data-amount="{{product.price_min}}"></p>
+       {% endif %}      
    
              
 
