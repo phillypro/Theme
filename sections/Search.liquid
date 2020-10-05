@@ -130,6 +130,9 @@ It is important to show a search form on that page if search.performed is false.
           {% endif %}
        </a> 
       
+             {% if settings.affirm != blank %}   
+       <p class="affirm-as-low-as" data-page-type="product" data-amount="{{product.price_min}}"></p>
+       {% endif %}  
       
       
       
