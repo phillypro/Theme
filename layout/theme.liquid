@@ -227,11 +227,11 @@ document.addEventListener('lazybeforeunveil', function(e){
 <script async src="https://widgets.quadpay.com/quadpay-widget-2.2.5.js" type="application/javascript"></script>  
 {% endif %}
   
-{% if settings.affirm %}    
+{% if settings.affirm != blank %}   
   <!-- Affirm -->
 <script>
 _affirm_config = {
-   public_api_key:  "BRYM9M7P3TV1GCDX",
+  public_api_key:  "{{ settings.affirm }}",
    script:          "https://cdn1.affirm.com/js/v2/affirm.js",
    session_id:      "YOUR_VISITOR_SESSION_ID"
 };
@@ -239,7 +239,7 @@ _affirm_config = {
 // Use your live public API Key and https://cdn1.affirm.com/js/v2/affirm.js script to point to Affirm production environment.
 </script>
 <!-- End Affirm -->
-{% endif %}  
+{% endif %}
   
 {% if settings.sezzlemerchantid != blank %}
 {% include 'Sezzle_lib'%} 
