@@ -154,6 +154,11 @@ max-width: 100.5rem;
           <span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
         {% endunless %} 
        </div>
+    
+        {% if settings.affirm != blank %}   
+       <p class="affirm-as-low-as" data-page-type="product" data-amount="{{product.price_min}}"></p>
+       {% endif %}     
+    
          
         {% if section.settings.desc %}
          <div class="desc">
