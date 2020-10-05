@@ -347,7 +347,7 @@ padding-top:25px;
   {% unless section.settings.showmore == false %}  
   <div class="row show-more">
     <div class="column text-center">
-       <a href="{{ collections[section.settings.collection].url }}">Show More {% unless section.settings.collection == 'frontpage' %}{{ collections[section.settings.collection].title }}{% endunless %}</a>   
+       <a href="{{ collections[section.settings.collection].url }}">Show More {% unless section.settings.collection == 'frontpage' or section.settings.collection == 'all' %}{{ collections[section.settings.collection].title }}{% endunless %}</a>   
     </div>
   </div>
   {% endunless %}
