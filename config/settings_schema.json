@@ -418,6 +418,12 @@
         "type": "checkbox"
       },
       {
+        "id": "affirm",
+        "default": false,
+        "label": "Enable Affirm",
+        "type": "checkbox"
+      },
+      {
         "id": "sezzlemerchantid",
         "placeholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx",
         "label": "Sezzle Merchant ID",
