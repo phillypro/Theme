@@ -115,6 +115,12 @@ color:{{ section.settings.buynowcolor}};
       </div>
       {% endif %}
    </a>
+  
+         {% if settings.affirm != blank %}   
+       <p class="affirm-as-low-as" data-page-type="product" data-amount="{{product.price_min}}"></p>
+       {% endif %}  
+  
+  
    <a href="{{ product2.url }}" class="buynow add-product" {% if settings.disableproductajax %}rel="external"{% endif %}>{{ section.settings.buynowtext }}</a>
 </li>
   {% assign count = count | plus: 1 %}
