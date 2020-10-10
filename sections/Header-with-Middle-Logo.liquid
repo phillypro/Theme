@@ -95,7 +95,11 @@ header .inner-header>.row nav.ui-navbar ul li.site-nav--has-dropdown .dropwrap .
     font-style:{{ section.settings.font.style }};    
   }
   
-  header .inner-header>.row nav.ui-navbar ul li.site-nav--has-dropdown .dropwrap svg path {
+
+
+
+
+  header .inner-header>.row nav.ui-navbar ul li.site-nav--has-dropdown .dropwrap svg path, header .inner-header>.row nav.ui-navbar ul li a svg.glyphicon path {
    fill:{{ section.settings.menu_icon_color }};
   }
   
@@ -131,6 +135,13 @@ header .inner-header>.row nav.ui-navbar ul li.site-nav--has-dropdown .dropwrap .
     {% endif %}
   }
   
+
+  header .inner-header>.row nav.ui-navbar ul li a svg.glyphicon {
+   height:{{ section.settings.menu_fontsize | minus: 2 }}px;
+   width:auto;
+  }
+  
+
   
   header .inner-header>.row nav.ui-navbar ul li {
       padding: 0 {{ section.settings.menu_spacing}}px;
@@ -301,7 +312,7 @@ height: auto;
       </li>
     {% else %}
       <li>
-        <a href="{{ link.url }}" class="site-nav__link site-nav__link--main {% if link.active %}ui-btn-active{% endif %} ui-state-persist {% if link.title contains 'Search' or link.title contains 'search' %}searchlink{% endif %}" link-title="{% if link.type != 'collections_link' and link.type != 'catalog_link'  %}{{ link.object.title }}{% else %}{{ link.url | remove: '/collections/' }}{% endif %}">{{ link.title }} {% if link.title contains 'Search' or link.title contains 'search' %}<i class="glyphicon glyphicon-search"></i>{% endif %}</a>
+        <a href="{{ link.url }}" class="site-nav__link site-nav__link--main {% if link.active %}ui-btn-active{% endif %} ui-state-persist {% if link.title contains 'Search' or link.title contains 'search' %}searchlink{% endif %}" link-title="{% if link.type != 'collections_link' and link.type != 'catalog_link'  %}{{ link.object.title }}{% else %}{{ link.url | remove: '/collections/' }}{% endif %}">{{ link.title }} {% if link.title contains 'Search' or link.title contains 'search' %}<svg class="glyphicon" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-search fa-w-16 fa-3x"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z" class=""></path></svg>{% endif %}</a>
       </li>
     {% endif %}
   
@@ -375,7 +386,7 @@ height: auto;
 <form id="dropdownsearch" class="search columns" action="/search">
  <input type="hidden" name="type" value="product" />
   <div class="inner-addon right-addon">
-    <i style="color:#000;" class="glyphicon glyphicon-search"></i>
+    <svg class="glyphicon" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-search fa-w-16 fa-3x"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z" class=""></path></svg>
     <input type="text" name="q" placeholder="Search..." value="{{ search.terms }}"  data-role="none" autocomplete="off" />
   </div>
 </form>
@@ -1024,21 +1035,13 @@ header {
     padding: 1px 30px 1px 30px;
 background: none;
         }
-        & .glyphicon {
-padding: 10px 15px;
+        & svg.glyphicon {
+    height: 15px;
     pointer-events: none;
     display: inline-block;
-    font-family: 'FontAwesome';
-    font-style: normal;
-    font-weight: 400;
     line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-          &:before {
-          content: '\f002';
-    opacity: 1;
-    color: #000;
-    text-shadow: none;
+          & path {
+    fill: #000;
           }
         }
       }
