@@ -55,8 +55,8 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
   
 
 {% if section.settings.css != nil %}
-{{ section.settings.css }}
-{% endif %}    
+{{ section.settings.css | replace: '&gt;', '>' }}
+{% endif %}
 {% endstyle %}
 
 <div class="featured-video-section">
