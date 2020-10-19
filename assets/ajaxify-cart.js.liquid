@@ -42,6 +42,9 @@ Shopify.AjaxifyCart = (function($) {
       case 'nextButton':
       default:
 
+        if($addToCartForm.hasClass('product-page-2-form')) {
+        $addToCartForm.append(feedback);
+        }
         $addToCartForm.find('.product-add').append(feedback);
                      
         break;   
@@ -64,6 +67,7 @@ Shopify.AjaxifyCart = (function($) {
   };
   var _init = function() {   
     $(document).ready(function() { 
+      console.log('run');
       $(_config.addToCartFormSelector).submit(function(e) {
         if(this.classList.contains('bold')) {
          return;
