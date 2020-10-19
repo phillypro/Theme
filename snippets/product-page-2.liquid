@@ -233,6 +233,12 @@ deferYotpo(function () {
 
 <script>
   
+var checkforDupe = document.querySelectorAll('#product-{{ product.id }}.variant-{{ product.selected_or_first_available_variant.id }}');
+if (checkforDupe.length > 1) {
+  checkforDupe[0].remove();                                           
+}
+  
+  
 // activate Ajax Cart
 
   
@@ -306,6 +312,7 @@ function deferGallery_{{ product.id }}(methodGallery_{{ product.id }}) {
     }
 }
 deferGallery_{{ product.id }}(function () {   
+
 
 var container = document.querySelector('#product-{{ product.id }}.variant-{{ product.selected_or_first_available_variant.id }} .swiper-container');
 
