@@ -80,7 +80,7 @@
    <div class="color-select__image colorList-{{ currentColor }}" {% if is_cssColor %}style="background-color:{{ currentColor }};"  {% endif %}></div>
   {% endif %}
     
-  <div class="variant-select__option-label" data-value="{{ value }}">{{ value }}</div>
+  <div class="variant-select__option-label" data-value="{{ value | escape }}">{{ value }}</div>
     {% if is_color %}</a>{% endif %}
   </div>
     {% endunless %}
