@@ -16,6 +16,18 @@
 <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
 <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
 
+{% style %}
+.ajaxified-cart-feedback {
+    position: absolute;
+    right: 0px;
+    top: -53px;
+    background: #fff;
+    padding: 7px 10px;
+    border-radius: 5px;
+}
+{% endstyle %}
+
+
 <div class="product-page-2" itemscope itemtype="http://schema.org/Product">
   
 <div class="product-top">  
@@ -48,7 +60,7 @@
 </div>
 
   
-{% form 'product', product, data-ajax: 'false', class: 'ajax product_form'  %} 
+{% form 'product', product, data-ajax: 'false', class: 'ajax product_form product-page-2-form' %} 
   <div class="product-form-fixed__left small--hide">
     <div class="product-single__title--wrap">
        <h1 class="product-single__title">{{ product.title }}
@@ -220,6 +232,46 @@ deferYotpo(function () {
 
 
 <script>
+  
+// activate Ajax Cart
+
+  
+var callbackAjaxifyCartProduct{{ product.id }} = function(){
+  // Handler when the DOM is fully loaded
+  if(!window.Shopify.AjaxifyCart) {
+    // add script
+    var script = document.createElement("script");
+    script.type = "text/javascript";   
+    script.src = '{{ 'ajaxify-cart.js' | asset_url }}';
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+};
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  callbackAjaxifyCartProduct{{ product.id }}();
+} else {
+  document.addEventListener("DOMContentLoaded", callbackAjaxifyCartProduct{{ product.id }});
+} 
+  
+  
+function deferAjaxifyCart(methodAjaxifyCart) {
+ if (window.jQuery && window.Shopify.AjaxifyCart) {
+  methodAjaxifyCart();
+ } else {
+  setTimeout(function() {
+   deferAjaxifyCart(methodAjaxifyCart)
+  }, 50);
+ }
+}
+deferAjaxifyCart(function() {
+ Shopify.AjaxifyCart.init();
+});  
+  
+  
+  
   var callbackGallery_{{ product.id }} = function(){
   // Handler when the DOM is fully loaded
   if(!window.Swiper) {
