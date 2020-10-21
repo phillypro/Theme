@@ -41,7 +41,7 @@ padding: 40px 0;
    padding-bottom:{{  section.settings.aspectratio }}%; 
 }
   
-{% unless section.settings.background_color contains 'transparent'  or section.settings.background_color contains 'rgba(0,0,0,0)' and section.settings.background_color_2 contains 'transparent' or section.settings.background_color_2 contains 'rgba(0,0,0,0)' and backgroundimage contains 'no-image' %}
+{% unless section.settings.background_color contains '#ffffff'  or section.settings.background_color contains 'rgba(0,0,0,0)' and section.settings.background_color_2 contains '#ffffff' or section.settings.background_color_2 contains 'rgba(0,0,0,0)' and backgroundimage contains 'no-image' %}
   @media (max-width: 1022px) { 
   #shopify-section-{{ section.id }} {
     padding:20px 15px;
@@ -341,12 +341,12 @@ padding: 40px 0;
        "id": "background_color",
        "type": "color",
        "label": "Background Color",
-       "default": "transparent"
+       "default": "#ffffff"
 },{
        "id": "background_color_2",
        "type": "color",
        "label": "Background Color #2 (Optional Gradient)",
-       "default": "transparent"
+       "default": "#ffffff"
 },
 {
    "type":      "select",
