@@ -247,19 +247,12 @@ padding: 40px 0;
   <li class="collection-wrap columns {{ section.settings.collectionsPerRow }} block-{{ block.id }}">
        <a href="{{ block.settings.url }}">  
             <div class="info" data-title="{{ block.settings.title | escape }}">
-              
                {% style %}
                 #shopify-section-{{ section.id }} .block-{{ block.id }} h3 {
-                  {% if block.settings.color != nil %}
-                  {% unless block.settings.color contains 'rgba(0,0,0,0)' or block.settings.color == blank %}
+                  {% unless block.settings.customcolors == false %}
                   color:{{ block.settings.color }};
-                  {% endunless %}
-                  {% endif %}
-                  {% if block.settings.background_color != nil %}
-                  {% unless block.settings.background_color contains 'rgba(0,0,0,0)' or block.settings.background_color == blank  %}
                   background-color:{{ block.settings.background_color }};
                   {% endunless %}
-                  {% endif %}
                 }
                {% endstyle %}    
                
@@ -475,7 +468,14 @@ padding: 40px 0;
    "id": "url",
    "type": "url",
    "label": "URL"
-},{
+},
+{
+  "type": "checkbox",
+  "id": "customcolors",
+  "label": "Use Colors",
+  "default": false
+},
+{
 "id": "background_color",
 "type": "color",
 "label": "Background Color"
@@ -483,7 +483,8 @@ padding: 40px 0;
 {
 "id": "color",
 "type": "color",
-"label": "Color (Optional Override)"
+"label": "Color (Optional Override)",
+"default": "transparent"
 }
       ]
     }
