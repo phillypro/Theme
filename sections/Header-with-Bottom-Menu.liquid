@@ -43,7 +43,7 @@
   
   
    .header-wrap:before {
-{% if section.settings.background_color_2 contains 'transparent' or section.settings.background_color_2 contains 'rgba(0,0,0,0)' %}
+   {% if section.settings.background_color_2 contains 'transparent' %}
    background-color:{{ section.settings.background_color }};                            
    {% else %}     
    background: -moz-linear-gradient(left, {{ section.settings.background_color }} 0%, {{ section.settings.background_color_2 }} 100%);
@@ -444,7 +444,7 @@ function scrollheader() {
 "id": "background_color_2",
 "type": "color",
 "label": "Background Color #2 (Optional Gradient)",
-"default": "transparent"
+"default": "#ffffff"
 },
 {
 "id": "brand_name_color",
