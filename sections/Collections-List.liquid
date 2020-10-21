@@ -18,8 +18,8 @@ background-size: cover;
 background-position: center;
 {% capture backgroundimage %}{{ section.settings.background_image | img_url: '1024x1024' }}{% endcapture %}                                   
 {% if backgroundimage contains 'no-image' %}
-  {% if section.settings.background_color_2 contains 'transparent' %}
-     {% if section.settings.background_color contains 'transparent' %}
+{% if section.settings.background_color_2 contains 'transparent' or section.settings.background_color_2 contains 'rgba(0,0,0,0)' %}
+   {% if section.settings.background_color contains 'transparent' or section.settings.background_color contains 'rgba(0,0,0,0)' %}
      {% else %}
       background-color:{{ section.settings.background_color }};    
      {% endif %}
@@ -32,7 +32,7 @@ background-position: center;
 background-image:url({{ section.settings.background_image | img_url: '1024x1024' }}); background-color:{{ section.settings.background_color }};
 {% endif %}    
   
-{% unless section.settings.background_color contains 'transparent' and section.settings.background_color_2 contains 'transparent' and backgroundimage contains 'no-image' %}
+{% unless section.settings.background_color contains 'transparent'  or section.settings.background_color contains 'rgba(0,0,0,0)' and section.settings.background_color_2 contains 'transparent' or section.settings.background_color_2 contains 'rgba(0,0,0,0)' and backgroundimage contains 'no-image' %}
 padding: 40px 0;  
 {% endunless %}
 }  
@@ -41,7 +41,7 @@ padding: 40px 0;
    padding-bottom:{{  section.settings.aspectratio }}%; 
 }
   
-{% unless section.settings.background_color contains 'transparent' and section.settings.background_color_2 contains 'transparent' and backgroundimage contains 'no-image' %}
+{% unless section.settings.background_color contains 'transparent'  or section.settings.background_color contains 'rgba(0,0,0,0)' and section.settings.background_color_2 contains 'transparent' or section.settings.background_color_2 contains 'rgba(0,0,0,0)' and backgroundimage contains 'no-image' %}
   @media (max-width: 1022px) { 
   #shopify-section-{{ section.id }} {
     padding:20px 15px;
@@ -79,7 +79,7 @@ padding: 40px 0;
     font-family: {{ section.settings.font.family }}, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serif; 
     font-weight:{{ section.settings.font.weight }}; 
     font-style:{{ section.settings.font.style }}; 
-{% unless section.settings.font_color contains 'transparent' or section.settings.font_color contains 'rgba(0,0,0,0)' %} color: {{ section.settings.font_color }}; {% endunless %}
+   {% unless section.settings.font_color contains 'transparent' or section.settings.font_color contains 'rgba(0,0,0,0)' %} color: {{ section.settings.font_color }}; {% endunless %}
 }
 
 
@@ -96,7 +96,7 @@ padding: 40px 0;
     font-weight:{{ section.settings.subtitle_font.weight }}; 
     font-style:{{ section.settings.subtitle_font.style }}; 
     font-size:{{ section.settings.subtitle_fontsize }}%;
-    color: {{ section.settings.subtitle_color }};
+ {% unless section.settings.subtitle_color contains 'transparent' or section.settings.font_color contains 'rgba(0,0,0,0)'  %}   color: {{ section.settings.subtitle_color }}; {% endunless %}
 }
 
   
