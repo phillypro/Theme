@@ -96,7 +96,7 @@ padding: 40px 0;
     font-weight:{{ section.settings.subtitle_font.weight }}; 
     font-style:{{ section.settings.subtitle_font.style }}; 
     font-size:{{ section.settings.subtitle_fontsize }}%;
- {% unless section.settings.subtitle_color contains 'transparent' or section.settings.font_color contains 'rgba(0,0,0,0)'  %}   color: {{ section.settings.subtitle_color }}; {% endunless %}
+ {% unless section.settings.usesubtitlecolor == false %}   color: {{ section.settings.subtitle_color }}; {% endunless %}
 }
 
   
@@ -421,6 +421,12 @@ padding: 40px 0;
     "label":     "Subtitle Size (Relative % to Font Size)",
     "default":   100
      },
+{
+  "type": "checkbox",
+  "id": "usesubtitlecolor",
+  "label": "Use Subtitle Color",
+  "default": false
+},
 {
        "id": "subtitle_color",
        "type": "color",
