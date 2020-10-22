@@ -54,6 +54,10 @@ background-image:url({{ section.settings.background_image | img_url: '1024x1024'
   background:{{ section.settings.bubblebackground }};
   color:{{ section.settings.bubblecolor }};
 }
+
+{% if section.settings.css != nil %}
+{{ section.settings.css | replace: '&gt;', '>' }}
+{% endif %}
 {% endstyle %}
 
 <div class="image-with-keypoints-wrap">
@@ -384,6 +388,11 @@ if (
        "type": "color",
        "label": "Button Font Color",
        "default": "#FFFFFF"
+},
+{
+       "id": "css",
+       "type": "html",
+       "label": "Custom CSS"
 }],
   "presets": [
     {
