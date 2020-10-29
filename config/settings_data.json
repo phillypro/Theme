@@ -6,7 +6,46 @@
               "settings": {
               "blog": "news"
               }
-          }         
+          },
+        "FAQ": {
+        "type": "FAQ",
+        "blocks": {
+          "3d9bf0b7-179b-4752-a529-6ef483945043": {
+            "type": "Faq",
+            "settings": {
+              "title": "This is a sample FAQ",
+              "answer": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula lacus, viverra non nibh eu, accumsan porttitor odio. Vestibulum auctor justo eget malesuada fringilla. Nam tincidunt purus eget ex lacinia, eget elementum eros venenatis. Vestibulum lobortis eros in sagittis venenatis. Vivamus laoreet rutrum magna<\/p>"
+            }
+          },
+          "a5603726-8072-4a8e-889b-44c6b49949dc": {
+            "type": "Faq",
+            "settings": {
+              "title": "This is a second sample FAQ",
+              "answer": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula lacus, viverra non nibh eu, accumsan porttitor odio. Vestibulum auctor justo eget malesuada fringilla. Nam tincidunt purus eget ex lacinia, eget elementum eros venenatis. Vestibulum lobortis eros in sagittis venenatis. Vivamus laoreet rutrum magna<\/p>"
+            }
+          },
+          "18996a11-2270-4ea9-8bfc-5558aa72e37f": {
+            "type": "Faq",
+            "settings": {
+              "title": "This is a third sample FAQ",
+              "answer": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula lacus, viverra non nibh eu, accumsan porttitor odio. Vestibulum auctor justo eget malesuada fringilla. Nam tincidunt purus eget ex lacinia, eget elementum eros venenatis. Vestibulum lobortis eros in sagittis venenatis. Vivamus laoreet rutrum magna<\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "3d9bf0b7-179b-4752-a529-6ef483945043",
+          "a5603726-8072-4a8e-889b-44c6b49949dc",
+          "18996a11-2270-4ea9-8bfc-5558aa72e37f"
+        ],
+        "settings": {
+          "background_color": "#d9dbeb",
+          "background_color_2": "rgba(0,0,0,0)",
+          "font_color": "#000000",
+          "button_background_color": "#000000",
+          "button_font_color": "#ffffff"
+        }
+      }
+    }
        }
     }
 }
