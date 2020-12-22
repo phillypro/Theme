@@ -360,13 +360,6 @@
         "type": "checkbox"
       },
       {
-        "id": "oneclickupsell",
-        "default": false,
-        "label": "Enable One Click Upsell",
-        "info": "This Option Replaces Theme Installation for One Click Upsell",
-        "type": "checkbox"
-      },
-      {
         "id": "tipobooking",
         "default": false,
         "label": "Enable Tipo Booking",
