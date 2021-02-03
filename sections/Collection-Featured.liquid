@@ -329,7 +329,7 @@ padding-top:25px;
   <div class="row show-more">
     <div class="column text-center">
       {% if thecollection.size > 0 %}
-          <a href="{{ collections[section.settings.collection].url }}">Show More {% unless section.settings.collection == 'frontpage' %}{{ collections[section.settings.collection].title }}{% endunless %}</a>      {% else %}
+          <a href="{{ collections['all'].url }}">Show More</a>      {% else %}
        <a href="#">Show More</a>
       {% endif %}
     </div>
