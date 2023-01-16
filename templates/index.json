@@ -1,0 +1,12 @@
+{
+  "sections": {
+        "Slider6": {
+      "type": "Slider6",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "Slider6"
+  ]
+}
